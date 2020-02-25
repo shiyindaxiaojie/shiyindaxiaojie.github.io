@@ -1,0 +1,145 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="They were only two,on the planet."><title>MySQL 入门 | Eden*</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/normalize/8.0.1/normalize.min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/pure/1.0.0/grids-responsive-min.css"><link rel="stylesheet" href="//lib.baomitu.com/font-awesome/4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//lib.baomitu.com/jquery/3.4.0/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><meta name="generator" content="Hexo 4.2.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">MySQL 入门</h1><a id="logo" href="/.">Eden*</a><p class="description"></p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/about/"><i class="fa fa-user"> 关于我</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">MySQL 入门</h1><div class="post-meta">Feb 26, 2020</div><div class="post-content"><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="Windows-平台上安装"><a href="#Windows-平台上安装" class="headerlink" title="Windows 平台上安装"></a>Windows 平台上安装</h3><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h3 id="Linux-平台上安装"><a href="#Linux-平台上安装" class="headerlink" title="Linux 平台上安装"></a>Linux 平台上安装</h3><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h3 id="Mac-平台上安装"><a href="#Mac-平台上安装" class="headerlink" title="Mac 平台上安装"></a>Mac 平台上安装</h3><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h3 id="安装目录结构"><a href="#安装目录结构" class="headerlink" title="安装目录结构"></a>安装目录结构</h3><table>
+<thead>
+<tr>
+<th>目录/文件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>bin/</td>
+<td>存放运行脚本和工具脚本，如 <code>mysqld</code> 客户端服务和 <code>mysql</code> 客户端连接工具</td>
+</tr>
+<tr>
+<td>data/</td>
+<td>通过 msi 方式安装会自动创建这个目录，用于存放数据，每创建一个数据库在这个 data 目录自动生成数据库名的目录，如果是 innodb 引擎生成 *.frm 数据文件 和 *.ibd 索引文件，如果是 myisam 引擎，生成 *.myd 数据文件和 *.myi 索引文件</td>
+</tr>
+<tr>
+<td>include/</td>
+<td>C 和 C++ 语言实现 MySQL 存放的头文件</td>
+</tr>
+<tr>
+<td>lib/</td>
+<td>类库文件</td>
+</tr>
+<tr>
+<td>share/</td>
+<td>字符集</td>
+</tr>
+<tr>
+<td>my.ini</td>
+<td>数据库默认使用的配置文件</td>
+</tr>
+<tr>
+<td>my-huge.ini</td>
+<td>适合超大型数据库的配置文件</td>
+</tr>
+<tr>
+<td>my-large.ini</td>
+<td>适合大型数据库的配置文件</td>
+</tr>
+<tr>
+<td>my-medium.ini</td>
+<td>适合中型数据库的配置文件</td>
+</tr>
+<tr>
+<td>my-small.ini</td>
+<td>适合小型数据库的配置文件</td>
+</tr>
+<tr>
+<td>my-template.ini</td>
+<td>配置文件的模板，MySQL 配置向导将该配置文件中选择项写入到 my.ini 文件</td>
+</tr>
+<tr>
+<td>my-innodb-heavy-4G.ini</td>
+<td>表示该配置文件只对于 InnoDB 存储引擎有效，而且服务器的内存不能小于 4GB</td>
+</tr>
+</tbody></table>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="编辑-MySQL-配置文件"><a href="#编辑-MySQL-配置文件" class="headerlink" title="编辑 MySQL 配置文件"></a>编辑 MySQL 配置文件</h3><p>在根目录下编辑 my.ini 文件，MySQL 5.7 以上的版本需要手动创建</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="comment"># 端口</span></span><br><span class="line"><span class="attr">port</span>=<span class="number">3306</span></span><br><span class="line"><span class="comment"># 安装目录</span></span><br><span class="line"><span class="attr">basedir</span>=[install.home]</span><br><span class="line"><span class="comment"># 数据库存储目录</span></span><br><span class="line"><span class="attr">datadir</span>=[database.storage.direcrtory]</span><br><span class="line"><span class="comment"># 最大连接数</span></span><br><span class="line"><span class="attr">max_connections</span>=<span class="number">1000</span></span><br><span class="line"><span class="comment"># 字符集</span></span><br><span class="line"><span class="attr">character-set-server</span>=utf8</span><br><span class="line"><span class="comment"># SQL 模式</span></span><br><span class="line"><span class="attr">sql_mode</span>=NO_ENGINE_SUBSTITUTION,STRICT_TRANS_TABLES</span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="comment"># 客户端默认的字符集</span></span><br><span class="line"><span class="attr">default-character-set</span>=utf8</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-MySQL-服务"><a href="#安装-MySQL-服务" class="headerlink" title="安装 MySQL 服务"></a>安装 MySQL 服务</h3><h4 id="Windows-平台上安装服务"><a href="#Windows-平台上安装服务" class="headerlink" title="Windows 平台上安装服务"></a>Windows 平台上安装服务</h4><blockquote>
+<p>[!WARNING]<br>此命令在 Windows 平台创建 MySQL 服务，在命令之前不能启动服务，如果启动了，需要停止服务，通过 <code>sc delete</code> 删除 MySQL 服务并清空 data 目录</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysqld --install [service.name]</span><br></pre></td></tr></table></figure>
+
+<h4 id="Linux-平台上安装服务"><a href="#Linux-平台上安装服务" class="headerlink" title="Linux 平台上安装服务"></a>Linux 平台上安装服务</h4><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h4 id="Mac-平台上安装服务"><a href="#Mac-平台上安装服务" class="headerlink" title="Mac 平台上安装服务"></a>Mac 平台上安装服务</h4><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h3 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h3><p>在指定的数据库存储目录下生成 mysql、performance_schema、sys 等系统库</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysqld --initialize-insecure --user=mysql</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化密码"><a href="#初始化密码" class="headerlink" title="初始化密码"></a>初始化密码</h3><p>初始化密码之前，先执行跳过权限验证，执行命令后，当前窗口不可操作，需要新建命令窗口往下操作</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysqld --skip-grant-tables</span><br></pre></td></tr></table></figure>
+
+<p>在新的命令行窗口登录数据库</p>
+<blockquote>
+<p>[!TIP]<br>如果配置的端口不是 3306，通过 <code>mysql -P 3306</code> 手动指定</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql</span><br></pre></td></tr></table></figure>
+
+<p>修改密码并退出登录</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; use mysql;</span><br><span class="line">&gt; update user set authentication_string=password("明文密码") where user="root";</span><br><span class="line">&gt; flush privileges;</span><br><span class="line">&gt; exit;</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动-停止-MySQL-服务"><a href="#启动-停止-MySQL-服务" class="headerlink" title="启动/停止 MySQL 服务"></a>启动/停止 MySQL 服务</h3><h4 id="Windows-平台上启动-停止"><a href="#Windows-平台上启动-停止" class="headerlink" title="Windows 平台上启动/停止"></a>Windows 平台上启动/停止</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; net start [service.name]</span><br><span class="line">&gt; net stop [service.name]</span><br></pre></td></tr></table></figure>
+<h4 id="Linux-平台上启动-停止"><a href="#Linux-平台上启动-停止" class="headerlink" title="Linux 平台上启动/停止"></a>Linux 平台上启动/停止</h4><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h4 id="Mac-平台上启动-停止"><a href="#Mac-平台上启动-停止" class="headerlink" title="Mac 平台上启动/停止"></a>Mac 平台上启动/停止</h4><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h3 id="验证配置是否生效"><a href="#验证配置是否生效" class="headerlink" title="验证配置是否生效"></a>验证配置是否生效</h3><p>例如检查设置的连接数是否和配置一致（MySQL 5.X 的版本默认连接数大小为 151）</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; mysql -uroot -p</span><br><span class="line">&gt; show global variables like 'max_connection%';</span><br></pre></td></tr></table></figure>
+
+<h2 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h2><h3 id="字符集"><a href="#字符集" class="headerlink" title="字符集"></a>字符集</h3><ul>
+<li>utf8：建库首选</li>
+<li>utf8mb4：是 utf8 的扩充集</li>
+</ul>
+<h3 id="排序规则"><a href="#排序规则" class="headerlink" title="排序规则"></a>排序规则</h3><table>
+<thead>
+<tr>
+<th>字符集</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>utf8_bin</td>
+<td>使用二进制数据编译存储，区分大小写</td>
+</tr>
+<tr>
+<td>utf8_general_ci</td>
+<td>不区分大小写，校对速度快，例如用于邮箱和用户名注册</td>
+</tr>
+<tr>
+<td>utf8_general_cs</td>
+<td>区分大小写、</td>
+</tr>
+</tbody></table>
+<h2 id="表"><a href="#表" class="headerlink" title="表"></a>表</h2><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><blockquote>
+<p>[!NOTE]<br>TODO</p>
+</blockquote>
+</div><div><ul class="post-copyright"><li class="post-copyright-author"><strong>copyright_author_prefix</strong>sion</li><li class="post-copyright-link"><strong>copyright_link_prefix</strong><a href="/2020/02/26/mysql/">http://yoursite.com/2020/02/26/mysql/</a></li><li class="post-copyright-license"><strong>copyright_declare_prefix</strong>作者拥有版权，转载请注明出处。</li></ul></div><br><div class="tags"><a href="/tags/mysql/">mysql</a></div><div class="post-nav"><a class="next" href="/2020/02/25/hello-world/">Hello World</a></div><div id="container"></div><link rel="stylesheet" href="/css/default.css?v=1.0.0"><script src="/js/gitment.browser.js?v=1.0.0"></script><script>var gitment = new Gitment({
+  id: window.location.pathname.substring(1,window.location.pathname.length),
+  owner: 'shiyindaxiaojie',
+  repo: '',
+  oauth: {
+    client_id: '',
+    client_secret: '',
+  },
+})
+gitment.render('container')
+</script></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form class="search-form" action="//www.google.com/search" method="get" accept-charset="utf-8" target="_blank"><input type="text" name="q" maxlength="20" placeholder="Search"/><input type="hidden" name="sitesearch" value="http://yoursite.com"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> categories</i></div></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> tags</i></div><div class="tagcloud"><a href="/tags/mysql/" style="font-size: 15px;">mysql</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> recent</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2020/02/26/mysql/">MySQL 入门</a></li><li class="post-list-item"><a class="post-list-link" href="/2020/02/25/hello-world/">Hello World</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> blogroll</i></div><ul></ul><a href="https://github.com/shiyindaxiaojie" title="Github" target="_blank">Github</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2020 <a href="/." rel="nofollow">Eden*.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css"><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
