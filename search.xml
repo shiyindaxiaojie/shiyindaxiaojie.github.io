@@ -4,11 +4,219 @@
   
     
     <entry>
+      <title>Spring 笔记</title>
+      <link href="/2020/03/01/spring/"/>
+      <url>/2020/03/01/spring/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Spring </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>架构笔记</title>
+      <link href="/2020/03/01/architect-note/"/>
+      <url>/2020/03/01/architect-note/</url>
+      
+        <content type="html"><![CDATA[<p>记录一些项目的架构演变历程，总结经验教训。</p><h1>动环监控系统</h1><p>应用于数据中心的运维监控系统，对云计算基础设施的设备及环境进行管理、巡检、监控、分析，核心功能如下：</p><ol><li>数据采集：实时同步第三方系统的设备的测点数据，数据的存储周期至少要 6 个月以上。</li><li>数据分析：数据同步过来了，根据业主提供的公式对数据计算和呈现，例如，汇总一个机房内所有设备的某项数值的总和或者平均值。</li><li>告警推送：从第三方采集的数据包含设备的异常数据，但业主不希望发生太多警报，需提取关键告警。例如，一个机房发生断电，我希望只推送一条机房断电的故障，断电后，这个机房内的其他设备也会产生大量的告警，而这些告警是因为机房断电产生的，并不是自身的故障。</li></ol><h2 id="系统分析">系统分析</h2><p>从需求中提取关键因素：</p><table><thead><tr><th>关键因素</th><th>说明</th></tr></thead><tbody><tr><td>用户</td><td>一个数据中心园区的运维人员不超过 300 人，因为排班的关系，峰值不超过 30 人。</td></tr><tr><td>站点</td><td>站点就是一个区域，可以是一个园区，也可以是一个机房，通过层级关系表示，目前只需要做到地市级的规模。</td></tr><tr><td>设备</td><td>设备和站点是多对一的关系，设备可以有不同的类型、型号，但编码是唯一的。</td></tr><tr><td>测点</td><td>测点就是某项数值，如电压 220V，一个设备可以包含多个测点，举个例子，一个机柜有温度的测点，也有电压的测点。</td></tr></tbody></table><p>根据性能指标进行<strong>规模估算</strong>，确定边界，计算需要配置多少资源才能满足项目的需求：</p><table><thead><tr><th>性能指标</th><th>要求</th><th>临界条件</th></tr></thead><tbody><tr><td>用户并发数</td><td>至少支持 30 人的并发</td><td>$Tomcat 请求并发数 &gt;= 用户并发数 * 并发时 HTTP 请求数 + 后台非业务 HTTP 请求数$</td></tr><tr><td>第三方数据同步</td><td>延迟不能超过 30 秒</td><td></td></tr><tr><td>查询响应时间</td><td>不能超过 3 秒</td><td></td></tr><tr><td>数据存储周期</td><td>至少保留 180 天</td><td></td></tr></tbody></table><h2 id="架构设计">架构设计</h2><p>技术栈主要由 <code>Spring Boot</code>、<code>Tomcat</code>、<code>Redis</code>、<code>Kafka</code>、<code>MySQL</code> 构成。</p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="architect-note/architect-note-env-monitor.png" style="margin-left:0"/><h2 id="性能优化">性能优化</h2><p>本人使用 Kafka 作为同步协议，通过优化分区解决了消费积压和顺序消费问题，利用 Redis 缓存热点数据来加快业务处理，最后对 MySQL 的库表进行优化，将平均写入速度从原来的每秒 2000 条提升到 25000 条。</p><h1>数据中心运维管理平台</h1>]]></content>
+      
+      
+      <categories>
+          
+          <category> 经验总结 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 经验总结 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Kafka 笔记</title>
+      <link href="/2020/02/01/kafka/"/>
+      <url>/2020/02/01/kafka/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 消息队列 </tag>
+            
+            <tag> Kafka </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL 笔记</title>
+      <link href="/2020/02/01/mysql/"/>
+      <url>/2020/02/01/mysql/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 关系数据库 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Redis 笔记</title>
+      <link href="/2020/02/01/redis/"/>
+      <url>/2020/02/01/redis/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> NoSQL </tag>
+            
+            <tag> Redis </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Tomcat 笔记</title>
+      <link href="/2020/02/01/tomcat/"/>
+      <url>/2020/02/01/tomcat/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Tomcat </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Zookeeper 笔记</title>
+      <link href="/2020/02/01/zookeeper/"/>
+      <url>/2020/02/01/zookeeper/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Zookeeper </tag>
+            
+            <tag> 分布式中间件 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Nginx 笔记</title>
+      <link href="/2020/02/01/nginx/"/>
+      <url>/2020/02/01/nginx/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      <categories>
+          
+          <category> 应用实战 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> Nginx </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>算法与数据结构</title>
       <link href="/2020/01/01/algorithmic/"/>
       <url>/2020/01/01/algorithmic/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>数据结构是基础，算法是核心。所有的数据结构的原型都是线性表或者非线性结构，线性表可分为顺序表和链表，非线性结构可分为散列、包、图等等。</p><h1>算法复杂度</h1><h2 id="怎么理解时间复杂度和空间复杂度？">怎么理解时间复杂度和空间复杂度？</h2><p>首先，复杂度使用大 O 表示法，假设 n 次循环运算，那么时间复杂度记为 $O(n)$。另外，复杂度一般可以分为最好情况、最快情况、平均情况、均摊。时间复杂度指程序执行 n 次的时间，空间复杂度指程序执行 n 次的空间，时间复杂度体现的是快，空间复杂度的目标是省。一般来说，考虑时间复杂度的场景，除了代码上的优化，还有缓存（空间换时间）、磁盘缓冲、顺序读、预读、网络传输的数据压缩等等，而空间复杂度跟运行环境有关，例如，为了避免 JVM 发生 OOM，首先是减少堆的占用，如果避免不了，那么应该考虑堆外内存，当一个机器的内存不够用，这个时候应该考虑分布式部署了，这里不考虑时间换空间，因为时间的成本比空间要大得多。</p><h2 id="怎么样让程序运行得更快？">怎么样让程序运行得更快？</h2><p>提升程序的性能，无非就是从 CPU、内存、磁盘、 网络这些方面开展，根据木桶原理，磁盘和网络往往是性能的瓶颈，目前所有的优化无非就是空间换时间，如缓存、预读、缓冲区，基本上都是使用内存来避免 I/O 的开销，要么就是压缩数据，减少数据的查找次数。下面是我自己花了十几分钟想到的，事实上还可以从分布式、NoSQL等方面继续深挖。</p><table><thead><tr><th>方法</th><th>优化类型</th><th>说明</th></tr></thead><tbody><tr><td>使用最优的算法</td><td>CPU</td><td>一般来说，查找用数组，插入删除用链表，全文搜索使用 Trie 树。</td></tr><tr><td>读多写少就预存</td><td>CPU</td><td>例如 Redis 大部分数据结构，都是写入的时候先计算好长度，读取的时候复杂度为 $O(1)$，当然，Redis 在处理命令是单线程的内存操作，可以很快地计算出长度</td></tr><tr><td>预测容量的大小</td><td>CPU</td><td>预先计算一些数据结构的最大容量，避免不断扩容，损耗 CPU，如 Java 的 <code>ArrayList</code>。</td></tr><tr><td>优化锁的性能影响</td><td>CPU</td><td>优先无锁化，乐观锁（版本控制），CAS（非短时作业不要使用自旋锁），锁的升级，锁粒度。</td></tr><tr><td>利用 CPU 原生指令集运算</td><td>CPU</td><td>使用<strong>位运算</strong>操作二进制。</td></tr><tr><td>多核下使用多线程</td><td>CPU</td><td>使用线程池管理线程，并发运行。</td></tr><tr><td>使用<strong>协程</strong>避免内核切换</td><td>CPU</td><td>如 Go 的实现，在用户态进行上下文切换，比线程更轻量。</td></tr><tr><td>使用<strong>缓存</strong>来减少磁盘 I/O 次数</td><td>磁盘</td><td>空间换时间，如本地缓存、Redis 缓存。</td></tr><tr><td>使用合理的数据结构减少 I/O 次数</td><td>磁盘</td><td>例如 MySQL 使用 B+ 树代替红黑树，降低树的高度（高度一般为 3），从而使得磁盘 I/O 次数也就为 3。</td></tr><tr><td>利用索引覆盖高频数据</td><td>磁盘</td><td>来自于 MySQL 的覆盖索引，如果索引页的节点足够返回所需数据，那么不需要回表查找。</td></tr><tr><td>对数据进行<strong>预读</strong></td><td>磁盘</td><td>例如 MySQL 根据 extents 的读取量（阈值），预读取下一个 extents（一个区对应 64 页）。</td></tr><tr><td>写入磁盘前先写入<strong>缓冲池</strong></td><td>磁盘</td><td>例如 MySQL 每次事务写入数据，先写入缓冲，然后根据一定的频率再刷回磁盘。</td></tr><tr><td>使用<strong>顺序写</strong>的方式在尾部追加记录</td><td>磁盘</td><td>避免磁道寻找次数，如 Kafka 将消息队列顺序写入 Logs 文件。</td></tr><tr><td>使用<strong>内存映射</strong>操作磁盘文件</td><td>磁盘</td><td>将磁盘映射到内存来操作，然后在适当的时机刷回磁盘，例如 Kafka 使用 mmap 读写文件。</td></tr><tr><td>避免内核态和用户态的上下文切换和传输</td><td>磁盘</td><td>例如 Kafka 和 Netty 都用到了<strong>零拷贝</strong>技术。</td></tr><tr><td>文件较多时使用<strong>二分查找</strong>定位</td><td>磁盘</td><td>例如 Kafka 写入的消息时根据 Offset 分段存储，十几亿的消息意味着大量的 log 文件，幸好 Kakfa 是按照 Offset 顺序创建文件的，所以可以通过二分查找快速定位文件。</td></tr><tr><td>使用数据压缩提高吞吐量</td><td>网络</td><td>HTTP 通过 gzip 减少网络传输的带宽占用</td></tr><tr><td>使用业务聚合代替不必要的 RPC 调用</td><td>网络</td><td>针对高并发场景可以这样极端处理</td></tr><tr><td>合并 HTTP 请求，减少握手次数</td><td>网络</td><td>例如，合并多个图片一次请求下载</td></tr><tr><td>多客户端使用 <strong>IO 多路复用</strong>模型</td><td>网络</td><td>Linux 的 epoll 函数和 kqueue 函数</td></tr><tr><td>使用更高版本的 HTTP 协议</td><td>网络</td><td>一般推荐 HTTP2，做了头部压缩，支持握手时发起多次请求，HTTP 3 使用 QUIC 和 UDP 代替了 TCP，应该会更快，但是还没普及。</td></tr></tbody></table><h2 id="怎么样让程序的运行更省空间？">怎么样让程序的运行更省空间？</h2><p>如果说让程序更快是为了拼用户体验，抢占市场，那么让程序节省空间就是为了成本开支，用节省下来的钱做更多的投资。CPU 的缓存不好控制，那么就从内存、磁盘、网络来考虑，内存一般是避免 OOM 奔溃，磁盘就是别写满了，网络的话就是通过压缩来减少带宽占用。</p><table><thead><tr><th>方法</th><th>优化类型</th><th>说明</th></tr></thead><tbody><tr><td>使用循环代替递归</td><td>内存</td><td>在一个方法不停的递归，每个方法产生一个栈帧，直到栈空间不够，抛出 SOF 错误。有些情况下，例如斐波那契数列，使用递归还会导致多余的运算。</td></tr><tr><td>使用 Bitmap 优化大数据量的去重</td><td>内存</td><td>使用布隆过滤器防止缓存穿透，缺点是需要消耗 CPU 来计算多个哈希函数。</td></tr><tr><td>优化大量重复的 key</td><td>内存</td><td>例如 Redis 的 key，有些人使用某些特定的业务前缀存取了十几亿的 Key，导致内存占用很大，这个时候将这些 key 压缩为 Set 或者 Hash，避免了这个业务前缀占用的空间。</td></tr><tr><td>使用更小字节的数据类型创建索引</td><td>磁盘</td><td>能用数值就尽量用数值，如果必须用字符型，那么就看下有没有区分度，找下这类字符有没有重复的地方，把这段重复的字符截断，减少索引的占用。</td></tr><tr><td>使用稀疏索引</td><td>磁盘</td><td>这个来自于 Kafka 定位消息 Offset 的场景，如果每条消息都建立索引来对应物理位置，空间占用就会很大，使用稀疏索引 + 二分查找，时间复杂度为 $O(logn)$，再加上历史的消息文件定期会被清除，所以性能上是可以接受的。</td></tr><tr><td>正确清理文件的策略</td><td>磁盘</td><td>一般使用 Kafka 和 Elasticsearch 这些大数据场景的中间件，需要根据磁盘空间调整下清理策略，否则，遇到高并发场景或者压测，磁盘很快就满了，程序也跑不起来。还有，使用 Logback 这类日志框架</td></tr><tr><td>使用数据压缩</td><td>网络</td><td>数据压缩能提高网络吞吐量，最多牺牲一些 CPU 性能。</td></tr><tr><td>简化查询参数</td><td>网络</td><td>为了避免浏览器的字符限制，可以看下 Google 将查询参数简化成什么样了。</td></tr><tr><td>短链接设计</td><td>网络</td><td>发短信、微博一般字符有限制，这个时候可以生成短链接来重定向。</td></tr></tbody></table><h1>算法思路</h1><h2 id="二分查找">二分查找</h2><h2 id="递归-循环">递归/循环</h2><h2 id="回溯-重放">回溯/重放</h2><h2 id="动态规划">动态规划</h2><h2 id="进制运算">进制运算</h2><h1>数据结构</h1><h2 id="数组（Array）">数组（Array）</h2><h2 id="链表（LinkedList）">链表（LinkedList）</h2><h2 id="栈（Stack）">栈（Stack）</h2><h2 id="队列（Queue）">队列（Queue）</h2><h2 id="背包（Bag）">背包（Bag）</h2><h2 id="树（Tree）">树（Tree）</h2><h3 id="二叉树">二叉树</h3><h3 id="平衡树（二叉树-AVL-树）">平衡树（二叉树 + AVL 树）</h3><h3 id="红黑树（二叉树-红与黑）">红黑树（二叉树 + 红与黑）</h3><h3 id="多路树">多路树</h3><p>2-3 树、2-3-4 树</p><h3 id="B-树">B 树</h3><h3 id="B-树-2">B+ 树</h3><h2 id="图（Graph）">图（Graph）</h2><h3 id="邻接表">邻接表</h3><h3 id="逆邻接表">逆邻接表</h3><h3 id="十字链表">十字链表</h3><h1>排序</h1><h2 id="冒泡排序（Bubble-Sort）">冒泡排序（Bubble Sort）</h2><p>分为有序区和无序区，相邻元素比较并交换，较小的放前面（无序区），较大的放后面（有序区），每一趟循环后最大的在最后面，从代码的实现上，需要 <code>2</code> 轮 <code>n</code> 次循环，时间复杂度仍然为 $O(n^2)$。</p><h2 id="选择排序">选择排序</h2><p>为了减小冒泡排序的交换次数，引入选择排序，同样分为有序区和无序区，只不过有序区在前面，假设长度为 <code>n</code>，每一趟循环后将第 <code>i</code> 个元素（<code>i = 0; i &lt; n; i++</code>）和剩下的元素逐个比较，最小的放在最前面，代码的实现仍然是 <code>2</code> 轮 <code>n</code> 次循环，所以时间复杂度为 $O(n^2)$。</p><h2 id="插入排序">插入排序</h2><p>和扑克牌原理类似，每次发完牌，从第 <code>2</code> 个牌开始，将牌往左移动，如果当前的牌比前面还小，就往前移动，直到前面的比这个牌小，就插入，然后后面的牌往右移动一位。可以发现，如果排序的元素本身大部分是有序的，恰好每轮抽出的牌大于前面的值，那么时间复杂度降低到  $O(n)$，所以插入排序要比选择排序好一些。不过，每次插入，后面的元素都要向右移动，这里有一定的性能损耗。</p><h2 id="希尔排序">希尔排序</h2><h2 id="快速排序">快速排序</h2><h2 id="归并排序">归并排序</h2><h2 id="堆排序">堆排序</h2><h2 id="计数排序">计数排序</h2><h2 id="基数排序">基数排序</h2><h2 id="桶排序">桶排序</h2><h1>查找</h1><h2 id="BF-查找">BF 查找</h2><h2 id="RK-查找（Hash）">RK 查找（Hash）</h2><h2 id="BM-查找">BM 查找</h2><h2 id="KMP-查找">KMP 查找</h2><h2 id="正则表达式（NFA）">正则表达式（NFA）</h2><h2 id="Trie-前缀树">Trie 前缀树</h2>]]></content>
       
       
       <categories>
@@ -54,58 +262,6 @@
     
     
     <entry>
-      <title>Java 笔记</title>
-      <link href="/2020/01/01/java/"/>
-      <url>/2020/01/01/java/</url>
-      
-        <content type="html"><![CDATA[<p>Java 是一门面向对象的编程语言，由 Sun 公司推出，后续被 Oracle 公司收购。面向对象具有抽象、封装、继承、多态性等特性，容易维护、复用和扩展，但性能会比面向过程低，因为<strong>类调用时需要实例化，开销比较大，同时编译的字节码需要通过 JVM 加载，解释为机器码才放到机器上运行</strong>，对于性能要求高的场景，如单片机、嵌入式开发、Linux/Unix 等一般采用面向过程开发。</p><h1 id="基础知识"><a href="#基础知识" class="headerlink" title="基础知识"></a>基础知识</h1><h2 id="Java-有哪些特性？"><a href="#Java-有哪些特性？" class="headerlink" title="Java 有哪些特性？"></a>Java 有哪些特性？</h2><ol><li>抽象：使用数据实体表示现实生活的某一事物。</li><li>封装：将内部的数据和方法封装起来，对隐藏信息使用 <code>private</code>，公开接口使用 <code>public</code>。</li><li>继承：复用，抽取共同特性，类只能单继承，但接口可以支持多继承。</li><li>多态：方法的重载、类的继承 <code>@Override</code>，使不同类的对象对同一个消息做出不同的响应。</li></ol><h2 id="子类能否继承父类的构造方法？"><a href="#子类能否继承父类的构造方法？" class="headerlink" title="子类能否继承父类的构造方法？"></a>子类能否继承父类的构造方法？</h2><p>子类不可以继承父类的构造方法，只可以调用父类的构造方法。子类中所有的构造函数都会默认访问父类中的空参数构造函数，这是因为子类的构造函数内第一行都有默认的 <code>super()</code> 语句。<strong>从内存实现或者反射的角度，子类继承所有父类的所有数据域和方法（拥有），但没有不具备对某些私有数据域或私有方法的使用权（调用）。</strong></p><h2 id="命名标识符可以包含哪些？"><a href="#命名标识符可以包含哪些？" class="headerlink" title="命名标识符可以包含哪些？"></a>命名标识符可以包含哪些？</h2><p>标识符可以包含英文字母、0 到 9 的数字，<code>$</code> 以及 <code>_</code>，但不能以数字开头，同时标识符不能是 Java 的关键字。按照行业的命名规范，常量全大写，下划线隔开，类名用大驼峰式，变量名和方法名使用小驼峰式。</p><h2 id="Java-基本类型有哪些？"><a href="#Java-基本类型有哪些？" class="headerlink" title="Java 基本类型有哪些？"></a>Java 基本类型有哪些？</h2><table><thead><tr><th>基本类型</th><th>大小（字节）</th><th>默认值</th><th>包装类</th></tr></thead><tbody><tr><td>byte</td><td>1</td><td>(byte)0</td><td>Byte</td></tr><tr><td>short</td><td>2</td><td>(short)0</td><td>Short</td></tr><tr><td>char</td><td>2</td><td>\u0000(null)</td><td>Character</td></tr><tr><td>int</td><td>4</td><td>0</td><td>Integer</td></tr><tr><td>float</td><td>4</td><td>0.0f</td><td>Float</td></tr><tr><td>long</td><td>8</td><td>0L</td><td>Long</td></tr><tr><td>double</td><td>8</td><td>0.0d</td><td>Double</td></tr><tr><td>boolean</td><td>8/32 (int)</td><td>false</td><td>Boolean</td></tr></tbody></table><blockquote><p>基本类型在声明时系统会自动给它分配空间，而引用类型声明时只是分配了引用空间，必须通过实例化开辟数据空间之后才可以赋值。例如，数组对象也是引用类型，将数组复制到另外一个数组只是复制了一个引用，对另外一个数组的修改对原来的数组也是可见的。另外，Java 虚拟机没有提供 boolean 值专用的字节码指令，boolean 在编译之后都使用 int 基本类型来代替，占 32 位，而 boolean 数组将会被编码成 byte 数组，每个 boolean 元素占 8 位。</p></blockquote><h2 id="Java-运算符的分类和优先级"><a href="#Java-运算符的分类和优先级" class="headerlink" title="Java 运算符的分类和优先级"></a>Java 运算符的分类和优先级</h2><ol><li>赋值运算符：<code>=</code></li><li>比较运算符：<code>&lt;</code>、<code>&gt;</code>、<code>==</code></li><li>算数运算符：除了 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>，还有 <code>i++</code> 和 <code>++i</code> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> i++; <span class="comment">// 返回 0，先自增，然后返回自增之前的值</span></span><br><span class="line"><span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> ++j; <span class="comment">// 返回 1，先自增，然后返回自增后的值</span></span><br></pre></td></tr></table></figure></li><li>逻辑运算符：<code>&amp;&amp;</code> 短路与、<code>||</code> 短路或、<code>!</code> 非</li><li>移位运算符：用 <code>&lt;&lt;</code> 表示二进制位往左移移动 n 位，后面补 0，实际上就是对 2 的取模少算 n 次，即乘以 $2^n$，同理，<code>&gt;&gt;</code> 表示除以 $2^n$。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt; <span class="number">1</span>; <span class="comment">// 乘以 2</span></span><br><span class="line">n &gt;&gt; <span class="number">1</span>; <span class="comment">// 除以 2</span></span><br><span class="line">(<span class="number">1</span> &lt;&lt; <span class="number">31</span>) - <span class="number">1</span>; <span class="comment">// 2147483647，等于 int 的最大值</span></span><br><span class="line"><span class="number">1</span> &lt;&lt; <span class="number">31</span>; <span class="comment">// -2147483648，等于 int 的最小值</span></span><br><span class="line">((<span class="keyword">long</span>)<span class="number">1</span> &lt;&lt; <span class="number">127</span>) - <span class="number">1</span>; <span class="comment">// 9223372036854775807，等于 long 的最大值</span></span><br><span class="line">(<span class="keyword">long</span>)<span class="number">1</span> &lt;&lt; <span class="number">127</span>; <span class="comment">// -9223372036854775807，等于 long 的最小值</span></span><br></pre></td></tr></table></figure></li><li>位运算符：<code>&amp;</code> 与、<code>|</code> 或、<code>^</code> 异或 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n &amp; <span class="number">1</span> == <span class="number">1</span>; <span class="comment">// 判断奇偶性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123; <span class="comment">// Leecode 中计算某个数的二进制中 1 的个数</span></span><br><span class="line">    n &amp;= (n-<span class="number">1</span>); <span class="comment">// n 和 n-1 的二进制无非就是最后一个 1 开始都是相反的（看除 2 取余数就知道规律了）</span></span><br><span class="line">    count++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>三元运算符：语法为 <code>条件表达式? 表达式1：表达式2</code> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = (a &gt; <span class="number">0</span>)? a : b;</span><br></pre></td></tr></table></figure></li></ol><blockquote><p>从性能角度来看，在计算数值时，使用移位运算符、位预算直接操作二进制会更快，因为 CPU 的指令集是针对 1 和 0 操作的，加减乘除的运算需要更多的时钟周期。 </p></blockquote><h2 id="对象引用的区别和场景"><a href="#对象引用的区别和场景" class="headerlink" title="对象引用的区别和场景"></a>对象引用的区别和场景</h2><ol><li>强引用：即使内存不足发生 OOM 时不会被回收，通过 <code>new</code> 方式或者反射机制完成分配。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="keyword">new</span> String(<span class="string">"str"</span>);</span><br><span class="line">System.gc(); <span class="comment">// GC 无法回收</span></span><br><span class="line">str = <span class="keyword">null</span>;</span><br><span class="line">System.gc(); <span class="comment">// str 指向空指针，GC 回收成功</span></span><br></pre></td></tr></table></figure></li><li>软引用：每次 GC 时如果内存不足时会被回收，通过 <code>SoftReference</code> 创建，适用于缓存场景。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SoftReference&lt;String&gt; sr = <span class="keyword">new</span> SoftReference&lt;String&gt;(str));</span><br><span class="line">System.out.println(<span class="string">"GC 回收前，软引用："</span> + wr.get());</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"GC 回收后，软引用："</span> + wr.get());</span><br><span class="line"><span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>*<span class="number">1024</span>*<span class="number">1024</span>];  <span class="comment">// -Xmx10m</span></span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"爆内存 GC 回收后，软引用："</span> + wr.get());</span><br></pre></td></tr></table></figure></li><li>弱引用：每次 GC 时不管内存是否不足都被回收，通过 <code>WeakReference</code> 创建。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WeakReference&lt;String&gt; wr = <span class="keyword">new</span> WeakReference&lt;String&gt;(str);</span><br><span class="line">System.out.println(<span class="string">"GC 回收前，弱引用："</span> + wr.get());</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"GC 回收后，弱引用："</span> + wr.get());</span><br></pre></td></tr></table></figure></li><li>虚引用：在被回收之前，会被放入 <code>ReferenceQueue</code> 中，通过 <code>PhantomReference</code> 表示，一般用于 GC 统计，NIO 使用虚引用实现了堆外内存的监视。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">Test test = <span class="keyword">new</span> Test();</span><br><span class="line">PhantomReference&lt;Test&gt; reference = <span class="keyword">new</span> PhantomReference&lt;Test&gt;(test, queue);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(() -&gt; &#123; <span class="comment">// 当虚引用被回收前会被放入队列</span></span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (flag) &#123;</span><br><span class="line">        Reference refer = queue.poll(); <span class="comment">// GC 回收前返回Test 对象的虚引用</span></span><br><span class="line">        <span class="keyword">if</span> (refer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"GC 回收后，虚引用："</span> + refer);</span><br><span class="line">            flag = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#125;).start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"> Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line"> e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">test = <span class="keyword">null</span>;</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br></pre></td></tr></table></figure></li></ol><h2 id="分析-String-类的源码"><a href="#分析-String-类的源码" class="headerlink" title="分析 String 类的源码"></a>分析 String 类的源码</h2><ol><li>String 使用 <code>final</code> 修饰，不可继承。</li><li>String 内部维护了一个 <code>char[] value</code> 数组，但是可以通过反射机制进行破坏，非绝对安全。</li><li>String 使用 <code>==</code> 比较的是对象地址，比较内容使用 <code>equals()</code>，时间复杂度为字符串的长度，对于超大字符串比较是否相等，使用对象地址 <code>intern()</code> 来比较会好一些。</li><li>String 的 <code>equals()</code> 方法逐个比较字符的内容是否相等，<code>hashCode()</code> 方法逐个字符 * 31 并累加获取哈希值，存在哈希碰撞的可能性。</li><li>String 的 <code>intern()</code> 方法尝试从堆中的字符串对象池获取，如果没有，就从堆获取，还是没有，就新建对象，放入字符串对象池，并返回这个地址。</li><li>String 的 <code>compareTo()</code> 方法从左到右比较每个字符的大小，如果都相等，就比较字符的长度</li></ol><h2 id="理解-equals-和-hashCode-方法"><a href="#理解-equals-和-hashCode-方法" class="headerlink" title="理解 equals 和 hashCode 方法"></a>理解 equals 和 hashCode 方法</h2><ol><li><code>Object</code> 类的 <code>equals()</code> 比较的是对象地址，<code>hashCode()</code> 使用 <code>native</code> 比较哈希值。</li><li><code>String</code> 类在没有覆盖方法的情况下，<code>equals()</code> 相等，<code>hashCode()</code> 一定相等，<code>hashCode()</code> 相等不能保证 <code>equals()</code> 相等，因为 <code>hashCode()</code> 是根据 <code>equals()</code> 的内容来生成哈希，意味着哈希碰撞。</li></ol><h1 id="Java-特性"><a href="#Java-特性" class="headerlink" title="Java 特性"></a>Java 特性</h1><h2 id="Java-8-有哪些特性？"><a href="#Java-8-有哪些特性？" class="headerlink" title="Java 8 有哪些特性？"></a>Java 8 有哪些特性？</h2><ol><li>Optional：解决空指针</li><li>FunctionalInterface：函数式接口</li><li>接口新增了 default 修饰符，允许在接口实现默认方法</li><li>Lambda 表达式：例如针对函数式接口使用 <code>() -&gt; {}</code> 来简化代码</li><li>方法引用：使用 <code>::</code> 引用类或者对象的方法</li><li>抽象了 Stream 的 API操作：<code>stream()</code> 串行和 <code>parallelStream()</code> 并行，使用 <code>parallelStream()</code> 需要保证线程安全。</li></ol><h1 id="Java-集合"><a href="#Java-集合" class="headerlink" title="Java 集合"></a>Java 集合</h1><h2 id="Java-常用的集合类有哪些？场景？"><a href="#Java-常用的集合类有哪些？场景？" class="headerlink" title="Java 常用的集合类有哪些？场景？"></a>Java 常用的集合类有哪些？场景？</h2><p>从数据结构分为线性结构和散列结构，<code>Collection</code> 接口是线性结构，子类包含 <code>List</code> 列表、<code>Queue</code> 队列、<code>Set</code> 集合，而 <code>Map</code> 接口属于散列结构。这些数据结构的底层无非就是使用数组或者链表实现存储，使用数组的优势在于查找某个元素的时间复杂度为 $O(1)$，但不适合插入、删除、扩容，使用链表可以使某个元素的插入和删除的时间复杂度为 $O(1)$，但不适合查找某个元素，最多可以优化为通过头尾指针实现双端操作。</p><p><strong>列表：元素可以重复，有序，使用数组存储</strong></p><ol><li><code>ArrayList</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：使用数组存储，初始大小默认为 10，每次扩容增大 1.5 倍，非线程安全</li><li><code>Vector</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：同样使用数组存储，和 <code>ArrayList</code> 的区别就是每个方法都是用 <code>synchronized</code> 加锁来保证线程安全，并且每次扩容增大 2 倍</li><li><code>CopyOnWriteList</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：相对 Vector` 的性能优化，读取不加锁，写时加锁再复制数组，不适合大数据量的存储</li><li><code>Stack</code> -&gt; <code>Vector</code>：遵循 LIFO 原则实现了栈的操作，如 <code>push()</code>、<code>pop()</code>、<code>peek()</code> 方法，缺点是每个方法都用 <code>synchronized</code> 加锁来保证线程安全</li><li><code>LinkedList</code> -&gt; <code>List</code>、<code>Deque</code>（<code>Queue</code>）：相对 <code>Stack</code> 的性能优化，支持双端操作</li></ol><p><strong>集合：元素不重复，无序/有序</strong></p><ol><li><code>HashSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：使用 <code>HashMap</code> 的 key 存储元素，value 存一个内部的 Object，获取一个元素的复杂度为 $O(1)$。</li><li><code>LinkedHashSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：继承了 <code>HashSet</code>，使用 <code>LinkedHashMap</code> 的 key 存储元素</li><li><code>TreeSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：基于 <code>NavigableMap</code> 和 <code>Comparator</code> 实现有序性</li></ol><p><strong>队列：遵循 FIFO 先进先出原则</strong></p><ol><li><code>ArrayBlockingQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：有界队列，使用对象数组存储，适用于消息队列 LRU 算法</li><li><code>LinkedBlockingQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：无界队列，使用链表存储</li><li><code>PriorityQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：优先队列，使用对象数组存储，通过 <code>Comparator</code> 排列优先级</li><li><code>DelayQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：延迟队列，使用对象数组存储，通过 <code>Delay</code> 接口实现延时，适用于订单支付倒计时</li></ol><p><strong>散列：查找单个元素快，但需要注意哈希碰撞的问题</strong></p><ol><li><code>HashMap</code> -&gt; <code>Map</code>：使用数组存储 <code>Map.Entry</code> 元素，下标为 key 的哈希值，哈希碰撞时转换为链表，碰撞次数达到 8 时转化为红黑树，缩容为 6 时退化为链表，非线程安全</li><li><code>LinkedHashMap</code> -&gt; <code>Map</code>：继承 <code>HashMap</code>，额外维护双向链表，多了 head 头引用、tail 尾引用、before 前一个引用、after 后一个引用</li><li><code>TreeMap</code> -&gt; <code>Map</code>：借助 <code>NavigableMap</code> 组合 <code>Comparator</code> 存储</li><li><code>Hashtable</code> -&gt; <code>Dictionary</code>、<code>Map</code>：和 <code>HashMap</code> 是实现类似，但是每个方法都用 <code>synchronized</code> 加锁来保证线程安全</li></ol><h2 id="深入理解-HashMap-的数据结构"><a href="#深入理解-HashMap-的数据结构" class="headerlink" title="深入理解 HashMap 的数据结构"></a>深入理解 HashMap 的数据结构</h2><ol><li>使用数组存储 <code>Map.Entry</code> 元素，下标为 key 的哈希值 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>哈希值计算先右移 16 位，再进行与运算 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123; <span class="comment">// 哈希计算，int 为 32 位，无符号右移 16，让高位也参与计算，是哈希分布更均匀</span></span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>哈希碰撞时转换为链表，碰撞次数达到 <code>8</code> 时转化为红黑树，缩容为 <code>6</code> 时退化为链表。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TREEIFY_THRESHOLD = <span class="number">8</span>; <span class="comment">// 升级为红黑树</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNTREEIFY_THRESHOLD = <span class="number">6</span>; <span class="comment">// 退化为链表</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_TREEIFY_CAPACITY = <span class="number">64</span>; <span class="comment">// TODO</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">merge</span><span class="params">(K key, V value,</span></span></span><br><span class="line"><span class="function"><span class="params">               BiFunction&lt;? <span class="keyword">super</span> V, ? <span class="keyword">super</span> V, ? extends V&gt; remappingFunction)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (value != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) &#123; <span class="comment">// binCount = 0</span></span><br><span class="line">            treeifyBin(tab, hash);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">split</span><span class="params">(HashMap&lt;K,V&gt; map, Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> index, <span class="keyword">int</span> bit)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (loHead != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (lc &lt;= UNTREEIFY_THRESHOLD) &#123;</span><br><span class="line">            tab[index] = loHead.untreeify(map);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>元素个数的初始大小为 <code>16</code>，里面还有个负载因子为 <code>0.75</code>，这是一个经验值，在超过 75% 时，哈希碰撞概率大，性能急剧下降，需要扩容 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// 初始大小</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">30</span>; <span class="comment">// 容量上限</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>; <span class="comment">// 负载因子</span></span><br></pre></td></tr></table></figure></li><li>非线程安全，使用 <code>ConcurrentHashMap</code> 来保证线程安全</li></ol><h2 id="ConcurrentHashMap-有没有坑？"><a href="#ConcurrentHashMap-有没有坑？" class="headerlink" title="ConcurrentHashMap 有没有坑？"></a>ConcurrentHashMap 有没有坑？</h2><p><code>ConcurrentHashMap</code> 在 JDK 1.7 时使用 <code>Segement</code> 分段锁，1.8 后改用 <code>CAS</code> 实现。</p><h1 id="Java-多线程"><a href="#Java-多线程" class="headerlink" title="Java 多线程"></a>Java 多线程</h1><h1 id="Java-并发"><a href="#Java-并发" class="headerlink" title="Java 并发"></a>Java 并发</h1><h2 id="常用的并发类有哪些？场景？"><a href="#常用的并发类有哪些？场景？" class="headerlink" title="常用的并发类有哪些？场景？"></a>常用的并发类有哪些？场景？</h2><h2 id="了解过哪些锁？"><a href="#了解过哪些锁？" class="headerlink" title="了解过哪些锁？"></a>了解过哪些锁？</h2><ol><li>乐观锁：无锁，CAS 比较并交换，例如 <code>AtomicInteger</code>、<code>AtomicReference</code></li><li>悲观锁：<code>synchronized</code> 关键字、<code>Lock</code> 接口</li><li>读锁（共享锁）：<code>ReentrantReadWriteLock</code></li><li>写锁（排它锁）：<code>ReentrantLock</code>、<code>synchronized</code> 关键字</li><li>可重入锁：<code>ReentrantLock</code>、<code>synchronized</code> 关键字</li><li>不可重入锁：同一个线程进入同一个方法不能再次获取锁</li><li>公平锁：<code>ReentrantLock.FairSync</code> -&gt; <code>AQS</code>，排队</li><li>非公平锁：<code>ReentrantLock.NonfairSync</code> -&gt; <code>AQS</code>，在初始化的时候尝试先插队，失败就排队</li><li>偏斜锁 -&gt; 轻量级锁 -&gt; 重量级锁：特指 <code>synchronized</code> 的锁升级，线程 A 进入时，在竞争不激烈的情况下得到偏斜锁（Mark word，缓存），如果后续线程 B 竞争，JVM 撤销偏斜锁，升级为轻量级锁，此时线程 B 自旋获取锁（占用 CPU，避免线程上下文切换），自旋到一定的次数如果还获取不到锁，就退出自旋（让出 CPU），此时升级为重量级锁，所有等待的线程都阻塞。</li></ol><p>以下是 MySQL 的锁类型，和 Java 的读写锁是共性的</p><ol><li>元数据锁（MDL）：修改表结构会锁住</li><li>表锁：MyISAM 引擎默认的锁粒度，还有 InnoDB 未使用索引也可能产生表锁</li><li>行级锁：InnoDB 引擎支持</li><li>间隙锁：使用 <code>where a = 1</code> 锁的是记录为 1 的数据行，使用 <code>where a between 1 and 2</code> 锁的是区间</li><li>Next Key Lock：间隙锁 + 行级锁，将间隙锁的开区间改为闭区间</li><li>乐观锁：在表结构维护一个版本字段</li><li>悲观锁：显示加锁，读锁 + 写锁</li><li>S 锁：<code>select * from t lock in share mode</code>，同时读不冲突，读写会冲突</li><li>X 锁：<code>select * from t for update</code>，无论是读还是写都会冲突</li><li>意向锁：分为 IS 锁和 IX 锁，由 MySQL 自动添加，和行级的 S 锁和 X 锁不冲突，只会和表级的 S 锁和 X 锁发生冲突。</li></ol><h2 id="怎么触发死锁？如何解决？"><a href="#怎么触发死锁？如何解决？" class="headerlink" title="怎么触发死锁？如何解决？"></a>怎么触发死锁？如何解决？</h2><h1 id="Java-I-O"><a href="#Java-I-O" class="headerlink" title="Java I/O"></a>Java I/O</h1><h1 id="Java-虚拟机"><a href="#Java-虚拟机" class="headerlink" title="Java 虚拟机"></a>Java 虚拟机</h1>]]></content>
-      
-      
-      <categories>
-          
-          <category> 编程语言 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Java </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Kafka 笔记</title>
-      <link href="/2020/01/01/kafka/"/>
-      <url>/2020/01/01/kafka/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 应用实战 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 消息队列 </tag>
-            
-            <tag> Kafka </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
       <title>Linux 笔记</title>
       <link href="/2020/01/01/linux/"/>
       <url>/2020/01/01/linux/</url>
@@ -133,25 +289,23 @@
     
     
     <entry>
-      <title>MySQL 笔记</title>
-      <link href="/2020/01/01/mysql/"/>
-      <url>/2020/01/01/mysql/</url>
+      <title>Java 笔记</title>
+      <link href="/2020/01/01/java/"/>
+      <url>/2020/01/01/java/</url>
       
-        <content type="html"><![CDATA[]]></content>
+        <content type="html"><![CDATA[<p>Java 是一门面向对象的编程语言，由 Sun 公司推出，后续被 Oracle 公司收购。面向对象具有抽象、封装、继承、多态性等特性，容易维护、复用和扩展，但性能会比面向过程低，因为<strong>类调用时需要实例化，开销比较大，同时编译的字节码需要通过 JVM 加载，解释为机器码才放到机器上运行</strong>，对于性能要求高的场景，如单片机、嵌入式开发、Linux/Unix 等一般采用面向过程开发。</p><h1>Java 基础</h1><h2 id="Java-有哪些特性？">Java 有哪些特性？</h2><ol><li>抽象：使用数据实体表示现实生活的某一事物。</li><li>封装：将内部的数据和方法封装起来，对隐藏信息使用 <code>private</code>，公开接口使用 <code>public</code>。</li><li>继承：复用，抽取共同特性，类只能单继承，但接口可以支持多继承。</li><li>多态：方法的重载、类的继承 <code>@Override</code>，使不同类的对象对同一个消息做出不同的响应。</li></ol><h2 id="子类能否继承父类的构造方法？">子类能否继承父类的构造方法？</h2><p>子类不可以继承父类的构造方法，只可以调用父类的构造方法。子类中所有的构造函数都会默认访问父类中的空参数构造函数，这是因为子类的构造函数内第一行都有默认的 <code>super()</code> 语句。<strong>从内存实现或者反射的角度，子类继承所有父类的所有数据域和方法（拥有），但没有不具备对某些私有数据域或私有方法的使用权（调用）。</strong></p><h2 id="命名标识符可以包含哪些？">命名标识符可以包含哪些？</h2><p>标识符可以包含英文字母、0 到 9 的数字，<code>$</code> 以及 <code>_</code>，但不能以数字开头，同时标识符不能是 Java 的关键字。按照行业的命名规范，常量全大写，下划线隔开，类名用大驼峰式，变量名和方法名使用小驼峰式。</p><h2 id="Java-基本类型有哪些？">Java 基本类型有哪些？</h2><table><thead><tr><th>基本类型</th><th>大小（字节）</th><th>默认值</th><th>包装类</th></tr></thead><tbody><tr><td>byte</td><td>1</td><td>(byte)0</td><td>Byte</td></tr><tr><td>short</td><td>2</td><td>(short)0</td><td>Short</td></tr><tr><td>char</td><td>2</td><td>\u0000(null)</td><td>Character</td></tr><tr><td>int</td><td>4</td><td>0</td><td>Integer</td></tr><tr><td>float</td><td>4</td><td>0.0f</td><td>Float</td></tr><tr><td>long</td><td>8</td><td>0L</td><td>Long</td></tr><tr><td>double</td><td>8</td><td>0.0d</td><td>Double</td></tr><tr><td>boolean</td><td>8/32 (int)</td><td>false</td><td>Boolean</td></tr></tbody></table><blockquote><p>基本类型在声明时系统会自动给它分配空间，而引用类型声明时只是分配了引用空间，必须通过实例化开辟数据空间之后才可以赋值。例如，数组对象也是引用类型，将数组复制到另外一个数组只是复制了一个引用，对另外一个数组的修改对原来的数组也是可见的。另外，Java 虚拟机没有提供 boolean 值专用的字节码指令，boolean 在编译之后都使用 int 基本类型来代替，占 32 位，而 boolean 数组将会被编码成 byte 数组，每个 boolean 元素占 8 位。</p></blockquote><h2 id="Java-运算符的分类和优先级">Java 运算符的分类和优先级</h2><ol><li>赋值运算符：<code>=</code></li><li>比较运算符：<code>&lt;</code>、<code>&gt;</code>、<code>==</code></li><li>算数运算符：除了 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>、<code>%</code>，还有 <code>i++</code> 和 <code>++i</code> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> i++; <span class="comment">// 返回 0，先自增，然后返回自增之前的值</span></span><br><span class="line"><span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">return</span> ++j; <span class="comment">// 返回 1，先自增，然后返回自增后的值</span></span><br></pre></td></tr></table></figure></li><li>逻辑运算符：<code>&amp;&amp;</code> 短路与、<code>||</code> 短路或、<code>!</code> 非</li><li>移位运算符：用 <code>&lt;&lt;</code> 表示二进制位往左移移动 n 位，后面补 0，实际上就是对 2 的取模少算 n 次，即乘以 $2^n$，同理，<code>&gt;&gt;</code> 表示除以 $2^n$。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n &lt;&lt; <span class="number">1</span>; <span class="comment">// 乘以 2</span></span><br><span class="line">n &gt;&gt; <span class="number">1</span>; <span class="comment">// 除以 2</span></span><br><span class="line">(<span class="number">1</span> &lt;&lt; <span class="number">31</span>) - <span class="number">1</span>; <span class="comment">// 2147483647，等于 int 的最大值</span></span><br><span class="line"><span class="number">1</span> &lt;&lt; <span class="number">31</span>; <span class="comment">// -2147483648，等于 int 的最小值</span></span><br><span class="line">((<span class="keyword">long</span>)<span class="number">1</span> &lt;&lt; <span class="number">127</span>) - <span class="number">1</span>; <span class="comment">// 9223372036854775807，等于 long 的最大值</span></span><br><span class="line">(<span class="keyword">long</span>)<span class="number">1</span> &lt;&lt; <span class="number">127</span>; <span class="comment">// -9223372036854775807，等于 long 的最小值</span></span><br></pre></td></tr></table></figure></li><li>位运算符：<code>&amp;</code> 与、<code>|</code> 或、<code>^</code> 异或 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">n &amp; <span class="number">1</span> == <span class="number">1</span>; <span class="comment">// 判断奇偶性</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> (n &gt; <span class="number">0</span>) &#123; <span class="comment">// Leecode 中计算某个数的二进制中 1 的个数</span></span><br><span class="line">    n &amp;= (n-<span class="number">1</span>); <span class="comment">// n 和 n-1 的二进制无非就是最后一个 1 开始都是相反的（看除 2 取余数就知道规律了）</span></span><br><span class="line">    count++;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>三元运算符：语法为 <code>条件表达式? 表达式1：表达式2</code> <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">v = (a &gt; <span class="number">0</span>)? a : b;</span><br></pre></td></tr></table></figure></li></ol><blockquote><p>从性能角度来看，在计算数值时，使用移位运算符、位预算直接操作二进制会更快，因为 CPU 的指令集是针对 1 和 0 操作的，加减乘除的运算需要更多的时钟周期。</p></blockquote><h2 id="对象引用的区别和场景">对象引用的区别和场景</h2><ol><li>强引用：即使内存不足发生 OOM 时不会被回收，通过 <code>new</code> 方式或者反射机制完成分配。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="keyword">new</span> String(<span class="string">"str"</span>);</span><br><span class="line">System.gc(); <span class="comment">// GC 无法回收</span></span><br><span class="line">str = <span class="keyword">null</span>;</span><br><span class="line">System.gc(); <span class="comment">// str 指向空指针，GC 回收成功</span></span><br></pre></td></tr></table></figure></li><li>软引用：每次 GC 时如果内存不足时会被回收，通过 <code>SoftReference</code> 创建，适用于缓存场景。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SoftReference&lt;String&gt; sr = <span class="keyword">new</span> SoftReference&lt;String&gt;(str));</span><br><span class="line">System.out.println(<span class="string">"GC 回收前，软引用："</span> + wr.get());</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"GC 回收后，软引用："</span> + wr.get());</span><br><span class="line"><span class="keyword">byte</span>[] bytes = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>*<span class="number">1024</span>*<span class="number">1024</span>];  <span class="comment">// -Xmx10m</span></span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"爆内存 GC 回收后，软引用："</span> + wr.get());</span><br></pre></td></tr></table></figure></li><li>弱引用：每次 GC 时不管内存是否不足都被回收，通过 <code>WeakReference</code> 创建。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">WeakReference&lt;String&gt; wr = <span class="keyword">new</span> WeakReference&lt;String&gt;(str);</span><br><span class="line">System.out.println(<span class="string">"GC 回收前，弱引用："</span> + wr.get());</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br><span class="line">System.out.println(<span class="string">"GC 回收后，弱引用："</span> + wr.get());</span><br></pre></td></tr></table></figure></li><li>虚引用：在被回收之前，会被放入 <code>ReferenceQueue</code> 中，通过 <code>PhantomReference</code> 表示，一般用于 GC 统计，NIO 使用虚引用实现了堆外内存的监视。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">ReferenceQueue queue = <span class="keyword">new</span> ReferenceQueue();</span><br><span class="line">Test test = <span class="keyword">new</span> Test();</span><br><span class="line">PhantomReference&lt;Test&gt; reference = <span class="keyword">new</span> PhantomReference&lt;Test&gt;(test, queue);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> Thread(() -&gt; &#123; <span class="comment">// 当虚引用被回收前会被放入队列</span></span><br><span class="line">    <span class="keyword">boolean</span> flag = <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">while</span> (flag) &#123;</span><br><span class="line">        Reference refer = queue.poll(); <span class="comment">// GC 回收前返回Test 对象的虚引用</span></span><br><span class="line">        <span class="keyword">if</span> (refer != <span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(<span class="string">"GC 回收后，虚引用："</span> + refer);</span><br><span class="line">            flag = <span class="keyword">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).start();</span><br><span class="line"></span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line"> Thread.sleep(<span class="number">1000</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line"> e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line">test = <span class="keyword">null</span>;</span><br><span class="line">System.gc(); <span class="comment">// GC 回收</span></span><br></pre></td></tr></table></figure></li></ol><h2 id="分析-String-类的源码">分析 String 类的源码</h2><ol><li>String 使用 <code>final</code> 修饰，不可继承。</li><li>String 内部维护了一个 <code>char[] value</code> 数组，但是可以通过反射机制进行破坏，非绝对安全。</li><li>String 使用 <code>==</code> 比较的是对象地址，比较内容使用 <code>equals()</code>，时间复杂度为字符串的长度，对于超大字符串比较是否相等，使用对象地址 <code>intern()</code> 来比较会好一些。</li><li>String 的 <code>equals()</code> 方法逐个比较字符的内容是否相等，<code>hashCode()</code> 方法逐个字符 * 31 并累加获取哈希值，存在哈希碰撞的可能性。</li><li>String 的 <code>intern()</code> 方法尝试从堆中的字符串对象池获取，如果没有，就从堆获取，还是没有，就新建对象，放入字符串对象池，并返回这个地址。</li><li>String 的 <code>compareTo()</code> 方法从左到右比较每个字符的大小，如果都相等，就比较字符的长度</li></ol><h2 id="理解-equals-和-hashCode-方法">理解 equals 和 hashCode 方法</h2><ol><li><code>Object</code> 类的 <code>equals()</code> 比较的是对象地址，<code>hashCode()</code> 使用 <code>native</code> 比较哈希值。</li><li><code>String</code> 类在没有覆盖方法的情况下，<code>equals()</code> 相等，<code>hashCode()</code> 一定相等，<code>hashCode()</code> 相等不能保证 <code>equals()</code> 相等，因为 <code>hashCode()</code> 是根据 <code>equals()</code> 的内容来生成哈希，意味着哈希碰撞。</li></ol><h1>Java 特性</h1><h2 id="Java-8-有哪些特性？">Java 8 有哪些特性？</h2><ol><li>Optional：解决空指针</li><li>FunctionalInterface：函数式接口</li><li>接口新增了 default 修饰符，允许在接口实现默认方法</li><li>Lambda 表达式：例如针对函数式接口使用 <code>() -&gt; {}</code> 来简化代码</li><li>方法引用：使用 <code>::</code> 引用类或者对象的方法</li><li>抽象了 Stream 的 API操作：<code>stream()</code> 串行和 <code>parallelStream()</code> 并行，使用 <code>parallelStream()</code> 需要保证线程安全。</li></ol><h1>Java 集合</h1><h2 id="Java-常用的集合类有哪些？场景？">Java 常用的集合类有哪些？场景？</h2><p>从数据结构分为线性结构和散列结构，<code>Collection</code> 接口是线性结构，子类包含 <code>List</code> 列表、<code>Queue</code> 队列、<code>Set</code> 集合，而 <code>Map</code> 接口属于散列结构。这些数据结构的底层无非就是使用数组或者链表实现存储，使用数组的优势在于查找某个元素的时间复杂度为 $O(1)$，但不适合插入、删除、扩容，使用链表可以使某个元素的插入和删除的时间复杂度为 $O(1)$，但不适合查找某个元素，最多可以优化为通过头尾指针实现双端操作。</p><p><strong>列表：元素可以重复，有序，使用数组存储</strong></p><ol><li><code>ArrayList</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：使用数组存储，初始大小默认为 10，每次扩容增大 1.5 倍，非线程安全</li><li><code>Vector</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：同样使用数组存储，和 <code>ArrayList</code> 的区别就是每个方法都是用 <code>synchronized</code> 加锁来保证线程安全，并且每次扩容增大 2 倍</li><li><code>CopyOnWriteList</code> -&gt; <code>List</code> -&gt; <code>Collection</code>：相对 Vector` 的性能优化，读取不加锁，写时加锁再复制数组，不适合大数据量的存储</li><li><code>Stack</code> -&gt; <code>Vector</code>：遵循 LIFO 原则实现了栈的操作，如 <code>push()</code>、<code>pop()</code>、<code>peek()</code> 方法，缺点是每个方法都用 <code>synchronized</code> 加锁来保证线程安全</li><li><code>LinkedList</code> -&gt; <code>List</code>、<code>Deque</code>（<code>Queue</code>）：相对 <code>Stack</code> 的性能优化，支持双端操作</li></ol><p><strong>集合：元素不重复，无序/有序</strong></p><ol><li><code>HashSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：使用 <code>HashMap</code> 的 key 存储元素，value 存一个内部的 Object，获取一个元素的复杂度为 $O(1)$。</li><li><code>LinkedHashSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：继承了 <code>HashSet</code>，使用 <code>LinkedHashMap</code> 的 key 存储元素</li><li><code>TreeSet</code> -&gt; <code>Set</code> -&gt; <code>Collection</code>：基于 <code>NavigableMap</code> 和 <code>Comparator</code> 实现有序性</li></ol><p><strong>队列：遵循 FIFO 先进先出原则</strong></p><ol><li><code>ArrayBlockingQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：有界队列，使用对象数组存储，适用于消息队列 LRU 算法</li><li><code>LinkedBlockingQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：无界队列，使用链表存储</li><li><code>PriorityQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：优先队列，使用对象数组存储，通过 <code>Comparator</code> 排列优先级</li><li><code>DelayQueue</code> -&gt; <code>Queue</code> -&gt; <code>Collection</code>：延迟队列，使用对象数组存储，通过 <code>Delay</code> 接口实现延时，适用于订单支付倒计时</li></ol><p><strong>散列：查找单个元素快，但需要注意哈希碰撞的问题</strong></p><ol><li><code>HashMap</code> -&gt; <code>Map</code>：使用数组存储 <code>Map.Entry</code> 元素，下标为 key 的哈希值，哈希碰撞时转换为链表，碰撞次数达到 8 时转化为红黑树，缩容为 6 时退化为链表，非线程安全</li><li><code>LinkedHashMap</code> -&gt; <code>Map</code>：继承 <code>HashMap</code>，额外维护双向链表，多了 head 头引用、tail 尾引用、before 前一个引用、after 后一个引用</li><li><code>TreeMap</code> -&gt; <code>Map</code>：借助 <code>NavigableMap</code> 组合 <code>Comparator</code> 存储</li><li><code>Hashtable</code> -&gt; <code>Dictionary</code>、<code>Map</code>：和 <code>HashMap</code> 是实现类似，但是每个方法都用 <code>synchronized</code> 加锁来保证线程安全</li></ol><h2 id="深入理解-HashMap-的数据结构">深入理解 HashMap 的数据结构</h2><ol><li>使用数组存储 <code>Map.Entry</code> 元素，下标为 key 的哈希值 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">transient</span> Node&lt;K,V&gt;[] table;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    V value;</span><br><span class="line">    Node&lt;K,V&gt; next;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>哈希值计算先右移 16 位，再进行与运算 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123; <span class="comment">// 哈希计算，int 为 32 位，无符号右移 16，让高位也参与计算，是哈希分布更均匀</span></span><br><span class="line">    <span class="keyword">int</span> h;</span><br><span class="line">    <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>哈希碰撞时转换为链表，碰撞次数达到 <code>8</code> 时转化为红黑树，缩容为 <code>6</code> 时退化为链表。 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TREEIFY_THRESHOLD = <span class="number">8</span>; <span class="comment">// 升级为红黑树</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> UNTREEIFY_THRESHOLD = <span class="number">6</span>; <span class="comment">// 退化为链表</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MIN_TREEIFY_CAPACITY = <span class="number">64</span>; <span class="comment">// TODO</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> V <span class="title">merge</span><span class="params">(K key, V value,</span></span></span><br><span class="line"><span class="function"><span class="params">               BiFunction&lt;? <span class="keyword">super</span> V, ? <span class="keyword">super</span> V, ? extends V&gt; remappingFunction)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (value != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (binCount &gt;= TREEIFY_THRESHOLD - <span class="number">1</span>) &#123; <span class="comment">// binCount = 0</span></span><br><span class="line">            treeifyBin(tab, hash);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">final</span> <span class="keyword">void</span> <span class="title">split</span><span class="params">(HashMap&lt;K,V&gt; map, Node&lt;K,V&gt;[] tab, <span class="keyword">int</span> index, <span class="keyword">int</span> bit)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">if</span> (loHead != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (lc &lt;= UNTREEIFY_THRESHOLD) &#123;</span><br><span class="line">            tab[index] = loHead.untreeify(map);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li><li>元素个数的初始大小为 <code>16</code>，里面还有个负载因子为 <code>0.75</code>，这是一个经验值，在超过 75% 时，哈希碰撞概率大，性能急剧下降，需要扩容 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INITIAL_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">4</span>; <span class="comment">// 初始大小</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MAXIMUM_CAPACITY = <span class="number">1</span> &lt;&lt; <span class="number">30</span>; <span class="comment">// 容量上限</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> DEFAULT_LOAD_FACTOR = <span class="number">0.75f</span>; <span class="comment">// 负载因子</span></span><br></pre></td></tr></table></figure></li><li>非线程安全，使用 <code>ConcurrentHashMap</code> 来保证线程安全</li></ol><h2 id="ConcurrentHashMap-有没有坑？">ConcurrentHashMap 有没有坑？</h2><p><code>ConcurrentHashMap</code> 在 JDK 1.7 时使用 <code>Segement</code> 分段锁，1.8 后改用 <code>CAS</code> 实现。</p><h1>Java 多线程</h1><h1>Java 并发</h1><h2 id="常用的并发类有哪些？场景？">常用的并发类有哪些？场景？</h2><h2 id="了解过哪些锁？">了解过哪些锁？</h2><ol><li>乐观锁：无锁，CAS 比较并交换，例如 <code>AtomicInteger</code>、<code>AtomicReference</code></li><li>悲观锁：<code>synchronized</code> 关键字、<code>Lock</code> 接口</li><li>读锁（共享锁）：<code>ReentrantReadWriteLock</code></li><li>写锁（排它锁）：<code>ReentrantLock</code>、<code>synchronized</code> 关键字</li><li>可重入锁：<code>ReentrantLock</code>、<code>synchronized</code> 关键字</li><li>不可重入锁：同一个线程进入同一个方法不能再次获取锁</li><li>公平锁：<code>ReentrantLock.FairSync</code> -&gt; <code>AQS</code>，排队</li><li>非公平锁：<code>ReentrantLock.NonfairSync</code> -&gt; <code>AQS</code>，在初始化的时候尝试先插队，失败就排队</li><li>偏斜锁 -&gt; 轻量级锁 -&gt; 重量级锁：特指 <code>synchronized</code> 的锁升级，线程 A 进入时，在竞争不激烈的情况下得到偏斜锁（Mark word，缓存），如果后续线程 B 竞争，JVM 撤销偏斜锁，升级为轻量级锁，此时线程 B 自旋获取锁（占用 CPU，避免线程上下文切换），自旋到一定的次数如果还获取不到锁，就退出自旋（让出 CPU），此时升级为重量级锁，所有等待的线程都阻塞。</li></ol><p>以下是 MySQL 的锁类型，和 Java 的读写锁是共性的</p><ol><li>元数据锁（MDL）：修改表结构会锁住</li><li>表锁：MyISAM 引擎默认的锁粒度，还有 InnoDB 未使用索引也可能产生表锁</li><li>行级锁：InnoDB 引擎支持</li><li>间隙锁：使用 <code>where a = 1</code> 锁的是记录为 1 的数据行，使用 <code>where a between 1 and 2</code> 锁的是区间</li><li>Next Key Lock：间隙锁 + 行级锁，将间隙锁的开区间改为闭区间</li><li>乐观锁：在表结构维护一个版本字段</li><li>悲观锁：显示加锁，读锁 + 写锁</li><li>S 锁：<code>select * from t lock in share mode</code>，同时读不冲突，读写会冲突</li><li>X 锁：<code>select * from t for update</code>，无论是读还是写都会冲突</li><li>意向锁：分为 IS 锁和 IX 锁，由 MySQL 自动添加，和行级的 S 锁和 X 锁不冲突，只会和表级的 S 锁和 X 锁发生冲突。</li></ol><h2 id="怎么触发死锁？如何解决？">怎么触发死锁？如何解决？</h2><h1>Java I/O</h1><h1>Java 虚拟机</h1>]]></content>
       
       
       <categories>
           
-          <category> 应用实战 </category>
+          <category> 编程语言 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> MySQL </tag>
-            
-            <tag> 关系数据库 </tag>
+            <tag> Java </tag>
             
         </tags>
       
@@ -160,25 +314,23 @@
     
     
     <entry>
-      <title>Redis 笔记</title>
-      <link href="/2020/01/01/redis/"/>
-      <url>/2020/01/01/redis/</url>
+      <title>编译原理</title>
+      <link href="/2020/01/01/compilers-principles/"/>
+      <url>/2020/01/01/compilers-principles/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> 应用实战 </category>
+          <category> 基础知识 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> NoSQL </tag>
-            
-            <tag> Redis </tag>
+            <tag> 编译原理 </tag>
             
         </tags>
       
@@ -187,100 +339,23 @@
     
     
     <entry>
-      <title>Tomcat 笔记</title>
-      <link href="/2020/01/01/tomcat/"/>
-      <url>/2020/01/01/tomcat/</url>
+      <title>操作系统</title>
+      <link href="/2020/01/01/operation-system/"/>
+      <url>/2020/01/01/operation-system/</url>
       
         <content type="html"><![CDATA[]]></content>
       
       
       <categories>
           
-          <category> 应用实战 </category>
+          <category> 基础知识 </category>
           
       </categories>
       
       
         <tags>
             
-            <tag> Tomcat </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Zookeeper 笔记</title>
-      <link href="/2020/01/01/zookeeper/"/>
-      <url>/2020/01/01/zookeeper/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 应用实战 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Zookeeper </tag>
-            
-            <tag> 分布式中间件 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Nginx 笔记</title>
-      <link href="/2020/01/01/nginx/"/>
-      <url>/2020/01/01/nginx/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 应用实战 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Nginx </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Spring 笔记</title>
-      <link href="/2020/01/01/spring/"/>
-      <url>/2020/01/01/spring/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
-      <categories>
-          
-          <category> 应用实战 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> Spring </tag>
+            <tag> 操作系统 </tag>
             
         </tags>
       
