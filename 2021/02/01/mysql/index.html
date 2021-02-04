@@ -1,0 +1,386 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>MySQL 笔记 | eden*</title><meta name="description" content="MySQL 索引/事务/锁/日志/存储引擎/集群"><meta name="keywords" content="MySQL"><meta name="author" content="梦想歌"><meta name="copyright" content="梦想歌"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/favicon.ico"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="https://fonts.googleapis.com" crossorigin="crossorigin"/><meta name="twitter:card" content="summary"><meta name="twitter:title" content="MySQL 笔记"><meta name="twitter:description" content="MySQL 索引/事务/锁/日志/存储引擎/集群"><meta name="twitter:image" content="https://mengxiangge.work/img/cover/mysql.png"><meta property="og:type" content="article"><meta property="og:title" content="MySQL 笔记"><meta property="og:url" content="https://mengxiangge.work/2021/02/01/mysql/"><meta property="og:site_name" content="eden*"><meta property="og:description" content="MySQL 索引/事务/锁/日志/存储引擎/集群"><meta property="og:image" content="https://mengxiangge.work/img/cover/mysql.png"><script src="https://cdn.jsdelivr.net/npm/js-cookie/dist/js.cookie.min.js"></script><script>var autoChangeMode = '1'
+var t = Cookies.get("theme")
+if (autoChangeMode == '1'){
+  var isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches
+  var isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches
+  var isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined){
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport){
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour < 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+  }
+  } else if (t == 'light') activateLightMode()
+  else activateDarkMode()
+
+} else if (autoChangeMode == '2'){
+  now = new Date();
+  hour = now.getHours();
+  isNight = hour < 6 || hour >= 18
+  if(t === undefined) isNight? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode() 
+} else {
+  if ( t == 'dark' ) activateDarkMode()
+  else if ( t == 'light') activateLightMode()
+}
+
+function activateDarkMode(){
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+    document.querySelector('meta[name="theme-color"]').setAttribute('content','#000')
+  }
+}
+function activateLightMode(){
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null){
+  document.querySelector('meta[name="theme-color"]').setAttribute('content','#fff')
+  }
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="canonical" href="https://mengxiangge.work/2021/02/01/mysql/"><link rel="prev" title="Redis 笔记" href="https://mengxiangge.work/2021/02/01/redis/"><link rel="next" title="Java 笔记" href="https://mengxiangge.work/2020/01/01/java/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"cookieDomain":"https://mengxiangge.work","msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: undefined,
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"top-right"},
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  highlightShrink: 'false',
+  isFontAwesomeV5: false,
+  isPhotoFigcaption: false
+  
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isSidebar: true  
+  }</script><noscript><style>
+#page-header {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><meta name="generator" content="Hexo 4.2.0"></head><body><canvas class="fireworks"></canvas><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/avatar.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">5</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">目录</div><div class="length_num">1</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-linkedin-square"></i><span> 简历</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其它</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fa fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/picture/"><i class="fa-fw fa fa-picture-o"></i><span> 相册</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div></div></div><i class="fa fa-arrow-right on" id="toggle-sidebar" aria-hidden="true">     </i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#null"><span class="toc-number">1.</span> <span class="toc-text">MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#快速入门"><span class="toc-number">1.1.</span> <span class="toc-text">快速入门</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安装-MySQL"><span class="toc-number">1.1.1.</span> <span class="toc-text">安装 MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Windows-平台安装-MySQL"><span class="toc-number">1.1.1.1.</span> <span class="toc-text">Windows 平台安装 MySQL</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux-平台安装-MySQL"><span class="toc-number">1.1.1.2.</span> <span class="toc-text">Linux 平台安装 MySQL</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置-MySQL"><span class="toc-number">1.1.2.</span> <span class="toc-text">配置 MySQL</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#初始化-MySQL-系统库"><span class="toc-number">1.1.2.1.</span> <span class="toc-text">初始化 MySQL 系统库</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#设置-root-帐号的密码"><span class="toc-number">1.1.2.2.</span> <span class="toc-text">设置 root 帐号的密码</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-目录结构"><span class="toc-number">1.1.3.</span> <span class="toc-text">MySQL 目录结构</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Windows-平台的目录结构"><span class="toc-number">1.1.3.1.</span> <span class="toc-text">Windows 平台的目录结构</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Linux-平台的目录结构"><span class="toc-number">1.1.3.2.</span> <span class="toc-text">Linux 平台的目录结构</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-问题画像"><span class="toc-number">1.1.4.</span> <span class="toc-text">MySQL 问题画像</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-架构体系"><span class="toc-number">1.1.5.</span> <span class="toc-text">MySQL 架构体系</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#查询语句的执行过程"><span class="toc-number">1.1.6.</span> <span class="toc-text">查询语句的执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#更新语句的执行过程"><span class="toc-number">1.1.7.</span> <span class="toc-text">更新语句的执行过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#深入理解-Buffer-Pool"><span class="toc-number">1.1.8.</span> <span class="toc-text">深入理解 Buffer Pool</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-语句执行顺序"><span class="toc-number">1.1.9.</span> <span class="toc-text">SQL 语句执行顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#SQL-索引优化指南"><span class="toc-number">1.1.10.</span> <span class="toc-text">SQL 索引优化指南</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#生产案例"><span class="toc-number">1.2.</span> <span class="toc-text">生产案例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#搭建-MySQL-集群"><span class="toc-number">1.2.1.</span> <span class="toc-text">搭建 MySQL 集群</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#规划-MySQL-机器配置"><span class="toc-number">1.2.2.</span> <span class="toc-text">规划 MySQL 机器配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-性能测试"><span class="toc-number">1.2.3.</span> <span class="toc-text">MySQL 性能测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-监控部署"><span class="toc-number">1.2.4.</span> <span class="toc-text">MySQL 监控部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MySQL-分库分表设计"><span class="toc-number">1.2.5.</span> <span class="toc-text">MySQL 分库分表设计</span></a></li></ol></li></ol></li></ol></div></div></div><div id="body-wrap"><div class="post-bg" id="nav" style="background-image: url(/img/cover/mysql.png)"><div id="page-header"><span class="pull_left" id="blog_name"><a class="blog_title" id="site-name" href="/">eden*</a></span><span class="pull_right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-linkedin-square"></i><span> 简历</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fa fa-list" aria-hidden="true"></i><span> 其它</span><i class="fa fa-chevron-down menus-expand" aria-hidden="true"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/books/"><i class="fa-fw fa fa-book"></i><span> 书籍</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fa fa-film"></i><span> 电影</span></a></li><li><a class="site-page" href="/games/"><i class="fa-fw fa fa-gamepad"></i><span> 游戏</span></a></li><li><a class="site-page" href="/picture/"><i class="fa-fw fa fa-picture-o"></i><span> 相册</span></a></li><li><a class="site-page" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li></ul></div></div><span class="toggle-menu close"><a class="site-page"><i class="fa fa-bars fa-fw" aria-hidden="true"></i></a></span></span></div><div id="post-info"><div id="post-title"><div class="posttitle">MySQL 笔记</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2021-02-01 12:21:58"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2021-02-01</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2021-02-05 01:22:50"><i class="fa fa-history" aria-hidden="true"></i> 更新于 2021-02-05</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fa fa-inbox post-meta__icon" aria-hidden="true"></i><a class="post-meta__categories" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></span></div><div class="meta-secondline"> <span class="post-meta-wordcount"><i class="post-meta__icon fa fa-file-word-o" aria-hidden="true"></i><span>字数总计:</span><span class="word-count">3.5k</span><span class="post-meta__separator">|</span><i class="post-meta__icon fa fa-clock-o" aria-hidden="true"></i><span>阅读时长: 16 分钟</span></span></div><div class="meta-thirdline"><span class="post-meta-pv-cv"></span><span class="post-meta-commentcount"><i class="post-meta__icon fa fa-comment-o" aria-hidden="true"></i><span>评论数:</span><a href="/2021/02/01/mysql/#post-comment" itemprop="discussionUrl"><span class="valine-comment-count comment-count" data-xid="/2021/02/01/mysql/" itemprop="commentCount"></span></a></span></div></div></div></div><main class="layout_post" id="content-inner"><article id="post"><div id="article-container"><h1>MySQL</h1>
+<h2 id="快速入门"><a href="https://www.yuque.com/mengxiangge/study/elasticsearch#siIsS" target="_blank" rel="noopener">快速入门</a></h2>
+<h3 id="安装-MySQL">安装 MySQL</h3>
+<h4 id="Windows-平台安装-MySQL">Windows 平台安装 MySQL</h4>
+<p>建议使用解压版进行解压安装, 在系统变量 path 添加 MySQL 的 bin 目录. 在根目录下编辑 my.ini 文件, 主要是修改数据存储的路径, 参考配置如下.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[mysqld]</span><br><span class="line"><span class="comment"># 服务端端口</span></span><br><span class="line">port=3306</span><br><span class="line"><span class="comment"># 安装目录，无法使用相对路径</span></span><br><span class="line">basedir=C://MySQL</span><br><span class="line"><span class="comment"># 数据库存储目录，无法使用相对路径</span></span><br><span class="line">datadir=C://MySQL/data</span><br><span class="line">[mysql]</span><br><span class="line"><span class="comment"># 客户端默认连接服务器的端口</span></span><br><span class="line">port=3306</span><br><span class="line"><span class="comment"># 客户端默认的字符集</span></span><br><span class="line">default-character-set=utf8</span><br></pre></td></tr></table></figure>
+<p>通过 mysqld 工具创建 MySQL 的 Windows 服务。如果在运行此命令之前启动了 MySQL 服务, 可能会报错，遇到这种情况，先停止服务，然后通过 <code>sc delete</code> 删除特定的 MySQL 服务，并清空 data 目录，重新执行此命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --install MySQL</span><br></pre></td></tr></table></figure>
+<p>命令执行完成后, 可以启动或者停止服务.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">net start MySQL</span><br><span class="line">net stop MySQL</span><br></pre></td></tr></table></figure>
+<p>验证 MySQL 的版本, 可以检测 MySQL 是否安装成功.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqladmin --version</span><br></pre></td></tr></table></figure>
+<h4 id="Linux-平台安装-MySQL">Linux 平台安装 MySQL</h4>
+<p>以 Centos8 为例，我使用了 rpm 方式安装。先下载 rpm 包并执行安装，如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">wget http://repo.mysql.com/mysql80-community-release-el7-1.noarch.rpm</span><br><span class="line">sudo rpm -ivh mysql80-community-release-el7-1.noarch.rpm</span><br></pre></td></tr></table></figure>
+<p>执行后，在 /etc/yum.repos.d 目录将生成 mysql-community.repo 和 mysql-community-source.repo 文件。接着，使用 yum 安装 MySQL，根据提示操作，等待安装完成。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install mysql-server</span><br></pre></td></tr></table></figure>
+<p>安装完成后，可以检查 MySQL 的服务是否设置了自启动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl list-unit-files|grep mysqld</span><br></pre></td></tr></table></figure>
+<p>如果没有开启自启动，可以选择执行下面的命令开启。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl <span class="built_in">enable</span> mysqld.service</span><br></pre></td></tr></table></figure>
+<p>启动 MySQL 服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl start mysqld.service</span><br></pre></td></tr></table></figure>
+<p>MySQL 还需要执行一些初始化操作，如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --initialize</span><br></pre></td></tr></table></figure>
+<p>初始化完成后，会生成 information_schema、mysql、performance_schema、sys 这四个系统库，其中，mysql 库的 user 默认写入了 root 帐号，密码默认为空，因此，我们可以在安装 MySQL 的服务器上，使用 <code>mysql</code> 命令，直接空密码登录，初始化 root 的密码和开启远程登录。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; alter user 'root'@'localhost' identified by '您的明文密码';</span><br><span class="line">mysql&gt; use mysql;</span><br><span class="line">mysql&gt; update user set host = '%' where user = 'root';</span><br><span class="line">mysql&gt; flush privileges;</span><br><span class="line">mysql&gt; exit;</span><br></pre></td></tr></table></figure>
+<p>如果您使用的是虚拟机，最好检查下系统是否开启了防火墙，关闭它，否则，宿主机将无法访问虚拟机的 MySQL。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 关闭防火墙</span></span><br><span class="line">systemctl stop firewalld.service</span><br><span class="line"><span class="comment"># 禁止防火墙开机自启动</span></span><br><span class="line">systemctl <span class="built_in">disable</span> firewalld.service</span><br></pre></td></tr></table></figure>
+<h3 id="配置-MySQL">配置 MySQL</h3>
+<h4 id="初始化-MySQL-系统库">初始化 MySQL 系统库</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysqld --initialize-insecure --user=mysql</span><br></pre></td></tr></table></figure>
+<h4 id="设置-root-帐号的密码">设置 root 帐号的密码</h4>
+<p>如果您没有在安装 MySQL 时初始化密码，或者忘记了密码，可以通过 skip-grant-tables 模式启动数据库来完成 root 帐号的密码重置，如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mysqld --skip-grant-tables <span class="comment"># MySQL 5.7.6-</span></span><br><span class="line">mysqld --console --skip-grant-tables --shared-memory <span class="comment"># MySQL 5.7.6+</span></span><br></pre></td></tr></table></figure>
+<p>执行命令后, 当前窗口不可操作, 需要新建命令窗口, 在新的命令行窗口直接免密登录数据库, 接下来就可以修改 user 表的用户密码了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P 3306</span><br></pre></td></tr></table></figure>
+<p>如果您的 MySQL 是 5.7.6 之前的版本，可以直接重置密码，如下。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; UPDATE mysql.user SET password=PASSWORD("明文密码") WHERE user="root"; # MySQL 5.X</span><br><span class="line">mysql &gt; flush privileges;</span><br><span class="line">mysql &gt; exit;</span><br></pre></td></tr></table></figure>
+<p>如果您的 MySQL 是 5.7.6 之后的版本 , 需要先清空密码, 然后停止 skip-grant-tables 服务.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; UPDATE mysql.user SET authentication_string='' WHERE user="root"; </span><br><span class="line">mysql &gt; flush privileges;</span><br><span class="line">mysql &gt; exit;</span><br></pre></td></tr></table></figure>
+<p>然后正式启动 MySQL 服务, 使用 mysql -u root -p 空密码登录数据库, 修改密码.</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mysql &gt; use mysql;</span><br><span class="line">mysql &gt; ALTER user 'root'@'localhost' IDENTIFIED WITH    mysql_native_password BY '明文密码';</span><br><span class="line">mysql &gt; exit;</span><br></pre></td></tr></table></figure>
+<h3 id="MySQL-目录结构">MySQL 目录结构</h3>
+<h4 id="Windows-平台的目录结构">Windows 平台的目录结构</h4>
+<table>
+<thead>
+<tr>
+<th><strong>目录/文件</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>bin/</td>
+<td>存放运行脚本和工具脚本，如 <code>mysqld</code> 客户端服务和 <code>mysql</code> 客户端连接工具</td>
+</tr>
+<tr>
+<td>data/</td>
+<td>通过 msi 方式安装会自动创建这个目录，存放数据库的文件</td>
+</tr>
+<tr>
+<td>include/</td>
+<td>C 和 C++ 语言实现 MySQL 存放的头文件</td>
+</tr>
+<tr>
+<td>lib/</td>
+<td>类库文件</td>
+</tr>
+<tr>
+<td>share/</td>
+<td>字符集</td>
+</tr>
+<tr>
+<td>my.ini</td>
+<td>数据库默认使用的配置文件</td>
+</tr>
+</tbody>
+</table>
+<h4 id="Linux-平台的目录结构">Linux 平台的目录结构</h4>
+<h3 id="MySQL-问题画像">MySQL 问题画像</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/__puml/4a28b87c297214e3fcfc30fbfeb08703.svg#lake_card_v2=eyJjb2RlIjoiQHN0YXJ0bWluZG1hcFxuKyBNeVNRTFxuKysg5pWw5o2u5bqT5peg5rOV6L-e5o6l77yaVG9vIG1hbnkgY29ubmVjdGlvbnNcbisrKyBNeVNRTCDpu5jorqTnmoTov57mjqXmlbDkuLogMTUxXG4rKysgTGludXgg5paH5Lu25Y-l5p-E5LiN5aSfXG5AZW5kbWluZG1hcCIsInR5cGUiOiJwdW1sIiwibWFyZ2luIjp0cnVlLCJpZCI6Ik1ZUHpmIiwidXJsIjoiaHR0cHM6Ly9jZG4ubmxhcmsuY29tL3l1cXVlL19fcHVtbC80YTI4Yjg3YzI5NzIxNGUzZmNmYzMwZmJmZWIwODcwMy5zdmciLCJjYXJkIjoiZGlhZ3JhbSJ9" alt="">## 原理分析</p>
+<h3 id="MySQL-架构体系">MySQL 架构体系</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610463408183-8adb93ac-4ca0-4925-8f7c-0153c0379064.png#align=left&amp;display=inline&amp;height=755&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=878&amp;originWidth=868&amp;size=156929&amp;status=done&amp;style=none&amp;width=746" alt="image.png"></p>
+<h3 id="查询语句的执行过程">查询语句的执行过程</h3>
+<h3 id="更新语句的执行过程">更新语句的执行过程</h3>
+<h3 id="深入理解-Buffer-Pool">深入理解 Buffer Pool</h3>
+<p>Buffer Pool 是 MySQL 的一个内存组件，里面缓存了磁盘的真实数据，对 MySQL 执行的增删改操作，实际上是先在 Buffer Pool 这里执行修改的。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/__puml/b28ce3e9f1e1ef5ec034267a540f9dc1.svg#lake_card_v2=eyJjb2RlIjoiQHN0YXJ0bWluZG1hcFxuKyBCdWZmZXIgUG9vbFxuQGVuZG1pbmRtYXAiLCJ0eXBlIjoicHVtbCIsIm1hcmdpbiI6dHJ1ZSwiaWQiOiJTRFM2MyIsInVybCI6Imh0dHBzOi8vY2RuLm5sYXJrLmNvbS95dXF1ZS9fX3B1bWwvYjI4Y2UzZTlmMWUxZWY1ZWMwMzQyNjdhNTQwZjlkYzEuc3ZnIiwiY2FyZCI6ImRpYWdyYW0ifQ==" alt="">查看 Buffer Pool 的默认配置参数。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; show global variables like 'innodb%_buffer%';</span><br><span class="line">+<span class="comment">-------------------------------------+----------------+</span></span><br><span class="line">| Variable_name                       | Value          |</span><br><span class="line">+<span class="comment">-------------------------------------+----------------+</span></span><br><span class="line">| innodb_buffer_pool_chunk_size       | 134217728      |</span><br><span class="line">| innodb_buffer_pool_dump_at_shutdown | ON             |</span><br><span class="line">| innodb_buffer_pool_dump_now         | OFF            |</span><br><span class="line">| innodb_buffer_pool_dump_pct         | 25             |</span><br><span class="line">| innodb_buffer_pool_filename         | ib_buffer_pool |</span><br><span class="line">| innodb_buffer_pool_in_core_file     | ON             |</span><br><span class="line">| innodb_buffer_pool_instances        | 1              |</span><br><span class="line">| innodb_buffer_pool_load_abort       | OFF            |</span><br><span class="line">| innodb_buffer_pool_load_at_startup  | ON             |</span><br><span class="line">| innodb_buffer_pool_load_now         | OFF            |</span><br><span class="line">| innodb_buffer_pool_size             | 134217728      |</span><br><span class="line">| innodb_change_buffer_max_size       | 25             |</span><br><span class="line">| innodb_change_buffering             | all            |</span><br><span class="line">| innodb_log_buffer_size              | 8388608        |</span><br><span class="line">| innodb_sort_buffer_size             | 1048576        |</span><br><span class="line">+<span class="comment">-------------------------------------+----------------+</span></span><br><span class="line">15 rows in <span class="keyword">set</span> (<span class="number">0.01</span> sec)</span><br></pre></td></tr></table></figure>
+<p>从上图可以看出，Buffer Pool 的大小是通过 <code>innodb_buffer_pool_size</code> 设置的，默认为 134217728 (128M)，一般来说，我们的 MySQL 机器的配置是 16 核 32G，Buffer Pool 128M 是偏小了，可以在 my.cnf 分配为 2G。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[server]</span><br><span class="line">innodb_buffer_pool_size=2147483649</span><br></pre></td></tr></table></figure>
+<h3 id="SQL-语句执行顺序">SQL 语句执行顺序</h3>
+<h3 id="SQL-索引优化指南">SQL 索引优化指南</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/__puml/7474a9acfcac88d8288e6e431d8eb2f7.svg#lake_card_v2=eyJjb2RlIjoiQHN0YXJ0bWluZG1hcFxuKyBNeVNRTCDntKLlvJVcbisrIOe0ouW8leexu-Wei1xuKysrIOS4u-mUrue0ouW8lSjogZrpm4bntKLlvJUpXG4rKysrIOm7mOiupOS9v-eUqCBQcmltYXJ5IEtleVxuKysrKyDlpoLmnpzmsqHmnInlrprkuYnkuLvplK7vvIzlsLHkvb_nlKjllK_kuIDntKLlvJXkvZzkuLrkuLvplK5cbisrKysg5aaC5p6c6L-e5ZSv5LiA57Si5byV5Lmf5rKh5pyJ77yM5bCx5L2_55So6ZqQ6JeP55qEIDYg5a2X6IqCIHJvd19pZCDkvZzkuLvplK5cbisrKyDkuoznuqfntKLlvJUo6Z2e6IGa6ZuG57Si5byVKVxuKysrKyDku47oioLngrnmib7liLDlr7nlupTnmoTkuLvplK4gSUTvvIzlho3liLDkuLvplK7ntKLlvJXmo4DntKJcbisrKysg5a-55LqO5Yy65YiG5bqm5q-U6L6D6auY55qE5a2X56ym77yM5Y-v5Lul5L2_55So5YmNIG4g5Liq5a2X56ym5L2c5Li65YmN57yA57Si5byVXG4rKysg6KaG55uW57Si5byVXG4rKysrIOWmguaenOS6jOe6p-e0ouW8leacrOi6q-WMheWQq-S6huaJgOacieafpeivoueahOWtl-aute-8jOWwseS4jeS8muWGjeS7juS4u-mUrue0ouW8leafpeaJvijlm57ooagpXG4rKysg57uE5ZCI57Si5byVXG4rKysrIOaMieWumuS5ieeahOWtl-autemhuuW6j-WMuemFjee0ouW8lSjmnIDlt6bliJfljLnphY3ljp_liJkpXG4rKysrIOeyvuehruWMuemFjeWPr-S7peWkmuS4qu-8jOS9huaYr-iMg-WbtOe0ouW8leWPquiDveS9v-eUqOS4gOS4quWtl-autVxuKysrIOWUr-S4gOe0ouW8lVxuKysrIOWFqOaWh-e0ouW8lVxuKysrIOewh-mbhue0ouW8lVxuKysrKyDntKLlvJXlkozmlbDmja7pg73lnKjlkIzkuIDku73mlofku7ZcbisrKysgSW5ub0RCIOeahOS4u-mUrue0ouW8leWSjOaVsOaNruihjOmDveWcqOWQjOS4gOajteagke-8jOiAjCBNeUlTQU0g5piv5YiG5byA55qEXG4rKyDntKLlvJXmlrnms5VcbisrKyBCVFJFRSjpu5jorqQpXG4rKysgSEFTSCjlk4jluIzoh6rpgILlupTntKLlvJUpXG4rKysrIOS9v-eUqOetieWAvOadoeS7tu-8jE15U1FMIOWPr-iDveS8muS8mOWMluS4uiBIQVNIIOe0ouW8lVxuKysg57Si5byV5Y6f5YiZXG4rKysg5Li76ZSu57Si5byV5oyJ6Ieq5aKe5oiW6ICF6YCS5aKe6aG65bqP5YaZ5YWl77yM6YG_5YWN6aG15YiG6KOCXG4rKysg5o6n5Yi257Si5byV55qE5Liq5pWw5ZyoIDMg5Liq5Lul5YaF77yM6YG_5YWN5b2x5ZON5o-S5YWl6YCf5bqmXG4rKysg5YeP5bCR57Si5byV55qE5Y2g55So77yM5L6L5aaC5oiq5Y-W6Lqr5Lu96K-B55qE5YmN57yA5L2c5Li657Si5byV5a2Y5YKoXG4rKysg57Si5byV5Y-q5piv5Li65LqG5b-r6YCf562b6YCJ5LiA5bCP6YOo5YiG5pWw5o2u77yM5LiN6IO955So5LqO5aSn6YeP5pWw5o2u55qE5qOA57SiXG4rKysgSk9JTiDmk43kvZzkvb_nlKjlsI_ooajpqbHliqjlpKfooahcbisrIOmBv-WFjee0ouW8leWkseaViFxuKysrIOafpeivoueahOaVsOaNrumHj-S4jeiDveWkquWkp--8jOWQpuWImeS8mOWMluWZqOaUvuW8g-e0ouW8leebtOaOpeWFqOihqOaJq-aPj1xuKysrIOS4jeiDveS9v-eUqOWHveaVsOWtl-auteaUvuWcqOW3puS-p-WMuemFjVxuKysrIExJS0Ug6K-t5Y-l5oyJ5bem5Yy56YWN5pON5L2cKOmBjeWOhuWPtuWtkOiKgueCueWPquiDveS7juW3puS-p-eahOWtl-espuW8gOWni-afpeaJvilcbisrKyBPUkRFUiBCWSDkvb_nlKjnu4TlkIjntKLlvJXlrZfmrrXmjInmnIDlt6bliJfljLnphY3vvIzlj6rog73lkIzml7YgQVNDL0RFU0NcbisrKyBHUk9VUCBCWSDkvb_nlKjnu4TlkIjntKLlvJXlrZfmrrXmjInmnIDlt6bliJfljLnphY0o6YO95piv5Yip55So57Si5byV5pyJ5bqP5oCnKVxuQGVuZG1pbmRtYXAiLCJ0eXBlIjoicHVtbCIsIm1hcmdpbiI6dHJ1ZSwiaWQiOiI3c0M1aCIsInVybCI6Imh0dHBzOi8vY2RuLm5sYXJrLmNvbS95dXF1ZS9fX3B1bWwvNzQ3NGE5YWNmY2FjODhkODI4OGU2ZTQzMWQ4ZWIyZjcuc3ZnIiwiY2FyZCI6ImRpYWdyYW0ifQ==" alt="">### SQL 执行计划剖析</p>
+<h2 id="生产案例">生产案例</h2>
+<h3 id="搭建-MySQL-集群">搭建 MySQL 集群</h3>
+<p>下面是腾讯云的 MySQL 主从复制问题，延迟超过 1800 秒（3 小时），对业务影响很大。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1611078257586-093d25ba-6a7c-4351-af46-4a02e903a6ca.png#align=left&amp;display=inline&amp;height=368&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=448&amp;originWidth=909&amp;size=28779&amp;status=done&amp;style=none&amp;width=746" alt="image.png"></p>
+<h3 id="规划-MySQL-机器配置">规划 MySQL 机器配置</h3>
+<table>
+<thead>
+<tr>
+<th><strong>部署</strong></th>
+<th><strong>配置</strong></th>
+<th><strong>抗并发（每秒请求数）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Java 应用</td>
+<td>4核8G</td>
+<td>200~800</td>
+</tr>
+<tr>
+<td>MySQL 数据库</td>
+<td>8核16G</td>
+<td>1500~2000</td>
+</tr>
+<tr>
+<td></td>
+<td>16核32G</td>
+<td>2500~4000</td>
+</tr>
+</tbody>
+</table>
+<p>上图是根据经验总结的配置清单，一般来说，Java 应用的机器配置要求并不高，我们编写的代码大多数会在内存操作中完成，像文件上传下载这种场景，使用的频率不高。通常说 Java 应用很慢，负载很高，很大原因是集中在 Java 依赖的数据库上。</p>
+<h3 id="MySQL-性能测试">MySQL 性能测试</h3>
+<p>sysbench 非常适合用于 MySQL 的性能测试，可以模拟几千个线程并发、各种各样的 SQL 语句或者事务提交来访问您的数据库，生成对应的测试报告。sysbench 的安装很简单，如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp</span><br><span class="line">curl -s https://packagecloud.io/install/repositories/akopytov/sysbench/script.rpm.sh | sudo sh</span><br><span class="line">sudo yum -y install sysbench</span><br><span class="line">sysbench --version</span><br></pre></td></tr></table></figure>
+<p>按着上面的步骤，安装就完成了。先了解下 sysbench 命令相关的参数。</p>
+<table>
+<thead>
+<tr>
+<th><strong>参数</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>–time=10</td>
+<td>连续访问 10 秒</td>
+</tr>
+<tr>
+<td>–threads=10</td>
+<td>模拟 10 个线程并发访问</td>
+</tr>
+<tr>
+<td>–report-interval=1</td>
+<td>每隔 1 秒输出压测的报告</td>
+</tr>
+<tr>
+<td>–tables=20</td>
+<td>模拟 20 张表</td>
+</tr>
+<tr>
+<td>–table_size=1000000</td>
+<td>模拟 100W 条数据到模拟表</td>
+</tr>
+<tr>
+<td>–db-ps-mode=disable</td>
+<td>禁止 PS 模式</td>
+</tr>
+<tr>
+<td>oltp_read_write/oltp_read_only/oltp_write_only/…</td>
+<td>oltp_read_write：测试读写 TPS</td>
+</tr>
+</tbody>
+</table>
+<p>oltp_read_only：测试只读性能<br>
+oltp_write_only：测试写入性能<br>
+oltp_insert：测试插入性能<br>
+oltp_delete：测试删除性能<br>
+oltp_update_index：测试更新索引字段的性能<br>
+oltp_update_non_index：测试更新非索引字段的性能 |<br>
+| prepare/run/cleanup | prepare：准备模拟数据<br>
+run：开始测试性能<br>
+cleanup：清理模拟数据 |</p>
+<p>假设我想模拟生成 10 张表，每张表 100W 条数据，对应的 sysbench 命令如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysbench --db-driver=mysql --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root --mysql-password=您的密码 --mysql-db=<span class="built_in">test</span> --db-ps-mode=<span class="built_in">disable</span> --tables=10 --table_size=1000000 oltp_read_write prepare</span><br></pre></td></tr></table></figure>
+<p>测试 4 核 8G 的 MySQL 在 <code>oltp_read_write</code> 模式下的读写 TPS 性能。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&gt; sysbench --db-driver=mysql --mysql-host=127.0.0.1 --mysql-port=3306 --mysql-user=root --mysql-password=您的密码 --mysql-db=<span class="built_in">test</span> --db-ps-mode=<span class="built_in">disable</span> --time=10 --threads=10 --report-interval=1 --tables=10 --table_size=1000000 oltp_read_write run</span><br><span class="line">sysbench 1.0.20 (using bundled LuaJIT 2.1.0-beta2)</span><br><span class="line"></span><br><span class="line">Running the <span class="built_in">test</span> with following options:</span><br><span class="line">Number of threads: 10</span><br><span class="line">Report intermediate results every 1 second(s)</span><br><span class="line">Initializing random number generator from current time</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Initializing worker threads...</span><br><span class="line"></span><br><span class="line">Threads started!</span><br><span class="line"></span><br><span class="line">  [ 1s ] thds: 10 tps: 530.15 qps: 10733.87 (r/w/o: 7524.99/2138.59/1070.29) lat (ms,95%): 34.33 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 2s ] thds: 10 tps: 441.04 qps: 8796.78 (r/w/o: 6156.54/1758.16/882.08) lat (ms,95%): 39.65 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 3s ] thds: 10 tps: 469.01 qps: 9396.28 (r/w/o: 6591.20/1867.06/938.03) lat (ms,95%): 33.12 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 4s ] thds: 10 tps: 499.87 qps: 10004.39 (r/w/o: 6998.17/2006.48/999.74) lat (ms,95%): 33.72 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 5s ] thds: 10 tps: 528.80 qps: 10571.06 (r/w/o: 7398.24/2115.21/1057.61) lat (ms,95%): 31.94 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 6s ] thds: 10 tps: 497.18 qps: 9968.61 (r/w/o: 6974.52/1999.72/994.36) lat (ms,95%): 32.53 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 7s ] thds: 10 tps: 509.96 qps: 10182.22 (r/w/o: 7138.46/2023.85/1019.92) lat (ms,95%): 33.72 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 8s ] thds: 10 tps: 496.45 qps: 9907.95 (r/w/o: 6923.28/1991.78/992.89) lat (ms,95%): 35.59 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 9s ] thds: 10 tps: 522.74 qps: 10475.83 (r/w/o: 7337.38/2092.96/1045.48) lat (ms,95%): 31.94 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">[ 10s ] thds: 10 tps: 562.99 qps: 11234.72 (r/w/o: 7860.81/2248.94/1124.97) lat (ms,95%): 31.37 err/s: 0.00 reconn/s: 0.00</span><br><span class="line">SQL statistics:</span><br><span class="line">    queries performed:</span><br><span class="line">        <span class="built_in">read</span>:                            70952</span><br><span class="line">        write:                           20272</span><br><span class="line">        other:                           10136</span><br><span class="line">        total:                           101360</span><br><span class="line">    transactions:                        5068   (506.24 per sec.)</span><br><span class="line">    queries:                             101360 (10124.90 per sec.)</span><br><span class="line">    ignored errors:                      0      (0.00 per sec.)</span><br><span class="line">    reconnects:                          0      (0.00 per sec.)</span><br><span class="line"></span><br><span class="line">General statistics:</span><br><span class="line">    total time:                          10.0098s</span><br><span class="line">    total number of events:              5068</span><br><span class="line"></span><br><span class="line">Latency (ms):</span><br><span class="line">         min:                                    4.04</span><br><span class="line">         avg:                                   19.74</span><br><span class="line">         max:                                   69.90</span><br><span class="line">         95th percentile:                       33.72</span><br><span class="line">         sum:                               100024.52</span><br><span class="line"></span><br><span class="line">Threads fairness:</span><br><span class="line">    events (avg/stddev):           506.8000/6.82</span><br><span class="line">    execution time (avg/stddev):   10.0025/0.00</span><br></pre></td></tr></table></figure>
+<p>上述报告中，<code>transactions: 5068 (506.24 per sec.)</code> 表示 TPS 平均为 506，<code>queries: 101360 (10124.90 per sec.)</code> 表示 QPS 平均为 10124。</p>
+<table>
+<thead>
+<tr>
+<th><strong>报告项</strong></th>
+<th><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>thds: 10</td>
+<td>并发 10 个线程压测</td>
+</tr>
+<tr>
+<td>tps: 530.15</td>
+<td>每秒执行了 530 个事务</td>
+</tr>
+<tr>
+<td>qps: 10733.87</td>
+<td>每秒可以执行 10733 个请求</td>
+</tr>
+<tr>
+<td>r/w/o: 7524.99/2138.59/1070.29</td>
+<td>在 QPS 为 10733 个请求中，有 7524 个是读请求，2138 个是写请求，1070 个是其他请求。</td>
+</tr>
+<tr>
+<td>lat (ms,95%): 34.33</td>
+<td>有 95% 的请求的延迟在 34 毫秒以下</td>
+</tr>
+<tr>
+<td>err/s: 0.00</td>
+<td>每秒有 0 个请求是失败的</td>
+</tr>
+<tr>
+<td>reconn/s: 0.00</td>
+<td>每秒发生了 0 次网络重连</td>
+</tr>
+</tbody>
+</table>
+<h3 id="MySQL-监控部署">MySQL 监控部署</h3>
+<p>下载 Prometheus 数据采集系统。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /tmp/</span><br><span class="line">wget http://cactifans.hi-www.com/prometheus/prometheus-2.14.0.linux-amd64.tar.gz</span><br><span class="line">tar -zvxf prometheus-2.14.0.linux-amd64.tar.gz -C /usr/<span class="built_in">local</span>/app/prometheus/</span><br><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/app/prometheus/prometheus-2.14.0.linux-amd64/</span><br></pre></td></tr></table></figure>
+<p>添加 MySQL 主机监控组件并启动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget http://cactifans.hi-www.com/prometheus/node_exporter-0.18.0.linux-amd64.tar.gz</span><br><span class="line">tar -zvxf node_exporter-0.18.0.linux-amd64.tar.gz -C /usr/<span class="built_in">local</span>/app/prometheus/</span><br><span class="line">nohup ./node_exporter &amp;</span><br></pre></td></tr></table></figure>
+<p>访问 <a href="http://127.0.0.1:9100" target="_blank" rel="noopener">http://127.0.0.1:9100</a>，出现以下页面表示启动成功。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610293318434-bdf3abbb-e0b0-4a49-9d91-af8b03f4fa08.png#align=left&amp;display=inline&amp;height=145&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=186&amp;originWidth=464&amp;size=6654&amp;status=done&amp;style=none&amp;width=362" alt="image.png"><br>
+添加 MySQL 数据库监控组件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/prometheus/mysqld_exporter/releases/download/v0.10.0/mysqld_exporter-0.10.0.linux-amd64.tar.gz</span><br><span class="line">tar -zvxf mysqld_exporter-0.10.0.linux-amd64.tar.gz -C /usr/<span class="built_in">local</span>/app/prometheus/</span><br></pre></td></tr></table></figure>
+<p>在 <code>mysqld_exporter</code> 组件的根目录新建 .my.cnf 文件，设置连接 MySQL 的用户名和密码，如下。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[client]</span><br><span class="line">user=root</span><br><span class="line">password=您的密码</span><br></pre></td></tr></table></figure>
+<p>启动 MySQL 数据库监控组件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./mysqld_exporter --config.my-cnf=.my.cnf &amp;</span><br></pre></td></tr></table></figure>
+<p>访问 <a href="http://127.0.0.1:9104" target="_blank" rel="noopener">http://127.0.0.1:9104</a>，出现以下页面表示启动成功。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610293252724-15c332aa-0fea-411d-ae9e-de3f0363eb1d.png#align=left&amp;display=inline&amp;height=117&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=153&amp;originWidth=478&amp;size=8067&amp;status=done&amp;style=none&amp;width=366" alt="image.png"><br>
+修改 prometheus.yml，集成 node 和 mysql 组件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">scrape_configs:</span><br><span class="line">  - job_name: <span class="string">'prometheus'</span></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: [<span class="string">'localhost:9090'</span>]</span><br><span class="line">    </span><br><span class="line">  - job_name: <span class="string">'node'</span></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: [<span class="string">'localhost:9100'</span>]</span><br><span class="line"></span><br><span class="line">  - job_name: <span class="string">'mysql'</span></span><br><span class="line">    static_configs:</span><br><span class="line">    - targets: [<span class="string">'localhost:9104'</span>]</span><br></pre></td></tr></table></figure>
+<p>启动 Prometheus，设置保留数据 30 天。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup ./prometheus --storage.tsdb.retention=30d &amp;</span><br></pre></td></tr></table></figure>
+<p>访问 9090 端口，例如 <a href="http://127.0.0.1:9090" target="_blank" rel="noopener">http://127.0.0.1:9090</a><br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610268169010-ea1fe60d-f528-4c88-a309-345cb7704ec1.png#align=left&amp;display=inline&amp;height=377&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=590&amp;originWidth=1168&amp;size=36305&amp;status=done&amp;style=none&amp;width=746" alt="image.png"><br>
+接着，下载 Grafana。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://s3-us-west-2.amazonaws.com/grafana-releases/release/grafana-4.6.3.linux-x64.tar.gz</span><br><span class="line">tar -zvxf grafana-4.6.3.linux-x64.tar.gz -C /usr/<span class="built_in">local</span>/app/grafana/</span><br></pre></td></tr></table></figure>
+<p>启动 Grafana，访问 3000 端口，例如 <a href="http://127.0.0.1:3000" target="_blank" rel="noopener">http://127.0.0.1:3000</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/bin/</span><br><span class="line">nohup ./grafana-server &amp;</span><br></pre></td></tr></table></figure>
+<p>添加数据源，选择 Type 为 Prometheus，连接我们启动好的 Prometheus 服务。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610284047531-4354eabd-9e9d-45f4-8651-a84c89ed068a.png#align=left&amp;display=inline&amp;height=396&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=571&amp;originWidth=1075&amp;size=95597&amp;status=done&amp;style=none&amp;width=746" alt="image.png"><br>
+为了更好的展示 Grafana，我们再下载一些 Grafana 的仪表盘组件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://github.com/percona/grafana-dashboards/archive/v1.6.1.tar.gz</span><br><span class="line">tar -zvxf v1.6.1.tar.gz -C /usr/<span class="built_in">local</span>/app/grafana/</span><br></pre></td></tr></table></figure>
+<p>进入仪表盘目录，生成一些 JSON 文件。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">&gt; <span class="built_in">cd</span> /usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/</span><br><span class="line">&gt; updatedb</span><br><span class="line">&gt; locate json | grep dashboards/</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/app/plugins/app/testdata/dashboards/alerts.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/app/plugins/app/testdata/dashboards/graph_last_1h.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/app/plugins/datasource/graphite/dashboards/carbon_metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/app/plugins/datasource/prometheus/dashboards/grafana_stats.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/app/plugins/datasource/prometheus/dashboards/prometheus_stats.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/dashboards/default.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/dashboards/home.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-4.6.3/public/dashboards/template_vars.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Advanced_Data_Exploration.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Amazon_RDS___Aurora_MySQL__Metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/CPU_Utilization_Details_Cores.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Cross_Server_Graphs.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Disk_Performance.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Disk_Space.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_Cluster_Summary.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_InMemory.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_MMAPv1.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_ReplSet.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_RocksDB.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MongoDB_WiredTiger.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_InnoDB_Metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_InnoDB_Metrics_Advanced.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_MyISAM_Aria_Metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_MyRocks_Metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_Performance_Schema.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_Query_Response_Time.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_Replication.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_Table_Statistics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_TokuDB_Metrics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/MySQL_User_Statistics.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/PXC_Galera_Cluster_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/PXC_Galera_Graphs.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Prometheus.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Prometheus_Exporter_Status.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Prometheus_Exporters_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/ProxySQL_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Summary_Dashboard.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/System_Overview.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/dashboards/Trends_Dashboard.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/dist/dashboards/pmm-add-instance.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/dist/dashboards/pmm-qan.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/dist/dashboards/pmm-summary.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/src/dashboards/pmm-add-instance.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/src/dashboards/pmm-qan.json</span><br><span class="line">/usr/<span class="built_in">local</span>/app/grafana/grafana-dashboards-1.6.1/pmm-app/src/dashboards/pmm-summary.json</span><br></pre></td></tr></table></figure>
+<p>建议将这些 JSON 文件拷贝到您的 Windows 机器上，访问 Grafana 页面，通过 Import DashBoard 按钮上传。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610284503246-bf573491-f86a-4b7e-8fcb-e322e3ec5c0a.png#align=left&amp;display=inline&amp;height=463&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=682&amp;originWidth=1099&amp;size=77048&amp;status=done&amp;style=none&amp;width=746" alt="image.png"><br>
+在这里，我导入了 <code>MySQL Overview</code> 的 JSON 文件，然后通过 sysbench 进行压测，观察 Grafana 的监控数据。<br>
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/0/2021/png/2821246/1610294255916-06ff10d2-d5f8-4cbe-badc-b5813fc2bfce.png#align=left&amp;display=inline&amp;height=475&amp;margin=%5Bobject%20Object%5D&amp;name=image.png&amp;originHeight=950&amp;originWidth=1910&amp;size=170175&amp;status=done&amp;style=none&amp;width=955" alt="image.png"></p>
+<h3 id="MySQL-分库分表设计">MySQL 分库分表设计</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/loading.gif" class="lazyload" data-src="/img/loading.gif"  data-original="https://cdn.nlark.com/yuque/__puml/e152dbe390bfd8db062631becf5f0bbf.svg#lake_card_v2=eyJjb2RlIjoiQHN0YXJ0bWluZG1hcFxuKyDliIblupPliIbooahcbisrIOS7gOS5iOaDheWGtemcgOimgeWIhuW6k-WIhuihqO-8n1xuKysrIOWNleihqOi2hei_h-eZvuS4h-e6p-aVsOaNrumHj-aXtu-8jEIrIOagkeeahOmrmOW6puWPr-iDveWinuWKoOWIsCA077yMSS9PIOaAp-iDveaApeWJp-S4i-mZjVxuKysrIOaVsOaNruW6k-iHqui6q-eahCBDUFUg6LSf6L296L-H6auY77yM6ZyA6KaB6YCa6L-H5YiG5bqT5LuO54mp55CG5LiK6ZqU56a76LWE5rqQ55qE5Y2g55SoXG4rKyDliIblupPliIbooajmraXpqqRcbisrKyDikaAg5Z6C55u05YiG6KGo77yI6YG_5YWN5Y2V6KGo5aSq5aSn77yJXG4rKysrIOaMieiuv-mXrumikeeOh-WIhuihqO-8jOWwhiBpdGVtIOihqOaLhuWIhuS4uiBpdGVtIOS_oeaBr-ihqO-8iOeDre-8ieWSjCBpdGVtIOivpuaDheihqO-8iOWGt--8iVxuKysrKyDmjInkuJrliqHnsbvlnovliIbooajvvIzlsIYgaXRlbSDooajmjInnq5nngrnliIbkuLogaXRlbV9zMSwgaXRlbV9zMiwgaXRlbV9zMy4uLlxuKysrIOKRoSDlnoLnm7TliIblupPvvIjpgb_lhY3ljZXmnLrotJ_ovb3ov4fpq5jvvIlcbisrKysg5oyJ6K6_6Zeu5Y6L5Yqb5YiG5bqT77yMaXRlbSDkv6Hmga_ooajmlL7lnKjpq5jphY3nva7mlbDmja7lupPvvIxpdGVtIOivpuaDheihqOS9jumFjemDqOe9slxuKysrKyDmjInno4Hnm5jnqbrpl7TliIblupNcbisrKyDikaMg5rC05bmz5YiG5bqT77yI5Y2V5py65a2Y5YKo56m66Ze05LiN5aSf77yJXG4rKysrIOWPluaooeWIhuW6k--8jOS_neivgeavj-S4quaVsOaNruW6k-WunuS-i-eahOaVsOaNrumHj-Wdh-ihoVxuKysrIOKRoiDmsLTlubPliIbooajvvIjov5vkuIDmraXop6PlhrPljZXooajov4flpKfvvIlcbisrKysg5oyJ5pe26Ze06IyD5Zu05YiG6KGo77yM5Zyo5Y6f5p2l55qE5Y2V5byg5aSn6KGo5qC55o2u5Yib5bu65pel5pyf5oyJ5pelL-aMieaciC_mjInlubTmi4bliIblpJrlvKDlsI_ooahcbisrIOWmguS9leWKqOaAgeaJqeWuueWIhuW6k-WIhuihqO-8n1xuKysg5Y2V6KGo5aaC5L2V6L-B56e75Yiw5YiG5bqT5YiG6KGo77yfXG4rKysg4pyWIOWPkeWHuue7tOaKpOWFrOWRiu-8jOmVv-aXtumXtOWBnOacuu-8jOeoi-W6j-Wkmue6v-eoi-S7juWNleihqOWvvOaVsOaNruWIsOWIhuW6k-WIhuihqFxuKysrIOKclCDmlbDmja7lj4zlhpnvvIzlhpnljZXooajlkIzml7blhpnliLDkuK3pl7Tku7blkIzmraXmlrDliIblupPvvIznqIvluo_moLnmja7mnIDlkI7kv67mlLnml7bpl7TlrZfmrrXooaXlhajljoblj7LmlbDmja7vvIzlubbmo4Dmn6XmlrDogIHmlbDmja7kuIDoh7TmgKdcbkBlbmRtaW5kbWFwIiwidHlwZSI6InB1bWwiLCJtYXJnaW4iOnRydWUsImlkIjoid3lvTWsiLCJ1cmwiOiJodHRwczovL2Nkbi5ubGFyay5jb20veXVxdWUvX19wdW1sL2UxNTJkYmUzOTBiZmQ4ZGIwNjI2MzFiZWNmNWYwYmJmLnN2ZyIsImNhcmQiOiJkaWFncmFtIn0=" alt=""></p>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">梦想歌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://mengxiangge.work/2021/02/01/mysql/">https://mengxiangge.work/2021/02/01/mysql/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache 2.0 License</a> 许可协议。转载请注明来自 <a href="https://mengxiangge.work" target="_blank">eden*</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/MySQL/">MySQL</a></div><div class="post_share"><div class="social-share" data-image="/img/cover/kafka.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><div class="post-reward"><a class="reward-button button--primary button--animated"> <i class="fa fa-qrcode"></i> 打赏<div class="reward-main"><ul class="reward-all"><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/wechat.jpg" alt="微信"/><div class="post-qr-code__desc">微信</div></li><li class="reward-item"><img class="lazyload post-qr-code__img" src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/alipay.jpg" alt="支付宝"/><div class="post-qr-code__desc">支付宝</div></li></ul></div></a></div><nav class="pagination_post" id="pagination"><div class="prev-post pull_left"><a href="/2021/02/01/redis/"><img class="prev_cover lazyload" data-src="/img/loading.gif" data-original="/img/cover/redis.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Redis 笔记</div></div></a></div><div class="next-post pull_right"><a href="/2020/01/01/java/"><img class="next_cover lazyload" data-src="/img/loading.gif" data-original="/img/cover/java.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Java 笔记</div></div></a></div></nav><hr><div id="post-comment"><div class="comment_headling"><i class="fa fa-comments fa-fw" aria-hidden="true"></i><span> 评论</span></div><div class="vcomment" id="vcomment"></div><script src="https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js"></script><script>var GUEST_INFO = ['nick','mail','link'];
+var guest_info = 'nick,mail,link'.split(',').filter(function(item){
+  return GUEST_INFO.indexOf(item) > -1
+});
+guest_info = guest_info.length == 0 ? GUEST_INFO :guest_info;
+
+window.valine = new Valine({
+  el:'#vcomment',
+  notify: false,
+  verify: false,
+  appId: 'No5IUuwSsJoXQAnYuiAFzjA6-gzGzoHsz',
+  appKey: 'MLOGUsEzab2begcVcrvjPO4N',
+  placeholder: '留下您的足迹吧。',
+  avatar: 'monsterid',
+  meta: guest_info,
+  pageSize: '10',
+  lang: 'zh-CN',
+  recordIP: false,
+  serverURLs: ''
+});</script></div></article></main><footer id="footer" style="background-image: url(/img/cover/mysql.png)" data-type="photo"><div id="footer-wrap"><div class="copyright">&copy;2018 - 2021 By 梦想歌</div><div class="footer_custom_text">还要用那些剩下的时间去做些什么？——我想要在这颗星球上再走一遍。</div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><i class="fa fa-book" id="readmode" title="阅读模式"></i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><a class="translate_chn_to_cht" id="translateLink" href="javascript:translatePage();" title="简繁转换" target="_self">繁</a><i class="darkmode fa fa-moon-o" id="darkmode" title="夜间模式"></i></div><div id="rightside-config-show"><div id="rightside_config" title="设置"><i class="fa fa-cog" aria-hidden="true"></i></div><a id="to_comment" href="#post-comment" title="直达评论"><i class="scroll_to_comment fa fa-comments">  </i></a><i class="fa fa-list-ul close" id="mobile-toc-button" title="目录" aria-hidden="true"></i><i class="fa fa-arrow-up" id="go-up" title="回到顶部" aria-hidden="true"></i></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+    processEscapes: true,
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+  },
+  CommonHTML: {
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "HTML-CSS": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  },
+  "SVG": { 
+    linebreaks: { automatic: true, width: "90% container" }
+  }
+});
+</script><script type="text/x-mathjax-config">MathJax.Hub.Queue(function() {
+  var all = MathJax.Hub.getAllJax(), i;
+  for (i=0; i < all.length; i += 1) {
+    all[i].SourceElement().parentNode.className += ' has-jax';
+  }
+});
+</script><script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script src="https://cdn.jsdelivr.net/npm/instant.page@latest/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lazysizes@latest/lazysizes.min.js" async=""></script><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"debug":false,"model":{"jsonPath":"./live2d/pio/assets/pio.model.json"},"display":{"position":"left","width":150,"height":300},"mobile":{"show":false},"log":false});</script><script>!function(e){var c=Array.prototype.slice.call(document.querySelectorAll("img[data-original]"));function i(){for(var r=0;r<c.length;r++)t=c[r],0<=(n=t.getBoundingClientRect()).bottom&&0<=n.left&&n.top<=(e.innerHeight||document.documentElement.clientHeight)&&function(){var t,n,e,i,o=c[r];t=o,n=function(){c=c.filter(function(t){return o!==t})},e=new Image,i=t.getAttribute("data-original"),e.onload=function(){t.src=i,n&&n()},e.src=i}();var t,n}i(),e.addEventListener("scroll",function(){var t,n;t=i,n=e,clearTimeout(t.tId),t.tId=setTimeout(function(){t.call(n)},500)})}(this);</script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script></body></html>
