@@ -1,0 +1,257 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="dark"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>阿里巴巴 COLA 应用架构实践 | 梦想歌の网络日志</title><meta name="author" content="梦想歌"><meta name="copyright" content="梦想歌"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#0d0d0d"><meta name="description" content="本项目使用 COLA 架构构建，COLA 架构是一个整洁的，面向对象的，分层的，可扩展的应用架构，可以帮助降低复杂应用场景的系统熵值，提升系统开发和运维效率。不管是传统的分层架构、六边形架构、还是洋葱架构，都提倡以业务为核心，解耦外部依赖，分离业务复杂度和技术复杂度等，COLA 架构在此基础上融合了 CQRS、DDD、SOLID 等设计思想，形成一套可落地的应用架构。您可以访问 GitHub 查阅">
+<meta property="og:type" content="article">
+<meta property="og:title" content="阿里巴巴 COLA 应用架构实践">
+<meta property="og:url" content="https://mengxiangge.netlify.app/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%20COLA%20%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="梦想歌の网络日志">
+<meta property="og:description" content="本项目使用 COLA 架构构建，COLA 架构是一个整洁的，面向对象的，分层的，可扩展的应用架构，可以帮助降低复杂应用场景的系统熵值，提升系统开发和运维效率。不管是传统的分层架构、六边形架构、还是洋葱架构，都提倡以业务为核心，解耦外部依赖，分离业务复杂度和技术复杂度等，COLA 架构在此基础上融合了 CQRS、DDD、SOLID 等设计思想，形成一套可落地的应用架构。您可以访问 GitHub 查阅">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png">
+<meta property="article:published_time" content="2022-01-01T01:05:43.000Z">
+<meta property="article:modified_time" content="2023-09-23T15:19:37.232Z">
+<meta property="article:author" content="梦想歌">
+<meta property="article:tag" content="阿里巴巴">
+<meta property="article:tag" content="最佳实践">
+<meta property="article:tag" content="应用架构">
+<meta property="article:tag" content="COLA">
+<meta property="article:tag" content="DDD">
+<meta property="article:tag" content="CQRS">
+<meta property="article:tag" content="SOLID">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/favicon.ico"><link rel="canonical" href="https://mengxiangge.netlify.app/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%20COLA%20%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 梦想歌","link":"链接: ","source":"来源: 梦想歌の网络日志","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '阿里巴巴 COLA 应用架构实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-09-23 23:19:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/avatar.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heartbeat"></i><span> 简历</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png')"><nav id="nav"><span id="blog-info"><a href="/" title="梦想歌の网络日志"><span class="site-name">梦想歌の网络日志</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fa fa-heartbeat"></i><span> 简历</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 链接</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">阿里巴巴 COLA 应用架构实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-01-01T01:05:43.000Z" title="发表于 2022-01-01 09:05:43">2022-01-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-09-23T15:19:37.232Z" title="更新于 2023-09-23 23:19:37">2023-09-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%BC%80%E5%8F%91%E6%A1%86%E6%9E%B6/">开发框架</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>5分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="阿里巴巴 COLA 应用架构实践"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>本项目使用 COLA 架构构建，COLA 架构是一个整洁的，面向对象的，分层的，可扩展的应用架构，可以帮助降低复杂应用场景的系统熵值，提升系统开发和运维效率。不管是传统的分层架构、六边形架构、还是洋葱架构，都提倡以业务为核心，解耦外部依赖，分离业务复杂度和技术复杂度等，COLA 架构在此基础上融合了 CQRS、DDD、SOLID 等设计思想，形成一套可落地的应用架构。您可以访问 <a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/eden-demo-cola">GitHub</a> 查阅源码。</p>
+<h2 id="组件构成"><a href="#组件构成" class="headerlink" title="组件构成"></a>组件构成</h2><p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png"></p>
+<ul>
+<li><strong>eden-demo-cola-adapter</strong>：适配层，<strong>六边形架构</strong>中的入站适配器。</li>
+<li><strong>eden-demo-cola-app</strong>：应用层，负责 <strong>CQRS</strong> 的指令处理工作，更新指令，调用领域层，查询视图操作，直接绕过领域层调用基础设施层。</li>
+<li><strong>eden-demo-cola-client</strong>：API层，对外以 jar 包的形式提供接口。</li>
+<li><strong>eden-demo-cola-domain</strong>：领域层，业务核心实现，不同于传统的分层架构，提供防腐层接口，不依赖基础设施层的技术实现。</li>
+<li><strong>eden-demo-cola-infrastructure</strong>：基础设施层，<strong>六边形架构</strong>中的出站适配器，封装技术细节，使用<strong>依赖倒置</strong>实现 Domain 暴露的防腐层接口。</li>
+<li><strong>eden-demo-cola-start</strong>：程序启动入口，统一管理应用的配置和交付。</li>
+</ul>
+<h2 id="运行流程"><a href="#运行流程" class="headerlink" title="运行流程"></a>运行流程</h2><p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/sequence.png"></p>
+<h2 id="如何构建"><a href="#如何构建" class="headerlink" title="如何构建"></a>如何构建</h2><p>由于 <code>Spring Boot 2.4.x</code> 和 <code>Spring Boot 3.0.x</code> 在架构层面有很大的变更，因此笔者采取跟 Spring Boot 版本号一致的分支:</p>
+<ul>
+<li>2.4.x 分支适用于 <code>Spring Boot 2.4.x</code>，最低支持 JDK 1.8。</li>
+<li>2.7.x 分支适用于 <code>Spring Boot 2.7.x</code>，最低支持 JDK 11。</li>
+<li>3.0.x 分支适用于 <code>Spring Boot 3.0.x</code>，最低支持 JDK 17。</li>
+</ul>
+<p>本项目默认使用 Maven 来构建，最快的使用方式是 <code>git clone</code> 到本地。为了简化不必要的技术细节，本项目依赖 <a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/eden-architect">eden-architect</a>，在项目的根目录执行 <code>mvn install -T 4C</code> 完成本项目的构建。</p>
+<h2 id="如何启动"><a href="#如何启动" class="headerlink" title="如何启动"></a>如何启动</h2><h3 id="快速体验"><a href="#快速体验" class="headerlink" title="快速体验"></a>快速体验</h3><p>本项目默认设置了 dev 运行环境，为了方便您直接启动项目，所有外部的组件依赖均为关闭状态。</p>
+<ol>
+<li>在项目目录下运行 <code>mvn install</code>（如果不想运行测试，可以加上 <code>-DskipTests</code> 参数）。</li>
+<li>进入 <code>eden-demo-cola-start</code> 目录，执行 <code>mvn spring-boot:run</code> 或者启动 <code>ColaApplication</code> 类。运行成功的话，可以看到 <code>Spring Boot</code> 启动成功的界面。</li>
+<li>本应用中已经实现了一个简单的 <code>RestController</code> 接口，可以点击 <a target="_blank" rel="noopener" href="http://localhost:8081/api/users/1">演示接口</a> 进行调试。</li>
+<li>由于目前的主流是前后端分离开发，请按需实现页面。访问 <a target="_blank" rel="noopener" href="http://localhost:8081/">http://localhost:8081</a> 将跳转到 404 页面。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/common/404.png"></p>
+<h3 id="微调配置"><a href="#微调配置" class="headerlink" title="微调配置"></a>微调配置</h3><p><strong>开启注册中心和配置管理</strong>：推荐使用 <code>Nacos</code> 组件，您可以查阅 <a target="_blank" rel="noopener" href="https://nacos.io/zh-cn/docs/quick-start.html">Nacos Quick Start</a> 快速搭建，请根据您的 Nacos 地址修改配置文件：<a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/eden-demo-cola/blob/main/eden-demo-cola-start/src/main/resources/config/bootstrap-dev.yml">bootstrap-dev.yml</a>，调整以下内容：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">nacos:</span></span><br><span class="line">      <span class="attr">discovery:</span> <span class="comment"># 注册中心</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment"># 默认关闭，请按需开启</span></span><br><span class="line">      <span class="attr">config:</span> <span class="comment"># 配置中心</span></span><br><span class="line">        <span class="attr">enabled:</span> <span class="literal">true</span> <span class="comment"># 默认关闭，请按需开启</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>修改默认的数据源</strong>：本项目默认使用 <code>H2</code> 内存数据库启动，基于 <code>Liquibase</code> 在项目启动时自动初始化 SQL 脚本。如果您使用的是外部的 MySQL 数据库，可以从此处调整下数据库的连接信息：<a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/eden-demo-cola/blob/main/eden-demo-cola-start/src/main/resources/config/application-local.yml">application-local.yml</a>，请删除任何与 <code>H2</code> 有关的配置。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line"><span class="comment">#  h2: # 内存数据库</span></span><br><span class="line"><span class="comment">#    console:</span></span><br><span class="line"><span class="comment">#      enabled: true # 线上环境请勿设置</span></span><br><span class="line"><span class="comment">#      path: /h2-console</span></span><br><span class="line"><span class="comment">#      settings:</span></span><br><span class="line"><span class="comment">#        trace: false</span></span><br><span class="line"><span class="comment">#        web-allow-others: false</span></span><br><span class="line">  <span class="attr">datasource:</span> <span class="comment"># 数据源管理</span></span><br><span class="line">    <span class="attr">username:</span> </span><br><span class="line">    <span class="attr">password:</span> </span><br><span class="line">    <span class="attr">url:</span> <span class="string">jdbc:mysql://host:port/schema?rewriteBatchedStatements=true&amp;useSSL=false&amp;useOldAliasMetadataBehavior=true&amp;useUnicode=true&amp;serverTimezone=GMT%2B8</span></span><br><span class="line">    <span class="attr">driver-class-name:</span> <span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
+
+<p>此外，本项目还罗列了 <code>Redis</code> 缓存、<code>RocketMQ</code> 消息队列、<code>ShardingSphere</code> 分库分表等常用组件的使用方案，默认通过 <code>xxx.enabled</code> 关闭自动配置。您可以根据实际情况开启配置，直接完成组件的集成。</p>
+<h2 id="如何部署"><a href="#如何部署" class="headerlink" title="如何部署"></a>如何部署</h2><h3 id="JAR-程序部署"><a href="#JAR-程序部署" class="headerlink" title="JAR 程序部署"></a>JAR 程序部署</h3><p>在项目根目录执行以下命令，生成 JAR 可执行程序。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn -T 4C -U package</span><br><span class="line">mvn -T 4C deploy <span class="comment"># 可选项，发布依赖到私服</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="Jib-镜像部署"><a href="#Jib-镜像部署" class="headerlink" title="Jib 镜像部署"></a>Jib 镜像部署</h3><p>Google Jib 插件允许您在没有安装 Docker 下完成镜像的构建。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mvn -T 4C -U package</span><br><span class="line">mvn -pl eden-demo-cola-start jib:build -Djib.disableUpdateChecks=<span class="literal">true</span> -DskipTests</span><br></pre></td></tr></table></figure>
+
+<h3 id="Docker-容器部署"><a href="#Docker-容器部署" class="headerlink" title="Docker 容器部署"></a>Docker 容器部署</h3><p>本项目使用了 Spring Boot 的镜像分层特性优化了镜像的构建效率，请确保正确安装了 Docker 工具，然后执行以下命令。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -f docker/Dockerfile -t eden-demo-cola:&#123;tag&#125; .</span><br></pre></td></tr></table></figure>
+
+<h3 id="Helm-打包部署"><a href="#Helm-打包部署" class="headerlink" title="Helm 打包部署"></a>Helm 打包部署</h3><p>以应用为中心，建议使用 Helm 统一管理所需部署的 K8s 资源描述文件，请参考以下命令完成应用的安装和卸载。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">helm install eden-demo-cola ./helm <span class="comment"># 部署资源</span></span><br><span class="line">helm uninstall eden-demo-cola <span class="comment"># 卸载资源</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="版本规范"><a href="#版本规范" class="headerlink" title="版本规范"></a>版本规范</h2><p>项目的版本号格式为 <code>x.y.z</code> 的形式，其中 x 的数值类型为数字，从 0 开始取值，且不限于 0~9 这个范围。项目处于孵化器阶段时，第一位版本号固定使用 0，即版本号为 <code>0.x.x</code> 的格式。</p>
+<ul>
+<li>孵化版本：0.0.1-SNAPSHOT</li>
+<li>开发版本：1.0.0-SNAPSHOT</li>
+<li>发布版本：1.0.0</li>
+</ul>
+<p>版本迭代规则：</p>
+<ul>
+<li>1.0.0 &lt;&gt; 1.0.1：兼容</li>
+<li>1.0.0 &lt;&gt; 1.1.0：基本兼容</li>
+<li>1.0.0 &lt;&gt; 2.0.0：不兼容</li>
+</ul>
+<h2 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h2><blockquote>
+<p>CI&#x2F;CD 工具选型：Jenkins、Zadig、Codeup、CODING</p>
+</blockquote>
+<h3 id="CODING-持续交付"><a href="#CODING-持续交付" class="headerlink" title="CODING 持续交付"></a>CODING 持续交付</h3><p>下图演示基于 CODING 实现持续构建、持续部署的效果。<a target="_blank" rel="noopener" href="https://www.yuque.com/mengxiangge/action/coding">传送门</a></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/common/coding-cicd.png"></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/common/coding-test-report.png"></p>
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="DDD-领域驱动设计"><a href="#DDD-领域驱动设计" class="headerlink" title="DDD 领域驱动设计"></a>DDD 领域驱动设计</h3><blockquote>
+<p>TODO, Coming soon</p>
+</blockquote>
+<h3 id="Git-多人协作分支管理"><a href="#Git-多人协作分支管理" class="headerlink" title="Git 多人协作分支管理"></a>Git 多人协作分支管理</h3><p>在敏捷开发盛行的时代，<code>GitFlow</code> 显得力不从心，笔者为团队制定了一套简单易用的流程。<a target="_blank" rel="noopener" href="https://www.processon.com/view/63d5d1fc56e18032d4a00998">传送门</a></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/processon/git-action.png"></p>
+<h3 id="CAT-可观测性方案"><a href="#CAT-可观测性方案" class="headerlink" title="CAT 可观测性方案"></a>CAT 可观测性方案</h3><p>通过 <code>TraceId</code> 分析整个链路的 <code>HTTP</code> 请求耗时、<code>RPC</code> 调用情况、<code>Log</code> 业务日志、<code>SQL</code> 和 <code>Cache</code> 执行耗时。<a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/cat">传送门</a></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cat/tracing.png"></p>
+<h3 id="Sentinel-流量治理方案"><a href="#Sentinel-流量治理方案" class="headerlink" title="Sentinel 流量治理方案"></a>Sentinel 流量治理方案</h3><p>根据业务负载配置您的流控规则，并允许在任意时刻查看接口的 QPS 和限流情况。<a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/Sentinel">传送门</a></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/sentinel/sentinel-dashboard-overview-custom.png"></p>
+<h3 id="Arthas-在线诊断工具"><a href="#Arthas-在线诊断工具" class="headerlink" title="Arthas 在线诊断工具"></a>Arthas 在线诊断工具</h3><p>使用动态时运行探针，自动发现服务，开箱即用，允许在低负载环境诊断你的应用。<a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie/arthas">传送门</a></p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/arthas/arthas-dashboard-overview.png"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie">梦想歌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mengxiangge.netlify.app/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%20COLA%20%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/">https://mengxiangge.netlify.app/2022/01/01/阿里巴巴 COLA 应用架构实践/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache 2.0 License</a> 许可协议。转载请注明来自 <a href="https://mengxiangge.netlify.app" target="_blank">梦想歌の网络日志</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4/">阿里巴巴</a><a class="post-meta__tags" href="/tags/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">最佳实践</a><a class="post-meta__tags" href="/tags/%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84/">应用架构</a><a class="post-meta__tags" href="/tags/COLA/">COLA</a><a class="post-meta__tags" href="/tags/DDD/">DDD</a><a class="post-meta__tags" href="/tags/CQRS/">CQRS</a><a class="post-meta__tags" href="/tags/SOLID/">SOLID</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://github.com/shiyindaxiaojie" target="_blank"><img class="post-qr-code-img" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://github.com/shiyindaxiaojie" target="_blank"><img class="post-qr-code-img" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/12/01/Sentinel%20%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="Sentinel 流量治理平台改造"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/sentinel/sentinel-dashboard-overview-quick.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Sentinel 流量治理平台改造</div></div></a></div><div class="next-post pull-right"><a href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%88%86%E5%B1%82%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴分层应用架构实践"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-layer/component.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">阿里巴巴分层应用架构实践</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%88%86%E5%B1%82%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴分层应用架构实践"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-layer/component.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-01-01</div><div class="title">阿里巴巴分层应用架构实践</div></div></a></div><div><a href="/2023/05/06/Arthas%20%E5%9C%A8%E7%BA%BF%E8%AF%8A%E6%96%AD%E5%B7%A5%E5%85%B7%E6%94%B9%E9%80%A0/" title="Arthas 在线诊断工具改造"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/arthas/arthas-dashboard-overview.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-06</div><div class="title">Arthas 在线诊断工具改造</div></div></a></div><div><a href="/2022/12/01/Sentinel%20%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="Sentinel 流量治理平台改造"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/sentinel/sentinel-dashboard-overview-quick.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-12-01</div><div class="title">Sentinel 流量治理平台改造</div></div></a></div><div><a href="/2021/01/10/Eden%20%E5%95%86%E4%B8%9A%E7%BB%84%E4%BB%B6%E9%9B%86%E6%88%90/" title="Eden* Business 商业组件"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/eden-images/eden-business/component.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-10</div><div class="title">Eden* Business 商业组件</div></div></a></div><div><a href="/2021/01/01/Eden%20%E8%87%AA%E7%A0%94%E6%A1%86%E6%9E%B6%E8%AE%BE%E8%AE%A1/" title="Eden* Architect 自研框架"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-architect/component.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-01-01</div><div class="title">Eden* Architect 自研框架</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/avatar.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">梦想歌</div><div class="author-info__description">今日事 今日毕</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">7</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie"><i class="fab fa-github"></i><span>关注我</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:shiyindaxiaojie@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #24292e;"></i></a><a class="social-icon" href="https://twitter.com/shiyindaxiaojie" target="_blank" title="Twitter"><i class="fab fa-twitter" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.yuque.com/mengxiangge" target="_blank" title="Yuque"><i class="fa fa-rss" style="color: #24292e;"></i></a><a class="social-icon" href="https://www.processon.com/u/5ff69eeb5653bb4ea210bd7e/profile" target="_blank" title="ProcessOn"><i class="fa fa-paper-plane" style="color: #24292e;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">为美好的明天献上祝福 🌹</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BB%84%E4%BB%B6%E6%9E%84%E6%88%90"><span class="toc-number">1.</span> <span class="toc-text">组件构成</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%90%E8%A1%8C%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">运行流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E6%9E%84%E5%BB%BA"><span class="toc-number">3.</span> <span class="toc-text">如何构建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%90%AF%E5%8A%A8"><span class="toc-number">4.</span> <span class="toc-text">如何启动</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E4%BD%93%E9%AA%8C"><span class="toc-number">4.1.</span> <span class="toc-text">快速体验</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AE%E8%B0%83%E9%85%8D%E7%BD%AE"><span class="toc-number">4.2.</span> <span class="toc-text">微调配置</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E9%83%A8%E7%BD%B2"><span class="toc-number">5.</span> <span class="toc-text">如何部署</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JAR-%E7%A8%8B%E5%BA%8F%E9%83%A8%E7%BD%B2"><span class="toc-number">5.1.</span> <span class="toc-text">JAR 程序部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jib-%E9%95%9C%E5%83%8F%E9%83%A8%E7%BD%B2"><span class="toc-number">5.2.</span> <span class="toc-text">Jib 镜像部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Docker-%E5%AE%B9%E5%99%A8%E9%83%A8%E7%BD%B2"><span class="toc-number">5.3.</span> <span class="toc-text">Docker 容器部署</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Helm-%E6%89%93%E5%8C%85%E9%83%A8%E7%BD%B2"><span class="toc-number">5.4.</span> <span class="toc-text">Helm 打包部署</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%89%88%E6%9C%AC%E8%A7%84%E8%8C%83"><span class="toc-number">6.</span> <span class="toc-text">版本规范</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90"><span class="toc-number">7.</span> <span class="toc-text">持续集成</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CODING-%E6%8C%81%E7%BB%AD%E4%BA%A4%E4%BB%98"><span class="toc-number">7.1.</span> <span class="toc-text">CODING 持续交付</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">8.</span> <span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DDD-%E9%A2%86%E5%9F%9F%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1"><span class="toc-number">8.1.</span> <span class="toc-text">DDD 领域驱动设计</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Git-%E5%A4%9A%E4%BA%BA%E5%8D%8F%E4%BD%9C%E5%88%86%E6%94%AF%E7%AE%A1%E7%90%86"><span class="toc-number">8.2.</span> <span class="toc-text">Git 多人协作分支管理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CAT-%E5%8F%AF%E8%A7%82%E6%B5%8B%E6%80%A7%E6%96%B9%E6%A1%88"><span class="toc-number">8.3.</span> <span class="toc-text">CAT 可观测性方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Sentinel-%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86%E6%96%B9%E6%A1%88"><span class="toc-number">8.4.</span> <span class="toc-text">Sentinel 流量治理方案</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Arthas-%E5%9C%A8%E7%BA%BF%E8%AF%8A%E6%96%AD%E5%B7%A5%E5%85%B7"><span class="toc-number">8.5.</span> <span class="toc-text">Arthas 在线诊断工具</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2023/05/06/Arthas%20%E5%9C%A8%E7%BA%BF%E8%AF%8A%E6%96%AD%E5%B7%A5%E5%85%B7%E6%94%B9%E9%80%A0/" title="Arthas 在线诊断工具改造"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/arthas/arthas-dashboard-overview.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="Arthas 在线诊断工具改造"/></a><div class="content"><a class="title" href="/2023/05/06/Arthas%20%E5%9C%A8%E7%BA%BF%E8%AF%8A%E6%96%AD%E5%B7%A5%E5%85%B7%E6%94%B9%E9%80%A0/" title="Arthas 在线诊断工具改造">Arthas 在线诊断工具改造</a><time datetime="2023-05-06T08:05:43.000Z" title="发表于 2023-05-06 16:05:43">2023-05-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2023/04/04/CAT%20%E5%BA%94%E7%94%A8%E7%9B%91%E6%8E%A7%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="CAT 应用监控平台改造"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cat/tracing.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="CAT 应用监控平台改造"/></a><div class="content"><a class="title" href="/2023/04/04/CAT%20%E5%BA%94%E7%94%A8%E7%9B%91%E6%8E%A7%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="CAT 应用监控平台改造">CAT 应用监控平台改造</a><time datetime="2023-04-04T01:05:43.000Z" title="发表于 2023-04-04 09:05:43">2023-04-04</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/12/01/Sentinel%20%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="Sentinel 流量治理平台改造"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/sentinel/sentinel-dashboard-overview-quick.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="Sentinel 流量治理平台改造"/></a><div class="content"><a class="title" href="/2022/12/01/Sentinel%20%E6%B5%81%E9%87%8F%E6%B2%BB%E7%90%86%E5%B9%B3%E5%8F%B0%E6%94%B9%E9%80%A0/" title="Sentinel 流量治理平台改造">Sentinel 流量治理平台改造</a><time datetime="2022-12-01T01:05:43.000Z" title="发表于 2022-12-01 09:05:43">2022-12-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%20COLA%20%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴 COLA 应用架构实践"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="阿里巴巴 COLA 应用架构实践"/></a><div class="content"><a class="title" href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%20COLA%20%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴 COLA 应用架构实践">阿里巴巴 COLA 应用架构实践</a><time datetime="2022-01-01T01:05:43.000Z" title="发表于 2022-01-01 09:05:43">2022-01-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%88%86%E5%B1%82%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴分层应用架构实践"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-layer/component.png" onerror="this.onerror=null;this.src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/shiyindaxiaojie.github.io/img/404.png'" alt="阿里巴巴分层应用架构实践"/></a><div class="content"><a class="title" href="/2022/01/01/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%88%86%E5%B1%82%E5%BA%94%E7%94%A8%E6%9E%B6%E6%9E%84%E5%AE%9E%E8%B7%B5/" title="阿里巴巴分层应用架构实践">阿里巴巴分层应用架构实践</a><time datetime="2022-01-01T01:05:43.000Z" title="发表于 2022-01-01 09:05:43">2022-01-01</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/eden-demo-cola/component.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By 梦想歌</div><div class="footer_custom_text">下一次相逢会在何时，天空必将见证。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="false"></script><script id="click-heart" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/click-heart.min.js" async="async" mobile="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(a){a.imageLazyLoadSetting.processImages=t;var i=a.imageLazyLoadSetting.isSPA,o=a.imageLazyLoadSetting.preloadRatio||1,r=c();function c(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){i&&(r=c());for(var t,e,n=0;n<r.length;n++)t=r[n],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(a.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var e=r[n];!function(t,e){if(t.hasAttribute("bg-lazy"))return t.removeAttribute("bg-lazy"),e&&e();var n=new Image,a=t.getAttribute("data-original");n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a)}(e,function(){r=r.filter(function(t){return e!==t}),a.imageLazyLoadSetting.onImageLoaded&&a.imageLazyLoadSetting.onImageLoaded(e)})}()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),a.addEventListener("resize",e),a.addEventListener("orientationchange",e)}(this);</script></body></html>
