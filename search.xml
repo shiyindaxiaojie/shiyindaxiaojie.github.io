@@ -4,6 +4,60 @@
   
     
     <entry>
+      <title>MySQL 时区误差 5 小时</title>
+      <link href="/2023/07/10/MySQL%20%E6%97%B6%E5%8C%BA%E8%AF%AF%E5%B7%AE%205%20%E5%B0%8F%E6%97%B6/"/>
+      <url>/2023/07/10/MySQL%20%E6%97%B6%E5%8C%BA%E8%AF%AF%E5%B7%AE%205%20%E5%B0%8F%E6%97%B6/</url>
+      
+        <content type="html"><![CDATA[<h1>问题描述</h1><p>最近经业务部门反馈，我们有个 APP 升级后，在 <code>2023-01-09 22:47</code> 发现，当前账号的最近登录时间为 <code>2023-01-10 03:47</code>，相差了 5 个小时。</p><ol><li>第一轮排查：我们第一印象会认为是刚升级的代码出了问题，有可能是日期格式化没处理好，也有可能是 JSON 序列化没有指定时区，经过 Git diff 排查，我们并没有修改相关代码。</li><li>第二轮排查：可能是有人动了生产配置！排除了配置中心的改动，也检查了 K8s 的 Deployment 是否正确设置了 TZ=Asia/Shanghai，依然无果。</li><li>第三轮排查：提取线上部署的 jar，经过对比，我们发现 MySQL 驱动从原来的 5.1.45 升级到了 8.0.22 版本。</li></ol><h1>原因分析</h1><ol><li>生产数据库的配置是 <code>time_zone=SYSTEM</code>（对应 <code>system_time_zone=CST</code>，CST 时区没有标准，我们在使用 Java 客户端连接默认会把 CST 解析为时区+3，也就是当时事故出现的 5 小时误差）。</li></ol><p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/mysql/show_variables.png" alt=""></p><ol start="2"><li>应用配置连接数据库的 jdbc-url 没有显示设置时区。MySQL驱动如果升级版本到 8.0.11 和 8.0.22 区间，jdbc-url 必须显式设置时区。从 8.0.23 版本开始，<a href="https://dev.mysql.com/doc/relnotes/connector-j/8.0/en/news-8-0-23.html">官网修复了这个问题，不再需要显示设置时区。</a></li></ol><p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/mysql/mysql_bug_v8.0.22.png" alt=""></p><hr><p>从下面对比 8.0.22 和 8.0.23 版本的变化，可以看到官网把 8.0.22 版本获取 MySQL 服务端的代码移除了，默认获取客户端自身的系统变量，例如，在 K8s 环境设置的 <code>TZ=Asia/Shanghai</code>变量。<br><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/mysql/mysql_v8.0.22_upgrade_v8.0.23.png" alt=""><br>为什么 5.1.45 版本没有这个问题呢？从源码可以看出，5.1.x 版本，不显示设置时区，代码逻辑会直接绕过设置。<br><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/mysql/mysql_v5.1.44_vs_v8.0.22.png" alt=""><br>在我们拿到 PreparedStatement 设置插入的字段会自动使用我们程序所在的系统时区。<br><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/mysql/mysql_auto_set_timezone.png" alt=""></p><h1>解决方案</h1><table><thead><tr><th><strong>备选方案</strong></th><th><strong>优缺点</strong></th></tr></thead><tbody><tr><td>显示设置 jdbc-url 字符集：<code>serverTimezone=GMT%2B8</code></td><td>推荐，不用改动程序</td></tr><tr><td>升级 MySQL 驱动到 8.0.23 以上</td><td>变更太大，需要重新发布生产</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> 问题排查 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 时区问题 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>MySQL 存储 emoji 报错</title>
+      <link href="/2023/07/10/MySQL%20%E5%AD%98%E5%82%A8%20emoji%20%E6%8A%A5%E9%94%99/"/>
+      <url>/2023/07/10/MySQL%20%E5%AD%98%E5%82%A8%20emoji%20%E6%8A%A5%E9%94%99/</url>
+      
+        <content type="html"><![CDATA[<h1>问题描述</h1><p>在特定业务场景（帖子、评论、个人签名）存储 emoji 表情。如果使用 <code>utf8</code> 字符集存储，会抛出如下错误：<br><code>java.sql.SQLException: Incorrect string value: '\xF0\x9F\x92\x94' for column 'name' at row 1</code></p><h1>原因分析</h1><p>MySQL 的 <code>utf8</code> 编码最多支持 3 个字节，而 emoji 表情需要占用 4 个字节，在早期的版本并没有实现真正意义上的 <code>utf8</code> 字符集。MySQL 从 <code>5.5.3</code> 版本开始支持 <code>utf8mb4</code> 字符集，大多数情况下，我们使用的生产数据库都是 <code>5.7.x</code> 或者 <code>8.0.x</code> 版本，问题不大。</p><h1>解决方案</h1><table><thead><tr><th><strong>备选方案</strong></th><th><strong>改造点</strong></th><th><strong>优缺点</strong></th></tr></thead><tbody><tr><td>把 <code>utf8</code> 编码改为 <code>utf8mb4</code></td><td>客户端修改会话字符集<br />服务端调整相关库表的字符集</td><td>更改大数据表困难</td></tr><tr><td>写入数据时编码，读取数据时解码还原</td><td>程序对每一个需要处理的字段进行修改，工作量不可控</td><td>不用修改生产数据库，DB 可读性差，额外性能消耗</td></tr></tbody></table><p>正常情况下，我们会选择前者来解决这个问题。</p><ol><li>查看 MySQL 服务端的字符集，确认是否为 <code>utf8mb4</code>。</li></ol><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> VARIABLES <span class="keyword">WHERE</span> VARIABLE_NAME <span class="keyword">LIKE</span> <span class="string">&#x27;character_set_database&#x27;</span> <span class="keyword">OR</span> VARIABLE_NAME <span class="keyword">LIKE</span> <span class="string">&#x27;collation%&#x27;</span>;</span><br></pre></td></tr></table></figure><p>如果不是，进行调整，调整 MySQL 的配置文件，内容如下。</p><figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[client]</span></span><br><span class="line"><span class="attr">default-character-set</span> = utf8mb4</span><br><span class="line"></span><br><span class="line"><span class="section">[mysql]</span></span><br><span class="line"><span class="attr">default-character-set</span> = utf8mb4</span><br><span class="line"></span><br><span class="line"><span class="section">[mysqld]</span></span><br><span class="line"><span class="attr">character-set-server</span> = utf8mb4</span><br><span class="line"><span class="attr">collation-server</span> = utf8mb4_unicode_ci</span><br><span class="line"><span class="attr">init_connect</span>=<span class="string">&#x27;SET NAMES utf8mb4&#x27;</span></span><br><span class="line"><span class="attr">character-set-client-handshake</span> = <span class="literal">FALSE</span></span><br></pre></td></tr></table></figure><p>重启 MySQL Server，重新确认 MySQL 服务端的字符集是否修改成功。</p><ol start="2"><li>调整 JDBC 连接串，不配置 characterEncoding 选项，让 MySQL 连接器选择服务端的字符集。</li></ol><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:mysql:<span class="operator">/</span><span class="operator">/</span>localhost:<span class="number">3306</span><span class="operator">/</span>db?useUnicode<span class="operator">=</span><span class="literal">true</span><span class="operator">&amp;&amp;</span>zeroDateTimeBehavior<span class="operator">=</span>convertToNull<span class="operator">&amp;</span>autoReconnect<span class="operator">=</span><span class="literal">true</span></span><br></pre></td></tr></table></figure><ol start="3"><li>检查客户端代码的会话字符集。有些云数据库的环境并不支持配置 <code>character-set-client-handshake</code> 或者 <code>init_connect</code> 这样的参数。您可以通过 <code>set names utf8mb4; </code>命令将 <code>character_set_client</code>、<code>character_set_connection</code>、<code>character_set_results</code> 等会话字符集相设置为 <code>utf8mb4</code>，以保证写入或者读出的数据使用 <code>utf8mb4</code> 字符集进行处理。例如 HikariCP 数据库连接池框架，在应用的配置项加上相关参数。</li></ol><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">datasource:</span></span><br><span class="line">    <span class="attr">hikari:</span></span><br><span class="line">      <span class="attr">connection-init-sql:</span> <span class="string">SET</span> <span class="string">NAMES</span> <span class="string">utf8mb4</span></span><br></pre></td></tr></table></figure><ol start="4"><li>修改历史数据的字符集。对于存储了字符编码为 <code>utf8</code> 的历史数据，如果要支持 <code>utf8mb4</code> ，需要将已经存在的数据库、表、列的类型修改成 <code>utf8mb4</code>。首先，我们先调整数据库的默认字符集。</li></ol><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> DATABASE <span class="operator">&lt;</span>database_name<span class="operator">&gt;</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure><p>MySQL 支持您修改表或者列的字符集。修改 Table 的字符集示例如下：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span>table_name<span class="operator">&gt;</span> <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure><p>如果您不希望修改整个表的字符集，可以选择指定 Column 进行调整。</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="operator">&lt;</span>table_name<span class="operator">&gt;</span> MODIFY <span class="keyword">COLUMN</span> <span class="operator">&lt;</span>column_name<span class="operator">&gt;</span> <span class="type">VARCHAR</span>(<span class="number">512</span>) <span class="type">CHARACTER</span> <span class="keyword">SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br></pre></td></tr></table></figure>]]></content>
+      
+      
+      <categories>
+          
+          <category> 问题排查 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> MySQL </tag>
+            
+            <tag> 字符集问题 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>基于 Sentinel 实现历史监控数据回看</title>
       <link href="/2023/06/01/%E5%9F%BA%E4%BA%8E%20Sentinel%20%E5%AE%9E%E7%8E%B0%E5%8E%86%E5%8F%B2%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E5%9B%9E%E7%9C%8B/"/>
       <url>/2023/06/01/%E5%9F%BA%E4%BA%8E%20Sentinel%20%E5%AE%9E%E7%8E%B0%E5%8E%86%E5%8F%B2%E7%9B%91%E6%8E%A7%E6%95%B0%E6%8D%AE%E5%9B%9E%E7%9C%8B/</url>
