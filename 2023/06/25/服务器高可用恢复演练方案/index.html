@@ -1,0 +1,365 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>服务器高可用恢复演练方案 | 梦想歌の网络日志</title><meta name="author" content="梦想歌"><meta name="copyright" content="梦想歌"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="概述演练目的由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。尽管腾讯云方承诺单实例服务的可用性达到 99.975%，但遇到 Linux 内核故障、CPU 或内存的使用率过高等问题，仍然会导致系统不可用。为避免业务中断，使用腾讯云 CLB 作为负载均衡，管理和分流至少 3 台以上的 CVM 实例，实现高可用。 目标要求通过混沌演练故障注入，验证 A 系统当前的部署架构具备自愈能力，对业">
+<meta property="og:type" content="article">
+<meta property="og:title" content="服务器高可用恢复演练方案">
+<meta property="og:url" content="https://mengxiangge.netlify.app/2023/06/25/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83%E6%96%B9%E6%A1%88/index.html">
+<meta property="og:site_name" content="梦想歌の网络日志">
+<meta property="og:description" content="概述演练目的由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。尽管腾讯云方承诺单实例服务的可用性达到 99.975%，但遇到 Linux 内核故障、CPU 或内存的使用率过高等问题，仍然会导致系统不可用。为避免业务中断，使用腾讯云 CLB 作为负载均衡，管理和分流至少 3 台以上的 CVM 实例，实现高可用。 目标要求通过混沌演练故障注入，验证 A 系统当前的部署架构具备自愈能力，对业">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/ChaosBlade.png">
+<meta property="article:published_time" content="2023-06-25T09:05:01.000Z">
+<meta property="article:modified_time" content="2024-12-09T06:26:18.735Z">
+<meta property="article:author" content="梦想歌">
+<meta property="article:tag" content="模板示例">
+<meta property="article:tag" content="混沌演练">
+<meta property="article:tag" content="ChaosBlade">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/ChaosBlade.png"><link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/favicon.ico"><link rel="canonical" href="https://mengxiangge.netlify.app/2023/06/25/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83%E6%96%B9%E6%A1%88/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 梦想歌","link":"链接: ","source":"来源: 梦想歌の网络日志","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: true,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '服务器高可用恢复演练方案',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-12-09 14:26:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><script>(()=>{
+  const $loadingBox = document.getElementById('loading-box')
+  const $body = document.body
+  const preloader = {
+    endLoading: () => {
+      $body.style.overflow = ''
+      $loadingBox.classList.add('loaded')
+    },
+    initLoading: () => {
+      $body.style.overflow = 'hidden'
+      $loadingBox.classList.remove('loaded')
+    }
+  }
+
+  preloader.initLoading()
+  window.addEventListener('load',() => { preloader.endLoading() })
+
+  if (false) {
+    document.addEventListener('pjax:send', () => { preloader.initLoading() })
+    document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+  }
+})()</script><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/avatar.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">22</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/ChaosBlade.png')"><nav id="nav"><span id="blog-info"><a href="/" title="梦想歌の网络日志"><span class="site-name">梦想歌の网络日志</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 目录</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">服务器高可用恢复演练方案</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-25T09:05:01.000Z" title="发表于 2023-06-25 17:05:01">2023-06-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2024-12-09T06:26:18.735Z" title="更新于 2024-12-09 14:26:18">2024-12-09</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%B9%B3%E5%8F%B0%E5%B7%A5%E7%A8%8B/">平台工程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="服务器高可用恢复演练方案"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><h2 id="演练目的"><a href="#演练目的" class="headerlink" title="演练目的"></a>演练目的</h2><p>由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。尽管腾讯云方承诺单实例服务的可用性达到 99.975%，但遇到 Linux 内核故障、CPU 或内存的使用率过高等问题，仍然会导致系统不可用。为避免业务中断，使用腾讯云 CLB 作为负载均衡，管理和分流至少 3 台以上的 CVM 实例，实现高可用。</p>
+<h2 id="目标要求"><a href="#目标要求" class="headerlink" title="目标要求"></a>目标要求</h2><p>通过混沌演练故障注入，验证 A 系统当前的部署架构具备自愈能力，对业务的影响在可接受范围，满足金融行业IT系统容灾标准，灾难恢复能力达到国家标准等级 4 级以上，即 RPO 不超过 4 小时，RTO 不超过 12 小时。</p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><table>
+<thead>
+<tr>
+<th>名词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>RPO</td>
+<td>恢复点目标（Recovery Point Object，简称 RPO）。指灾难发生后，容灾系统进行数据恢复，恢复得来的数据所对应的时间点。</td>
+</tr>
+<tr>
+<td>RTO</td>
+<td>恢复时间目标（Recovery Time Object，简称 RTO）。指灾难发生后，从 IT系统宕机导致业务停顿之刻开始，到 IT 系统恢复至可以支持各部门运作，业务恢复运营之间的时间段。</td>
+</tr>
+<tr>
+<td>CVM</td>
+<td>云服务器（Cloud Virtual Machine，CVM）是腾讯云提供的可扩展的计算服务。可以避免使用传统服务器时需要预估资源用量及前期投入的问题，并在短时间内快速启动任意数量的云服务器并及时部署应用程序。具体可查阅<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/213/495">文档</a>。</td>
+</tr>
+<tr>
+<td>CLB</td>
+<td>负载均衡（Cloud Load Balancer，CLB）提供安全快捷的流量分发服务，访问流量经由 CLB 可以自动分配到云中的多台后端服务器上，扩展系统的服务能力并消除单点故障。负载均衡支持亿级连接和千万级并发，可轻松应对大流量访问，满足业务需求。具体可查阅<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/214">文档</a>。</td>
+</tr>
+<tr>
+<td>CFG</td>
+<td>混沌演练（Chaotic Fault Generator）提供高效便捷、安全可靠的故障演习服务，除可视化故障注入服务外，还提供行业经验模板，监控护栏等核心功能，帮助用户及时发现业务容灾隐患、验证高可用预案的有效性，从而提高系统的可用性和韧性。具体可查阅<a target="_blank" rel="noopener" href="https://cloud.tencent.com/document/product/1500/97565">文档</a>。</td>
+</tr>
+</tbody></table>
+<h1 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h1><h2 id="系统分析"><a href="#系统分析" class="headerlink" title="系统分析"></a>系统分析</h2><p>本次演练的对象为 A 系统的生产环境，访问地址为 <a target="_blank" rel="noopener" href="https://www.xxx.com./">https://www.XXX.com。</a></p>
+<p>该系统使用负载均衡 CLB 提供公网访问入口，CLB 对上游的存活检测规则，响应超时为 2 秒，检查间隔为 5 秒，不健康阈值为 3 次，健康阈值为 3 次。当某个 CVM 实例发生故障时，超过 21 秒后判断该实例不健康，不再分发流量。</p>
+<p>CLB 的上游绑定 5 个机器节点，各节点的规格统一为 8 核 16 GB，如下。</p>
+<ol>
+<li>gray 灰度环境：内网 IP 为 172.28.0.1（这个有前端依赖，不适合做故障注入）</li>
+<li>prd1 生产环境：内网 IP 为 172.28.0.2</li>
+<li>prd2 生产环境：内网 IP 为 172.28.0.3</li>
+<li>prd3 生产环境：内网 IP 为 172.28.0.4</li>
+<li>prd4 生产环境：内网 IP 为 172.28.0.5</li>
+</ol>
+<p>因各节点规格一致，计划使用 <strong>prd1</strong> 生产环境作为测试对象。</p>
+<h2 id="实施时间"><a href="#实施时间" class="headerlink" title="实施时间"></a>实施时间</h2><p>选定 2023 年 6 月 25 日（非交易日，用户访问量少）</p>
+<h2 id="人员分工"><a href="#人员分工" class="headerlink" title="人员分工"></a>人员分工</h2><p>由演练领导组、演练实施组、演练指挥组和业务验证组共同参与，具体人员如下。</p>
+<table>
+<thead>
+<tr>
+<th>灾备演练组</th>
+<th>人员</th>
+<th>岗位</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>演练领导组</td>
+<td>小A</td>
+<td>技术总监</td>
+<td>负责容灾方案的审核和决策</td>
+</tr>
+<tr>
+<td>演练指挥组</td>
+<td>小B</td>
+<td>云原生专家</td>
+<td>负责制定容灾方案和发起</td>
+</tr>
+<tr>
+<td>演练实施组</td>
+<td>小C</td>
+<td>平台工程师</td>
+<td>负责实施应用平台的容灾恢复</td>
+</tr>
+<tr>
+<td>演练实施组</td>
+<td>小D</td>
+<td>运维工程师</td>
+<td>负责实施基础设施的容灾恢复</td>
+</tr>
+<tr>
+<td>业务验证组</td>
+<td>小E</td>
+<td>研发负责人</td>
+<td>负责业务监控和系统可靠性验证</td>
+</tr>
+<tr>
+<td>业务验证组</td>
+<td>小F</td>
+<td>研发工程师</td>
+<td>负责业务测试和容灾恢复前后的数据比对验证</td>
+</tr>
+</tbody></table>
+<h2 id="整体流程"><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h2><p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-workflow.png"></p>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><p>本次演练基于腾讯云<strong>混沌演练平台</strong>完成故障注入和灾难恢复工作，在正式执行容灾演练前，需要预先创建好相关任务、动作库、监控护栏、演练计划等配置。</p>
+<h3 id="创建演练任务"><a href="#创建演练任务" class="headerlink" title="创建演练任务"></a>创建演练任务</h3><p>演练名称设置为 “CVM 故障注入恢复演练”。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-create-task.png"></p>
+<h3 id="配置动作库"><a href="#配置动作库" class="headerlink" title="配置动作库"></a>配置动作库</h3><p>分别创建任务，依次为：Linux 内核故障、CPU 利用率100%、内存利用率100% 、主机异常重启。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-create-action.png"></p>
+<h3 id="设置监控护栏"><a href="#设置监控护栏" class="headerlink" title="设置监控护栏"></a>设置监控护栏</h3><p>防止演练过程中出现一些不可预估的影响，使用护栏策略触发告警，中断演练执行。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-create-barrier.png"></p>
+<h3 id="保存到经验库"><a href="#保存到经验库" class="headerlink" title="保存到经验库"></a>保存到经验库</h3><p>将已配置的流程保存起来，以便后续演练复用，经验名称为 “CVM 故障注入案例”。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-save-experience.png"></p>
+<h3 id="新建演练计划"><a href="#新建演练计划" class="headerlink" title="新建演练计划"></a>新建演练计划</h3><p>设置演练起止时间，并选择创建好的经验库。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-create-plan.png"></p>
+<h3 id="演练事后总结"><a href="#演练事后总结" class="headerlink" title="演练事后总结"></a>演练事后总结</h3><p>演练结束后，点击按钮生成演练报告。</p>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-finished-report.png"></p>
+<h2 id="演练内容"><a href="#演练内容" class="headerlink" title="演练内容"></a>演练内容</h2><h3 id="Linux内核故障恢复演练"><a href="#Linux内核故障恢复演练" class="headerlink" title="Linux内核故障恢复演练"></a>Linux内核故障恢复演练</h3><p>故障模拟：prd1 服务器节点发生内核故障</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>Linux内核故障</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnkernel</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-inject-linux-kernel-error.png"></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-execute-linux-kernel-error.png"></p>
+<h3 id="CPU使用100-恢复演练"><a href="#CPU使用100-恢复演练" class="headerlink" title="CPU使用100%恢复演练"></a>CPU使用100%恢复演练</h3><p>故障模拟：prd1 服务器节点的 CPU 利用率达到 100%</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>CPU使用率100%</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnkernel</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-inject-linux-cpu-100.png"></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-execute-linux-cpu-100.png"></p>
+<h3 id="内存使用100-恢复演练"><a href="#内存使用100-恢复演练" class="headerlink" title="内存使用100%恢复演练"></a>内存使用100%恢复演练</h3><p>故障模拟：prd1 服务器节点的内存利用率达到 100%</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>内存使用率100%</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnmem</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-inject-linux-memory-100.png"></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-execute-linux-memory-100.png"></p>
+<h3 id="机器故障重启恢复演练"><a href="#机器故障重启恢复演练" class="headerlink" title="机器故障重启恢复演练"></a>机器故障重启恢复演练</h3><p>故障模拟：prd1 服务器节点宕机重启</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>机器故障重启</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnreboot</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-inject-linux-reboot-100.png"></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/tencent/cfg-execute-linux-reboot-100.png"></p>
+<h2 id="现场还原"><a href="#现场还原" class="headerlink" title="现场还原"></a>现场还原</h2><p>在故障注入期间，会额外产生 <code>chaos_burncpu</code>、<code>chaos_burnmem</code> 等进程，在混沌演练平台执行销毁探针可能会不成功，需要人工检查这些进程是否存在，按需销毁这些驻留进程。</p>
+<h2 id="数据核对"><a href="#数据核对" class="headerlink" title="数据核对"></a>数据核对</h2><p>由于演练过程中并不产生数据写入，因此，无须进行数据核对。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a target="_blank" rel="noopener" href="https://github.com/shiyindaxiaojie">梦想歌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://mengxiangge.netlify.app/2023/06/25/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83%E6%96%B9%E6%A1%88/">https://mengxiangge.netlify.app/2023/06/25/服务器高可用恢复演练方案/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" target="_blank">Apache 2.0 License</a> 许可协议。转载请注明来自 <a href="https://mengxiangge.netlify.app" target="_blank">梦想歌の网络日志</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A8%A1%E6%9D%BF%E7%A4%BA%E4%BE%8B/">模板示例</a><a class="post-meta__tags" href="/tags/%E6%B7%B7%E6%B2%8C%E6%BC%94%E7%BB%83/">混沌演练</a><a class="post-meta__tags" href="/tags/ChaosBlade/">ChaosBlade</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/ChaosBlade.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button"><i class="fas fa-qrcode"></i>赞助</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/wechat.jpg" target="_blank"><img class="post-qr-code-img" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/alipay.jpg" target="_blank"><img class="post-qr-code-img" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2023/06/26/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83%E6%8A%A5%E5%91%8A/" title="服务器高可用恢复演练报告"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/Chaosblade.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/404.png'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">服务器高可用恢复演练报告</div></div></a></div><div class="next-post pull-right"><a href="/2023/03/03/%E5%9F%BA%E4%BA%8E%20CAT%20%E6%96%B0%E5%A2%9E%E9%93%BE%E8%B7%AF%E8%B7%9F%E8%B8%AA%E5%92%8C%E5%91%8A%E8%AD%A6%E9%80%9A%E7%9F%A5/" title="基于 CAT 新增链路跟踪和告警通知"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/CAT.png" onerror="onerror=null;src='https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/hexo/404.png'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">基于 CAT 新增链路跟踪和告警通知</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/06/26/%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%8F%AF%E7%94%A8%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83%E6%8A%A5%E5%91%8A/" title="服务器高可用恢复演练报告"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/Chaosblade.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-06-26</div><div class="title">服务器高可用恢复演练报告</div></div></a></div><div><a href="/2024/09/02/Dockerfile%20%E6%9E%84%E5%BB%BA%20Spring%20Boot%20%E5%BA%94%E7%94%A8%E4%BC%98%E5%8C%96/" title="Dockerfile 构建 Spring Boot 应用优化"><img class="cover" src= "/loading..." data-lazy-src="/img/loading.gif" data-original="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/Docker.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-09-02</div><div class="title">Dockerfile 构建 Spring Boot 应用优化</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A6%82%E8%BF%B0"><span class="toc-number">1.</span> <span class="toc-text">概述</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E7%BB%83%E7%9B%AE%E7%9A%84"><span class="toc-number">1.1.</span> <span class="toc-text">演练目的</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E6%A0%87%E8%A6%81%E6%B1%82"><span class="toc-number">1.2.</span> <span class="toc-text">目标要求</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8D%E8%AF%8D%E8%A7%A3%E9%87%8A"><span class="toc-number">1.3.</span> <span class="toc-text">名词解释</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%96%B9%E6%A1%88"><span class="toc-number">2.</span> <span class="toc-text">方案</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%B3%BB%E7%BB%9F%E5%88%86%E6%9E%90"><span class="toc-number">2.1.</span> <span class="toc-text">系统分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E6%96%BD%E6%97%B6%E9%97%B4"><span class="toc-number">2.2.</span> <span class="toc-text">实施时间</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%BA%E5%91%98%E5%88%86%E5%B7%A5"><span class="toc-number">2.3.</span> <span class="toc-text">人员分工</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">2.4.</span> <span class="toc-text">整体流程</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.5.</span> <span class="toc-text">准备工作</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E6%BC%94%E7%BB%83%E4%BB%BB%E5%8A%A1"><span class="toc-number">2.5.1.</span> <span class="toc-text">创建演练任务</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E5%8A%A8%E4%BD%9C%E5%BA%93"><span class="toc-number">2.5.2.</span> <span class="toc-text">配置动作库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E7%9B%91%E6%8E%A7%E6%8A%A4%E6%A0%8F"><span class="toc-number">2.5.3.</span> <span class="toc-text">设置监控护栏</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%9D%E5%AD%98%E5%88%B0%E7%BB%8F%E9%AA%8C%E5%BA%93"><span class="toc-number">2.5.4.</span> <span class="toc-text">保存到经验库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%96%B0%E5%BB%BA%E6%BC%94%E7%BB%83%E8%AE%A1%E5%88%92"><span class="toc-number">2.5.5.</span> <span class="toc-text">新建演练计划</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%BC%94%E7%BB%83%E4%BA%8B%E5%90%8E%E6%80%BB%E7%BB%93"><span class="toc-number">2.5.6.</span> <span class="toc-text">演练事后总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BC%94%E7%BB%83%E5%86%85%E5%AE%B9"><span class="toc-number">2.6.</span> <span class="toc-text">演练内容</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Linux%E5%86%85%E6%A0%B8%E6%95%85%E9%9A%9C%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83"><span class="toc-number">2.6.1.</span> <span class="toc-text">Linux内核故障恢复演练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU%E4%BD%BF%E7%94%A8100-%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83"><span class="toc-number">2.6.2.</span> <span class="toc-text">CPU使用100%恢复演练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E4%BD%BF%E7%94%A8100-%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83"><span class="toc-number">2.6.3.</span> <span class="toc-text">内存使用100%恢复演练</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%BA%E5%99%A8%E6%95%85%E9%9A%9C%E9%87%8D%E5%90%AF%E6%81%A2%E5%A4%8D%E6%BC%94%E7%BB%83"><span class="toc-number">2.6.4.</span> <span class="toc-text">机器故障重启恢复演练</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%B0%E5%9C%BA%E8%BF%98%E5%8E%9F"><span class="toc-number">2.7.</span> <span class="toc-text">现场还原</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%B8%E5%AF%B9"><span class="toc-number">2.8.</span> <span class="toc-text">数据核对</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/shiyindaxiaojie/images/cover/ChaosBlade.png')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By 梦想歌</div><div class="footer_custom_text">下一次相逢会在何时，天空必将见证。</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js"></script><div class="js-pjax"></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div class="no-result" id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js"></script></div></div>
+        <style>
+            [bg-lazy] {
+                background-image: none !important;
+                background-color: #eee !important;
+            }
+        </style>
+        <script>
+            window.imageLazyLoadSetting = {
+                isSPA: false,
+                preloadRatio: 1,
+                processImages: null,
+            };
+        </script><script>window.addEventListener("load",function(){var t=/\.(gif|jpg|jpeg|tiff|png)$/i,r=/^data:image\/[a-z]+;base64,/;Array.prototype.slice.call(document.querySelectorAll("img[data-original]")).forEach(function(a){var e=a.parentNode;"A"===e.tagName&&(e.href.match(t)||e.href.match(r))&&(e.href=a.dataset.original)})});</script><script>!function(a){a.imageLazyLoadSetting.processImages=t;var i=a.imageLazyLoadSetting.isSPA,o=a.imageLazyLoadSetting.preloadRatio||1,r=c();function c(){var t=Array.prototype.slice.call(document.querySelectorAll("img[data-original]")),e=Array.prototype.slice.call(document.querySelectorAll("[bg-lazy]"));return t.concat(e)}function t(){i&&(r=c());for(var t,e,n=0;n<r.length;n++)t=r[n],e=void 0,0<=(e=t.getBoundingClientRect()).bottom&&0<=e.left&&e.top<=(a.innerHeight*o||document.documentElement.clientHeight*o)&&function(){var e=r[n];!function(t,e){if(t.hasAttribute("bg-lazy"))return t.removeAttribute("bg-lazy"),e&&e();var n=new Image,a=t.getAttribute("data-original");n.onload=function(){t.src=a,t.removeAttribute("data-original"),e&&e()},t.src!==a&&(n.src=a)}(e,function(){r=r.filter(function(t){return e!==t}),a.imageLazyLoadSetting.onImageLoaded&&a.imageLazyLoadSetting.onImageLoaded(e)})}()}function e(){clearTimeout(t.tId),t.tId=setTimeout(t,500)}t(),document.addEventListener("scroll",e),a.addEventListener("resize",e),a.addEventListener("orientationchange",e)}(this);</script></body></html>
