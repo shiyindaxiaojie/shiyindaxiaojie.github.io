@@ -1,0 +1,70 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-21T15:19:06.465Z",
+  "date": "2026-06-14",
+  "itemCount": 2,
+  "items": [
+    {
+      "id": "rss:0e3f6553cd8826439dfc8919b046d336c72d7a4a",
+      "feedType": "dynamic",
+      "title": "When a Government Pulls an AI Model: What the Fable 5 and Mythos 5 Suspension Means for Security Teams",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/fable-mythos-suspension-security-takeaways/",
+      "guid": "https://snyk.io/blog/fable-mythos-suspension-security-takeaways/",
+      "publishedAt": "2026-06-14T13:00:00.000Z",
+      "date": "2026-06-14",
+      "time": "21:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "On June 12, 2026, a US export-control directive led Anthropic to disable Claude Fable 5 and Mythos 5 worldwide over a reported jailbreak. The reported trigger was a code-analysis capability that defenders use routinely. Here is what happened, how the security community read it, and what security teams can take from it.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:d7e88cc34d302fc5ebf8ca4b9a0cbbd86c07ad64",
+      "feedType": "dynamic",
+      "title": "How Agentic Coding Can Help You Migrate Java Applications Faster",
+      "titleEn": null,
+      "link": "https://inside.java/2026/06/14/cline-migrate-java-oca/",
+      "guid": "https://inside.java/2026/06/14/cline-migrate-java-oca/",
+      "publishedAt": "2026-06-14T00:00:00.000Z",
+      "date": "2026-06-14",
+      "time": "08:00",
+      "source": "inside.java",
+      "sourceLabel": "Inside Java",
+      "sourceType": "rss",
+      "author": "Inside Java",
+      "authorHandle": "",
+      "summary": "Learn how agentic coding transforms Java migrations by acting as an intelligent development partner.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "JDK"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    }
+  ]
+}

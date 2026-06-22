@@ -1,0 +1,312 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-05-29",
+  "itemCount": 11,
+  "items": [
+    {
+      "id": "github:vllm-project/vllm:331396286",
+      "feedType": "dynamic",
+      "title": "vllm-project/vllm v0.22.0",
+      "titleEn": null,
+      "link": "https://github.com/vllm-project/vllm/releases/tag/v0.22.0",
+      "guid": "331396286",
+      "publishedAt": "2026-05-29T10:28:13.000Z",
+      "date": "2026-05-29",
+      "time": "18:28",
+      "source": "github.com",
+      "sourceLabel": "GitHub: vllm-project/vllm",
+      "sourceType": "github",
+      "author": "vllm-project/vllm",
+      "authorHandle": "",
+      "summary": "Highlights This release features 459 commits from 230 contributors (63 new)! DeepSeek V4 maturity : DeepSeek V4 received a major hardening pass this cycle — the model was reorganized into a dedicated vllm/models/deepseek v4/ package ( 43004, 43039, 43073, 43077, 43149), gained NVFP4 fused MoE support ( 42209), full +...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "ai-infra",
+        "model-engineering"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:6ee1db8428bcafb02ff387c19d23a3924512d940",
+      "feedType": "dynamic",
+      "title": "New to the web platform in May",
+      "titleEn": null,
+      "link": "https://web.dev/blog/web-platform-05-2026?hl=en",
+      "guid": "https://web.dev/blog/web-platform-05-2026?hl=en",
+      "publishedAt": "2026-05-29T07:00:00.000Z",
+      "date": "2026-05-29",
+      "time": "15:00",
+      "source": "web.dev",
+      "sourceLabel": "web.dev",
+      "sourceType": "rss",
+      "author": "web.dev",
+      "authorHandle": "",
+      "summary": "Discover some of the interesting features that have landed in stable and beta web browsers during May 2026.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e97eff30e3196404e259db5f546c0c769819d069",
+      "feedType": "dynamic",
+      "title": "Fix SCA issues at scale in your terminal with Snyk Remediation Agent in the CLI",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/snyk-remediation-agent-in-the-cli/",
+      "guid": "https://snyk.io/blog/snyk-remediation-agent-in-the-cli/",
+      "publishedAt": "2026-05-29T04:00:00.000Z",
+      "date": "2026-05-29",
+      "time": "12:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "Stop security backlogs. Snyk's Remediation Agent in the CLI pairs AI reasoning with Snyk security intelligence to fix SCA issues at scale directly in your terminal.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:f72ae9cf5159eed602a2391f2df869dc2b14cc4d",
+      "feedType": "dynamic",
+      "title": "How Relay Network Adopted AI Coding Securely and Built the Foundation for Agentic Development",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/relay-network-ai-coding-securely-coagentic-development/",
+      "guid": "https://snyk.io/blog/relay-network-ai-coding-securely-coagentic-development/",
+      "publishedAt": "2026-05-29T04:00:00.000Z",
+      "date": "2026-05-29",
+      "time": "12:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "See how Relay Network securely adopted AI coding with Snyk and GitHub Copilot, implementing \"secure at inception\" to reduce vulnerabilities and accelerate development.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:357d064be869168138435f793ed457a6cd6def45",
+      "feedType": "dynamic",
+      "title": "Profiling in PyTorch (Part 1): A Beginner's Guide to torch.profiler",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/torch-profiler",
+      "guid": "https://huggingface.co/blog/torch-profiler",
+      "publishedAt": "2026-05-29T00:00:00.000Z",
+      "date": "2026-05-29",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:a70a5eed82f012f0719cbd2ff365f9c7b996499b",
+      "feedType": "dynamic",
+      "title": "Customer Intelligence Hub: A Single Pane of Glass for Customer Insight and Action",
+      "titleEn": null,
+      "link": "https://www.confluent.io/blog/customer-intelligence-hub/",
+      "guid": "https://www.confluent.io/blog/customer-intelligence-hub/",
+      "publishedAt": "2026-05-28T22:49:56.000Z",
+      "date": "2026-05-29",
+      "time": "06:49",
+      "source": "confluent.io",
+      "sourceLabel": "Confluent Blog",
+      "sourceType": "rss",
+      "author": "Confluent Blog",
+      "authorHandle": "",
+      "summary": "Unify customer data with AI-powered insights. Customer Intelligence Hub helps GTM teams detect risk, uncover growth, and act faster with real-time context.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:spiffe/spire:331081353",
+      "feedType": "dynamic",
+      "title": "spiffe/spire v1.15.1",
+      "titleEn": null,
+      "link": "https://github.com/spiffe/spire/releases/tag/v1.15.1",
+      "guid": "331081353",
+      "publishedAt": "2026-05-28T19:16:52.000Z",
+      "date": "2026-05-29",
+      "time": "03:16",
+      "source": "github.com",
+      "sourceLabel": "GitHub: spiffe/spire",
+      "sourceType": "github",
+      "author": "spiffe/spire",
+      "authorHandle": "",
+      "summary": "Security Fixed an issue in the azure imds server node attestor plugin where attested document validation anchored the first certificate in the PKCS7 certificate bag to the trusted Azure roots, while the signature was verified against a separate signer certificate resolved from the PKCS7 SignerInfo. An attacker could p...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "zero-trust",
+        "identity"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e6ce06536ee74ee5866a9ab0f0171544b92946e1",
+      "feedType": "dynamic",
+      "title": "OpenSSF Newsletter – May 2026",
+      "titleEn": null,
+      "link": "https://openssf.org/newsletter/2026/05/28/openssf-newsletter-may-2026/",
+      "guid": "https://openssf.org/?p=11057",
+      "publishedAt": "2026-05-28T18:46:24.000Z",
+      "date": "2026-05-29",
+      "time": "02:46",
+      "source": "openssf.org",
+      "sourceLabel": "OpenSSF Blog",
+      "sourceType": "rss",
+      "author": "OpenSSF Blog",
+      "authorHandle": "",
+      "summary": "What a month! May was packed with milestones for the OpenSSF community, and we're still riding the high from an incredible OpenSSF Community Day North America in Minneapolis. Read OpenSSF May Newsletter.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "supply-chain-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:spiffe/spire:331050557",
+      "feedType": "dynamic",
+      "title": "spiffe/spire v1.14.7",
+      "titleEn": null,
+      "link": "https://github.com/spiffe/spire/releases/tag/v1.14.7",
+      "guid": "331050557",
+      "publishedAt": "2026-05-28T18:31:08.000Z",
+      "date": "2026-05-29",
+      "time": "02:31",
+      "source": "github.com",
+      "sourceLabel": "GitHub: spiffe/spire",
+      "sourceType": "github",
+      "author": "spiffe/spire",
+      "authorHandle": "",
+      "summary": "Security Fixed an issue in the azure imds server node attestor plugin where attested document validation anchored the first certificate in the PKCS7 certificate bag to the trusted Azure roots, while the signature was verified against a separate signer certificate resolved from the PKCS7 SignerInfo. An attacker could p...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "zero-trust",
+        "identity"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:rust-lang/rust:331023263",
+      "feedType": "dynamic",
+      "title": "rust-lang/rust Rust 1.96.0",
+      "titleEn": null,
+      "link": "https://github.com/rust-lang/rust/releases/tag/1.96.0",
+      "guid": "331023263",
+      "publishedAt": "2026-05-28T17:50:42.000Z",
+      "date": "2026-05-29",
+      "time": "01:50",
+      "source": "github.com",
+      "sourceLabel": "GitHub: rust-lang/rust",
+      "sourceType": "github",
+      "author": "rust-lang/rust",
+      "authorHandle": "",
+      "summary": "<a id=\"1.96.0 Language\" </a Language Allow passing expr metavariable to cfg Always coerce never types in tuple expressions Avoid incorrect inference guidance of function arguments in rare cases Support s390x vector registers in inline assembly Allow using constants of type ManuallyDrop as patterns (fixing a regression...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "rust"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:prometheus/prometheus:330970283",
+      "feedType": "dynamic",
+      "title": "prometheus/prometheus 3.12.0 / 2026-05-28",
+      "titleEn": null,
+      "link": "https://github.com/prometheus/prometheus/releases/tag/v3.12.0",
+      "guid": "330970283",
+      "publishedAt": "2026-05-28T17:40:13.000Z",
+      "date": "2026-05-29",
+      "time": "01:40",
+      "source": "github.com",
+      "sourceLabel": "GitHub: prometheus/prometheus",
+      "sourceType": "github",
+      "author": "prometheus/prometheus",
+      "authorHandle": "",
+      "summary": "This release contains security fixes, new features (especially around PromQL and Service Discovery), performance improvements in TSDB, Start Timestamp improvements and numerous bug fixes. Thanks to all contributors! Key Highlights Security : Two security vulnerabilities have been addressed: a denial of service in remo...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "metrics"
+      ],
+      "category": null
+    }
+  ]
+}

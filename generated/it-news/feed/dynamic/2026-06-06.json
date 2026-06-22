@@ -1,0 +1,67 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-06",
+  "itemCount": 2,
+  "items": [
+    {
+      "id": "github:crossplane/crossplane:335215798",
+      "feedType": "dynamic",
+      "title": "crossplane/crossplane v1.20.9",
+      "titleEn": null,
+      "link": "https://github.com/crossplane/crossplane/releases/tag/v1.20.9",
+      "guid": "335215798",
+      "publishedAt": "2026-06-05T22:07:22.000Z",
+      "date": "2026-06-06",
+      "time": "06:07",
+      "source": "github.com",
+      "sourceLabel": "GitHub: crossplane/crossplane",
+      "sourceType": "github",
+      "author": "crossplane/crossplane",
+      "authorHandle": "",
+      "summary": "v1.20.9 is a patch release scoped to fixing issues reported by users of Crossplane v1.20 and fixing security related issues in Crossplane's dependencies. It also ships a notable new crossplane beta upgrade check command to help you more easily prepare for Crossplane v2. 🎉 Highlights Check your control plane's v2 upgr...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "oam"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:06cf1b295ed5274ab5f86620912bd22e521214a1",
+      "feedType": "dynamic",
+      "title": "The “Skyway” to OSS Security: OpenSSF Community Day North America 2026 Recap",
+      "titleEn": null,
+      "link": "https://openssf.org/blog/2026/06/05/the-skyway-to-oss-security-openssf-community-day-north-america-2026-recap/",
+      "guid": "https://openssf.org/?p=11085",
+      "publishedAt": "2026-06-05T19:12:30.000Z",
+      "date": "2026-06-06",
+      "time": "03:12",
+      "source": "openssf.org",
+      "sourceLabel": "OpenSSF Blog",
+      "sourceType": "rss",
+      "author": "OpenSSF Blog",
+      "authorHandle": "",
+      "summary": "The open source community recently gathered in Minneapolis for Open Source Summit North America and OpenSSF Community Day North America 2026. Functioning as a collaborative “Skyway,” the Open Source Security Foundation (OpenSSF) successfully brought together diverse working groups, security researchers, and enterprise...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "supply-chain-security"
+      ],
+      "category": null
+    }
+  ]
+}

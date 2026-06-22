@@ -1,0 +1,115 @@
+// Unit: storage. Storage domain: file, object, archive, backup, and disaster recovery storage.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "storage",
+  "rootNode": "file-storage",
+  "nodes": [
+    {
+      "id": "file-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "nfs",
+      "options": [
+        {
+          "id": "nfs",
+          "name": "NFS",
+          "path": null
+        },
+        {
+          "id": "cephfs",
+          "name": "CephFS",
+          "path": null
+        },
+        {
+          "id": "minio",
+          "name": "MinIO",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.file-storage.title",
+      "summaryKey": "topology.nodes.file-storage.summary"
+    },
+    {
+      "id": "object-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "tencent-cos",
+      "options": [
+        {
+          "id": "tencent-cos",
+          "path": null,
+          "nameKey": "topology.options.object-storage.tencent-cos.name"
+        },
+        {
+          "id": "aliyun-oss",
+          "path": null,
+          "nameKey": "topology.options.object-storage.aliyun-oss.name"
+        },
+        {
+          "id": "amazon-s3",
+          "name": "Amazon S3",
+          "path": null
+        },
+        {
+          "id": "minio",
+          "name": "MinIO",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.object-storage.title",
+      "summaryKey": "topology.nodes.object-storage.summary"
+    },
+    {
+      "id": "archive-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "tencent-cos-deep-archive",
+      "options": [
+        {
+          "id": "tencent-cos-deep-archive",
+          "path": null,
+          "nameKey": "topology.options.archive-storage.tencent-cos-deep-archive.name"
+        },
+        {
+          "id": "aliyun-oss-deep-cold",
+          "path": null,
+          "nameKey": "topology.options.archive-storage.aliyun-oss-deep-cold.name"
+        },
+        {
+          "id": "amazon-s3-glacier",
+          "name": "Amazon S3 Glacier",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.archive-storage.title",
+      "summaryKey": "topology.nodes.archive-storage.summary"
+    },
+    {
+      "id": "storage-backup",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "multi-az",
+      "options": [
+        {
+          "id": "multi-az",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "nameKey": "topology.options.storage-backup.multi-az.name"
+        },
+        {
+          "id": "object-storage",
+          "path": null,
+          "nameKey": "topology.options.storage-backup.object-storage.name"
+        },
+        {
+          "id": "cross-region",
+          "path": "data/knowledge/architecture/distributed.md",
+          "nameKey": "topology.options.storage-backup.cross-region.name"
+        }
+      ],
+      "titleKey": "topology.nodes.storage-backup.title",
+      "summaryKey": "topology.nodes.storage-backup.summary"
+    }
+  ],
+  "edges": []
+}

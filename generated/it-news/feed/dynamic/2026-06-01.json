@@ -1,0 +1,205 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-01",
+  "itemCount": 7,
+  "items": [
+    {
+      "id": "rss:2995ca1c3636d92f482be20355930ccccbca56a0",
+      "feedType": "dynamic",
+      "title": "Introducing Mellum2: A 12B Mixture-of-Experts Model by JetBrains",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/JetBrains/mellum2-launch",
+      "guid": "https://huggingface.co/blog/JetBrains/mellum2-launch",
+      "publishedAt": "2026-06-01T15:45:17.000Z",
+      "date": "2026-06-01",
+      "time": "23:45",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:65ae950e23b00581c384b0268c8ad6058e788654",
+      "feedType": "dynamic",
+      "title": "Beyond LLMs: Why Scalable Enterprise AI Adoption Depends on Agent Logic",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+      "guid": "https://huggingface.co/blog/ibm-research/agent-logic-and-scalable-ai-adoption",
+      "publishedAt": "2026-06-01T13:51:18.000Z",
+      "date": "2026-06-01",
+      "time": "21:51",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:aquasecurity/trivy:332522983",
+      "feedType": "dynamic",
+      "title": "aquasecurity/trivy v0.71.0",
+      "titleEn": null,
+      "link": "https://github.com/aquasecurity/trivy/releases/tag/v0.71.0",
+      "guid": "332522983",
+      "publishedAt": "2026-06-01T13:49:26.000Z",
+      "date": "2026-06-01",
+      "time": "21:49",
+      "source": "github.com",
+      "sourceLabel": "GitHub: aquasecurity/trivy",
+      "sourceType": "github",
+      "author": "aquasecurity/trivy",
+      "authorHandle": "",
+      "summary": "⚡ Highlights ⚡ 👉 https://github.com/aquasecurity/trivy/discussions/10767 Changelog https://github.com/aquasecurity/trivy/blob/main/CHANGELOG.md 0710 2026 06 01",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:28501a6fbfb4ccaf87ff4cb74ddc12357904fad4",
+      "feedType": "dynamic",
+      "title": "Node.js 26.3.0 (Current)",
+      "titleEn": null,
+      "link": "https://nodejs.org/en/blog/release/v26.3.0",
+      "guid": "/blog/release/v26.3.0?1780319508265",
+      "publishedAt": "2026-06-01T13:11:48.000Z",
+      "date": "2026-06-01",
+      "time": "21:11",
+      "source": "nodejs.org",
+      "sourceLabel": "Node.js Blog",
+      "sourceType": "rss",
+      "author": "Node.js Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:googleapis/release-please:332500443",
+      "feedType": "dynamic",
+      "title": "googleapis/release-please v17.7.0",
+      "titleEn": null,
+      "link": "https://github.com/googleapis/release-please/releases/tag/v17.7.0",
+      "guid": "332500443",
+      "publishedAt": "2026-06-01T13:09:58.000Z",
+      "date": "2026-06-01",
+      "time": "21:09",
+      "source": "github.com",
+      "sourceLabel": "GitHub: googleapis/release-please",
+      "sourceType": "github",
+      "author": "googleapis/release-please",
+      "authorHandle": "",
+      "summary": "17.7.0 (2026 05 29) Features update librarian.yaml for Node ( 2775) (0c8f20a) Bug Fixes upgrade tmp to 0.2.6 to resolve path traversal vulnerability ( 2794) (fcec69c) use artifact id instead of distribution name override in librarian.yaml ( 2792) (9acbc83)",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "release-engineering"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/v8.0.16",
+      "feedType": "dynamic",
+      "title": "vitejs/vite v8.0.16",
+      "titleEn": null,
+      "link": "https://github.com/vitejs/vite/releases/tag/v8.0.16",
+      "guid": "tag:github.com,2008:Repository/257485422/v8.0.16",
+      "publishedAt": "2026-06-01T09:50:08.000Z",
+      "date": "2026-06-01",
+      "time": "17:50",
+      "source": "github.com",
+      "sourceLabel": "GitHub: vitejs/vite",
+      "sourceType": "github",
+      "author": "vitejs/vite",
+      "authorHandle": "",
+      "summary": "Please refer to CHANGELOG.md for details.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4e86bc52707f16ed2af2c25328e110d701fab272",
+      "feedType": "dynamic",
+      "title": "Miasma supply chain attack: malicious code found in @redhat-cloud-services npm packages",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/miasma-supply-chain-attack-malicious-code-redhat-cloud-services-npm-packages/",
+      "guid": "https://snyk.io/blog/miasma-supply-chain-attack-malicious-code-redhat-cloud-services-npm-packages/",
+      "publishedAt": "2026-06-01T00:00:00.000Z",
+      "date": "2026-06-01",
+      "time": "08:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "A supply chain worm dubbed Miasma has been found in dozens of @redhat-cloud-services npm releases. The malicious preinstall hook steals credentials, probes cloud identities, and can republish other packages.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    }
+  ]
+}

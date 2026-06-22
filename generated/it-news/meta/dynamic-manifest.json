@@ -1,0 +1,189 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "visible": true,
+  "lastSyncAt": "2026-06-22T06:40:38.803Z",
+  "itemCount": 313,
+  "coveredDays": [
+    "2026-06-21",
+    "2026-06-20",
+    "2026-06-19",
+    "2026-06-18",
+    "2026-06-17",
+    "2026-06-16",
+    "2026-06-15",
+    "2026-06-14",
+    "2026-06-13",
+    "2026-06-12",
+    "2026-06-11",
+    "2026-06-10",
+    "2026-06-09",
+    "2026-06-08",
+    "2026-06-07",
+    "2026-06-06",
+    "2026-06-05",
+    "2026-06-04",
+    "2026-06-03",
+    "2026-06-02",
+    "2026-06-01",
+    "2026-05-30",
+    "2026-05-29",
+    "2026-05-28",
+    "2026-05-27",
+    "2026-05-26",
+    "2026-05-25",
+    "2026-05-24"
+  ],
+  "dateRange": {
+    "latest": "2026-06-21",
+    "earliest": "2026-05-24"
+  },
+  "snapshots": [
+    {
+      "date": "2026-06-21",
+      "path": "generated/it-news/feed/dynamic/2026-06-21.json",
+      "itemCount": 3
+    },
+    {
+      "date": "2026-06-20",
+      "path": "generated/it-news/feed/dynamic/2026-06-20.json",
+      "itemCount": 4
+    },
+    {
+      "date": "2026-06-19",
+      "path": "generated/it-news/feed/dynamic/2026-06-19.json",
+      "itemCount": 24
+    },
+    {
+      "date": "2026-06-18",
+      "path": "generated/it-news/feed/dynamic/2026-06-18.json",
+      "itemCount": 35
+    },
+    {
+      "date": "2026-06-17",
+      "path": "generated/it-news/feed/dynamic/2026-06-17.json",
+      "itemCount": 26
+    },
+    {
+      "date": "2026-06-16",
+      "path": "generated/it-news/feed/dynamic/2026-06-16.json",
+      "itemCount": 25
+    },
+    {
+      "date": "2026-06-15",
+      "path": "generated/it-news/feed/dynamic/2026-06-15.json",
+      "itemCount": 12
+    },
+    {
+      "date": "2026-06-14",
+      "path": "generated/it-news/feed/dynamic/2026-06-14.json",
+      "itemCount": 2
+    },
+    {
+      "date": "2026-06-13",
+      "path": "generated/it-news/feed/dynamic/2026-06-13.json",
+      "itemCount": 7
+    },
+    {
+      "date": "2026-06-12",
+      "path": "generated/it-news/feed/dynamic/2026-06-12.json",
+      "itemCount": 16
+    },
+    {
+      "date": "2026-06-11",
+      "path": "generated/it-news/feed/dynamic/2026-06-11.json",
+      "itemCount": 12
+    },
+    {
+      "date": "2026-06-10",
+      "path": "generated/it-news/feed/dynamic/2026-06-10.json",
+      "itemCount": 22
+    },
+    {
+      "date": "2026-06-09",
+      "path": "generated/it-news/feed/dynamic/2026-06-09.json",
+      "itemCount": 8
+    },
+    {
+      "date": "2026-06-08",
+      "path": "generated/it-news/feed/dynamic/2026-06-08.json",
+      "itemCount": 6
+    },
+    {
+      "date": "2026-06-07",
+      "path": "generated/it-news/feed/dynamic/2026-06-07.json",
+      "itemCount": 1
+    },
+    {
+      "date": "2026-06-06",
+      "path": "generated/it-news/feed/dynamic/2026-06-06.json",
+      "itemCount": 2
+    },
+    {
+      "date": "2026-06-05",
+      "path": "generated/it-news/feed/dynamic/2026-06-05.json",
+      "itemCount": 13
+    },
+    {
+      "date": "2026-06-04",
+      "path": "generated/it-news/feed/dynamic/2026-06-04.json",
+      "itemCount": 11
+    },
+    {
+      "date": "2026-06-03",
+      "path": "generated/it-news/feed/dynamic/2026-06-03.json",
+      "itemCount": 10
+    },
+    {
+      "date": "2026-06-02",
+      "path": "generated/it-news/feed/dynamic/2026-06-02.json",
+      "itemCount": 21
+    },
+    {
+      "date": "2026-06-01",
+      "path": "generated/it-news/feed/dynamic/2026-06-01.json",
+      "itemCount": 7
+    },
+    {
+      "date": "2026-05-30",
+      "path": "generated/it-news/feed/dynamic/2026-05-30.json",
+      "itemCount": 5
+    },
+    {
+      "date": "2026-05-29",
+      "path": "generated/it-news/feed/dynamic/2026-05-29.json",
+      "itemCount": 11
+    },
+    {
+      "date": "2026-05-28",
+      "path": "generated/it-news/feed/dynamic/2026-05-28.json",
+      "itemCount": 12
+    },
+    {
+      "date": "2026-05-27",
+      "path": "generated/it-news/feed/dynamic/2026-05-27.json",
+      "itemCount": 8
+    },
+    {
+      "date": "2026-05-26",
+      "path": "generated/it-news/feed/dynamic/2026-05-26.json",
+      "itemCount": 5
+    },
+    {
+      "date": "2026-05-25",
+      "path": "generated/it-news/feed/dynamic/2026-05-25.json",
+      "itemCount": 4
+    },
+    {
+      "date": "2026-05-24",
+      "path": "generated/it-news/feed/dynamic/2026-05-24.json",
+      "itemCount": 1
+    }
+  ]
+}

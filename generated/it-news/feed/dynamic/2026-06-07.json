@@ -1,0 +1,42 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-07",
+  "itemCount": 1,
+  "items": [
+    {
+      "id": "rss:fd98910d674bc49a5f42ce195f425157ba79f6c3",
+      "feedType": "dynamic",
+      "title": "JavaNext Language Features",
+      "titleEn": null,
+      "link": "https://inside.java/2026/06/07/java-next-language-features/",
+      "guid": "https://inside.java/2026/06/07/java-next-language-features/",
+      "publishedAt": "2026-06-07T00:00:00.000Z",
+      "date": "2026-06-07",
+      "time": "08:00",
+      "source": "inside.java",
+      "sourceLabel": "Inside Java",
+      "sourceType": "rss",
+      "author": "Inside Java",
+      "authorHandle": "",
+      "summary": "The Java programming language is evolving fast. In this talk, we’ll summarize many of the recent changes that have appeared as well as look ahead to directions and features that are in development and will appear in future editions.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "JDK"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    }
+  ]
+}

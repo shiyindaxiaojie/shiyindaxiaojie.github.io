@@ -1,0 +1,316 @@
+{
+  "id": "go-backend",
+  "title": {
+    "zh": "Go 后端工程师",
+    "en": "Go Backend Engineer",
+    "ja": "Goバックエンドエンジニア"
+  },
+  "shortTitle": {
+    "zh": "Go 后端",
+    "en": "Go",
+    "ja": "Go"
+  },
+  "summary": {
+    "zh": "围绕 Go、MySQL、Redis、gRPC、微服务和云原生开发刷通用后端题。",
+    "en": "Focus on Go, MySQL, Redis, gRPC, microservices, and cloud-native backend work.",
+    "ja": "Focus on Go, MySQL, Redis, gRPC, microservices, and cloud-native backend work."
+  },
+  "accent": "#06b6d4",
+  "categories": [
+    {
+      "id": "service-story",
+      "label": {
+        "zh": "服务经历",
+        "en": "Service Story",
+        "ja": "サービス経験"
+      }
+    },
+    {
+      "id": "performance-result",
+      "label": {
+        "zh": "性能结果",
+        "en": "Performance Result",
+        "ja": "パフォーマンス成果"
+      }
+    },
+    {
+      "id": "go",
+      "label": {
+        "zh": "Go",
+        "en": "Go",
+        "ja": "Go"
+      }
+    },
+    {
+      "id": "mysql",
+      "label": {
+        "zh": "MySQL",
+        "en": "MySQL",
+        "ja": "MySQL"
+      }
+    },
+    {
+      "id": "redis",
+      "label": {
+        "zh": "Redis",
+        "en": "Redis",
+        "ja": "Redis"
+      }
+    },
+    {
+      "id": "grpc",
+      "label": {
+        "zh": "gRPC",
+        "en": "gRPC",
+        "ja": "gRPC"
+      }
+    },
+    {
+      "id": "microservices",
+      "label": {
+        "zh": "微服务",
+        "en": "Microservices",
+        "ja": "マイクロサービス"
+      }
+    },
+    {
+      "id": "concurrency",
+      "label": {
+        "zh": "并发编程",
+        "en": "Concurrency",
+        "ja": "並行処理"
+      }
+    },
+    {
+      "id": "cloud-native-dev",
+      "label": {
+        "zh": "云原生开发",
+        "en": "Cloud Native Development",
+        "ja": "クラウドネイティブ開発"
+      }
+    },
+    {
+      "id": "infra-tooling",
+      "label": {
+        "zh": "基础设施工具",
+        "en": "Infrastructure Tooling",
+        "ja": "インフラツール"
+      }
+    },
+    {
+      "id": "api-gateway",
+      "label": {
+        "zh": "API 网关",
+        "en": "API Gateway",
+        "ja": "APIゲートウェイ"
+      }
+    },
+    {
+      "id": "order-payment",
+      "label": {
+        "zh": "下单支付",
+        "en": "Order & Payment",
+        "ja": "注文と決済"
+      }
+    },
+    {
+      "id": "job-scheduler",
+      "label": {
+        "zh": "任务调度",
+        "en": "Job Scheduler",
+        "ja": "ジョブスケジューラ"
+      }
+    },
+    {
+      "id": "traffic-spike",
+      "label": {
+        "zh": "流量突增",
+        "en": "Traffic Spike",
+        "ja": "トラフィックスパイク"
+      }
+    },
+    {
+      "id": "service-governance",
+      "label": {
+        "zh": "服务治理",
+        "en": "Service Governance",
+        "ja": "サービスガバナンス"
+      }
+    },
+    {
+      "id": "team-stack",
+      "label": {
+        "zh": "技术栈演进",
+        "en": "Stack Evolution",
+        "ja": "技術スタックの変遷"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲服务规模、接口链路、性能结果和线上职责。",
+        "en": "Frame service scale, API paths, performance results, and production ownership.",
+        "ja": "Frame service scale, API paths, performance results, and production ownership."
+      },
+      "categories": [
+        "service-story",
+        "performance-result",
+        "team-stack"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "技术面关注 Go 语言、数据库缓存、RPC、微服务和并发。",
+        "en": "Technical rounds cover Go, database/cache, RPC, microservices, and concurrency.",
+        "ja": "Technical rounds cover Go, database/cache, RPC, microservices, and concurrency."
+      },
+      "categories": [
+        "go",
+        "mysql",
+        "redis",
+        "grpc",
+        "microservices",
+        "concurrency"
+      ],
+      "questionTypes": [
+        "principle",
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "Go 项目更适合按云原生开发、基础设施工具和服务治理来讲。",
+        "en": "Go projects fit cloud-native development, infrastructure tooling, and service governance.",
+        "ja": "Go projects fit cloud-native development, infrastructure tooling, and service governance."
+      },
+      "categories": [
+        "cloud-native-dev",
+        "infra-tooling",
+        "api-gateway",
+        "service-governance"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景围绕服务治理、任务调度、流量突增和下单支付链路。",
+        "en": "Scenarios cover service governance, scheduling, traffic spikes, and ordering flows.",
+        "ja": "Scenarios cover service governance, scheduling, traffic spikes, and ordering flows."
+      },
+      "categories": [
+        "service-governance",
+        "job-scheduler",
+        "traffic-spike",
+        "order-payment"
+      ],
+      "questionTypes": [
+        "system-design",
+        "scenario"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "反问优先围绕服务规模、工程治理和技术栈演进。",
+        "en": "Ask about service scale, engineering governance, and stack evolution.",
+        "ja": "Ask about service scale, engineering governance, and stack evolution."
+      },
+      "categories": [
+        "team-stack",
+        "service-governance",
+        "service-story"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

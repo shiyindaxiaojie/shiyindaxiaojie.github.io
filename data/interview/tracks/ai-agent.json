@@ -1,0 +1,317 @@
+{
+  "id": "ai-agent",
+  "title": {
+    "zh": "Agent 开发工程师",
+    "en": "Agent Engineer",
+    "ja": "Agentエンジニア"
+  },
+  "shortTitle": {
+    "zh": "AI Agent",
+    "en": "Agent",
+    "ja": "Agent"
+  },
+  "summary": {
+    "zh": "围绕 Agent 编排、工具调用、RAG、提示词、评测、安全边界和线上效果闭环。",
+    "en": "Agent orchestration, tool use, RAG, prompting, evals, safety boundaries, and online feedback loops.",
+    "ja": "Agent orchestration, tool use, RAG, prompting, evals, safety boundaries, and online feedback loops."
+  },
+  "accent": "#8b5cf6",
+  "categories": [
+    {
+      "id": "ai-product-story",
+      "label": {
+        "zh": "AI 产品经历",
+        "en": "AI Product Story",
+        "ja": "AIプロダクト経験"
+      }
+    },
+    {
+      "id": "model-chain",
+      "label": {
+        "zh": "模型链路",
+        "en": "Model Pipeline",
+        "ja": "モデルパイプライン"
+      }
+    },
+    {
+      "id": "llm",
+      "label": {
+        "zh": "LLM / RAG",
+        "en": "LLM / RAG",
+        "ja": "LLM / RAG"
+      }
+    },
+    {
+      "id": "prompt",
+      "label": {
+        "zh": "Prompt",
+        "en": "Prompt",
+        "ja": "プロンプト"
+      }
+    },
+    {
+      "id": "agent-orchestration",
+      "label": {
+        "zh": "Agent 编排",
+        "en": "Agent Orchestration",
+        "ja": "Agentオーケストレーション"
+      }
+    },
+    {
+      "id": "tool-calling",
+      "label": {
+        "zh": "工具调用",
+        "en": "Tool Calling",
+        "ja": "ツール呼び出し"
+      }
+    },
+    {
+      "id": "evaluation",
+      "label": {
+        "zh": "评测",
+        "en": "Evaluation",
+        "ja": "評価"
+      }
+    },
+    {
+      "id": "safety",
+      "label": {
+        "zh": "安全边界",
+        "en": "Safety",
+        "ja": "安全性"
+      }
+    },
+    {
+      "id": "customer-service",
+      "label": {
+        "zh": "智能客服",
+        "en": "Customer Service",
+        "ja": "カスタマーサービス"
+      }
+    },
+    {
+      "id": "knowledge-assistant",
+      "label": {
+        "zh": "知识助手",
+        "en": "Knowledge Assistant",
+        "ja": "ナレッジアシスタント"
+      }
+    },
+    {
+      "id": "workflow-agent",
+      "label": {
+        "zh": "工作流 Agent",
+        "en": "Workflow Agent",
+        "ja": "ワークフローAgent"
+      }
+    },
+    {
+      "id": "multi-agent",
+      "label": {
+        "zh": "多 Agent 协作",
+        "en": "Multi-agent",
+        "ja": "マルチエージェント"
+      }
+    },
+    {
+      "id": "rag-quality",
+      "label": {
+        "zh": "RAG 质量",
+        "en": "RAG Quality",
+        "ja": "RAG品質"
+      }
+    },
+    {
+      "id": "hallucination-control",
+      "label": {
+        "zh": "幻觉控制",
+        "en": "Hallucination Control",
+        "ja": "ハルシネーション制御"
+      }
+    },
+    {
+      "id": "cost-latency",
+      "label": {
+        "zh": "成本与延迟",
+        "en": "Cost & Latency",
+        "ja": "コストとレイテンシ"
+      }
+    },
+    {
+      "id": "eval-maturity",
+      "label": {
+        "zh": "评测体系",
+        "en": "Eval Maturity",
+        "ja": "評価成熟度"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲 AI 产品形态、模型链路、评测结果和线上闭环。",
+        "en": "Frame product shape, model pipeline, eval outcomes, and online loop.",
+        "ja": "Frame product shape, model pipeline, eval outcomes, and online loop."
+      },
+      "categories": [
+        "ai-product-story",
+        "model-chain",
+        "eval-maturity"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "技术面重点追问检索、提示词、Agent 编排、工具调用和评测。",
+        "en": "Technical rounds cover retrieval, prompting, agent orchestration, tool use, and evals.",
+        "ja": "Technical rounds cover retrieval, prompting, agent orchestration, tool use, and evals."
+      },
+      "categories": [
+        "llm",
+        "prompt",
+        "agent-orchestration",
+        "tool-calling",
+        "evaluation",
+        "safety"
+      ],
+      "questionTypes": [
+        "principle",
+        "scenario"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "项目按智能客服、知识助手、工作流 Agent 和多 Agent 协作组织。",
+        "en": "Projects can be grouped by support bots, knowledge assistants, workflow agents, and multi-agent systems.",
+        "ja": "Projects can be grouped by support bots, knowledge assistants, workflow agents, and multi-agent systems."
+      },
+      "categories": [
+        "customer-service",
+        "knowledge-assistant",
+        "workflow-agent",
+        "multi-agent"
+      ],
+      "questionTypes": [
+        "scenario"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景围绕 RAG 质量、幻觉控制、工具调用、成本延迟和安全边界。",
+        "en": "Scenarios cover RAG quality, hallucination control, tool use, cost/latency, and safety.",
+        "ja": "Scenarios cover RAG quality, hallucination control, tool use, cost/latency, and safety."
+      },
+      "categories": [
+        "rag-quality",
+        "hallucination-control",
+        "tool-calling",
+        "cost-latency",
+        "safety",
+        "llm",
+        "prompt"
+      ],
+      "questionTypes": [
+        "scenario",
+        "system-design"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "反问适合关注评测体系、数据闭环、模型权限和安全边界。",
+        "en": "Ask about eval maturity, data loops, model choices, and safety boundaries.",
+        "ja": "Ask about eval maturity, data loops, model choices, and safety boundaries."
+      },
+      "categories": [
+        "eval-maturity",
+        "model-chain",
+        "safety"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

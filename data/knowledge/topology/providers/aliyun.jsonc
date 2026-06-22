@@ -1,0 +1,36 @@
+// Provider: aliyun.
+// Alibaba Cloud product catalog for future provider-specific node options.
+{
+  "id": "aliyun",
+  "labelKey": "topology.providers.aliyun",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ],
+  "products": {
+    "edge": ["Alibaba Cloud DNS", "CDN", "ApsaraVideo VOD"],
+    "security": ["Anti-DDoS", "Cloud Firewall", "WAF"],
+    "gateway": ["SLB", "NAT Gateway", "API Gateway"],
+    "network": ["VPC", "VPN Gateway", "CEN"],
+    "compute": ["ECS", "ACK NodePool", "FC"],
+    "workloads": ["ACK", "ASK"],
+    "database": ["RDS MySQL", "PolarDB", "MongoDB"],
+    "cache": ["ApsaraDB for Redis", "Tair"],
+    "messaging": ["Kafka", "RocketMQ", "RabbitMQ"],
+    "storage": ["OSS", "NAS", "EBS"],
+    "observability": ["CloudMonitor", "SLS", "ARMS"],
+    "delivery": ["ACR", "Yunxiao", "OOS"],
+    "placement": ["Region", "Zone", "CEN"]
+  }
+}

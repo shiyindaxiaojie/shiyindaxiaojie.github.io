@@ -1,0 +1,22 @@
+// Unit: placement. Deployment placement: region, zone, IDC, multi-site, and hybrid cloud.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "placement",
+  "rootNode": "datacenter",
+  "nodes": [
+    {
+      "id": "datacenter",
+      "kind": "stage",
+      "zone": "datacenter",
+      "children": [
+        "compute",
+        "network-link",
+        "storage-backup"
+      ],
+      "titleKey": "topology.nodes.datacenter.title",
+      "summaryKey": "topology.nodes.datacenter.summary"
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,188 @@
+// Unit: microservice. Microservice domain: framework, discovery, config, mesh, resilience, and scheduling.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "microservice",
+  "rootNode": "service-governance",
+  "nodes": [
+    {
+      "id": "service-framework",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "spring-boot",
+      "options": [
+        {
+          "id": "spring-boot",
+          "name": "Spring Boot",
+          "path": "data/knowledge/java/spring-boot.md"
+        },
+        {
+          "id": "django",
+          "name": "Django",
+          "path": "data/knowledge/python/django.md"
+        },
+        {
+          "id": "gin",
+          "name": "Gin",
+          "path": "data/knowledge/golang/gin.md"
+        }
+      ],
+      "titleKey": "topology.nodes.service-framework.title",
+      "summaryKey": "topology.nodes.service-framework.summary"
+    },
+    {
+      "id": "rpc-job",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "dubbo",
+      "options": [
+        {
+          "id": "dubbo",
+          "name": "Dubbo",
+          "path": null
+        },
+        {
+          "id": "grpc",
+          "name": "gRPC",
+          "path": "data/knowledge/network/grpc.md"
+        },
+        {
+          "id": "xxl-job",
+          "name": "XXL-Job",
+          "path": "data/knowledge/middleware/xxl-job.md"
+        }
+      ],
+      "titleKey": "topology.nodes.rpc-job.title",
+      "summaryKey": "topology.nodes.rpc-job.summary"
+    },
+    {
+      "id": "service-governance",
+      "kind": "stage",
+      "zone": "governance",
+      "children": [
+        "registry",
+        "config-center",
+        "flow-control"
+      ],
+      "titleKey": "topology.nodes.service-governance.title",
+      "summaryKey": "topology.nodes.service-governance.summary"
+    },
+    {
+      "id": "registry",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "nacos",
+      "options": [
+        {
+          "id": "nacos",
+          "name": "Nacos",
+          "path": "data/knowledge/middleware/nacos.md"
+        },
+        {
+          "id": "consul",
+          "name": "Consul",
+          "path": null
+        },
+        {
+          "id": "zookeeper",
+          "name": "Zookeeper",
+          "path": "data/knowledge/middleware/zookeeper.md"
+        }
+      ],
+      "titleKey": "topology.nodes.registry.title",
+      "summaryKey": "topology.nodes.registry.summary"
+    },
+    {
+      "id": "config-center",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "apollo",
+      "options": [
+        {
+          "id": "apollo",
+          "name": "Apollo",
+          "path": "data/knowledge/middleware/apollo.md"
+        },
+        {
+          "id": "nacos-config",
+          "name": "Nacos Config",
+          "path": "data/knowledge/middleware/nacos.md"
+        },
+        {
+          "id": "spring-config",
+          "name": "Spring Cloud Config",
+          "path": "data/knowledge/java/spring-cloud.md"
+        }
+      ],
+      "titleKey": "topology.nodes.config-center.title",
+      "summaryKey": "topology.nodes.config-center.summary"
+    },
+    {
+      "id": "flow-control",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "sentinel",
+      "options": [
+        {
+          "id": "sentinel",
+          "name": "Sentinel",
+          "path": null
+        },
+        {
+          "id": "resilience4j",
+          "name": "Resilience4j",
+          "path": null
+        },
+        {
+          "id": "hystrix",
+          "name": "Hystrix",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.flow-control.title",
+      "summaryKey": "topology.nodes.flow-control.summary"
+    },
+    {
+      "id": "coordination-component",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "zookeeper",
+      "options": [
+        {
+          "id": "zookeeper",
+          "name": "ZooKeeper",
+          "path": "data/knowledge/middleware/zookeeper.md"
+        },
+        {
+          "id": "etcd",
+          "name": "etcd",
+          "path": null
+        },
+        {
+          "id": "consul",
+          "name": "Consul",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.coordination-component.title",
+      "summaryKey": "topology.nodes.coordination-component.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service-governance",
+      "target": "registry",
+      "type": "contains"
+    },
+    {
+      "source": "service-governance",
+      "target": "config-center",
+      "type": "contains"
+    },
+    {
+      "source": "service-governance",
+      "target": "flow-control",
+      "type": "contains"
+    }
+  ]
+}

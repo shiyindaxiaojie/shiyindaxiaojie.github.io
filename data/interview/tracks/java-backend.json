@@ -1,0 +1,367 @@
+{
+  "id": "java-backend",
+  "title": {
+    "zh": "Java 后端工程师",
+    "en": "Java Backend Engineer",
+    "ja": "Javaバックエンドエンジニア"
+  },
+  "shortTitle": {
+    "zh": "Java 后端",
+    "en": "Java",
+    "ja": "Java"
+  },
+  "summary": {
+    "zh": "围绕 Java、MySQL、Redis、Spring、消息队列和高并发业务链路刷高频。",
+    "en": "Focus on Java, MySQL, Redis, Spring, messaging, and high-concurrency business flows.",
+    "ja": "Focus on Java, MySQL, Redis, Spring, messaging, and high-concurrency business flows."
+  },
+  "accent": "#22c55e",
+  "categories": [
+    {
+      "id": "career-story",
+      "label": {
+        "zh": "职业主线",
+        "en": "Career Story",
+        "ja": "キャリア経験"
+      }
+    },
+    {
+      "id": "system-ownership",
+      "label": {
+        "zh": "系统职责",
+        "en": "System Ownership",
+        "ja": "システム責任範囲"
+      }
+    },
+    {
+      "id": "impact-metrics",
+      "label": {
+        "zh": "结果指标",
+        "en": "Impact Metrics",
+        "ja": "成果指標"
+      }
+    },
+    {
+      "id": "java",
+      "label": {
+        "zh": "Java",
+        "en": "Java",
+        "ja": "Java"
+      }
+    },
+    {
+      "id": "mysql",
+      "label": {
+        "zh": "MySQL",
+        "en": "MySQL",
+        "ja": "MySQL"
+      }
+    },
+    {
+      "id": "redis",
+      "label": {
+        "zh": "Redis",
+        "en": "Redis",
+        "ja": "Redis"
+      }
+    },
+    {
+      "id": "rocketmq",
+      "label": {
+        "zh": "RocketMQ",
+        "en": "RocketMQ",
+        "ja": "RocketMQ"
+      }
+    },
+    {
+      "id": "spring-boot",
+      "label": {
+        "zh": "Spring Boot",
+        "en": "Spring Boot",
+        "ja": "Spring Boot"
+      }
+    },
+    {
+      "id": "spring-cloud",
+      "label": {
+        "zh": "Spring Cloud",
+        "en": "Spring Cloud",
+        "ja": "Spring Cloud"
+      }
+    },
+    {
+      "id": "concurrency",
+      "label": {
+        "zh": "并发编程",
+        "en": "Concurrency",
+        "ja": "並行処理"
+      }
+    },
+    {
+      "id": "ecommerce",
+      "label": {
+        "zh": "电商",
+        "en": "Ecommerce",
+        "ja": "EC"
+      }
+    },
+    {
+      "id": "social",
+      "label": {
+        "zh": "社交",
+        "en": "Social",
+        "ja": "ソーシャル"
+      }
+    },
+    {
+      "id": "payment",
+      "label": {
+        "zh": "支付",
+        "en": "Payment",
+        "ja": "決済"
+      }
+    },
+    {
+      "id": "logistics",
+      "label": {
+        "zh": "履约物流",
+        "en": "Logistics",
+        "ja": "物流"
+      }
+    },
+    {
+      "id": "enterprise-saas",
+      "label": {
+        "zh": "企业 SaaS",
+        "en": "Enterprise SaaS",
+        "ja": "エンタープライズSaaS"
+      }
+    },
+    {
+      "id": "flash-sale",
+      "label": {
+        "zh": "秒杀",
+        "en": "Flash Sale",
+        "ja": "フラッシュセール"
+      }
+    },
+    {
+      "id": "order-payment",
+      "label": {
+        "zh": "下单支付",
+        "en": "Order & Payment",
+        "ja": "注文と決済"
+      }
+    },
+    {
+      "id": "inventory-deduction",
+      "label": {
+        "zh": "库存扣减",
+        "en": "Inventory Deduction",
+        "ja": "在庫引き当て"
+      }
+    },
+    {
+      "id": "cache-consistency",
+      "label": {
+        "zh": "缓存一致性",
+        "en": "Cache Consistency",
+        "ja": "キャッシュ整合性"
+      }
+    },
+    {
+      "id": "idempotent-api",
+      "label": {
+        "zh": "接口幂等",
+        "en": "Idempotent API",
+        "ja": "冪等API"
+      }
+    },
+    {
+      "id": "team-stack",
+      "label": {
+        "zh": "技术栈演进",
+        "en": "Stack Evolution",
+        "ja": "技術スタックの変遷"
+      }
+    },
+    {
+      "id": "stability-standard",
+      "label": {
+        "zh": "稳定性要求",
+        "en": "Stability Standard",
+        "ja": "安定性標準"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲业务系统、核心职责、技术栈和结果指标。",
+        "en": "Frame business systems, ownership, stack, and measurable outcomes.",
+        "ja": "Frame business systems, ownership, stack, and measurable outcomes."
+      },
+      "categories": [
+        "career-story",
+        "system-ownership",
+        "impact-metrics"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "技术面会围绕 Java、数据库、缓存、消息和微服务基础追问。",
+        "en": "Technical rounds cover Java, database, cache, messaging, and microservice basics.",
+        "ja": "Technical rounds cover Java, database, cache, messaging, and microservice basics."
+      },
+      "categories": [
+        "java",
+        "mysql",
+        "redis",
+        "rocketmq",
+        "spring-boot",
+        "spring-cloud",
+        "concurrency"
+      ],
+      "questionTypes": [
+        "principle",
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "项目经验按业务领域组织，重点讲链路、难点、取舍和结果。",
+        "en": "Project deep-dives are grouped by domain, with emphasis on flows, trade-offs, and outcomes.",
+        "ja": "Project deep-dives are grouped by domain, with emphasis on flows, trade-offs, and outcomes."
+      },
+      "categories": [
+        "ecommerce",
+        "social",
+        "payment",
+        "logistics",
+        "enterprise-saas"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景设计围绕秒杀、下单、库存、缓存和幂等这些业务链路展开。",
+        "en": "Scenario design covers flash sales, ordering, inventory, cache, and idempotency.",
+        "ja": "Scenario design covers flash sales, ordering, inventory, cache, and idempotency."
+      },
+      "categories": [
+        "flash-sale",
+        "order-payment",
+        "inventory-deduction",
+        "cache-consistency",
+        "idempotent-api"
+      ],
+      "questionTypes": [
+        "system-design",
+        "scenario"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "反问优先围绕技术栈演进、稳定性目标和业务复杂度。",
+        "en": "Ask about stack evolution, reliability goals, and business complexity.",
+        "ja": "Ask about stack evolution, reliability goals, and business complexity."
+      },
+      "categories": [
+        "team-stack",
+        "stability-standard",
+        "system-ownership"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

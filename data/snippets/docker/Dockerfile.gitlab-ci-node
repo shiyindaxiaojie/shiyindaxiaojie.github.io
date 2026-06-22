@@ -1,0 +1,8 @@
+FROM docker.m.daocloud.io/docker:stable-dind
+
+RUN apk add --no-cache \
+    nodejs \
+    npm \
+    curl
+
+

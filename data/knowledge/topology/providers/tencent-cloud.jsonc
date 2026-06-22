@@ -1,0 +1,36 @@
+// Provider: tencent-cloud.
+// Tencent Cloud product catalog for future provider-specific node options.
+{
+  "id": "tencent-cloud",
+  "labelKey": "topology.providers.tencentCloud",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ],
+  "products": {
+    "edge": ["DNSPod", "CDN", "VOD"],
+    "security": ["Anti-DDoS", "Cloud Firewall", "WAF"],
+    "gateway": ["CLB", "NAT Gateway", "API Gateway"],
+    "network": ["VPC", "VPN Gateway", "CCN"],
+    "compute": ["CVM", "TKE NodePool", "SCF"],
+    "workloads": ["TKE", "EKS"],
+    "database": ["TencentDB for MySQL", "TDSQL", "MongoDB"],
+    "cache": ["TencentDB for Redis", "Tair"],
+    "messaging": ["CKafka", "TDMQ", "CMQ"],
+    "storage": ["COS", "CFS", "CBS"],
+    "observability": ["Cloud Monitor", "CLS", "APM"],
+    "delivery": ["CODING", "TCR", "BlueKing"],
+    "placement": ["Region", "Availability Zone", "Cloud Connect Network"]
+  }
+}

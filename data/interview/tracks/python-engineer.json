@@ -1,0 +1,308 @@
+{
+  "id": "python-engineer",
+  "title": {
+    "zh": "Python 工程师",
+    "en": "Python Engineer",
+    "ja": "Pythonエンジニア"
+  },
+  "shortTitle": {
+    "zh": "Python 后端",
+    "en": "Python",
+    "ja": "Python"
+  },
+  "summary": {
+    "zh": "面向 Python Web、数据处理、任务调度、自动化和后端服务工程能力。",
+    "en": "Python web, data processing, scheduling, automation, and backend service engineering.",
+    "ja": "Python web, data processing, scheduling, automation, and backend service engineering."
+  },
+  "accent": "#f59e0b",
+  "categories": [
+    {
+      "id": "python-story",
+      "label": {
+        "zh": "Python 经历",
+        "en": "Python Story",
+        "ja": "Python経験"
+      }
+    },
+    {
+      "id": "automation-result",
+      "label": {
+        "zh": "自动化成果",
+        "en": "Automation Result",
+        "ja": "自動化成果"
+      }
+    },
+    {
+      "id": "python",
+      "label": {
+        "zh": "Python",
+        "en": "Python",
+        "ja": "Python"
+      }
+    },
+    {
+      "id": "django",
+      "label": {
+        "zh": "Django",
+        "en": "Django",
+        "ja": "Django"
+      }
+    },
+    {
+      "id": "fastapi",
+      "label": {
+        "zh": "FastAPI",
+        "en": "FastAPI",
+        "ja": "FastAPI"
+      }
+    },
+    {
+      "id": "mysql",
+      "label": {
+        "zh": "MySQL",
+        "en": "MySQL",
+        "ja": "MySQL"
+      }
+    },
+    {
+      "id": "redis",
+      "label": {
+        "zh": "Redis",
+        "en": "Redis",
+        "ja": "Redis"
+      }
+    },
+    {
+      "id": "celery",
+      "label": {
+        "zh": "Celery",
+        "en": "Celery",
+        "ja": "Celery"
+      }
+    },
+    {
+      "id": "data-pipeline",
+      "label": {
+        "zh": "数据处理",
+        "en": "Data Pipeline",
+        "ja": "データパイプライン"
+      }
+    },
+    {
+      "id": "automation-platform",
+      "label": {
+        "zh": "自动化平台",
+        "en": "Automation Platform",
+        "ja": "自動化基盤"
+      }
+    },
+    {
+      "id": "backend-api",
+      "label": {
+        "zh": "后端 API",
+        "en": "Backend API",
+        "ja": "バックエンドAPI"
+      }
+    },
+    {
+      "id": "order-payment",
+      "label": {
+        "zh": "下单支付",
+        "en": "Order & Payment",
+        "ja": "注文と決済"
+      }
+    },
+    {
+      "id": "async-task",
+      "label": {
+        "zh": "异步任务",
+        "en": "Async Task",
+        "ja": "非同期タスク"
+      }
+    },
+    {
+      "id": "data-import",
+      "label": {
+        "zh": "数据导入",
+        "en": "Data Import",
+        "ja": "データインポート"
+      }
+    },
+    {
+      "id": "dependency-management",
+      "label": {
+        "zh": "依赖治理",
+        "en": "Dependency Management",
+        "ja": "依存管理"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲 Python 主要场景、服务规模、自动化收益和工程质量。",
+        "en": "Frame Python use cases, service scale, automation gains, and engineering quality.",
+        "ja": "Frame Python use cases, service scale, automation gains, and engineering quality."
+      },
+      "categories": [
+        "python-story",
+        "automation-result",
+        "backend-api"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "技术面关注 Python 语言、Web 框架、数据库缓存和异步任务。",
+        "en": "Technical rounds cover Python, web frameworks, database/cache, and async jobs.",
+        "ja": "Technical rounds cover Python, web frameworks, database/cache, and async jobs."
+      },
+      "categories": [
+        "python",
+        "django",
+        "fastapi",
+        "mysql",
+        "redis",
+        "celery"
+      ],
+      "questionTypes": [
+        "principle",
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "项目可按数据处理、自动化平台、后端 API 和任务系统组织。",
+        "en": "Projects can be grouped by data pipelines, automation platforms, APIs, and job systems.",
+        "ja": "Projects can be grouped by data pipelines, automation platforms, APIs, and job systems."
+      },
+      "categories": [
+        "data-pipeline",
+        "automation-platform",
+        "backend-api",
+        "async-task"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景围绕异步任务、数据导入、接口幂等和依赖治理。",
+        "en": "Scenarios cover async jobs, data imports, idempotency, and dependency management.",
+        "ja": "Scenarios cover async jobs, data imports, idempotency, and dependency management."
+      },
+      "categories": [
+        "async-task",
+        "data-import",
+        "order-payment",
+        "dependency-management"
+      ],
+      "questionTypes": [
+        "system-design",
+        "scenario"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "反问适合关注 Python 工程规范、任务系统和自动化投入。",
+        "en": "Ask about Python engineering standards, job systems, and automation investment.",
+        "ja": "Ask about Python engineering standards, job systems, and automation investment."
+      },
+      "categories": [
+        "dependency-management",
+        "automation-result",
+        "automation-platform"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

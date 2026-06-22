@@ -1,0 +1,121 @@
+{
+  "tracks": [
+    "cloud-native",
+    "devops",
+    "java-backend",
+    "go-backend",
+    "python-engineer",
+    "ai-agent",
+    "frontend"
+  ],
+  "difficulties": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All",
+        "ja": "すべて"
+      }
+    },
+    {
+      "id": "junior",
+      "label": {
+        "zh": "初级",
+        "en": "Junior",
+        "ja": "初級"
+      }
+    },
+    {
+      "id": "intermediate",
+      "label": {
+        "zh": "中级",
+        "en": "Intermediate",
+        "ja": "中級"
+      }
+    },
+    {
+      "id": "senior",
+      "label": {
+        "zh": "高级",
+        "en": "Senior",
+        "ja": "上級"
+      }
+    }
+  ],
+  "questionTypes": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All",
+        "ja": "すべて"
+      }
+    },
+    {
+      "id": "principle",
+      "label": {
+        "zh": "原理题",
+        "en": "Principle",
+        "ja": "原理"
+      }
+    },
+    {
+      "id": "scenario",
+      "label": {
+        "zh": "场景题",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "system-design",
+      "label": {
+        "zh": "系统设计",
+        "en": "System Design",
+        "ja": "システム設計"
+      }
+    },
+    {
+      "id": "troubleshooting",
+      "label": {
+        "zh": "排障题",
+        "en": "Troubleshooting",
+        "ja": "トラブルシューティング"
+      }
+    }
+  ],
+  "frequencies": [
+    {
+      "id": "all",
+      "label": {
+        "zh": "全部",
+        "en": "All",
+        "ja": "すべて"
+      }
+    },
+    {
+      "id": "high",
+      "label": {
+        "zh": "高频",
+        "en": "High",
+        "ja": "高"
+      }
+    },
+    {
+      "id": "medium",
+      "label": {
+        "zh": "中频",
+        "en": "Medium",
+        "ja": "中"
+      }
+    },
+    {
+      "id": "low",
+      "label": {
+        "zh": "低频",
+        "en": "Low",
+        "ja": "低"
+      }
+    }
+  ]
+}

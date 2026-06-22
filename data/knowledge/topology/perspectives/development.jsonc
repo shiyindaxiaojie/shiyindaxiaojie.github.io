@@ -1,0 +1,17 @@
+// Perspective: development.
+// Keeps developer-facing service internals separate from operations topology.
+{
+  "id": "development",
+  "labelKey": "topology.perspectives.development",
+  "units": [
+    "frontend",
+    "gateway",
+    "workloads",
+    "microservice",
+    "cache",
+    "messaging",
+    "observability",
+    "delivery",
+    "compute"
+  ]
+}

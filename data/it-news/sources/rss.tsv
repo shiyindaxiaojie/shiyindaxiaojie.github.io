@@ -1,0 +1,33 @@
+title	url	siteUrl	topics	tags
+LangChain Blog	https://blog.langchain.com/rss/	https://blog.langchain.com/	agent-engineering,rag,llmops	
+Hugging Face Blog	https://huggingface.co/blog/feed.xml	https://huggingface.co/blog	model-engineering,multimodal-ai,ai-infra	
+Kubernetes Blog	https://kubernetes.io/feed.xml	https://kubernetes.io/blog/	kubernetes	
+Istio Blog	https://istio.io/latest/blog/feed.xml	https://istio.io/latest/blog/	service-mesh	
+CNCF Blog	https://www.cncf.io/feed/	https://www.cncf.io/blog/		
+AWS Architecture Blog	https://aws.amazon.com/blogs/architecture/feed/	https://aws.amazon.com/blogs/architecture/		
+AWS Containers Blog	https://aws.amazon.com/blogs/containers/feed/	https://aws.amazon.com/blogs/containers/	container-platform	
+Martin Fowler	https://martinfowler.com/feed.atom	https://martinfowler.com/	idp,devex	
+Cloudflare Blog	https://blog.cloudflare.com/rss/	https://blog.cloudflare.com/		
+Spotify Engineering	https://engineering.atspotify.com/feed/	https://engineering.atspotify.com/	data-pipeline,streaming	
+Meta Engineering	https://engineering.fb.com/feed/	https://engineering.fb.com/	data-pipeline	
+Slack Engineering	https://slack.engineering/feed/	https://slack.engineering/	devex,idp	
+GitHub Engineering	https://github.blog/engineering/feed/	https://github.blog/engineering/	devex	
+OpenTelemetry Blog	https://opentelemetry.io/blog/index.xml	https://opentelemetry.io/blog/	opentelemetry	
+Prometheus Blog	https://prometheus.io/blog/feed.xml	https://prometheus.io/blog/	metrics	
+Inside Java	https://inside.java/feed.xml	https://inside.java/	java-ecosystem	JDK
+Go Blog	https://go.dev/blog/feed.atom	https://go.dev/blog/	go	
+Python Insider	https://blog.python.org/feeds/posts/default	https://blog.python.org/	python	
+Rust Blog	https://blog.rust-lang.org/feed.xml	https://blog.rust-lang.org/	rust	
+Spring Blog	https://spring.io/blog.atom	https://spring.io/blog	java-ecosystem	Spring
+Spring Releases	https://spring.io/blog/category/releases.atom	https://spring.io/blog/category/releases/	java-ecosystem	Spring,Release
+Node.js Blog	https://nodejs.org/en/feed/blog.xml	https://nodejs.org/en/blog	javascript	
+GitHub Blog	https://github.blog/feed/	https://github.blog/	devex	
+GitHub Changelog	https://github.blog/changelog/feed/	https://github.blog/changelog/	devex	
+web.dev	https://web.dev/feed.xml	https://web.dev/	javascript	
+React Blog	https://react.dev/rss.xml	https://react.dev/blog	javascript	
+Google Security Blog	https://security.googleblog.com/feeds/posts/default	https://security.googleblog.com/	cloud-security	
+OpenSSF Blog	https://openssf.org/feed/	https://openssf.org/blog/	supply-chain-security	
+Snyk Blog	https://snyk.io/blog/feed/	https://snyk.io/blog/	vulnerability,supply-chain-security,cloud-security	
+Weaviate Blog	https://weaviate.io/blog/rss.xml	https://weaviate.io/blog	search-vector,rag	
+Databricks Blog	https://www.databricks.com/feed	https://www.databricks.com/blog	lakehouse,data-pipeline	
+Confluent Blog	https://www.confluent.io/rss.xml	https://www.confluent.io/blog/	streaming,message-queue,data-pipeline	

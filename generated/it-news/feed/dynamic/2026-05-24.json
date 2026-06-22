@@ -1,0 +1,43 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-05-24",
+  "itemCount": 1,
+  "items": [
+    {
+      "id": "rss:296bd223ffe2c7efe4f2e91ae0e76215ec8cafab",
+      "feedType": "dynamic",
+      "title": "Laravel Lang Supply Chain Advisory",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/laravel-lang-supply-chain-advisory/",
+      "guid": "https://snyk.io/blog/laravel-lang-supply-chain-advisory/",
+      "publishedAt": "2026-05-23T16:00:00.000Z",
+      "date": "2026-05-24",
+      "time": "00:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "Hundreds of historical Laravel Lang Packagist releases were republished with malicious code, putting Composer installs at risk of credential theft and secret exfiltration.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    }
+  ]
+}

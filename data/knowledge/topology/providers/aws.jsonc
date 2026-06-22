@@ -1,0 +1,36 @@
+// Provider: aws.
+// AWS product catalog for future provider-specific node options.
+{
+  "id": "aws",
+  "labelKey": "topology.providers.aws",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ],
+  "products": {
+    "edge": ["Route 53", "CloudFront", "MediaConvert"],
+    "security": ["AWS WAF", "AWS Shield", "Network Firewall"],
+    "gateway": ["Elastic Load Balancing", "NAT Gateway", "API Gateway"],
+    "network": ["VPC", "Transit Gateway", "PrivateLink"],
+    "compute": ["EC2", "EKS Managed Node Groups", "Lambda"],
+    "workloads": ["EKS", "ECS"],
+    "database": ["RDS", "Aurora", "DynamoDB"],
+    "cache": ["ElastiCache", "MemoryDB"],
+    "messaging": ["MSK", "SQS", "SNS"],
+    "storage": ["S3", "EFS", "EBS"],
+    "observability": ["CloudWatch", "X-Ray", "Managed Prometheus"],
+    "delivery": ["CodePipeline", "ECR", "CodeDeploy"],
+    "placement": ["Region", "Availability Zone", "Direct Connect"]
+  }
+}

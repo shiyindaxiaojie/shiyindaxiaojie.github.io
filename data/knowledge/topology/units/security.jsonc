@@ -1,0 +1,140 @@
+// Unit: security. Security perimeter: WAF, firewall, anti-DDoS, and access isolation.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "security",
+  "rootNode": "security-access",
+  "nodes": [
+    {
+      "id": "security-access",
+      "kind": "stage",
+      "zone": "security",
+      "children": [
+        "ddos",
+        "nat-firewall",
+        "cloud-firewall",
+        "waf",
+        "vpc-isolation"
+      ],
+      "titleKey": "topology.nodes.security-access.title",
+      "summaryKey": "topology.nodes.security-access.summary"
+    },
+    {
+      "id": "ddos",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "anti-ddos",
+      "options": [
+        {
+          "id": "anti-ddos",
+          "name": "Anti-DDoS",
+          "path": null
+        },
+        {
+          "id": "gaap",
+          "name": "GAAP",
+          "path": null
+        },
+        {
+          "id": "cloudflare-ddos",
+          "name": "Cloudflare DDoS",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.ddos.title",
+      "summaryKey": "topology.nodes.ddos.summary"
+    },
+    {
+      "id": "nat-firewall",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-nat-gateway",
+      "options": [
+        {
+          "id": "tencent-nat-gateway",
+          "path": null,
+          "nameKey": "topology.options.nat-firewall.tencent-nat-gateway.name"
+        },
+        {
+          "id": "aliyun-nat-gateway",
+          "path": null,
+          "nameKey": "topology.options.nat-firewall.aliyun-nat-gateway.name"
+        },
+        {
+          "id": "aws-nat-gateway",
+          "name": "AWS NAT Gateway",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.nat-firewall.title",
+      "summaryKey": "topology.nodes.nat-firewall.summary"
+    },
+    {
+      "id": "cloud-firewall",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-cfw",
+      "options": [
+        {
+          "id": "tencent-cfw",
+          "path": null,
+          "nameKey": "topology.options.cloud-firewall.tencent-cfw.name"
+        },
+        {
+          "id": "aliyun-cloud-firewall",
+          "path": null,
+          "nameKey": "topology.options.cloud-firewall.aliyun-cloud-firewall.name"
+        },
+        {
+          "id": "aws-network-firewall",
+          "name": "AWS Network Firewall",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.cloud-firewall.title",
+      "summaryKey": "topology.nodes.cloud-firewall.summary"
+    },
+    {
+      "id": "waf",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-waf",
+      "options": [
+        {
+          "id": "tencent-waf",
+          "path": null,
+          "nameKey": "topology.options.waf.tencent-waf.name"
+        },
+        {
+          "id": "aliyun-waf",
+          "path": null,
+          "nameKey": "topology.options.waf.aliyun-waf.name"
+        },
+        {
+          "id": "aws-waf",
+          "name": "AWS WAF",
+          "path": null
+        },
+        {
+          "id": "modsecurity",
+          "name": "ModSecurity",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.waf.title",
+      "summaryKey": "topology.nodes.waf.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "security-access",
+      "target": "ddos",
+      "type": "contains"
+    },
+    {
+      "source": "security-access",
+      "target": "waf",
+      "type": "contains"
+    }
+  ]
+}

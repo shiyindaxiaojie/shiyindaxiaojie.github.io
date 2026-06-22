@@ -1,0 +1,31 @@
+FROM docker.m.daocloud.io/jenkins/inbound-agent:latest
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    gnupg \
+    ca-certificates \
+    apt-transport-https
+
+RUN curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
+  trixie stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+RUN apt-get update && \
+    apt-get install -y docker-ce-cli && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends yarn && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /build
+
+RUN npm config set registry http://localhost:8081/repository/npm-public/
+RUN yarn config set registry http://localhost:8081/repository/npm-public/

@@ -1,0 +1,283 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-03",
+  "itemCount": 10,
+  "items": [
+    {
+      "id": "rss:6292aeccbc7c6eab857388210e4e5c59b9f1160c",
+      "feedType": "dynamic",
+      "title": "Building highly available Oracle databases with Amazon FSx for NetApp ONTAP",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/architecture/building-highly-available-oracle-databases-with-amazon-fsx-for-netapp-ontap/",
+      "guid": "be02f2ab90e06f3b8d3fbf798600258a5d768cbc",
+      "publishedAt": "2026-06-03T15:51:22.000Z",
+      "date": "2026-06-03",
+      "time": "23:51",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Architecture Blog",
+      "sourceType": "rss",
+      "author": "AWS Architecture Blog",
+      "authorHandle": "",
+      "summary": "This post shows how to build a highly available Oracle database architecture using FSxN shared storage, Auto Scaling groups with dynamic AMI updates, and serverless orchestration to help reduce recovery times with current configurations.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:cfcca0a1095f86a74898485df3707c48eee2fb6b",
+      "feedType": "dynamic",
+      "title": "Coding Is No Longer the Constraint: Scaling Developer Experience to Teams and Agents at Spotify",
+      "titleEn": null,
+      "link": "https://engineering.atspotify.com/2026/6/code-with-claude-coding-is-no-longer-the-constraint/",
+      "guid": "https://engineering.atspotify.com/?p=2d34o9wKbvUemRP62vcSEJ",
+      "publishedAt": "2026-06-03T15:50:18.000Z",
+      "date": "2026-06-03",
+      "time": "23:50",
+      "source": "engineering.atspotify.com",
+      "sourceLabel": "Spotify Engineering",
+      "sourceType": "rss",
+      "author": "Spotify Engineering",
+      "authorHandle": "",
+      "summary": "At Code with Claude, Spotify’s chief architect shared how we make both teams and AI agents more effective. The post Coding Is No Longer the Constraint: Scaling Developer Experience to Teams and Agents at Spotify appeared first on Spotify Engineering .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "data-pipeline",
+        "streaming"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:jaegertracing/jaeger:333773430",
+      "feedType": "dynamic",
+      "title": "jaegertracing/jaeger Release v2.19.0",
+      "titleEn": null,
+      "link": "https://github.com/jaegertracing/jaeger/releases/tag/v2.19.0",
+      "guid": "333773430",
+      "publishedAt": "2026-06-03T14:25:05.000Z",
+      "date": "2026-06-03",
+      "time": "22:25",
+      "source": "github.com",
+      "sourceLabel": "GitHub: jaegertracing/jaeger",
+      "sourceType": "github",
+      "author": "jaegertracing/jaeger",
+      "authorHandle": "",
+      "summary": "Backend Changes ✨ New Features Feat(apiv3): implement findtracesummaries grpc handler (@yurishkuro in 8634) 🐞 Bug fixes, Minor Improvements Fix(apiv3): support query.attributes filter in get /api/v3/traces (@yurishkuro in 8687) Feat(clickhouse): add tls configuration (@Pulkit7070 in 8650) [clickhouse] add linter for...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "tracing"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:nobl9/sloctl:325510573",
+      "feedType": "dynamic",
+      "title": "nobl9/sloctl v0.23.0",
+      "titleEn": null,
+      "link": "https://github.com/nobl9/sloctl/releases/tag/v0.23.0",
+      "guid": "325510573",
+      "publishedAt": "2026-06-03T14:10:26.000Z",
+      "date": "2026-06-03",
+      "time": "22:10",
+      "source": "github.com",
+      "sourceLabel": "GitHub: nobl9/sloctl",
+      "sourceType": "github",
+      "author": "nobl9/sloctl",
+      "authorHandle": "",
+      "summary": "What's Changed 🚀 Features feat: add sloctl edit command ( 460) @nieomylnieja Added an interactive sloctl edit command for modifying resources in an editor and applying validated changes in one go. 🧰 Maintenance <details <summary 13 changes</summary chore: bump sdk version ( 478) @nieomylnieja chore: Update dependenc...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "slo"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:bc0be78cdc6b163dcc9903aed8b767f5b8ab2322",
+      "feedType": "dynamic",
+      "title": "Direct Preference Optimization Beyond Chatbots",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots",
+      "guid": "https://huggingface.co/blog/Dharma-AI/direct-preference-optimization-beyond-chatbots",
+      "publishedAt": "2026-06-03T12:55:11.000Z",
+      "date": "2026-06-03",
+      "time": "20:55",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
+      "feedType": "dynamic",
+      "title": "milvus-io/milvus pkg/v2.6.18: enhance: Bump milvus & proto to v2.6.18 (#50254)",
+      "titleEn": null,
+      "link": "https://github.com/milvus-io/milvus/releases/tag/pkg%2Fv2.6.18",
+      "guid": "tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
+      "publishedAt": "2026-06-03T03:18:18.000Z",
+      "date": "2026-06-03",
+      "time": "11:18",
+      "source": "github.com",
+      "sourceLabel": "GitHub: milvus-io/milvus",
+      "sourceType": "github",
+      "author": "milvus-io/milvus",
+      "authorHandle": "",
+      "summary": "Signed-off-by: Congqi Xia congqi.xia@zilliz.com",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:6035b80f5771feb033063a365731025ed007a006",
+      "feedType": "dynamic",
+      "title": "The New Security Risks of the Agentic Development Lifecycle",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/agentic-development-lifecycle/",
+      "guid": "https://snyk.io/blog/agentic-development-lifecycle/",
+      "publishedAt": "2026-06-03T00:00:00.000Z",
+      "date": "2026-06-03",
+      "time": "08:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "AI agents are changing how software gets built, and with it, where security risk begins. Learn why securing the process matters as much as securing the code.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:799726310b5a7d7717527ba73553b8284be14e2d",
+      "feedType": "dynamic",
+      "title": "Adding MCP Tools to Reachy Mini",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini",
+      "guid": "https://huggingface.co/blog/adding-mcp-tools-to-reachy-mini",
+      "publishedAt": "2026-06-03T00:00:00.000Z",
+      "date": "2026-06-03",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:a03e3ad16929f89b9955fa4774e65907efc8a9f7",
+      "feedType": "dynamic",
+      "title": "Engram is now Generally Available",
+      "titleEn": null,
+      "link": "https://weaviate.io/blog/engram-generally-available",
+      "guid": "https://weaviate.io/blog/engram-generally-available",
+      "publishedAt": "2026-06-03T00:00:00.000Z",
+      "date": "2026-06-03",
+      "time": "08:00",
+      "source": "weaviate.io",
+      "sourceLabel": "Weaviate Blog",
+      "sourceType": "rss",
+      "author": "Weaviate Blog",
+      "authorHandle": "",
+      "summary": "Engram, Weaviate's managed memory and context service for agentic applications, is now generally available.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:rook/rook:333299761",
+      "feedType": "dynamic",
+      "title": "rook/rook v1.20.0",
+      "titleEn": null,
+      "link": "https://github.com/rook/rook/releases/tag/v1.20.0",
+      "guid": "333299761",
+      "publishedAt": "2026-06-02T18:32:24.000Z",
+      "date": "2026-06-03",
+      "time": "02:32",
+      "source": "github.com",
+      "sourceLabel": "GitHub: rook/rook",
+      "sourceType": "github",
+      "author": "rook/rook",
+      "authorHandle": "",
+      "summary": "Upgrade Guide To upgrade from previous versions of Rook, see the Rook upgrade guide. Breaking Changes The Ceph CSI operator is required for managing CSI driver settings. Upgrades will continue working with the existing settings that had been applied by Rook previously. Further updates to CSI settings will need to be u...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cloud-native-storage"
+      ],
+      "category": null
+    }
+  ]
+}

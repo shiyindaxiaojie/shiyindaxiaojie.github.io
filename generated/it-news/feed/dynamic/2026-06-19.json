@@ -1,0 +1,644 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-19",
+  "itemCount": 24,
+  "items": [
+    {
+      "id": "github:langfuse/langfuse:341990853",
+      "feedType": "dynamic",
+      "title": "langfuse/langfuse v3.194.0",
+      "titleEn": null,
+      "link": "https://github.com/langfuse/langfuse/releases/tag/v3.194.0",
+      "guid": "341990853",
+      "publishedAt": "2026-06-19T14:41:25.000Z",
+      "date": "2026-06-19",
+      "time": "22:41",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langfuse/langfuse",
+      "sourceType": "github",
+      "author": "langfuse/langfuse",
+      "authorHandle": "",
+      "summary": "What's Changed fix(ci model price audit): max turns check by @hassiebp in https://github.com/langfuse/langfuse/pull/14410 fix(ci model prices): max turns check by @hassiebp in https://github.com/langfuse/langfuse/pull/14411 fix(agents): add model price audit dry run by @hassiebp in https://github.com/langfuse/langfuse...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langfuse/langfuse:341964603",
+      "feedType": "dynamic",
+      "title": "langfuse/langfuse v3.193.0",
+      "titleEn": null,
+      "link": "https://github.com/langfuse/langfuse/releases/tag/v3.193.0",
+      "guid": "341964603",
+      "publishedAt": "2026-06-19T13:44:41.000Z",
+      "date": "2026-06-19",
+      "time": "21:44",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langfuse/langfuse",
+      "sourceType": "github",
+      "author": "langfuse/langfuse",
+      "authorHandle": "",
+      "summary": "What's Changed Features feat(search bar): support quoted score/metadata names with spaces — @nkabardin ( 14367) feat(web): inline edit/delete action icons for datasets, evaluators, and annotation queues — @wochinge ( 14335) feat(agent): remove in app agent feature flag — @bezbac ( 14364) feat(ui): allow all users to b...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:prowler-cloud/prowler:341956700",
+      "feedType": "dynamic",
+      "title": "prowler-cloud/prowler Prowler 5.30.3",
+      "titleEn": null,
+      "link": "https://github.com/prowler-cloud/prowler/releases/tag/5.30.3",
+      "guid": "341956700",
+      "publishedAt": "2026-06-19T13:31:15.000Z",
+      "date": "2026-06-19",
+      "time": "21:31",
+      "source": "github.com",
+      "sourceLabel": "GitHub: prowler-cloud/prowler",
+      "sourceType": "github",
+      "author": "prowler-cloud/prowler",
+      "authorHandle": "",
+      "summary": "API 🔐 Security SAML logins now link to an existing account only when the asserted email domain matches the ACS endpoint and the user is already a member of that domain's tenant, fixing a cross tenant account takeover (GHSA h8m9 jgf8 vwvp) bf3b5c2ba713e533014927141b64948c82c8f32e SDK 🐞 Fixed CLI compliance summary ta...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cloud-security",
+        "compliance"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4440e2990830e5c710e29c1c09396055488847e0",
+      "feedType": "dynamic",
+      "title": "Temporary Cloudflare Accounts for AI agents",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/temporary-accounts/",
+      "guid": "2EKaG8rvH4FLnpEQVgvJ4I",
+      "publishedAt": "2026-06-19T13:00:00.000Z",
+      "date": "2026-06-19",
+      "time": "21:00",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "The moment an agent needs to deploy something, it slams face-first into a wall built for humans. Today we're rolling out Temporary Accounts on Cloudflare Workers. Any agent can now run wrangler deploy — temporary and get a live Worker in seconds.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:aquasecurity/trivy:341883739",
+      "feedType": "dynamic",
+      "title": "aquasecurity/trivy v0.71.2",
+      "titleEn": null,
+      "link": "https://github.com/aquasecurity/trivy/releases/tag/v0.71.2",
+      "guid": "341883739",
+      "publishedAt": "2026-06-19T10:37:28.000Z",
+      "date": "2026-06-19",
+      "time": "18:37",
+      "source": "github.com",
+      "sourceLabel": "GitHub: aquasecurity/trivy",
+      "sourceType": "github",
+      "author": "aquasecurity/trivy",
+      "authorHandle": "",
+      "summary": "Changelog 055a5c8a53bfd61f7a8e276a5b2f0c3fc1673420 release: v0.71.2 [release/v0.71] ( 10871) 875328a4138f26e8559cfee80adaef82b6693076 fix(deps): bump alpine to 3.24.1 [backport: release/v0.71] ( 10870) 998f7b3c3f3c9de2132bc4358970eeafbd797fba chore(deps): bump the common group with 4 updates [backport: release/v0.71]...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-ssh/5.0.3rc1",
+      "feedType": "dynamic",
+      "title": "apache/airflow providers-ssh/5.0.3rc1",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/providers-ssh%2F5.0.3rc1",
+      "guid": "tag:github.com,2008:Repository/33884891/providers-ssh/5.0.3rc1",
+      "publishedAt": "2026-06-19T09:30:52.000Z",
+      "date": "2026-06-19",
+      "time": "17:30",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": "Release 2026-06-16 of providers",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-standard/1.15.0rc1",
+      "feedType": "dynamic",
+      "title": "apache/airflow providers-standard/1.15.0rc1",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/providers-standard%2F1.15.0rc1",
+      "guid": "tag:github.com,2008:Repository/33884891/providers-standard/1.15.0rc1",
+      "publishedAt": "2026-06-19T09:30:52.000Z",
+      "date": "2026-06-19",
+      "time": "17:30",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": "Release 2026-06-16 of providers",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-weaviate/3.3.5rc1",
+      "feedType": "dynamic",
+      "title": "apache/airflow providers-weaviate/3.3.5rc1",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/providers-weaviate%2F3.3.5rc1",
+      "guid": "tag:github.com,2008:Repository/33884891/providers-weaviate/3.3.5rc1",
+      "publishedAt": "2026-06-19T09:30:52.000Z",
+      "date": "2026-06-19",
+      "time": "17:30",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": "Release 2026-06-16 of providers",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:vercel/next.js:tag:github.com,2008:Repository/70107786/v16.3.0-canary.58",
+      "feedType": "dynamic",
+      "title": "vercel/next.js v16.3.0-canary.58",
+      "titleEn": null,
+      "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.58",
+      "guid": "tag:github.com,2008:Repository/70107786/v16.3.0-canary.58",
+      "publishedAt": "2026-06-19T00:15:25.000Z",
+      "date": "2026-06-19",
+      "time": "08:15",
+      "source": "github.com",
+      "sourceLabel": "GitHub: vercel/next.js",
+      "sourceType": "github",
+      "author": "vercel/next.js",
+      "authorHandle": "",
+      "summary": "Misc Changes Fix dev overlay hydration error ordering: #94555 [turbopack] Retry chunk loading on failure: #94918 Upgrade React from ad78e251-20260616 to b1786c31-20260618 : #94951 [ci] Update playwright to 1.61.0: #94871 [cd] reduce size of npm metadata on publish: #94953 Credits Huge thanks to @timneutkens , @sampode...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4f4fa9bb905b54a91e1d01cf9f35eab21cad752e",
+      "feedType": "dynamic",
+      "title": "Upcoming deprecation of Opus 4.6 (fast)",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-upcoming-deprecation-of-opus-4-6-fast",
+      "guid": "https://github.blog/changelog/2026-06-18-upcoming-deprecation-of-opus-4-6-fast",
+      "publishedAt": "2026-06-18T23:58:34.000Z",
+      "date": "2026-06-19",
+      "time": "07:58",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "We will deprecate Opus 4.6 (fast) across all GitHub Copilot experiences (including Copilot Chat, inline edits, ask and agent modes, and code completions), on June 29th, 2026: Model Deprecation date… The post Upcoming deprecation of Opus 4.6 (fast) appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:astral-sh/uv:341682539",
+      "feedType": "dynamic",
+      "title": "astral-sh/uv 0.11.22",
+      "titleEn": null,
+      "link": "https://github.com/astral-sh/uv/releases/tag/0.11.22",
+      "guid": "341682539",
+      "publishedAt": "2026-06-18T23:05:10.000Z",
+      "date": "2026-06-19",
+      "time": "07:05",
+      "source": "github.com",
+      "sourceLabel": "GitHub: astral-sh/uv",
+      "sourceType": "github",
+      "author": "astral-sh/uv",
+      "authorHandle": "",
+      "summary": "Release Notes Released on 2026 06 18. Enhancements Publish wheels before sdists in uv publish ( 19831) Add TY and RUFF env vars for providing paths for binaries used by uv format and uv check ( 19821) Preview features Allow configuring preview features in uv.toml and pyproject.toml ( 18437) Update the lockfile during...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "python"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:997f5a55fb0d97d881cca76a253759b613f066cc",
+      "feedType": "dynamic",
+      "title": "Meeting Data (and Analytics) Engineers Where They Are: Introducing the dbt Adapter for Confluent Cloud",
+      "titleEn": null,
+      "link": "https://www.confluent.io/blog/meeting-data-and-analytics-engineers-where-they-are-introducing-the-dbt-adapter-for-confluent-cloud/",
+      "guid": "https://www.confluent.io/blog/meeting-data-and-analytics-engineers-where-they-are-introducing-the-dbt-adapter-for-confluent-cloud/",
+      "publishedAt": "2026-06-18T22:09:35.000Z",
+      "date": "2026-06-19",
+      "time": "06:09",
+      "source": "confluent.io",
+      "sourceLabel": "Confluent Blog",
+      "sourceType": "rss",
+      "author": "Confluent Blog",
+      "authorHandle": "",
+      "summary": "The dbt-confluent adapter brings dbt's familiar workflow to Confluent Cloud for Apache Flink, enabling data engineers to build and test streaming pipelines with the tools they already use.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langfuse/langfuse:341655344",
+      "feedType": "dynamic",
+      "title": "langfuse/langfuse v3.192.2",
+      "titleEn": null,
+      "link": "https://github.com/langfuse/langfuse/releases/tag/v3.192.2",
+      "guid": "341655344",
+      "publishedAt": "2026-06-18T21:33:15.000Z",
+      "date": "2026-06-19",
+      "time": "05:33",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langfuse/langfuse",
+      "sourceType": "github",
+      "author": "langfuse/langfuse",
+      "authorHandle": "",
+      "summary": "What's Changed fix(deps): pin @types/nodemailer to v7 to unbreak next auth typecheck by @niklassemmler in https://github.com/langfuse/langfuse/pull/14380 feat(worker): add BullMQ stall + blob export observability (LFE 10388) by @niklassemmler in https://github.com/langfuse/langfuse/pull/14379 Full Changelog : https://...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e18ef44eec6bb563340def706612ded6301ecb09",
+      "feedType": "dynamic",
+      "title": "KubeCon + CloudNativeCon, OpenInfra Summit and PyTorch Conference Unite in China to Scale AI",
+      "titleEn": null,
+      "link": "https://www.cncf.io/announcements/2026/06/18/kubecon-cloudnativecon-openinfra-summit-and-pytorch-conference-unite-in-china-to-scale-ai/",
+      "guid": "https://www.cncf.io/?p=169553",
+      "publishedAt": "2026-06-18T20:31:13.000Z",
+      "date": "2026-06-19",
+      "time": "04:31",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "Schedule highlights global communities bridging cloud native infrastructure with AI stacks Key Highlights SHANGHAI — JUNE 18, 2026 — The Cloud Native Computing Foundation® (CNCF®), which builds sustainable ecosystems for cloud native software, the OpenInfra Foundation,...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:6f63ab131b5c43cdaded8e36c10e359803b1c01d",
+      "feedType": "dynamic",
+      "title": "MAI-Code-1-Flash available on more Copilot surfaces",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-mai-code-1-flash-available-on-more-copilot-surfaces",
+      "guid": "https://github.blog/changelog/2026-06-18-mai-code-1-flash-available-on-more-copilot-surfaces",
+      "publishedAt": "2026-06-18T20:11:24.000Z",
+      "date": "2026-06-19",
+      "time": "04:11",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "MAI‑Code‑1‑Flash, Microsoft’s purpose‑built small coding model, is now available across additional GitHub Copilot surfaces. MAI‑Code‑1‑Flash can now be used in: Copilot CLI GitHub Copilot app Copilot Chat on GitHub Visual… The post MAI-Code-1-Flash available on more Copilot surfaces appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langchain-ai/langchain:341609553",
+      "feedType": "dynamic",
+      "title": "langchain-ai/langchain langchain==1.3.10",
+      "titleEn": null,
+      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.3.10",
+      "guid": "341609553",
+      "publishedAt": "2026-06-18T19:43:17.000Z",
+      "date": "2026-06-19",
+      "time": "03:43",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceType": "github",
+      "author": "langchain-ai/langchain",
+      "authorHandle": "",
+      "summary": "Changes since langchain==1.3.9 release(langchain): 1.3.10 ( 38255) chore: bump cryptography from 46.0.7 to 48.0.1 in /libs/langchain v1 ( 38176) chore: bump aiohttp from 3.14.0 to 3.14.1 in /libs/langchain v1 ( 38179) fix(langchain): switch summary format ( 38171) fix(langchain): detect provider strategy for dated gpt...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "agent-engineering",
+        "rag",
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langchain-ai/langchain:341607808",
+      "feedType": "dynamic",
+      "title": "langchain-ai/langchain langchain-core==1.4.8",
+      "titleEn": null,
+      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.4.8",
+      "guid": "341607808",
+      "publishedAt": "2026-06-18T19:39:42.000Z",
+      "date": "2026-06-19",
+      "time": "03:39",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceType": "github",
+      "author": "langchain-ai/langchain",
+      "authorHandle": "",
+      "summary": "Changes since langchain core==1.4.7 chore: bump jupyter server from 2.18.0 to 2.20.0 in /libs/core ( 38252) chore: bump tornado from 6.5.6 to 6.5.7 in /libs/core ( 38184) chore: bump bleach from 6.3.0 to 6.4.0 in /libs/core ( 38198) release(core): 1.4.8 ( 38254) refactor(langchain classic): remove code for Python < 3....",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "agent-engineering",
+        "rag",
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:941ec7cf08aab68950756f920590437716d31573",
+      "feedType": "dynamic",
+      "title": "Copilot code review: AGENTS.md support and UI improvements",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-copilot-code-review-agents-md-support-and-ui-improvements",
+      "guid": "https://github.blog/changelog/2026-06-18-copilot-code-review-agents-md-support-and-ui-improvements",
+      "publishedAt": "2026-06-18T19:11:51.000Z",
+      "date": "2026-06-19",
+      "time": "03:11",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "Copilot code review now supports repository-level AGENTS.md files, and it’s easier to request a review from Copilot on draft pull requests with the Request button. These changes are all generally… The post Copilot code review: AGENTS.md support and UI improvements appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e9b8182dcfcc0d626537d0888806b00d8b892c1c",
+      "feedType": "dynamic",
+      "title": "MosaicLeaks: Can your research agent keep a secret?",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
+      "guid": "https://huggingface.co/blog/ServiceNow/mosaicleaks",
+      "publishedAt": "2026-06-18T18:13:13.000Z",
+      "date": "2026-06-19",
+      "time": "02:13",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:33dd1d19c26510f7ff5e63f7881b8610a2c60576",
+      "feedType": "dynamic",
+      "title": "Detecting Duplicate Issues – Public Preview and issue fields MCP support for GitHub Issues",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-duplicate-detection-and-issue-fields-mcp-support-for-github-issues",
+      "guid": "https://github.blog/changelog/2026-06-18-duplicate-detection-and-issue-fields-mcp-support-for-github-issues",
+      "publishedAt": "2026-06-18T18:04:33.000Z",
+      "date": "2026-06-19",
+      "time": "02:04",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "Duplicate issues are one of the biggest time sinks for maintainers: triaging the same bug filed multiple ways, closing duplicates, and linking back to the original. For large repositories, this… The post Detecting Duplicate Issues – Public Preview and issue fields MCP support for GitHub Issues appeared first on The Gi...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:eda8beb18c5dfeffe92ea2557d1857ef0bf8eb09",
+      "feedType": "dynamic",
+      "title": "Build your own vulnerability harness",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/build-your-own-vulnerability-harness/",
+      "guid": "5Ad3Svz0xFxJQNx6eQZjJP",
+      "publishedAt": "2026-06-18T17:59:40.000Z",
+      "date": "2026-06-19",
+      "time": "01:59",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "We break down the technical architecture behind our multi-stage vulnerability discovery harness and automated triage loop. Learn how we manage state controls, squash false positives through adversarial review, and route around LLM context limits.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:a753f9e33b900311eed881de46e969b30748b9c9",
+      "feedType": "dynamic",
+      "title": "Copilot-authored pull requests now included in author searches",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-copilot-authored-pull-requests-now-included-in-author-searches",
+      "guid": "https://github.blog/changelog/2026-06-18-copilot-authored-pull-requests-now-included-in-author-searches",
+      "publishedAt": "2026-06-18T16:24:05.000Z",
+      "date": "2026-06-19",
+      "time": "00:24",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "Searching for pull requests using author: now shows pull requests opened by Copilot cloud agent on the user’s behalf. For example, searching with author:@me on github.com/pulls will return your own… The post Copilot-authored pull requests now included in author searches appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:c5e356fa6a366022eb3ffaab8a2cf6656f17aa0a",
+      "feedType": "dynamic",
+      "title": "Repository switcher generally available in global navigation",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-repository-switcher-generally-available-in-global-navigation",
+      "guid": "https://github.blog/changelog/2026-06-18-repository-switcher-generally-available-in-global-navigation",
+      "publishedAt": "2026-06-18T16:23:00.000Z",
+      "date": "2026-06-19",
+      "time": "00:23",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "You can now quickly jump between repositories without leaving your current page. The new repository switcher in the global navigation is generally available. Select the chevron next to the repository… The post Repository switcher generally available in global navigation appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e4c973301acc4bacaba01c19d595559c594a7b02",
+      "feedType": "dynamic",
+      "title": "How pull request limits are cutting down the noise",
+      "titleEn": null,
+      "link": "https://github.blog/open-source/maintainers/how-pull-request-limits-are-cutting-down-the-noise/",
+      "guid": "https://github.blog/?p=96841",
+      "publishedAt": "2026-06-18T16:00:00.000Z",
+      "date": "2026-06-19",
+      "time": "00:00",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Blog",
+      "sourceType": "rss",
+      "author": "GitHub Blog",
+      "authorHandle": "",
+      "summary": "Learn how pull request limits can help manage contribution volume in your repositories, and see what’s next on the roadmap. The post How pull request limits are cutting down the noise appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    }
+  ]
+}

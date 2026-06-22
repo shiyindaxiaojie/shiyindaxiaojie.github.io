@@ -1,0 +1,53 @@
+// Unit: workloads. Cloud-native workloads: orchestration, Kubernetes, Pod, Service, HPA, ConfigMap, and Secret.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "workloads",
+  "rootNode": "service-runtime",
+  "nodes": [
+    {
+      "id": "service-runtime",
+      "kind": "stage",
+      "zone": "runtime",
+      "children": [
+        "container-orchestrator",
+        "service-framework",
+        "rpc-job"
+      ],
+      "titleKey": "topology.nodes.service-runtime.title",
+      "summaryKey": "topology.nodes.service-runtime.summary"
+    },
+    {
+      "id": "container-orchestrator",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "kubernetes",
+      "options": [
+        {
+          "id": "kubernetes",
+          "name": "Kubernetes",
+          "path": "data/knowledge/cloud-native/kubernetes.md"
+        },
+        {
+          "id": "kubesphere",
+          "name": "KubeSphere",
+          "path": "data/knowledge/cloud-native/kubesphere.md"
+        },
+        {
+          "id": "rainbond",
+          "name": "Rainbond",
+          "path": "data/knowledge/cloud-native/rainbond.md"
+        }
+      ],
+      "titleKey": "topology.nodes.container-orchestrator.title",
+      "summaryKey": "topology.nodes.container-orchestrator.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "service-runtime",
+      "target": "container-orchestrator",
+      "type": "contains"
+    }
+  ]
+}

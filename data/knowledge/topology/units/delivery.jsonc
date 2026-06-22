@@ -1,0 +1,149 @@
+// Unit: delivery. Delivery domain: repository, pipeline, artifact, image, rollout, and OAM.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "delivery",
+  "rootNode": "delivery",
+  "nodes": [
+    {
+      "id": "delivery",
+      "kind": "stage",
+      "zone": "delivery",
+      "children": [
+        "repo",
+        "pipeline",
+        "deploy",
+        "package"
+      ],
+      "titleKey": "topology.nodes.delivery.title",
+      "summaryKey": "topology.nodes.delivery.summary"
+    },
+    {
+      "id": "repo",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "gitlab",
+      "options": [
+        {
+          "id": "gitlab",
+          "name": "GitLab",
+          "path": "data/knowledge/tool/git.md"
+        },
+        {
+          "id": "github",
+          "name": "GitHub",
+          "path": "data/knowledge/tool/git.md"
+        },
+        {
+          "id": "coding-repo",
+          "name": "CODING",
+          "path": "data/knowledge/cicd/coding.md"
+        }
+      ],
+      "titleKey": "topology.nodes.repo.title",
+      "summaryKey": "topology.nodes.repo.summary"
+    },
+    {
+      "id": "pipeline",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "jenkins",
+      "options": [
+        {
+          "id": "jenkins",
+          "name": "Jenkins",
+          "path": "data/knowledge/cicd/jenkins.md"
+        },
+        {
+          "id": "gitlab-ci",
+          "name": "GitLab CI",
+          "path": "data/knowledge/cicd/gitlab-ci.md"
+        },
+        {
+          "id": "github-actions",
+          "name": "GitHub Actions",
+          "path": "data/knowledge/cicd/github-actions.md"
+        }
+      ],
+      "titleKey": "topology.nodes.pipeline.title",
+      "summaryKey": "topology.nodes.pipeline.summary"
+    },
+    {
+      "id": "deploy",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "oam-orbit",
+      "options": [
+        {
+          "id": "oam-orbit",
+          "name": "OAM Orbit",
+          "path": null
+        },
+        {
+          "id": "argocd",
+          "name": "Argo CD",
+          "path": "data/knowledge/cicd/argocd.md"
+        },
+        {
+          "id": "spinnaker",
+          "name": "Spinnaker",
+          "path": null
+        },
+        {
+          "id": "coding-cd",
+          "name": "CODING CD",
+          "path": "data/knowledge/cicd/coding.md"
+        }
+      ],
+      "titleKey": "topology.nodes.deploy.title",
+      "summaryKey": "topology.nodes.deploy.summary"
+    },
+    {
+      "id": "package",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "helm",
+      "options": [
+        {
+          "id": "helm",
+          "name": "Helm",
+          "path": "data/knowledge/cloud-native/helm.md"
+        },
+        {
+          "id": "kustomize",
+          "name": "Kustomize",
+          "path": null
+        },
+        {
+          "id": "terraform",
+          "name": "Terraform",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.package.title",
+      "summaryKey": "topology.nodes.package.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "delivery",
+      "target": "repo",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "pipeline",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "deploy",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "package",
+      "type": "contains"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+FROM docker.m.daocloud.io/docker:stable-dind
+
+RUN apk add --no-cache \
+    openjdk8 \
+    maven \
+    curl
+
+ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk
+ENV MAVEN_OPTS="-Dmaven.repo.local=/root/.m2"
+
+WORKDIR /build
+
+COPY settings.xml /root/.m2/settings.xml

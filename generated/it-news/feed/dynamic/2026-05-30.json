@@ -1,0 +1,145 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-05-30",
+  "itemCount": 5,
+  "items": [
+    {
+      "id": "github:karmada-io/karmada:331892366",
+      "feedType": "dynamic",
+      "title": "karmada-io/karmada Karmada v1.17.3 release",
+      "titleEn": null,
+      "link": "https://github.com/karmada-io/karmada/releases/tag/v1.17.3",
+      "guid": "331892366",
+      "publishedAt": "2026-05-30T07:24:32.000Z",
+      "date": "2026-05-30",
+      "time": "15:24",
+      "source": "github.com",
+      "sourceLabel": "GitHub: karmada-io/karmada",
+      "sourceType": "github",
+      "author": "karmada-io/karmada",
+      "authorHandle": "",
+      "summary": "See the CHANGELOG for details. Full Changelog : https://github.com/karmada io/karmada/compare/v1.17.2...v1.17.3",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "multi-cluster-management"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:karmada-io/karmada:331892120",
+      "feedType": "dynamic",
+      "title": "karmada-io/karmada Karmada v1.16.6 release",
+      "titleEn": null,
+      "link": "https://github.com/karmada-io/karmada/releases/tag/v1.16.6",
+      "guid": "331892120",
+      "publishedAt": "2026-05-30T07:22:10.000Z",
+      "date": "2026-05-30",
+      "time": "15:22",
+      "source": "github.com",
+      "sourceLabel": "GitHub: karmada-io/karmada",
+      "sourceType": "github",
+      "author": "karmada-io/karmada",
+      "authorHandle": "",
+      "summary": "See the CHANGELOG for details. Full Changelog : https://github.com/karmada io/karmada/compare/v1.16.5...v1.16.6",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "multi-cluster-management"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:karmada-io/karmada:331890562",
+      "feedType": "dynamic",
+      "title": "karmada-io/karmada Karmada v1.18.0 release",
+      "titleEn": null,
+      "link": "https://github.com/karmada-io/karmada/releases/tag/v1.18.0",
+      "guid": "331890562",
+      "publishedAt": "2026-05-30T07:09:36.000Z",
+      "date": "2026-05-30",
+      "time": "15:09",
+      "source": "github.com",
+      "sourceLabel": "GitHub: karmada-io/karmada",
+      "sourceType": "github",
+      "author": "karmada-io/karmada",
+      "authorHandle": "",
+      "summary": "See the CHANGELOG for details. Thank you to everyone who contributed to this release! Contributors whose commits are in this release (alphabetically by username). @abhicodes11 @Ady0333 @dahuo98 @Denyme24 @faucct @FAUST BENCHOU @gjbravi @hl8086 @jabellard @Krishiv Mahajan @LivingCcj @manmathbh @mszacillo @nXtCyberNet @...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "multi-cluster-management"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4e07dd182d879669259b439c96cd258d5cd6b757",
+      "feedType": "dynamic",
+      "title": "Aligning on Machine-Readable Signals as the Foundation for Due Diligence",
+      "titleEn": null,
+      "link": "https://openssf.org/blog/2026/05/29/aligning-on-machine-readable-signals-as-the-foundation-for-due-diligence/",
+      "guid": "https://openssf.org/?p=11064",
+      "publishedAt": "2026-05-29T19:22:29.000Z",
+      "date": "2026-05-30",
+      "time": "03:22",
+      "source": "openssf.org",
+      "sourceLabel": "OpenSSF Blog",
+      "sourceType": "rss",
+      "author": "OpenSSF Blog",
+      "authorHandle": "",
+      "summary": "By Madalin Neag, EU Policy Advisor, OpenSSF Introduction The software supply chain has reached a level of complexity where manual oversight is no longer a viable strategy for security or regulatory compliance. Modern systems depend on vast, rapidly evolving networks of components, making manual, paper-based approaches...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "supply-chain-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:363b002a1e3d53bfa924a626e35dbb9627c8314a",
+      "feedType": "dynamic",
+      "title": "Scaling StarRocks on Amazon EKS with KEDA and Karpenter for enterprise OLAP workloads",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/containers/scaling-starrocks-on-amazon-eks-with-keda-and-karpenter-for-enterprise-olap-workloads/",
+      "guid": "b0ed268ca94aa811d48c21211752dcb81ea04c5e",
+      "publishedAt": "2026-05-29T18:57:30.000Z",
+      "date": "2026-05-30",
+      "time": "02:57",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Containers Blog",
+      "sourceType": "rss",
+      "author": "AWS Containers Blog",
+      "authorHandle": "",
+      "summary": "Financial analytics at enterprise scale is unforgiving. Queries must return in seconds, not minutes. Thousands of finance professionals need concurrent access during monthly close cycles. And when data volumes grow from hundreds of gigabytes to terabytes, spanning billions of records, the infrastructure underneath mus...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "container-platform"
+      ],
+      "category": null
+    }
+  ]
+}

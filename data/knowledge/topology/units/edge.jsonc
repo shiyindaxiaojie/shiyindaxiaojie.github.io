@@ -1,0 +1,145 @@
+// Unit: edge. Public edge delivery: DNS, CDN, acceleration, and media edge capabilities.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "edge",
+  "rootNode": "edge-network",
+  "nodes": [
+    {
+      "id": "edge-network",
+      "kind": "stage",
+      "zone": "network",
+      "children": [
+        "dns",
+        "cdn",
+        "dynamic-acceleration",
+        "load-balance",
+        "vod"
+      ],
+      "titleKey": "topology.nodes.edge-network.title",
+      "summaryKey": "topology.nodes.edge-network.summary"
+    },
+    {
+      "id": "dns",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "public-dns",
+      "options": [
+        {
+          "id": "public-dns",
+          "path": "data/knowledge/network/dns.md",
+          "nameKey": "topology.options.dns.public-dns.name"
+        },
+        {
+          "id": "route53",
+          "name": "Route 53",
+          "path": null
+        },
+        {
+          "id": "bind9",
+          "name": "BIND 9",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.dns.title",
+      "summaryKey": "topology.nodes.dns.summary"
+    },
+    {
+      "id": "cdn",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-cdn",
+      "options": [
+        {
+          "id": "tencent-cdn",
+          "path": null,
+          "nameKey": "topology.options.cdn.tencent-cdn.name"
+        },
+        {
+          "id": "aliyun-cdn",
+          "path": null,
+          "nameKey": "topology.options.cdn.aliyun-cdn.name"
+        },
+        {
+          "id": "amazon-cloudfront",
+          "name": "Amazon CloudFront",
+          "path": null
+        },
+        {
+          "id": "cloudflare",
+          "name": "Cloudflare",
+          "path": null
+        },
+        {
+          "id": "akamai",
+          "name": "Akamai",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.cdn.title",
+      "summaryKey": "topology.nodes.cdn.summary"
+    },
+    {
+      "id": "dynamic-acceleration",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-ecdn",
+      "options": [
+        {
+          "id": "tencent-ecdn",
+          "path": null,
+          "nameKey": "topology.options.dynamic-acceleration.tencent-ecdn.name"
+        },
+        {
+          "id": "aliyun-dcdn",
+          "path": null,
+          "nameKey": "topology.options.dynamic-acceleration.aliyun-dcdn.name"
+        },
+        {
+          "id": "cloudfront-dynamic",
+          "name": "Amazon CloudFront",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.dynamic-acceleration.title",
+      "summaryKey": "topology.nodes.dynamic-acceleration.summary"
+    },
+    {
+      "id": "vod",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-vod",
+      "options": [
+        {
+          "id": "tencent-vod",
+          "path": null,
+          "nameKey": "topology.options.vod.tencent-vod.name"
+        },
+        {
+          "id": "aliyun-vod",
+          "path": null,
+          "nameKey": "topology.options.vod.aliyun-vod.name"
+        },
+        {
+          "id": "aws-mediaconvert",
+          "name": "AWS Elemental MediaConvert",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.vod.title",
+      "summaryKey": "topology.nodes.vod.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "edge-network",
+      "target": "dns",
+      "type": "contains"
+    },
+    {
+      "source": "edge-network",
+      "target": "cdn",
+      "type": "contains"
+    }
+  ]
+}

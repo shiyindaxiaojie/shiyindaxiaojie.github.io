@@ -1,0 +1,60 @@
+// Unit: network. Cloud networking: VPC, subnet, private link, VPN, and cross-site connectivity.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "network",
+  "rootNode": "network-link",
+  "nodes": [
+    {
+      "id": "vpc-isolation",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "vpc",
+      "options": [
+        {
+          "id": "vpc",
+          "path": "data/knowledge/network/basic.md",
+          "nameKey": "topology.options.vpc-isolation.vpc.name"
+        },
+        {
+          "id": "calico",
+          "name": "Calico Policy",
+          "path": "data/knowledge/cloud-native/kubernetes.md"
+        },
+        {
+          "id": "cilium",
+          "name": "Cilium Policy",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.vpc-isolation.title",
+      "summaryKey": "topology.nodes.vpc-isolation.summary"
+    },
+    {
+      "id": "network-link",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "vpn",
+      "options": [
+        {
+          "id": "vpn",
+          "name": "VPN",
+          "path": null
+        },
+        {
+          "id": "sdwan",
+          "name": "SD-WAN",
+          "path": null
+        },
+        {
+          "id": "dedicated-line",
+          "path": null,
+          "nameKey": "topology.options.network-link.dedicated-line.name"
+        }
+      ],
+      "titleKey": "topology.nodes.network-link.title",
+      "summaryKey": "topology.nodes.network-link.summary"
+    }
+  ],
+  "edges": []
+}

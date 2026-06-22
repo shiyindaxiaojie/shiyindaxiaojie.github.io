@@ -1,0 +1,113 @@
+// Unit: frontend. User-facing application entry: Web, mobile, mini app, and frontend runtime.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "frontend",
+  "rootNode": "client",
+  "nodes": [
+    {
+      "id": "client",
+      "kind": "stage",
+      "zone": "client",
+      "children": [
+        "web-app",
+        "mobile-app",
+        "mini-app"
+      ],
+      "titleKey": "topology.nodes.client.title",
+      "summaryKey": "topology.nodes.client.summary"
+    },
+    {
+      "id": "web-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "vue",
+      "options": [
+        {
+          "id": "vue",
+          "name": "Vue",
+          "path": null
+        },
+        {
+          "id": "angular",
+          "name": "Angular",
+          "path": null
+        },
+        {
+          "id": "react",
+          "name": "React",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.web-app.title",
+      "summaryKey": "topology.nodes.web-app.summary"
+    },
+    {
+      "id": "mobile-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "ios",
+      "options": [
+        {
+          "id": "ios",
+          "name": "iOS",
+          "path": null
+        },
+        {
+          "id": "android",
+          "name": "Android",
+          "path": null
+        },
+        {
+          "id": "flutter",
+          "name": "Flutter",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.mobile-app.title",
+      "summaryKey": "topology.nodes.mobile-app.summary"
+    },
+    {
+      "id": "mini-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "h5",
+      "options": [
+        {
+          "id": "wechat",
+          "path": null,
+          "nameKey": "topology.options.mini-app.wechat.name"
+        },
+        {
+          "id": "h5",
+          "name": "H5",
+          "path": null
+        },
+        {
+          "id": "electron",
+          "name": "Electron",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.mini-app.title",
+      "summaryKey": "topology.nodes.mini-app.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "client",
+      "target": "web-app",
+      "type": "contains"
+    },
+    {
+      "source": "client",
+      "target": "mobile-app",
+      "type": "contains"
+    },
+    {
+      "source": "client",
+      "target": "mini-app",
+      "type": "contains"
+    }
+  ]
+}

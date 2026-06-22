@@ -1,0 +1,229 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-05-27",
+  "itemCount": 8,
+  "items": [
+    {
+      "id": "rss:8e4bff4b94acfc990e7a5862d98a7d1d9e1933e5",
+      "feedType": "dynamic",
+      "title": "The test suite as a regression sensor",
+      "titleEn": null,
+      "link": "https://martinfowler.com/articles/sensors-for-coding-agents.html#TheTestSuiteAsARegressionSensor",
+      "guid": "tag:martinfowler.com,2026-05-27:The-test-suite-as-a-regression-sensor",
+      "publishedAt": "2026-05-27T15:01:00.000Z",
+      "date": "2026-05-27",
+      "time": "23:01",
+      "source": "martinfowler.com",
+      "sourceLabel": "Martin Fowler",
+      "sourceType": "rss",
+      "author": "Martin Fowler",
+      "authorHandle": "",
+      "summary": "Birgitta Böckeler finishes her post on sensors for coding agents by examining the role of a test suite as a regression sensor, focusing on the role mutation testing can play. more…",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "idp",
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:790e2acf0d2e71dd1345f6f630b6896fc7f61774",
+      "feedType": "dynamic",
+      "title": "The VibeSec Reckoning",
+      "titleEn": null,
+      "link": "https://martinfowler.com/articles/vibesec-reckoning.html",
+      "guid": "tag:martinfowler.com,2026-05-27:The-VibeSec-Reckoning",
+      "publishedAt": "2026-05-27T14:03:00.000Z",
+      "date": "2026-05-27",
+      "time": "22:03",
+      "source": "martinfowler.com",
+      "sourceLabel": "Martin Fowler",
+      "sourceType": "rss",
+      "author": "Martin Fowler",
+      "authorHandle": "",
+      "summary": "Vibe coding has significantly accelerated software prototyping but AI agents frequently recommend insecure configurations, creating security problems. Gautam Koul, Lucian Moss, Neil Drew-Lopez, and Daberechi Ruth Edeokoh share their experience while building applications for Thoughtworks's global marketing. They learn...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "idp",
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:robusta-dev/robusta:330047889",
+      "feedType": "dynamic",
+      "title": "robusta-dev/robusta 0.40.0",
+      "titleEn": null,
+      "link": "https://github.com/robusta-dev/robusta/releases/tag/0.40.0",
+      "guid": "330047889",
+      "publishedAt": "2026-05-27T09:05:01.000Z",
+      "date": "2026-05-27",
+      "time": "17:05",
+      "source": "github.com",
+      "sourceLabel": "GitHub: robusta-dev/robusta",
+      "sourceType": "github",
+      "author": "robusta-dev/robusta",
+      "authorHandle": "",
+      "summary": "What's Changed ROB 3921 Add user email field to Holmes chat params by @alonelish in https://github.com/robusta dev/robusta/pull/2084 Fix cves by @moshemorad in https://github.com/robusta dev/robusta/pull/2085 Add region selector for multi region documentation URLs by @naomi robusta in https://github.com/robusta dev/ro...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "aiops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:1efb550752e9d76e8abdbc123c19bec39badc77c",
+      "feedType": "dynamic",
+      "title": "April 2026 Baseline monthly digest",
+      "titleEn": null,
+      "link": "https://web.dev/blog/baseline-digest-apr-2026?hl=en",
+      "guid": "https://web.dev/blog/baseline-digest-apr-2026?hl=en",
+      "publishedAt": "2026-05-27T07:00:00.000Z",
+      "date": "2026-05-27",
+      "time": "15:00",
+      "source": "web.dev",
+      "sourceLabel": "web.dev",
+      "sourceType": "rss",
+      "author": "web.dev",
+      "authorHandle": "",
+      "summary": "Read about various happenings with Baseline during April 2026.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:d7c798277676d28da4cb151a1274c6d9657c22ed",
+      "feedType": "dynamic",
+      "title": "Continuous Offensive Security: The Line We've Been Walking",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/continuous-offensive-security/",
+      "guid": "https://snyk.io/blog/continuous-offensive-security/",
+      "publishedAt": "2026-05-27T04:00:00.000Z",
+      "date": "2026-05-27",
+      "time": "12:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "Snyk's Continuous Offensive Security unifies DAST, AI pentesting, and agent red teaming to find exploitable flaws — not just bugs — before attackers do. Here's why lineage matters.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:5b218fefef6f1e0680a7cfdf2fea4482f6ed9275",
+      "feedType": "dynamic",
+      "title": "Reachy Mini goes fully local",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/local-reachy-mini-conversation",
+      "guid": "https://huggingface.co/blog/local-reachy-mini-conversation",
+      "publishedAt": "2026-05-27T00:00:00.000Z",
+      "date": "2026-05-27",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:8fcd8732e85e395933fb5f33acb7b8f4dae9036e",
+      "feedType": "dynamic",
+      "title": "Reconciling the Past: Correcting Records for Unfixed Kubernetes CVEs",
+      "titleEn": null,
+      "link": "https://kubernetes.io/blog/2026/05/26/reconciling-unfixed-kubernetes-cves/",
+      "guid": "https://kubernetes.io/blog/2026/05/26/reconciling-unfixed-kubernetes-cves/",
+      "publishedAt": "2026-05-26T17:30:00.000Z",
+      "date": "2026-05-27",
+      "time": "01:30",
+      "source": "kubernetes.io",
+      "sourceLabel": "Kubernetes Blog",
+      "sourceType": "rss",
+      "author": "Kubernetes Blog",
+      "authorHandle": "",
+      "summary": "The Kubernetes project relies on transparency to empower cluster administrators and security researchers. One important way we do that is by publishing CVE records into the Common Vulnerabilities and Exposures database. As part of our ongoing effort to mature the official Kubernetes CVE Feed , we have identified some...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "kubernetes"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:a46c07f33a1c32abaac54f3a492810f8da887f25",
+      "feedType": "dynamic",
+      "title": "SilverTorch: Index as Model — A New Retrieval Paradigm for Recommendation Systems",
+      "titleEn": null,
+      "link": "https://engineering.fb.com/2026/05/26/ml-applications/silvertorch-index-as-model-new-retrieval-paradigm-recommendation-systems/",
+      "guid": "https://engineering.fb.com/?p=23988",
+      "publishedAt": "2026-05-26T16:00:01.000Z",
+      "date": "2026-05-27",
+      "time": "00:00",
+      "source": "engineering.fb.com",
+      "sourceLabel": "Meta Engineering",
+      "sourceType": "rss",
+      "author": "Meta Engineering",
+      "authorHandle": "",
+      "summary": "We’re introducing SilverTorch, a reimagining of recommendation systems that unifies all retrieval components for user generated content under a unified architecture. SilverTorch shows up to 23.7x higher throughput compared to the state-of-the-art approaches. It’s also showing 20.9x more compute cost efficiency compare...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "data-pipeline"
+      ],
+      "category": null
+    }
+  ]
+}

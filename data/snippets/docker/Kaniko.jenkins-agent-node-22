@@ -1,0 +1,36 @@
+FROM gcr.m.daocloud.io/kaniko-project/executor:debug AS kaniko
+FROM docker.m.daocloud.io/jenkins/inbound-agent:latest
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl \
+    gnupg \
+    ca-certificates \
+    apt-transport-https
+
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+    apt-get install -y --no-install-recommends nodejs && \
+    curl -fsSL https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-archive-keyring.gpg && \
+    echo "deb [signed-by=/usr/share/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && \
+    apt-get install -y --no-install-recommends yarn && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=kaniko /kaniko/executor /usr/local/bin/kaniko
+COPY --from=kaniko /kaniko/docker-credential-gcr /usr/local/bin/
+COPY --from=kaniko /kaniko/docker-credential-ecr-login /usr/local/bin/
+COPY --from=kaniko /kaniko/docker-credential-acr-env /usr/local/bin/
+
+RUN mkdir -p /kaniko/.docker && \
+    chown -R jenkins:jenkins /kaniko
+
+WORKDIR /build
+
+RUN npm config set registry http://localhost:8081/repository/npm-public/
+RUN yarn config set registry http://localhost:8081/repository/npm-public/
+
+ENV DOCKER_CONFIG=/kaniko/.docker
+
+USER jenkins

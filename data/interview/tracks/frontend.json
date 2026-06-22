@@ -1,0 +1,315 @@
+{
+  "id": "frontend",
+  "title": {
+    "zh": "前端工程师",
+    "en": "Frontend Engineer",
+    "ja": "フロントエンドエンジニア"
+  },
+  "shortTitle": {
+    "zh": "前端工程",
+    "en": "Frontend",
+    "ja": "フロントエンド"
+  },
+  "summary": {
+    "zh": "围绕浏览器、工程化、性能体验、组件体系和业务交互复杂度展开。",
+    "en": "Browser internals, engineering, performance, component systems, and product interaction complexity.",
+    "ja": "Browser internals, engineering, performance, component systems, and product interaction complexity."
+  },
+  "accent": "#f97316",
+  "categories": [
+    {
+      "id": "product-story",
+      "label": {
+        "zh": "产品经历",
+        "en": "Product Story",
+        "ja": "プロダクト経験"
+      }
+    },
+    {
+      "id": "ux-impact",
+      "label": {
+        "zh": "体验指标",
+        "en": "UX Impact",
+        "ja": "UXへの影響"
+      }
+    },
+    {
+      "id": "browser",
+      "label": {
+        "zh": "浏览器",
+        "en": "Browser",
+        "ja": "ブラウザ"
+      }
+    },
+    {
+      "id": "javascript",
+      "label": {
+        "zh": "JavaScript",
+        "en": "JavaScript",
+        "ja": "JavaScript"
+      }
+    },
+    {
+      "id": "typescript",
+      "label": {
+        "zh": "TypeScript",
+        "en": "TypeScript",
+        "ja": "TypeScript"
+      }
+    },
+    {
+      "id": "vue",
+      "label": {
+        "zh": "Vue",
+        "en": "Vue",
+        "ja": "Vue"
+      }
+    },
+    {
+      "id": "react",
+      "label": {
+        "zh": "React",
+        "en": "React",
+        "ja": "React"
+      }
+    },
+    {
+      "id": "build-tooling",
+      "label": {
+        "zh": "构建工具",
+        "en": "Build Tooling",
+        "ja": "ビルドツール"
+      }
+    },
+    {
+      "id": "performance",
+      "label": {
+        "zh": "性能优化",
+        "en": "Performance",
+        "ja": "パフォーマンス"
+      }
+    },
+    {
+      "id": "design-system",
+      "label": {
+        "zh": "设计系统",
+        "en": "Design System",
+        "ja": "デザインシステム"
+      }
+    },
+    {
+      "id": "low-code",
+      "label": {
+        "zh": "低代码",
+        "en": "Low-code",
+        "ja": "ローコード"
+      }
+    },
+    {
+      "id": "data-visualization",
+      "label": {
+        "zh": "数据可视化",
+        "en": "Data Visualization",
+        "ja": "データ可視化"
+      }
+    },
+    {
+      "id": "first-screen",
+      "label": {
+        "zh": "首屏优化",
+        "en": "First Screen",
+        "ja": "初回表示"
+      }
+    },
+    {
+      "id": "cache-strategy",
+      "label": {
+        "zh": "缓存策略",
+        "en": "Cache Strategy",
+        "ja": "キャッシュ戦略"
+      }
+    },
+    {
+      "id": "micro-frontend",
+      "label": {
+        "zh": "微前端",
+        "en": "Micro-frontend",
+        "ja": "マイクロフロントエンド"
+      }
+    },
+    {
+      "id": "collaboration-model",
+      "label": {
+        "zh": "协作模式",
+        "en": "Collaboration Model",
+        "ja": "協働モデル"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲产品形态、负责范围、性能体验结果和工程化建设。",
+        "en": "Frame product shape, ownership scope, UX/perf outcomes, and engineering work.",
+        "ja": "Frame product shape, ownership scope, UX/perf outcomes, and engineering work."
+      },
+      "categories": [
+        "product-story",
+        "ux-impact",
+        "performance"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "技术面关注浏览器、语言基础、框架、构建和性能。",
+        "en": "Technical rounds cover browser internals, language basics, frameworks, build, and performance.",
+        "ja": "Technical rounds cover browser internals, language basics, frameworks, build, and performance."
+      },
+      "categories": [
+        "browser",
+        "javascript",
+        "typescript",
+        "vue",
+        "react",
+        "build-tooling",
+        "performance"
+      ],
+      "questionTypes": [
+        "principle",
+        "scenario"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "项目按设计系统、低代码、可视化、性能治理和业务中后台组织。",
+        "en": "Projects can be grouped by design systems, low-code, visualization, perf governance, and dashboards.",
+        "ja": "Projects can be grouped by design systems, low-code, visualization, perf governance, and dashboards."
+      },
+      "categories": [
+        "design-system",
+        "low-code",
+        "data-visualization",
+        "performance"
+      ],
+      "questionTypes": [
+        "scenario"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景围绕首屏优化、缓存策略、微前端和复杂交互稳定性。",
+        "en": "Scenarios cover first-screen optimization, cache strategy, micro-frontends, and interaction stability.",
+        "ja": "Scenarios cover first-screen optimization, cache strategy, micro-frontends, and interaction stability."
+      },
+      "categories": [
+        "first-screen",
+        "cache-strategy",
+        "micro-frontend",
+        "browser"
+      ],
+      "questionTypes": [
+        "scenario",
+        "system-design"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "反问适合围绕产品复杂度、设计系统、性能预算和协作模式。",
+        "en": "Ask about product complexity, design systems, perf budgets, and collaboration model.",
+        "ja": "Ask about product complexity, design systems, perf budgets, and collaboration model."
+      },
+      "categories": [
+        "collaboration-model",
+        "design-system",
+        "performance"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

@@ -1,0 +1,928 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-18",
+  "itemCount": 35,
+  "items": [
+    {
+      "id": "rss:691bc8889e8718f88eb93d5d2be42aecf2a2e129",
+      "feedType": "dynamic",
+      "title": "Actions: Build custom images from custom images",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-actions-build-custom-images-from-custom-images",
+      "guid": "https://github.blog/changelog/2026-06-18-actions-build-custom-images-from-custom-images",
+      "publishedAt": "2026-06-18T15:32:44.000Z",
+      "date": "2026-06-18",
+      "time": "23:32",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "Custom images for GitHub-hosted runners are getting new capabilities that give you more flexibility over how you compose and manage your image-generation pipelines. You can now build custom images on… The post Actions: Build custom images from custom images appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:b74f147e2446e1b8a36ac54822e232fa672ceeb1",
+      "feedType": "dynamic",
+      "title": "How Stagwell built privacy-safe ID matching on Databricks",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/how-stagwell-built-privacy-safe-id-matching-databricks",
+      "guid": "https://www.databricks.com/blog/how-stagwell-built-privacy-safe-id-matching-databricks",
+      "publishedAt": "2026-06-18T15:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "23:00",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "The identity matching problem brands face todayBrands invest heavily in building first-party data assets...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:1ce51649d8484306453cf193c17c2bcdcd38a369",
+      "feedType": "dynamic",
+      "title": "Safer pull_request_target defaults for GitHub Actions checkout",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout",
+      "guid": "https://github.blog/changelog/2026-06-18-safer-pull_request_target-defaults-for-github-actions-checkout",
+      "publishedAt": "2026-06-18T14:06:55.000Z",
+      "date": "2026-06-18",
+      "time": "22:06",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "The pull_request_target event is one of the most commonly misused triggers in GitHub Actions, leading to vulnerabilities in workflows. Workflows triggered by pull_request_target run with the base repository’s GITHUB_TOKEN, secrets,… The post Safer pull_request_target defaults for GitHub Actions checkout appeared first...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:b69a6c7c462dcac9e999dd6f604dc48d7d2a5a8a",
+      "feedType": "dynamic",
+      "title": "Control who and what triggers GitHub Actions workflows",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
+      "guid": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
+      "publishedAt": "2026-06-18T14:06:18.000Z",
+      "date": "2026-06-18",
+      "time": "22:06",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "Workflow execution protections are now in public preview for GitHub Enterprise, organizations, and repositories. This new capability lets enterprise administrators define an allow list that controls who can trigger GitHub… The post Control who and what triggers GitHub Actions workflows appeared first on The GitHub Blo...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:google/osv-scanner:341422713",
+      "feedType": "dynamic",
+      "title": "google/osv-scanner v2.4.0",
+      "titleEn": null,
+      "link": "https://github.com/google/osv-scanner/releases/tag/v2.4.0",
+      "guid": "341422713",
+      "publishedAt": "2026-06-18T13:35:18.000Z",
+      "date": "2026-06-18",
+      "time": "21:35",
+      "source": "github.com",
+      "sourceLabel": "GitHub: google/osv-scanner",
+      "sourceType": "github",
+      "author": "google/osv-scanner",
+      "authorHandle": "",
+      "summary": "Features: Feature 2815 Add support for the CycloneDX 1.7 specification (bumps cyclonedx go to v0.11.0). Feature 2799 Enable .csproj and Central Package Management (nugetcpm) source scanning plugins by default. Feature 2871 Extract and parse Alpine OS distro version (e.g. Alpine:v3.17, Alpine:edge) from PURL distro qua...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:7e4b17fae8deef1820cb4d429c8f220f2d8ee699",
+      "feedType": "dynamic",
+      "title": "Celebrating 12 years of Project Galileo",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/celebrating-12-years-of-project-galileo/",
+      "guid": "1kBoofDb8dfLiYnekjlUaX",
+      "publishedAt": "2026-06-18T13:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "21:00",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "To mark the 12th anniversary of Project Galileo, Cloudflare has released its first comprehensive report analyzing cyberattacks against civil society.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.38.1",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.38.1 - Auto-enable async replication when erf=1 and arf>1, Fix MCP hybrid search returning objects without properties",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.38.1",
+      "guid": "tag:github.com,2008:Repository/55072677/v1.38.1",
+      "publishedAt": "2026-06-18T11:03:02.000Z",
+      "date": "2026-06-18",
+      "time": "19:03",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes fix(backup): return 422 instead of 500 when backend module is missing by @gkampitakis in #11666 Add env vars to disable bucket access check by @dirkkul in #11645 backport: chore: add slack notifier for release notes ( #11576 ) by @moogacs in #11674 fix: disable debug endpo...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:argoproj/argo-cd:341288148",
+      "feedType": "dynamic",
+      "title": "argoproj/argo-cd v3.4.4",
+      "titleEn": null,
+      "link": "https://github.com/argoproj/argo-cd/releases/tag/v3.4.4",
+      "guid": "341288148",
+      "publishedAt": "2026-06-18T09:36:37.000Z",
+      "date": "2026-06-18",
+      "time": "17:36",
+      "source": "github.com",
+      "sourceLabel": "GitHub: argoproj/argo-cd",
+      "sourceType": "github",
+      "author": "argoproj/argo-cd",
+      "authorHandle": "",
+      "summary": "Quick Start Non HA: HA: Release Signatures and Provenance All Argo CD container images are signed by cosign. A Provenance is generated for container images and CLI binaries which meet the SLSA Level 3 specifications. See the documentation on how to verify. Release Notes Blog Post For a detailed breakdown of the key ch...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "gitops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:argoproj/argo-cd:341286937",
+      "feedType": "dynamic",
+      "title": "argoproj/argo-cd v3.3.12",
+      "titleEn": null,
+      "link": "https://github.com/argoproj/argo-cd/releases/tag/v3.3.12",
+      "guid": "341286937",
+      "publishedAt": "2026-06-18T09:35:20.000Z",
+      "date": "2026-06-18",
+      "time": "17:35",
+      "source": "github.com",
+      "sourceLabel": "GitHub: argoproj/argo-cd",
+      "sourceType": "github",
+      "author": "argoproj/argo-cd",
+      "authorHandle": "",
+      "summary": "Quick Start Non HA: HA: Release Signatures and Provenance All Argo CD container images are signed by cosign. A Provenance is generated for container images and CLI binaries which meet the SLSA Level 3 specifications. See the documentation on how to verify. Release Notes Blog Post For a detailed breakdown of the key ch...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "gitops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:589583d39b418c42733496b035e9197a081e38a3",
+      "feedType": "dynamic",
+      "title": "What is artificial intelligence (AI)?",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/what-is-artificial-intelligence",
+      "guid": "https://www.databricks.com/blog/what-is-artificial-intelligence",
+      "publishedAt": "2026-06-18T08:51:03.000Z",
+      "date": "2026-06-18",
+      "time": "16:51",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Artificial intelligence (AI) is a branch of computer science that lets machines perform...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:777ee477ee7b14498a13be86b3c806369ba23f2f",
+      "feedType": "dynamic",
+      "title": "What is row-level security?",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/row-level-security",
+      "guid": "https://www.databricks.com/blog/row-level-security",
+      "publishedAt": "2026-06-18T07:27:06.000Z",
+      "date": "2026-06-18",
+      "time": "15:27",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Row-level security (RLS) is a database access control that limits which rows of a...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:2c4cc3c368acc727fe924153f42e9b28c7488b8a",
+      "feedType": "dynamic",
+      "title": "Flipkart Wins CNCF End User Case Study Contest for Kubernetes and Chaos Engineering Scale",
+      "titleEn": null,
+      "link": "https://www.cncf.io/announcements/2026/06/17/flipkart-wins-cncf-end-user-case-study-contest-for-kubernetes-and-chaos-engineering-scale/",
+      "guid": "https://www.cncf.io/?p=169388",
+      "publishedAt": "2026-06-18T06:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "14:00",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "Integration of LitmusChaos with Kubernetes-native architecture drives production-grade reliability for India’s largest e-commerce platform Key Highlights KUBECON + CLOUDNATIVECON INDIA, MUMBAI, India — June 18, 2026 — The Cloud Native Computing Foundation® (CNCF®), which builds sustainable...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:0ab3976d4e1fe70e051d52ce62fd0289e494abe1",
+      "feedType": "dynamic",
+      "title": "Expanding CARE: Passing CKS can now extend your CKA certification",
+      "titleEn": null,
+      "link": "https://www.cncf.io/blog/2026/06/17/expanding-care-passing-cks-can-now-extend-your-cka-certification/",
+      "guid": "https://www.cncf.io/?p=169508",
+      "publishedAt": "2026-06-18T04:50:00.000Z",
+      "date": "2026-06-18",
+      "time": "12:50",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "A few months ago, CNCF introduced the CARE Program — Certification Advancement & Recertification Experience — to make it easier for certified professionals to keep their credentials current as they continue growing their cloud native skills....",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:db58893c3d81c0b640f4cc0b7ca68b70f28e3546",
+      "feedType": "dynamic",
+      "title": "Node.js 26.3.1 (Current)",
+      "titleEn": null,
+      "link": "https://nodejs.org/en/blog/release/v26.3.1",
+      "guid": "/blog/release/v26.3.1?1781757519606",
+      "publishedAt": "2026-06-18T04:38:39.000Z",
+      "date": "2026-06-18",
+      "time": "12:38",
+      "source": "nodejs.org",
+      "sourceLabel": "Node.js Blog",
+      "sourceType": "rss",
+      "author": "Node.js Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:78d2d9892078407ed00252e787e65183c245a7ee",
+      "feedType": "dynamic",
+      "title": "Node.js 24.17.0 (LTS)",
+      "titleEn": null,
+      "link": "https://nodejs.org/en/blog/release/v24.17.0",
+      "guid": "/blog/release/v24.17.0?1781757518484",
+      "publishedAt": "2026-06-18T04:38:38.000Z",
+      "date": "2026-06-18",
+      "time": "12:38",
+      "source": "nodejs.org",
+      "sourceLabel": "Node.js Blog",
+      "sourceType": "rss",
+      "author": "Node.js Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:eeefdf5a6b9b4fec24ce3bd4cd43847df0a81a64",
+      "feedType": "dynamic",
+      "title": "Node.js 22.23.0 (LTS)",
+      "titleEn": null,
+      "link": "https://nodejs.org/en/blog/release/v22.23.0",
+      "guid": "/blog/release/v22.23.0?1781757499322",
+      "publishedAt": "2026-06-18T04:38:19.000Z",
+      "date": "2026-06-18",
+      "time": "12:38",
+      "source": "nodejs.org",
+      "sourceLabel": "Node.js Blog",
+      "sourceType": "rss",
+      "author": "Node.js Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:nodejs/node:341160073",
+      "feedType": "dynamic",
+      "title": "nodejs/node 2026-06-18, Version 26.3.1 (Current), @aduh95",
+      "titleEn": null,
+      "link": "https://github.com/nodejs/node/releases/tag/v26.3.1",
+      "guid": "341160073",
+      "publishedAt": "2026-06-18T04:37:39.000Z",
+      "date": "2026-06-18",
+      "time": "12:37",
+      "source": "github.com",
+      "sourceLabel": "GitHub: nodejs/node",
+      "sourceType": "github",
+      "author": "nodejs/node",
+      "authorHandle": "",
+      "summary": "This is a security release. Notable Changes (CVE 2026 48618) tls: normalize hostname for server identity checks (Matteo Collina) – High (CVE 2026 48933) crypto: guard WebCrypto cipher output length (Filip Skokan) – High (CVE 2026 48615) lib,test: redact proxy credentials in tunnel errors (Matteo Collina) – Medium (CVE...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:nodejs/node:341160064",
+      "feedType": "dynamic",
+      "title": "nodejs/node 2026-06-18, Version 24.17.0 'Krypton' (LTS), @aduh95",
+      "titleEn": null,
+      "link": "https://github.com/nodejs/node/releases/tag/v24.17.0",
+      "guid": "341160064",
+      "publishedAt": "2026-06-18T04:37:35.000Z",
+      "date": "2026-06-18",
+      "time": "12:37",
+      "source": "github.com",
+      "sourceLabel": "GitHub: nodejs/node",
+      "sourceType": "github",
+      "author": "nodejs/node",
+      "authorHandle": "",
+      "summary": "This is a security release. Notable Changes (CVE 2026 48618) tls: normalize hostname for server identity checks (Matteo Collina) – High (CVE 2026 48933) crypto: guard WebCrypto cipher output length (Filip Skokan) – High (CVE 2026 48615) lib,test: redact proxy credentials in tunnel errors (Matteo Collina) – Medium (CVE...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:nodejs/node:341160022",
+      "feedType": "dynamic",
+      "title": "nodejs/node 2026-06-18, Version 22.23.0 'Jod' (LTS), @aduh95",
+      "titleEn": null,
+      "link": "https://github.com/nodejs/node/releases/tag/v22.23.0",
+      "guid": "341160022",
+      "publishedAt": "2026-06-18T04:37:21.000Z",
+      "date": "2026-06-18",
+      "time": "12:37",
+      "source": "github.com",
+      "sourceLabel": "GitHub: nodejs/node",
+      "sourceType": "github",
+      "author": "nodejs/node",
+      "authorHandle": "",
+      "summary": "This is a security release. Notable Changes (CVE 2026 48618) tls: normalize hostname for server identity checks (Matteo Collina) – High (CVE 2026 48933) crypto: guard WebCrypto cipher output length (Filip Skokan) – High (CVE 2026 48937) deps: fix integration issues with the latest nghttp2 – Medium (CVE 2026 48930) dns...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:delta-io/delta:tag:github.com,2008:Repository/182849188/v4.3.0",
+      "feedType": "dynamic",
+      "title": "delta-io/delta Delta Lake 4.3.0",
+      "titleEn": null,
+      "link": "https://github.com/delta-io/delta/releases/tag/v4.3.0",
+      "guid": "tag:github.com,2008:Repository/182849188/v4.3.0",
+      "publishedAt": "2026-06-18T04:26:28.000Z",
+      "date": "2026-06-18",
+      "time": "12:26",
+      "source": "github.com",
+      "sourceLabel": "GitHub: delta-io/delta",
+      "sourceType": "github",
+      "author": "delta-io/delta",
+      "authorHandle": "",
+      "summary": "We are excited to announce the release of Delta Lake 4.3.0 , which delivers new features, performance improvements, and protocol updates across Delta Spark, Kernel, UniForm, Sharing, and Flink. See the highlights below for the marquee changes. Highlights [Spark] Unity Catalog Delta REST API integration : Spark now sup...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "lakehouse"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:1ca7a9287e1da5b9aaeef5707f26b5696a2b5c9c",
+      "feedType": "dynamic",
+      "title": "Thursday, June 18, 2026 Security Releases",
+      "titleEn": null,
+      "link": "https://nodejs.org/en/blog/vulnerability/june-2026-security-releases",
+      "guid": "/blog/vulnerability/june-2026-security-releases?1781755200000",
+      "publishedAt": "2026-06-18T04:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "12:00",
+      "source": "nodejs.org",
+      "sourceLabel": "Node.js Blog",
+      "sourceType": "rss",
+      "author": "Node.js Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:cf6ac691c2d27024fa03b34d815fdd36e25097ba",
+      "feedType": "dynamic",
+      "title": "The full Snyk AI Security Platform, free for open source maintainers",
+      "titleEn": null,
+      "link": "https://snyk.io/blog/secure-developer-program/",
+      "guid": "https://snyk.io/blog/secure-developer-program/",
+      "publishedAt": "2026-06-18T04:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "12:00",
+      "source": "snyk.io",
+      "sourceLabel": "Snyk Blog",
+      "sourceType": "rss",
+      "author": "Snyk Blog",
+      "authorHandle": "",
+      "summary": "Open source maintainers are drowning in real vulnerability reports and need help prioritizing, fixing, and shipping remediation faster. Snyk’s Secure Developer Program gives qualifying projects free access to the Snyk AI Security Platform.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "vulnerability",
+        "supply-chain-security",
+        "cloud-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:2ceae07a3bda3afbb7ad01e43be4b19f45463c82",
+      "feedType": "dynamic",
+      "title": "CNCF and SlashData Report Confirms India as One of the Largest Cloud Native Communities with 2.25 Million Developers",
+      "titleEn": null,
+      "link": "https://www.cncf.io/announcements/2026/06/17/cncf-and-slashdata-report-confirms-india-as-one-of-the-largest-cloud-native-communities-with-2-25-million-developers/",
+      "guid": "https://www.cncf.io/?p=169148",
+      "publishedAt": "2026-06-18T03:30:00.000Z",
+      "date": "2026-06-18",
+      "time": "11:30",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "New research released at KubeCon + CloudNativeCon India highlights rising hybrid cloud adoption, platform engineering maturity and growing cloud native AI development Key Highlights: MUMBAI – KubeCon + CloudNativeCon India —June 18, 2026— The Cloud Native...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:9b6e22caa128dc6333fd07fd142e92e72c075738",
+      "feedType": "dynamic",
+      "title": "CNCF and Linux Foundation Education Partner with Udemy to Provide a Unified Cloud Native Training & Certification Opportunity",
+      "titleEn": null,
+      "link": "https://www.cncf.io/announcements/2026/06/17/cncf-and-linux-foundation-education-partner-with-udemy-to-provide-a-unified-cloud-native-training-certification-opportunity/",
+      "guid": "https://www.cncf.io/?p=168961",
+      "publishedAt": "2026-06-18T03:30:00.000Z",
+      "date": "2026-06-18",
+      "time": "11:30",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "Partnership combines Udemy training with CKA, CKAD, CKS, and CNPE exams into a unified purchasing process to simplify training for developers Key Highlights KUBECON + CLOUDNATIVECON INDIA, MUMBAI — June 18, 2026 — The Cloud Native...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:ef9bb5dee3925b5be2605d7b4da3bfd6ad22fb0b",
+      "feedType": "dynamic",
+      "title": "CNCF Welcomes New Silver Members as Global Demand for Cloud Native Infrastructure Grows",
+      "titleEn": null,
+      "link": "https://www.cncf.io/announcements/2026/06/17/cncf-welcomes-new-silver-members-as-global-demand-for-cloud-native-infrastructure-grows/",
+      "guid": "https://www.cncf.io/?p=169151",
+      "publishedAt": "2026-06-18T03:30:00.000Z",
+      "date": "2026-06-18",
+      "time": "11:30",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "New organizations join CNCF as enterprises expand Kubernetes adoption for platform engineering and AI workloads MUMBAI – KubeCon + CloudNativeCon India —June 18, 2026— The Cloud Native Computing Foundation® (CNCF®), which builds sustainable ecosystems for cloud...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:9d62ebab8626fd1c87c6c9762410ff231baa118a",
+      "feedType": "dynamic",
+      "title": "Import & Vectorize Data with Weaviate at Scale",
+      "titleEn": null,
+      "link": "https://weaviate.io/blog/data-import-best-practices",
+      "guid": "https://weaviate.io/blog/data-import-best-practices",
+      "publishedAt": "2026-06-18T00:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "08:00",
+      "source": "weaviate.io",
+      "sourceLabel": "Weaviate Blog",
+      "sourceType": "rss",
+      "author": "Weaviate Blog",
+      "authorHandle": "",
+      "summary": "Server-side batching, retries, the blobHash data type, and multimodal ingestion — what to use when, with code.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:a866f55fe2951f0daca8e3f0b2589daec52e32d6",
+      "feedType": "dynamic",
+      "title": "A Bootiful Podcast: DaShaun Carter on patching, Spring Boot 4.1, and security in the world of AI",
+      "titleEn": null,
+      "link": "https://spring.io/blog/2026/06/18/a-bootiful-podcast-dashaun-carter",
+      "guid": "https://spring.io/blog/2026/06/18/a-bootiful-podcast-dashaun-carter",
+      "publishedAt": "2026-06-18T00:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "08:00",
+      "source": "spring.io",
+      "sourceLabel": "Spring Blog",
+      "sourceType": "rss",
+      "author": "Spring Blog",
+      "authorHandle": "",
+      "summary": "Hi Spring fans! In this installment I have the privilege to sit down with my friend DaShaun Carter to talk about patching, Spring Boot 4.1, and security in the world of AI.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "Spring"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:d44bbcfdf323272f26f8025fb1690758aee5812c",
+      "feedType": "dynamic",
+      "title": "Is it agentic enough? Benchmarking open models on your own tooling",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/is-it-agentic-enough",
+      "guid": "https://huggingface.co/blog/is-it-agentic-enough",
+      "publishedAt": "2026-06-18T00:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:dc672d00868203d038ecae4b0128e843c3170c01",
+      "feedType": "dynamic",
+      "title": "Beyond LoRA: Can you beat the most popular fine-tuning technique?",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/peft-beyond-lora",
+      "guid": "https://huggingface.co/blog/peft-beyond-lora",
+      "publishedAt": "2026-06-18T00:00:00.000Z",
+      "date": "2026-06-18",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:9c717337ab27186a8c6e57a98314a459a078fc8b",
+      "feedType": "dynamic",
+      "title": "What is an AI agent harness?",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/ai-harness",
+      "guid": "https://www.databricks.com/blog/ai-harness",
+      "publishedAt": "2026-06-17T21:45:04.000Z",
+      "date": "2026-06-18",
+      "time": "05:45",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "An AI agent harness is the software infrastructure that wraps around a large language...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:d9afa88592c194daf571fb38d3e79b86b3d3cc0f",
+      "feedType": "dynamic",
+      "title": "Databricks and NVIDIA: Building for the Agentic Era",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
+      "guid": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
+      "publishedAt": "2026-06-17T19:50:00.000Z",
+      "date": "2026-06-18",
+      "time": "03:50",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "The Full Stack of AI, AcceleratedNVIDIA accelerated computing powers some of the...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:03d23cbd049de86d9da58493ad727e1eb9539e73",
+      "feedType": "dynamic",
+      "title": "Getting more from each token: How Copilot improves context handling and model routing",
+      "titleEn": null,
+      "link": "https://github.blog/ai-and-ml/github-copilot/getting-more-from-each-token-how-copilot-improves-context-handling-and-model-routing/",
+      "guid": "https://github.blog/?p=96832",
+      "publishedAt": "2026-06-17T19:41:46.000Z",
+      "date": "2026-06-18",
+      "time": "03:41",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Blog",
+      "sourceType": "rss",
+      "author": "GitHub Blog",
+      "authorHandle": "",
+      "summary": "How GitHub Copilot is making more of each session go toward useful work, so your credits go further. The post Getting more from each token: How Copilot improves context handling and model routing appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:f8e7504befa7586ab8ce0a9ec31b256e9c826dcb",
+      "feedType": "dynamic",
+      "title": "Bringing more agent harnesses and frameworks to Cloudflare, starting with Flue",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/agents-platform-flue-sdk/",
+      "guid": "48yPgdpb7RGTBdh4DPPCUF",
+      "publishedAt": "2026-06-17T19:35:00.000Z",
+      "date": "2026-06-18",
+      "time": "03:35",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "The Agents SDK is now a runtime any agent framework can build on. Today we're opening up the Agents SDK primitives, with Flue as a first framework targeting Agents SDK, and rolling out agents in the dashboard.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc2",
+      "feedType": "dynamic",
+      "title": "apache/kafka 4.3.1-rc2",
+      "titleEn": null,
+      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc2",
+      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc2",
+      "publishedAt": "2026-06-17T18:29:04.000Z",
+      "date": "2026-06-18",
+      "time": "02:29",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/kafka",
+      "sourceType": "github",
+      "author": "apache/kafka",
+      "authorHandle": "",
+      "summary": "4.3.1-rc2",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:ollama/ollama:340587039",
+      "feedType": "dynamic",
+      "title": "ollama/ollama v0.30.10",
+      "titleEn": null,
+      "link": "https://github.com/ollama/ollama/releases/tag/v0.30.10",
+      "guid": "340587039",
+      "publishedAt": "2026-06-17T16:22:02.000Z",
+      "date": "2026-06-18",
+      "time": "00:22",
+      "source": "github.com",
+      "sourceLabel": "GitHub: ollama/ollama",
+      "sourceType": "github",
+      "author": "ollama/ollama",
+      "authorHandle": "",
+      "summary": "What's Changed Command A and North family models now run on Apple Silicon with the MLX engine Updated the underlying llama.cpp engine to build 9672 Fixed build artifacts for MLX Full Changelog : https://github.com/ollama/ollama/compare/v0.30.9...v0.30.10",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "ai-infra",
+        "model-engineering"
+      ],
+      "category": null
+    }
+  ]
+}

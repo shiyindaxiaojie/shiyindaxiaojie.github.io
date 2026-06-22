@@ -1,0 +1,2057 @@
+{
+  "meta": {
+    "title": {
+      "zh": "项目运行拓扑",
+      "en": "Project Runtime Topology",
+      "ja": "Project Runtime Topology"
+    },
+    "rootFlow": [
+      "client",
+      "edge-network",
+      "security-access",
+      "gateway-traffic",
+      "service-runtime",
+      "service-governance",
+      "data-middle",
+      "observability",
+      "delivery",
+      "datacenter"
+    ]
+  },
+  "nodes": [
+    {
+      "id": "client",
+      "kind": "stage",
+      "zone": "client",
+      "children": [
+        "web-app",
+        "mobile-app",
+        "mini-app"
+      ],
+      "title": {
+        "zh": "客户端",
+        "en": "Client",
+        "ja": "Client"
+      },
+      "summary": {
+        "zh": "用户真正接触到的入口层。",
+        "en": "The end-user facing entry layer.",
+        "ja": "The end-user facing entry layer."
+      }
+    },
+    {
+      "id": "web-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "vue",
+      "options": [
+        {
+          "id": "vue",
+          "name": "Vue",
+          "path": null
+        },
+        {
+          "id": "angular",
+          "name": "Angular",
+          "path": null
+        },
+        {
+          "id": "react",
+          "name": "React",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "Web 前端",
+        "en": "Web Frontend",
+        "ja": "Web Frontend"
+      },
+      "summary": {
+        "zh": "浏览器里的主应用入口。",
+        "en": "Primary application in the browser.",
+        "ja": "Primary application in the browser."
+      }
+    },
+    {
+      "id": "mobile-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "ios",
+      "options": [
+        {
+          "id": "ios",
+          "name": "iOS",
+          "path": null
+        },
+        {
+          "id": "android",
+          "name": "Android",
+          "path": null
+        },
+        {
+          "id": "flutter",
+          "name": "Flutter",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "移动端",
+        "en": "Mobile App",
+        "ja": "Mobile App"
+      },
+      "summary": {
+        "zh": "iOS / Android 原生或跨端容器。",
+        "en": "Native or cross-platform mobile container.",
+        "ja": "Native or cross-platform mobile container."
+      }
+    },
+    {
+      "id": "mini-app",
+      "kind": "concept",
+      "zone": "client",
+      "defaultOption": "h5",
+      "options": [
+        {
+          "id": "wechat",
+          "path": null,
+          "name": {
+            "zh": "微信小程序",
+            "en": "WeChat Mini Program",
+            "ja": "WeChat Mini Program"
+          }
+        },
+        {
+          "id": "h5",
+          "name": "H5",
+          "path": null
+        },
+        {
+          "id": "electron",
+          "name": "Electron",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "轻应用入口",
+        "en": "Light App Entry",
+        "ja": "Light App Entry"
+      },
+      "summary": {
+        "zh": "小程序、H5、嵌入式业务触点。",
+        "en": "Mini program, H5, and embedded touchpoint.",
+        "ja": "Mini program, H5, and embedded touchpoint."
+      }
+    },
+    {
+      "id": "edge-network",
+      "kind": "stage",
+      "zone": "network",
+      "children": [
+        "dns",
+        "cdn",
+        "dynamic-acceleration",
+        "load-balance",
+        "vod"
+      ],
+      "title": {
+        "zh": "网络",
+        "en": "Network",
+        "ja": "Network"
+      },
+      "summary": {
+        "zh": "项目从公网进入系统前的网络调度与边缘分发。",
+        "en": "Network scheduling and edge delivery before requests enter the system.",
+        "ja": "Network scheduling and edge delivery before requests enter the system."
+      }
+    },
+    {
+      "id": "dns",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "public-dns",
+      "options": [
+        {
+          "id": "public-dns",
+          "path": "data/knowledge/network/dns.md",
+          "name": {
+            "zh": "DNSPod / 云解析",
+            "en": "DNSPod / Cloud DNS",
+            "ja": "DNSPod / Cloud DNS"
+          }
+        },
+        {
+          "id": "route53",
+          "name": "Route 53",
+          "path": null
+        },
+        {
+          "id": "bind9",
+          "name": "BIND 9",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "域名解析",
+        "en": "DNS",
+        "ja": "DNS"
+      },
+      "summary": {
+        "zh": "负责入口寻址与基础调度。",
+        "en": "Handles entry addressing and base routing.",
+        "ja": "Handles entry addressing and base routing."
+      }
+    },
+    {
+      "id": "cdn",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-cdn",
+      "options": [
+        {
+          "id": "tencent-cdn",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 CDN",
+            "en": "Tencent Cloud CDN",
+            "ja": "Tencent Cloud CDN"
+          }
+        },
+        {
+          "id": "aliyun-cdn",
+          "path": null,
+          "name": {
+            "zh": "阿里云 CDN",
+            "en": "Alibaba Cloud CDN",
+            "ja": "Alibaba Cloud CDN"
+          }
+        },
+        {
+          "id": "amazon-cloudfront",
+          "name": "Amazon CloudFront",
+          "path": null
+        },
+        {
+          "id": "cloudflare",
+          "name": "Cloudflare",
+          "path": null
+        },
+        {
+          "id": "akamai",
+          "name": "Akamai",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "边缘分发",
+        "en": "Edge Delivery",
+        "ja": "Edge Delivery"
+      },
+      "summary": {
+        "zh": "静态资源、图片和部分动态请求的边缘加速。",
+        "en": "Edge acceleration for static and selected dynamic content.",
+        "ja": "Edge acceleration for static and selected dynamic content."
+      }
+    },
+    {
+      "id": "dynamic-acceleration",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-ecdn",
+      "options": [
+        {
+          "id": "tencent-ecdn",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 ECDN",
+            "en": "Tencent Cloud ECDN",
+            "ja": "Tencent Cloud ECDN"
+          }
+        },
+        {
+          "id": "aliyun-dcdn",
+          "path": null,
+          "name": {
+            "zh": "阿里云 DCDN",
+            "en": "Alibaba Cloud DCDN",
+            "ja": "Alibaba Cloud DCDN"
+          }
+        },
+        {
+          "id": "cloudfront-dynamic",
+          "name": "Amazon CloudFront",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "动态内容加速",
+        "en": "Dynamic Acceleration",
+        "ja": "Dynamic Acceleration"
+      },
+      "summary": {
+        "zh": "面向动态请求、全站链路和源站回源前的加速。",
+        "en": "Accelerates dynamic requests, full-site links, and origin fetch paths.",
+        "ja": "Accelerates dynamic requests, full-site links, and origin fetch paths."
+      }
+    },
+    {
+      "id": "vod",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "tencent-vod",
+      "options": [
+        {
+          "id": "tencent-vod",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 VOD",
+            "en": "Tencent Cloud VOD",
+            "ja": "Tencent Cloud VOD"
+          }
+        },
+        {
+          "id": "aliyun-vod",
+          "path": null,
+          "name": {
+            "zh": "阿里云 VOD",
+            "en": "Alibaba Cloud VOD",
+            "ja": "Alibaba Cloud VOD"
+          }
+        },
+        {
+          "id": "aws-mediaconvert",
+          "name": "AWS Elemental MediaConvert",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "视频点播",
+        "en": "Video on Demand",
+        "ja": "Video on Demand"
+      },
+      "summary": {
+        "zh": "管理视频上传、转码、预热和媒体分发链路。",
+        "en": "Manages upload, transcoding, pre-warming, and media delivery.",
+        "ja": "Manages upload, transcoding, pre-warming, and media delivery."
+      }
+    },
+    {
+      "id": "security-access",
+      "kind": "stage",
+      "zone": "security",
+      "children": [
+        "ddos",
+        "nat-firewall",
+        "cloud-firewall",
+        "waf",
+        "vpc-isolation"
+      ],
+      "title": {
+        "zh": "安全",
+        "en": "Security",
+        "ja": "Security"
+      },
+      "summary": {
+        "zh": "保护系统边界，控制流量与访问策略。",
+        "en": "Protects system boundaries and access policies.",
+        "ja": "Protects system boundaries and access policies."
+      }
+    },
+    {
+      "id": "ddos",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "anti-ddos",
+      "options": [
+        {
+          "id": "anti-ddos",
+          "name": "Anti-DDoS",
+          "path": null
+        },
+        {
+          "id": "gaap",
+          "name": "GAAP",
+          "path": null
+        },
+        {
+          "id": "cloudflare-ddos",
+          "name": "Cloudflare DDoS",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "边界防护",
+        "en": "Boundary Protection",
+        "ja": "Boundary Protection"
+      },
+      "summary": {
+        "zh": "大流量攻击清洗与入口保护。",
+        "en": "Traffic scrubbing and entry protection.",
+        "ja": "Traffic scrubbing and entry protection."
+      }
+    },
+    {
+      "id": "nat-firewall",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-nat-gateway",
+      "options": [
+        {
+          "id": "tencent-nat-gateway",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 NAT 网关",
+            "en": "Tencent Cloud NAT Gateway",
+            "ja": "Tencent Cloud NAT Gateway"
+          }
+        },
+        {
+          "id": "aliyun-nat-gateway",
+          "path": null,
+          "name": {
+            "zh": "阿里云 NAT 网关",
+            "en": "Alibaba Cloud NAT Gateway",
+            "ja": "Alibaba Cloud NAT Gateway"
+          }
+        },
+        {
+          "id": "aws-nat-gateway",
+          "name": "AWS NAT Gateway",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "出站防护",
+        "en": "Egress Protection",
+        "ja": "Egress Protection"
+      },
+      "summary": {
+        "zh": "控制出站流量、地址转换和异常连接拦截。",
+        "en": "Controls egress traffic, address translation, and abnormal connection blocking.",
+        "ja": "Controls egress traffic, address translation, and abnormal connection blocking."
+      }
+    },
+    {
+      "id": "cloud-firewall",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-cfw",
+      "options": [
+        {
+          "id": "tencent-cfw",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 CFW",
+            "en": "Tencent Cloud CFW",
+            "ja": "Tencent Cloud CFW"
+          }
+        },
+        {
+          "id": "aliyun-cloud-firewall",
+          "path": null,
+          "name": {
+            "zh": "阿里云云防火墙",
+            "en": "Alibaba Cloud Firewall",
+            "ja": "Alibaba Cloud Firewall"
+          }
+        },
+        {
+          "id": "aws-network-firewall",
+          "name": "AWS Network Firewall",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "云防火墙",
+        "en": "Cloud Firewall",
+        "ja": "Cloud Firewall"
+      },
+      "summary": {
+        "zh": "在公网、私网和跨域访问路径上统一管理访问控制。",
+        "en": "Centralizes access control across public, private, and cross-domain paths.",
+        "ja": "Centralizes access control across public, private, and cross-domain paths."
+      }
+    },
+    {
+      "id": "waf",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "tencent-waf",
+      "options": [
+        {
+          "id": "tencent-waf",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 WAF",
+            "en": "Tencent Cloud WAF",
+            "ja": "Tencent Cloud WAF"
+          }
+        },
+        {
+          "id": "aliyun-waf",
+          "path": null,
+          "name": {
+            "zh": "阿里云 WAF",
+            "en": "Alibaba Cloud WAF",
+            "ja": "Alibaba Cloud WAF"
+          }
+        },
+        {
+          "id": "aws-waf",
+          "name": "AWS WAF",
+          "path": null
+        },
+        {
+          "id": "modsecurity",
+          "name": "ModSecurity",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "应用防护",
+        "en": "Application Protection",
+        "ja": "Application Protection"
+      },
+      "summary": {
+        "zh": "Web 和 API 层面的访问保护。",
+        "en": "Protection at the web and API layers.",
+        "ja": "Protection at the web and API layers."
+      }
+    },
+    {
+      "id": "load-balance",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "clb",
+      "options": [
+        {
+          "id": "slb",
+          "path": null,
+          "name": {
+            "zh": "阿里云 SLB",
+            "en": "Alibaba Cloud SLB",
+            "ja": "Alibaba Cloud SLB"
+          }
+        },
+        {
+          "id": "clb",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 CLB",
+            "en": "Tencent Cloud CLB",
+            "ja": "Tencent Cloud CLB"
+          }
+        },
+        {
+          "id": "aws-elb",
+          "path": null,
+          "name": {
+            "zh": "AWS ELB",
+            "en": "AWS ELB",
+            "ja": "AWS ELB"
+          }
+        },
+        {
+          "id": "haproxy",
+          "name": "HAProxy",
+          "path": "data/knowledge/operations/haproxy_zh-CN.md"
+        }
+      ],
+      "title": {
+        "zh": "入口负载均衡",
+        "en": "Load Balancer",
+        "ja": "Load Balancer"
+      },
+      "summary": {
+        "zh": "把流量分到后端入口节点。",
+        "en": "Distributes traffic to backend entry nodes.",
+        "ja": "Distributes traffic to backend entry nodes."
+      }
+    },
+    {
+      "id": "gateway-traffic",
+      "kind": "stage",
+      "zone": "gateway",
+      "children": [
+        "nat-gateway",
+        "ingress",
+        "api-gateway",
+        "gray-release"
+      ],
+      "title": {
+        "zh": "网关",
+        "en": "Gateway",
+        "ja": "Gateway"
+      },
+      "summary": {
+        "zh": "把外部请求引到内部服务，并做统一的流量治理。",
+        "en": "Routes external requests into internal services with traffic governance.",
+        "ja": "Routes external requests into internal services with traffic governance."
+      }
+    },
+    {
+      "id": "ingress",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "gateway-api",
+      "options": [
+        {
+          "id": "gateway-api",
+          "name": "Gateway API",
+          "path": null
+        },
+        {
+          "id": "ingress-api",
+          "name": "Ingress API",
+          "path": "data/knowledge/topics/kubernetes/nginx-ingress-canary.md"
+        },
+        {
+          "id": "service-mesh-gateway",
+          "name": "Service Mesh Gateway",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "集群访问入口",
+        "en": "Cluster Access Entry",
+        "ja": "Cluster Access Entry"
+      },
+      "summary": {
+        "zh": "以 Gateway API 为默认推荐入口模型，Ingress API 作为兼容回退。",
+        "en": "Uses Gateway API as the recommended entry model, with Ingress API kept as a compatibility fallback.",
+        "ja": "Uses Gateway API as the recommended entry model, with Ingress API kept as a compatibility fallback."
+      }
+    },
+    {
+      "id": "nat-gateway",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "tencent-nat-gateway",
+      "options": [
+        {
+          "id": "tencent-nat-gateway",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 NAT 网关",
+            "en": "Tencent Cloud NAT Gateway",
+            "ja": "Tencent Cloud NAT Gateway"
+          }
+        },
+        {
+          "id": "aliyun-nat-gateway",
+          "path": null,
+          "name": {
+            "zh": "阿里云 NAT 网关",
+            "en": "Alibaba Cloud NAT Gateway",
+            "ja": "Alibaba Cloud NAT Gateway"
+          }
+        },
+        {
+          "id": "aws-nat-gateway",
+          "name": "AWS NAT Gateway",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "NAT 网关",
+        "en": "NAT Gateway",
+        "ja": "NAT Gateway"
+      },
+      "summary": {
+        "zh": "为集群或 VPC 内资源提供统一公网出入口和地址转换。",
+        "en": "Provides unified public egress and address translation for cluster or VPC resources.",
+        "ja": "Provides unified public egress and address translation for cluster or VPC resources."
+      }
+    },
+    {
+      "id": "api-gateway",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "scg",
+      "options": [
+        {
+          "id": "scg",
+          "name": "Spring Cloud Gateway",
+          "path": "data/knowledge/java/spring-cloud.md"
+        },
+        {
+          "id": "kong",
+          "name": "Kong",
+          "path": null
+        },
+        {
+          "id": "apisix",
+          "name": "APISIX",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "API 网关",
+        "en": "API Gateway",
+        "ja": "API Gateway"
+      },
+      "summary": {
+        "zh": "统一鉴权、限流、协议适配和路由。",
+        "en": "Unified auth, rate limiting, protocol adaptation, and routing.",
+        "ja": "Unified auth, rate limiting, protocol adaptation, and routing."
+      }
+    },
+    {
+      "id": "gray-release",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "istio",
+      "options": [
+        {
+          "id": "istio",
+          "name": "Istio",
+          "path": "data/knowledge/cloud-native/istio.md"
+        },
+        {
+          "id": "gateway-canary",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "name": {
+            "zh": "网关流量切分",
+            "en": "Gateway Traffic Split",
+            "ja": "Gateway Traffic Split"
+          }
+        },
+        {
+          "id": "flagger",
+          "name": "Flagger",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "渐进式发布",
+        "en": "Progressive Delivery",
+        "ja": "Progressive Delivery"
+      },
+      "summary": {
+        "zh": "通过流量切分验证新版本。",
+        "en": "Validates new versions via traffic splitting.",
+        "ja": "Validates new versions via traffic splitting."
+      }
+    },
+    {
+      "id": "vpc-isolation",
+      "kind": "concept",
+      "zone": "security",
+      "defaultOption": "vpc",
+      "options": [
+        {
+          "id": "vpc",
+          "path": "data/knowledge/network/basic.md",
+          "name": {
+            "zh": "VPC + 安全组",
+            "en": "VPC + Security Group",
+            "ja": "VPC + Security Group"
+          }
+        },
+        {
+          "id": "calico",
+          "name": "Calico Policy",
+          "path": "data/knowledge/cloud-native/kubernetes.md"
+        },
+        {
+          "id": "cilium",
+          "name": "Cilium Policy",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "私网隔离",
+        "en": "Private Isolation",
+        "ja": "Private Isolation"
+      },
+      "summary": {
+        "zh": "把系统放进可控 VPC、子网和安全组。",
+        "en": "Places the system into controlled VPC, subnets, and security groups.",
+        "ja": "Places the system into controlled VPC, subnets, and security groups."
+      }
+    },
+    {
+      "id": "network-link",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "vpn",
+      "options": [
+        {
+          "id": "vpn",
+          "name": "VPN",
+          "path": null
+        },
+        {
+          "id": "sdwan",
+          "name": "SD-WAN",
+          "path": null
+        },
+        {
+          "id": "dedicated-line",
+          "path": null,
+          "name": {
+            "zh": "专线",
+            "en": "Dedicated Line",
+            "ja": "Dedicated Line"
+          }
+        }
+      ],
+      "title": {
+        "zh": "跨域互联",
+        "en": "Cross-Site Link",
+        "ja": "Cross-Site Link"
+      },
+      "summary": {
+        "zh": "多个 VPC、机房或云之间怎么打通。",
+        "en": "How multiple VPCs, datacenters, and clouds are interconnected.",
+        "ja": "How multiple VPCs, datacenters, and clouds are interconnected."
+      }
+    },
+    {
+      "id": "compute",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "cvm",
+      "options": [
+        {
+          "id": "cvm",
+          "name": "CVM",
+          "path": "data/knowledge/os/linux.md"
+        },
+        {
+          "id": "kvm",
+          "name": "KVM",
+          "path": "data/knowledge/cloud-native/kvm.md"
+        },
+        {
+          "id": "openstack",
+          "name": "OpenStack",
+          "path": "data/knowledge/cloud-native/openstack.md"
+        }
+      ],
+      "title": {
+        "zh": "计算资源",
+        "en": "Compute",
+        "ja": "Compute"
+      },
+      "summary": {
+        "zh": "云主机、虚拟化和宿主资源。",
+        "en": "Cloud instances, virtualization, and host resources.",
+        "ja": "Cloud instances, virtualization, and host resources."
+      }
+    },
+    {
+      "id": "service-runtime",
+      "kind": "stage",
+      "zone": "runtime",
+      "children": [
+        "container-orchestrator",
+        "service-framework",
+        "rpc-job"
+      ],
+      "title": {
+        "zh": "容器服务",
+        "en": "Container Service",
+        "ja": "Container Service"
+      },
+      "summary": {
+        "zh": "业务服务真正运行、扩缩容和调度的地方。",
+        "en": "Where business services truly run, scale, and get scheduled.",
+        "ja": "Where business services truly run, scale, and get scheduled."
+      }
+    },
+    {
+      "id": "container-orchestrator",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "kubernetes",
+      "options": [
+        {
+          "id": "kubernetes",
+          "name": "Kubernetes",
+          "path": "data/knowledge/cloud-native/kubernetes.md"
+        },
+        {
+          "id": "kubesphere",
+          "name": "KubeSphere",
+          "path": "data/knowledge/cloud-native/kubesphere.md"
+        },
+        {
+          "id": "rainbond",
+          "name": "Rainbond",
+          "path": "data/knowledge/cloud-native/rainbond.md"
+        }
+      ],
+      "title": {
+        "zh": "容器编排",
+        "en": "Container Orchestration",
+        "ja": "Container Orchestration"
+      },
+      "summary": {
+        "zh": "部署、扩缩容和服务编排的底座。",
+        "en": "Foundation for deployment, scaling, and orchestration.",
+        "ja": "Foundation for deployment, scaling, and orchestration."
+      }
+    },
+    {
+      "id": "service-framework",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "spring-boot",
+      "options": [
+        {
+          "id": "spring-boot",
+          "name": "Spring Boot",
+          "path": "data/knowledge/java/spring-boot.md"
+        },
+        {
+          "id": "django",
+          "name": "Django",
+          "path": "data/knowledge/python/django.md"
+        },
+        {
+          "id": "gin",
+          "name": "Gin",
+          "path": "data/knowledge/golang/gin.md"
+        }
+      ],
+      "title": {
+        "zh": "服务框架",
+        "en": "Service Framework",
+        "ja": "Service Framework"
+      },
+      "summary": {
+        "zh": "业务逻辑和 API 的主要承载框架。",
+        "en": "Primary framework carrying business logic and APIs.",
+        "ja": "Primary framework carrying business logic and APIs."
+      }
+    },
+    {
+      "id": "rpc-job",
+      "kind": "concept",
+      "zone": "runtime",
+      "defaultOption": "dubbo",
+      "options": [
+        {
+          "id": "dubbo",
+          "name": "Dubbo",
+          "path": null
+        },
+        {
+          "id": "grpc",
+          "name": "gRPC",
+          "path": "data/knowledge/network/grpc.md"
+        },
+        {
+          "id": "xxl-job",
+          "name": "XXL-Job",
+          "path": "data/knowledge/middleware/xxl-job.md"
+        }
+      ],
+      "title": {
+        "zh": "RPC / 任务调度",
+        "en": "RPC / Scheduling",
+        "ja": "RPC / Scheduling"
+      },
+      "summary": {
+        "zh": "服务调用与异步任务编排。",
+        "en": "Service invocation and asynchronous scheduling.",
+        "ja": "Service invocation and asynchronous scheduling."
+      }
+    },
+    {
+      "id": "service-governance",
+      "kind": "stage",
+      "zone": "governance",
+      "children": [
+        "registry",
+        "config-center",
+        "flow-control"
+      ],
+      "title": {
+        "zh": "微服务治理",
+        "en": "Microservice Governance",
+        "ja": "Microservice Governance"
+      },
+      "summary": {
+        "zh": "服务怎么注册、配置、保护和发现，全部在这一层。",
+        "en": "This layer defines how services are registered, configured, protected, and discovered.",
+        "ja": "This layer defines how services are registered, configured, protected, and discovered."
+      }
+    },
+    {
+      "id": "registry",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "nacos",
+      "options": [
+        {
+          "id": "nacos",
+          "name": "Nacos",
+          "path": "data/knowledge/middleware/nacos.md"
+        },
+        {
+          "id": "consul",
+          "name": "Consul",
+          "path": null
+        },
+        {
+          "id": "zookeeper",
+          "name": "Zookeeper",
+          "path": "data/knowledge/middleware/zookeeper.md"
+        }
+      ],
+      "title": {
+        "zh": "注册中心",
+        "en": "Service Registry",
+        "ja": "Service Registry"
+      },
+      "summary": {
+        "zh": "服务发现的核心枢纽。",
+        "en": "The core hub for service discovery.",
+        "ja": "The core hub for service discovery."
+      }
+    },
+    {
+      "id": "config-center",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "apollo",
+      "options": [
+        {
+          "id": "apollo",
+          "name": "Apollo",
+          "path": "data/knowledge/middleware/apollo.md"
+        },
+        {
+          "id": "nacos-config",
+          "name": "Nacos Config",
+          "path": "data/knowledge/middleware/nacos.md"
+        },
+        {
+          "id": "spring-config",
+          "name": "Spring Cloud Config",
+          "path": "data/knowledge/java/spring-cloud.md"
+        }
+      ],
+      "title": {
+        "zh": "配置中心",
+        "en": "Config Center",
+        "ja": "Config Center"
+      },
+      "summary": {
+        "zh": "集中管理配置与环境差异。",
+        "en": "Centralizes configuration and environment differences.",
+        "ja": "Centralizes configuration and environment differences."
+      }
+    },
+    {
+      "id": "flow-control",
+      "kind": "concept",
+      "zone": "governance",
+      "defaultOption": "sentinel",
+      "options": [
+        {
+          "id": "sentinel",
+          "name": "Sentinel",
+          "path": null
+        },
+        {
+          "id": "resilience4j",
+          "name": "Resilience4j",
+          "path": null
+        },
+        {
+          "id": "hystrix",
+          "name": "Hystrix",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "限流熔断",
+        "en": "Flow Control",
+        "ja": "Flow Control"
+      },
+      "summary": {
+        "zh": "保护服务在高峰和异常下仍能运行。",
+        "en": "Protects services under peak load and failures.",
+        "ja": "Protects services under peak load and failures."
+      }
+    },
+    {
+      "id": "coordination-component",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "zookeeper",
+      "options": [
+        {
+          "id": "zookeeper",
+          "name": "ZooKeeper",
+          "path": "data/knowledge/middleware/zookeeper.md"
+        },
+        {
+          "id": "etcd",
+          "name": "etcd",
+          "path": null
+        },
+        {
+          "id": "consul",
+          "name": "Consul",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "协调组件",
+        "en": "Coordination Component",
+        "ja": "Coordination Component"
+      },
+      "summary": {
+        "zh": "保存选主、锁、租约和故障切换过程中的协调状态。",
+        "en": "Stores election, lock, lease, and failover coordination state.",
+        "ja": "Stores election, lock, lease, and failover coordination state."
+      }
+    },
+    {
+      "id": "data-middle",
+      "kind": "stage",
+      "zone": "data",
+      "children": [
+        "database",
+        "cache",
+        "nosql",
+        "coordination-component",
+        "file-storage",
+        "object-storage",
+        "archive-storage",
+        "mq"
+      ],
+      "title": {
+        "zh": "数据库",
+        "en": "Data Layer",
+        "ja": "Data Layer"
+      },
+      "summary": {
+        "zh": "项目真正存数据、做缓存、传消息、查日志的基础层。",
+        "en": "The layer that persists data, caches, queues, and supports retrieval.",
+        "ja": "The layer that persists data, caches, queues, and supports retrieval."
+      }
+    },
+    {
+      "id": "database",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "mysql",
+      "options": [
+        {
+          "id": "mysql",
+          "name": "MySQL",
+          "path": "data/knowledge/mysql/index.md"
+        },
+        {
+          "id": "postgresql",
+          "name": "PostgreSQL",
+          "path": "data/knowledge/postgresql/index.md"
+        },
+        {
+          "id": "oracle",
+          "name": "Oracle",
+          "path": "data/knowledge/oracle/index.md"
+        }
+      ],
+      "title": {
+        "zh": "关系数据库",
+        "en": "Relational Database",
+        "ja": "Relational Database"
+      },
+      "summary": {
+        "zh": "交易、订单、配置等核心结构化数据。",
+        "en": "Core structured data like transactions, orders, and configuration.",
+        "ja": "Core structured data like transactions, orders, and configuration."
+      }
+    },
+    {
+      "id": "nosql",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "mongodb",
+      "options": [
+        {
+          "id": "mongodb",
+          "name": "MongoDB",
+          "path": "data/knowledge/mongodb/index.md"
+        },
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "path": "data/knowledge/bigdata/clickhouse.md"
+        },
+        {
+          "id": "elasticsearch",
+          "name": "Elasticsearch",
+          "path": "data/knowledge/elasticsearch/index.md"
+        }
+      ],
+      "title": {
+        "zh": "NoSQL / 分析型存储",
+        "en": "NoSQL / Analytical Storage",
+        "ja": "NoSQL / Analytical Storage"
+      },
+      "summary": {
+        "zh": "承载灵活字段、读侧聚合模型、检索和分析型查询。",
+        "en": "Serves flexible fields, read-side aggregate models, search, and analytical queries.",
+        "ja": "Serves flexible fields, read-side aggregate models, search, and analytical queries."
+      }
+    },
+    {
+      "id": "search-log",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "elasticsearch",
+      "options": [
+        {
+          "id": "elasticsearch",
+          "name": "Elasticsearch",
+          "path": "data/knowledge/elasticsearch/index.md"
+        },
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "path": "data/knowledge/bigdata/clickhouse.md"
+        },
+        {
+          "id": "mongodb",
+          "name": "MongoDB",
+          "path": "data/knowledge/mongodb/index.md"
+        }
+      ],
+      "title": {
+        "zh": "检索 / 日志存储",
+        "en": "Search / Log Storage",
+        "ja": "Search / Log Storage"
+      },
+      "summary": {
+        "zh": "支撑检索、日志分析和部分分析型查询。",
+        "en": "Supports search, log analysis, and analytical queries.",
+        "ja": "Supports search, log analysis, and analytical queries."
+      }
+    },
+    {
+      "id": "cache",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "redis",
+      "options": [
+        {
+          "id": "redis",
+          "name": "Redis",
+          "path": "data/knowledge/redis/index.md"
+        },
+        {
+          "id": "memcached",
+          "name": "Memcached",
+          "path": null
+        },
+        {
+          "id": "tair",
+          "name": "Tair",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "缓存",
+        "en": "Cache",
+        "ja": "Cache"
+      },
+      "summary": {
+        "zh": "热点数据、会话和分布式锁。",
+        "en": "Hot data, sessions, and distributed locks.",
+        "ja": "Hot data, sessions, and distributed locks."
+      }
+    },
+    {
+      "id": "mq",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "kafka",
+      "options": [
+        {
+          "id": "kafka",
+          "name": "Kafka",
+          "path": "data/knowledge/middleware/kafka.md"
+        },
+        {
+          "id": "rocketmq",
+          "name": "RocketMQ",
+          "path": "data/knowledge/middleware/rocketmq.md"
+        },
+        {
+          "id": "rabbitmq",
+          "name": "RabbitMQ",
+          "path": "data/knowledge/middleware/rabbitmq.md"
+        }
+      ],
+      "title": {
+        "zh": "消息队列",
+        "en": "Message Queue",
+        "ja": "Message Queue"
+      },
+      "summary": {
+        "zh": "异步解耦、削峰与事件广播。",
+        "en": "Async decoupling, smoothing, and event fan-out.",
+        "ja": "Async decoupling, smoothing, and event fan-out."
+      }
+    },
+    {
+      "id": "file-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "nfs",
+      "options": [
+        {
+          "id": "nfs",
+          "name": "NFS",
+          "path": null
+        },
+        {
+          "id": "cephfs",
+          "name": "CephFS",
+          "path": null
+        },
+        {
+          "id": "minio",
+          "name": "MinIO",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "文件与对象存储",
+        "en": "File and Object Storage",
+        "ja": "File and Object Storage"
+      },
+      "summary": {
+        "zh": "承载审计文件、回放文件、离线导出和大对象持久化。",
+        "en": "Serves audit logs, replay files, offline exports, and large object persistence.",
+        "ja": "Serves audit logs, replay files, offline exports, and large object persistence."
+      }
+    },
+    {
+      "id": "object-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "tencent-cos",
+      "options": [
+        {
+          "id": "tencent-cos",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 COS",
+            "en": "Tencent Cloud COS",
+            "ja": "Tencent Cloud COS"
+          }
+        },
+        {
+          "id": "aliyun-oss",
+          "path": null,
+          "name": {
+            "zh": "阿里云 OSS",
+            "en": "Alibaba Cloud OSS",
+            "ja": "Alibaba Cloud OSS"
+          }
+        },
+        {
+          "id": "amazon-s3",
+          "name": "Amazon S3",
+          "path": null
+        },
+        {
+          "id": "minio",
+          "name": "MinIO",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "对象存储",
+        "en": "Object Storage",
+        "ja": "Object Storage"
+      },
+      "summary": {
+        "zh": "保存静态资源、回源对象、离线导出和大对象。",
+        "en": "Stores static assets, origin objects, offline exports, and large objects.",
+        "ja": "Stores static assets, origin objects, offline exports, and large objects."
+      }
+    },
+    {
+      "id": "archive-storage",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "tencent-cos-deep-archive",
+      "options": [
+        {
+          "id": "tencent-cos-deep-archive",
+          "path": null,
+          "name": {
+            "zh": "腾讯云 COS 深度归档",
+            "en": "Tencent Cloud COS Deep Archive",
+            "ja": "Tencent Cloud COS Deep Archive"
+          }
+        },
+        {
+          "id": "aliyun-oss-deep-cold",
+          "path": null,
+          "name": {
+            "zh": "阿里云 OSS 深度冷归档",
+            "en": "Alibaba Cloud OSS Deep Cold Archive",
+            "ja": "Alibaba Cloud OSS Deep Cold Archive"
+          }
+        },
+        {
+          "id": "amazon-s3-glacier",
+          "name": "Amazon S3 Glacier",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "归档存储",
+        "en": "Archive Storage",
+        "ja": "Archive Storage"
+      },
+      "summary": {
+        "zh": "面向低频、长期保留和合规归档数据的低成本存储。",
+        "en": "Low-cost storage for infrequent, long-retention, and compliance archive data.",
+        "ja": "Low-cost storage for infrequent, long-retention, and compliance archive data."
+      }
+    },
+    {
+      "id": "storage-backup",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "multi-az",
+      "options": [
+        {
+          "id": "multi-az",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "name": {
+            "zh": "多可用区容灾",
+            "en": "Multi-AZ DR",
+            "ja": "Multi-AZ DR"
+          }
+        },
+        {
+          "id": "object-storage",
+          "path": null,
+          "name": {
+            "zh": "对象存储备份",
+            "en": "Object Storage Backup",
+            "ja": "Object Storage Backup"
+          }
+        },
+        {
+          "id": "cross-region",
+          "path": "data/knowledge/architecture/distributed.md",
+          "name": {
+            "zh": "异地灾备",
+            "en": "Cross-Region DR",
+            "ja": "Cross-Region DR"
+          }
+        }
+      ],
+      "title": {
+        "zh": "备份容灾",
+        "en": "Backup / DR",
+        "ja": "Backup / DR"
+      },
+      "summary": {
+        "zh": "主从、同城双活、异地灾备和对象存储归档。",
+        "en": "Primary-standby, active-active, remote DR, and object storage archiving.",
+        "ja": "Primary-standby, active-active, remote DR, and object storage archiving."
+      }
+    },
+    {
+      "id": "observability",
+      "kind": "stage",
+      "zone": "observability",
+      "children": [
+        "metrics",
+        "notification-channel",
+        "tracing",
+        "logging",
+        "diagnostics"
+      ],
+      "title": {
+        "zh": "可观测性",
+        "en": "Observability",
+        "ja": "Observability"
+      },
+      "summary": {
+        "zh": "项目跑起来以后，怎么知道它有没有出问题。",
+        "en": "How you know whether the project is healthy after it goes live.",
+        "ja": "How you know whether the project is healthy after it goes live."
+      }
+    },
+    {
+      "id": "metrics",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "prometheus",
+      "options": [
+        {
+          "id": "prometheus",
+          "name": "Prometheus",
+          "path": "data/knowledge/cloud-native/prometheus.md"
+        },
+        {
+          "id": "victoria",
+          "name": "VictoriaMetrics",
+          "path": null
+        },
+        {
+          "id": "cloud-monitor",
+          "path": null,
+          "name": {
+            "zh": "云监控",
+            "en": "Cloud Monitor",
+            "ja": "Cloud Monitor"
+          }
+        }
+      ],
+      "title": {
+        "zh": "指标监控",
+        "en": "Metrics",
+        "ja": "Metrics"
+      },
+      "summary": {
+        "zh": "性能、容量、告警指标体系。",
+        "en": "Performance, capacity, and alert metrics.",
+        "ja": "Performance, capacity, and alert metrics."
+      }
+    },
+    {
+      "id": "notification-channel",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "dingtalk",
+      "options": [
+        {
+          "id": "dingtalk",
+          "path": null,
+          "name": {
+            "zh": "钉钉",
+            "en": "DingTalk",
+            "ja": "DingTalk"
+          }
+        },
+        {
+          "id": "wechat",
+          "path": null,
+          "name": {
+            "zh": "微信",
+            "en": "WeChat",
+            "ja": "WeChat"
+          }
+        },
+        {
+          "id": "feishu",
+          "path": null,
+          "name": {
+            "zh": "飞书",
+            "en": "Feishu",
+            "ja": "Feishu"
+          }
+        }
+      ],
+      "title": {
+        "zh": "通知渠道",
+        "en": "Notification Channel",
+        "ja": "Notification Channel"
+      },
+      "summary": {
+        "zh": "把告警和诊断事件投递到团队协作渠道。",
+        "en": "Routes alerts and diagnostic events to team collaboration channels.",
+        "ja": "Routes alerts and diagnostic events to team collaboration channels."
+      }
+    },
+    {
+      "id": "tracing",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "skywalking",
+      "options": [
+        {
+          "id": "skywalking",
+          "name": "SkyWalking",
+          "path": null
+        },
+        {
+          "id": "zipkin",
+          "name": "Zipkin",
+          "path": null
+        },
+        {
+          "id": "jaeger",
+          "name": "Jaeger",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "链路追踪",
+        "en": "Tracing",
+        "ja": "Tracing"
+      },
+      "summary": {
+        "zh": "请求在微服务里是怎么跑的。",
+        "en": "How requests flow through services.",
+        "ja": "How requests flow through services."
+      }
+    },
+    {
+      "id": "logging",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "elk",
+      "options": [
+        {
+          "id": "elk",
+          "name": "ELK",
+          "path": "data/knowledge/elasticsearch/index.md"
+        },
+        {
+          "id": "loki",
+          "name": "Loki",
+          "path": null
+        },
+        {
+          "id": "es-kibana",
+          "name": "ES + Kibana",
+          "path": "data/knowledge/elasticsearch/index.md"
+        }
+      ],
+      "title": {
+        "zh": "日志平台",
+        "en": "Logging",
+        "ja": "Logging"
+      },
+      "summary": {
+        "zh": "把系统日志统一采集和检索。",
+        "en": "Collects and queries system logs centrally.",
+        "ja": "Collects and queries system logs centrally."
+      }
+    },
+    {
+      "id": "diagnostics",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "arthas",
+      "options": [
+        {
+          "id": "arthas",
+          "name": "Arthas",
+          "path": "data/knowledge/java/arthas.md"
+        },
+        {
+          "id": "jfr",
+          "name": "JFR",
+          "path": null
+        },
+        {
+          "id": "bpf",
+          "name": "eBPF",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "在线诊断",
+        "en": "Diagnostics",
+        "ja": "Diagnostics"
+      },
+      "summary": {
+        "zh": "线上问题定位和 JVM / 进程级诊断。",
+        "en": "Production issue diagnosis at JVM and process level.",
+        "ja": "Production issue diagnosis at JVM and process level."
+      }
+    },
+    {
+      "id": "delivery",
+      "kind": "stage",
+      "zone": "delivery",
+      "children": [
+        "repo",
+        "pipeline",
+        "deploy",
+        "package"
+      ],
+      "title": {
+        "zh": "CI/CD",
+        "en": "CI/CD",
+        "ja": "CI/CD"
+      },
+      "summary": {
+        "zh": "代码怎么提交、构建、发布和回滚。",
+        "en": "How code is submitted, built, deployed, and rolled back.",
+        "ja": "How code is submitted, built, deployed, and rolled back."
+      }
+    },
+    {
+      "id": "repo",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "gitlab",
+      "options": [
+        {
+          "id": "gitlab",
+          "name": "GitLab",
+          "path": "data/knowledge/tool/git.md"
+        },
+        {
+          "id": "github",
+          "name": "GitHub",
+          "path": "data/knowledge/tool/git.md"
+        },
+        {
+          "id": "coding-repo",
+          "name": "CODING",
+          "path": "data/knowledge/cicd/coding.md"
+        }
+      ],
+      "title": {
+        "zh": "代码仓库",
+        "en": "Code Repository",
+        "ja": "Code Repository"
+      },
+      "summary": {
+        "zh": "团队协作和版本管理的入口。",
+        "en": "Entry for collaboration and version control.",
+        "ja": "Entry for collaboration and version control."
+      }
+    },
+    {
+      "id": "pipeline",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "jenkins",
+      "options": [
+        {
+          "id": "jenkins",
+          "name": "Jenkins",
+          "path": "data/knowledge/cicd/jenkins.md"
+        },
+        {
+          "id": "gitlab-ci",
+          "name": "GitLab CI",
+          "path": "data/knowledge/cicd/gitlab-ci.md"
+        },
+        {
+          "id": "github-actions",
+          "name": "GitHub Actions",
+          "path": "data/knowledge/cicd/github-actions.md"
+        }
+      ],
+      "title": {
+        "zh": "构建流水线",
+        "en": "Pipeline",
+        "ja": "Pipeline"
+      },
+      "summary": {
+        "zh": "自动测试、构建制品和质量门禁。",
+        "en": "Automated testing, artifact building, and quality gates.",
+        "ja": "Automated testing, artifact building, and quality gates."
+      }
+    },
+    {
+      "id": "deploy",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "oam-orbit",
+      "options": [
+        {
+          "id": "oam-orbit",
+          "name": "OAM Orbit",
+          "path": null
+        },
+        {
+          "id": "argocd",
+          "name": "Argo CD",
+          "path": "data/knowledge/cicd/argocd.md"
+        },
+        {
+          "id": "spinnaker",
+          "name": "Spinnaker",
+          "path": null
+        },
+        {
+          "id": "coding-cd",
+          "name": "CODING CD",
+          "path": "data/knowledge/cicd/coding.md"
+        }
+      ],
+      "title": {
+        "zh": "发布部署",
+        "en": "Deployment",
+        "ja": "Deployment"
+      },
+      "summary": {
+        "zh": "把构建产物真正发到环境里。",
+        "en": "Pushes built artifacts into actual environments.",
+        "ja": "Pushes built artifacts into actual environments."
+      }
+    },
+    {
+      "id": "package",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "helm",
+      "options": [
+        {
+          "id": "helm",
+          "name": "Helm",
+          "path": "data/knowledge/cloud-native/helm.md"
+        },
+        {
+          "id": "kustomize",
+          "name": "Kustomize",
+          "path": null
+        },
+        {
+          "id": "terraform",
+          "name": "Terraform",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "包管理 / 模板",
+        "en": "Package / Template",
+        "ja": "Package / Template"
+      },
+      "summary": {
+        "zh": "统一环境变量、Chart 和发布模板。",
+        "en": "Standardizes env vars, charts, and deployment templates.",
+        "ja": "Standardizes env vars, charts, and deployment templates."
+      }
+    },
+    {
+      "id": "datacenter",
+      "kind": "stage",
+      "zone": "datacenter",
+      "children": [
+        "compute",
+        "network-link",
+        "storage-backup"
+      ],
+      "title": {
+        "zh": "数据中心",
+        "en": "Datacenter / DR",
+        "ja": "Datacenter / DR"
+      },
+      "summary": {
+        "zh": "资源最终落在什么基础设施里，以及怎么做跨区域容灾。",
+        "en": "Where infrastructure finally lands and how cross-region disaster recovery is built.",
+        "ja": "Where infrastructure finally lands and how cross-region disaster recovery is built."
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "client",
+      "target": "edge-network",
+      "type": "path"
+    },
+    {
+      "source": "edge-network",
+      "target": "security-access",
+      "type": "path"
+    },
+    {
+      "source": "security-access",
+      "target": "gateway-traffic",
+      "type": "path"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "service-runtime",
+      "type": "path"
+    },
+    {
+      "source": "service-runtime",
+      "target": "service-governance",
+      "type": "path"
+    },
+    {
+      "source": "service-governance",
+      "target": "data-middle",
+      "type": "path"
+    },
+    {
+      "source": "data-middle",
+      "target": "observability",
+      "type": "path"
+    },
+    {
+      "source": "observability",
+      "target": "delivery",
+      "type": "path"
+    },
+    {
+      "source": "delivery",
+      "target": "datacenter",
+      "type": "path"
+    },
+    {
+      "source": "edge-network",
+      "target": "load-balance",
+      "type": "contains"
+    },
+    {
+      "source": "security-access",
+      "target": "vpc-isolation",
+      "type": "contains"
+    },
+    {
+      "source": "service-runtime",
+      "target": "service-framework",
+      "type": "contains"
+    },
+    {
+      "source": "service-runtime",
+      "target": "rpc-job",
+      "type": "contains"
+    },
+    {
+      "source": "datacenter",
+      "target": "compute",
+      "type": "contains"
+    },
+    {
+      "source": "datacenter",
+      "target": "network-link",
+      "type": "contains"
+    },
+    {
+      "source": "datacenter",
+      "target": "storage-backup",
+      "type": "contains"
+    },
+    {
+      "source": "client",
+      "target": "web-app",
+      "type": "contains"
+    },
+    {
+      "source": "client",
+      "target": "mobile-app",
+      "type": "contains"
+    },
+    {
+      "source": "client",
+      "target": "mini-app",
+      "type": "contains"
+    },
+    {
+      "source": "edge-network",
+      "target": "dns",
+      "type": "contains"
+    },
+    {
+      "source": "edge-network",
+      "target": "cdn",
+      "type": "contains"
+    },
+    {
+      "source": "security-access",
+      "target": "ddos",
+      "type": "contains"
+    },
+    {
+      "source": "security-access",
+      "target": "waf",
+      "type": "contains"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "ingress",
+      "type": "contains"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "api-gateway",
+      "type": "contains"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "gray-release",
+      "type": "contains"
+    },
+    {
+      "source": "service-runtime",
+      "target": "container-orchestrator",
+      "type": "contains"
+    },
+    {
+      "source": "service-governance",
+      "target": "registry",
+      "type": "contains"
+    },
+    {
+      "source": "service-governance",
+      "target": "config-center",
+      "type": "contains"
+    },
+    {
+      "source": "service-governance",
+      "target": "flow-control",
+      "type": "contains"
+    },
+    {
+      "source": "data-middle",
+      "target": "database",
+      "type": "contains"
+    },
+    {
+      "source": "data-middle",
+      "target": "nosql",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "metrics",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "notification-channel",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "tracing",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "logging",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "diagnostics",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "repo",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "pipeline",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "deploy",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "package",
+      "type": "contains"
+    }
+  ]
+}

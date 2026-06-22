@@ -1,0 +1,172 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-08",
+  "itemCount": 6,
+  "items": [
+    {
+      "id": "github:googleapis/release-please:335993039",
+      "feedType": "dynamic",
+      "title": "googleapis/release-please v17.8.0",
+      "titleEn": null,
+      "link": "https://github.com/googleapis/release-please/releases/tag/v17.8.0",
+      "guid": "335993039",
+      "publishedAt": "2026-06-08T14:10:18.000Z",
+      "date": "2026-06-08",
+      "time": "22:10",
+      "source": "github.com",
+      "sourceLabel": "GitHub: googleapis/release-please",
+      "sourceType": "github",
+      "author": "googleapis/release-please",
+      "authorHandle": "",
+      "summary": "17.8.0 (2026 06 04) Features add go librarian release strategy ( 2799) (0e6400b) add python librarian release strategy ( 2802) (03477f5) yoshi java monorepo: update java.released version in librarian.yaml ( 2800) (ed10aa8) Bug Fixes go: match semver dot sep prerelease suffixes ( 2803) (d5cc945)",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "release-engineering"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:6031f672a974ba5e626a4d935a0a47c8fc9b893b",
+      "feedType": "dynamic",
+      "title": "Turning Cloudflare’s threat indicators into real-time WAF rules",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/realtime-threat-intel-waf-rules/",
+      "guid": "2rMCnbhtTEow346RobyHOh",
+      "publishedAt": "2026-06-08T13:00:00.000Z",
+      "date": "2026-06-08",
+      "time": "21:00",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "Cloudflare customers can now use Cloudforce One threat intelligence directly within the WAF to block high-risk traffic. By using new cf.intel fields, security teams can automate protection against specific threat actors and targeted industries in real time.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:open-policy-agent/opa:335882589",
+      "feedType": "dynamic",
+      "title": "open-policy-agent/opa v1.17.1",
+      "titleEn": null,
+      "link": "https://github.com/open-policy-agent/opa/releases/tag/v1.17.1",
+      "guid": "335882589",
+      "publishedAt": "2026-06-08T11:50:56.000Z",
+      "date": "2026-06-08",
+      "time": "19:50",
+      "source": "github.com",
+      "sourceLabel": "GitHub: open-policy-agent/opa",
+      "sourceType": "github",
+      "author": "open-policy-agent/opa",
+      "authorHandle": "",
+      "summary": "This release uses the latest version of Go (1.26.4) to build OPA, fixing stdlib vulnerabilities in code that OPA's HTTP handler and crypto builtins use: https://pkg.go.dev/vuln/GO 2026 5039 https://pkg.go.dev/vuln/GO 2026 5037 It is otherwise the same code as v1.17.0. Note that users building their own OPA binaries an...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "policy-as-code"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/release-0.14.2",
+      "feedType": "dynamic",
+      "title": "apache/hudi 0.14.2 Release",
+      "titleEn": null,
+      "link": "https://github.com/apache/hudi/releases/tag/release-0.14.2",
+      "guid": "tag:github.com,2008:Repository/76474200/release-0.14.2",
+      "publishedAt": "2026-06-08T10:10:59.000Z",
+      "date": "2026-06-08",
+      "time": "18:10",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/hudi",
+      "sourceType": "github",
+      "author": "apache/hudi",
+      "authorHandle": "",
+      "summary": "What's Changed change back to 0.14.2-SNAPSHOT by @HuangZhenQiu in #11863 [ HUDI-8066 ] cherry pick Flink 1.18 into 0.14.2 by @HuangZhenQiu in #11780 [MINOR] Remove shaded of codahale metrics in flink bundle. by @zhangwl9 in #11954 [ HUDI-1517 ] create marker file for every log file by @lokeshj1703 in #17890 fix( HUDI-...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "lakehouse"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4eb1f24b7f23a016471727e05ff80021260877ae",
+      "feedType": "dynamic",
+      "title": "Oracle Java Extension for Visual Studio Code Version 26.0.0 Is Now Available",
+      "titleEn": null,
+      "link": "https://inside.java/2026/06/08/java-vscode-extension-update/",
+      "guid": "https://inside.java/2026/06/08/java-vscode-extension-update/",
+      "publishedAt": "2026-06-08T00:00:00.000Z",
+      "date": "2026-06-08",
+      "time": "08:00",
+      "source": "inside.java",
+      "sourceLabel": "Inside Java",
+      "sourceType": "rss",
+      "author": "Inside Java",
+      "authorHandle": "",
+      "summary": "New release of Java Platform Extension for VS Code",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "JDK"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:fbaf22fcf62fc4433bc8ccbd71931405ebeb66e3",
+      "feedType": "dynamic",
+      "title": "The Open Source Community is backing OpenEnv for Agentic RL",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/openenv-agentic-rl",
+      "guid": "https://huggingface.co/blog/openenv-agentic-rl",
+      "publishedAt": "2026-06-08T00:00:00.000Z",
+      "date": "2026-06-08",
+      "time": "08:00",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    }
+  ]
+}

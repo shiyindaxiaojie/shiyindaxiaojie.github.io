@@ -1,0 +1,35 @@
+// Unit: cache. Cache domain: Redis, local cache, cluster topology, and consistency.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "cache",
+  "rootNode": "cache",
+  "nodes": [
+    {
+      "id": "cache",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "redis",
+      "options": [
+        {
+          "id": "redis",
+          "name": "Redis",
+          "path": "data/knowledge/redis/index.md"
+        },
+        {
+          "id": "memcached",
+          "name": "Memcached",
+          "path": null
+        },
+        {
+          "id": "tair",
+          "name": "Tair",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.cache.title",
+      "summaryKey": "topology.nodes.cache.summary"
+    }
+  ],
+  "edges": []
+}

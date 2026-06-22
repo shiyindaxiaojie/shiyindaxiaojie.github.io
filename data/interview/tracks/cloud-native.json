@@ -1,0 +1,337 @@
+{
+  "id": "cloud-native",
+  "title": {
+    "zh": "云原生架构师",
+    "en": "Cloud Native Architect",
+    "ja": "クラウドネイティブアーキテクト"
+  },
+  "shortTitle": {
+    "zh": "云原生架构",
+    "en": "Cloud Native",
+    "ja": "クラウドネイティブ"
+  },
+  "summary": {
+    "zh": "面向 Kubernetes、平台工程、GitOps、可观测性和韧性治理的架构型面试路线。",
+    "en": "Architecture-oriented path for Kubernetes, platform engineering, GitOps, observability, and resilience.",
+    "ja": "Architecture-oriented path for Kubernetes, platform engineering, GitOps, observability, and resilience."
+  },
+  "accent": "#0ea5e9",
+  "categories": [
+    {
+      "id": "platform-story",
+      "label": {
+        "zh": "平台经历",
+        "en": "Platform Story",
+        "ja": "プラットフォーム経験"
+      }
+    },
+    {
+      "id": "production-scale",
+      "label": {
+        "zh": "生产规模",
+        "en": "Production Scale",
+        "ja": "本番規模"
+      }
+    },
+    {
+      "id": "reliability-impact",
+      "label": {
+        "zh": "稳定性结果",
+        "en": "Reliability Impact",
+        "ja": "信頼性への影響"
+      }
+    },
+    {
+      "id": "kubernetes",
+      "label": {
+        "zh": "Kubernetes",
+        "en": "Kubernetes",
+        "ja": "Kubernetes"
+      }
+    },
+    {
+      "id": "container-runtime",
+      "label": {
+        "zh": "容器运行时",
+        "en": "Container Runtime",
+        "ja": "コンテナランタイム"
+      }
+    },
+    {
+      "id": "service-mesh",
+      "label": {
+        "zh": "服务网格",
+        "en": "Service Mesh",
+        "ja": "サービスメッシュ"
+      }
+    },
+    {
+      "id": "cicd",
+      "label": {
+        "zh": "CI/CD",
+        "en": "CI/CD",
+        "ja": "CI/CD"
+      }
+    },
+    {
+      "id": "gitops",
+      "label": {
+        "zh": "GitOps",
+        "en": "GitOps",
+        "ja": "GitOps"
+      }
+    },
+    {
+      "id": "oam",
+      "label": {
+        "zh": "OAM",
+        "en": "OAM",
+        "ja": "OAM"
+      }
+    },
+    {
+      "id": "observability",
+      "label": {
+        "zh": "可观测性",
+        "en": "Observability",
+        "ja": "オブザーバビリティ"
+      }
+    },
+    {
+      "id": "platform-engineering",
+      "label": {
+        "zh": "平台工程",
+        "en": "Platform Engineering",
+        "ja": "プラットフォームエンジニアリング"
+      }
+    },
+    {
+      "id": "chaos-engineering",
+      "label": {
+        "zh": "混沌演练",
+        "en": "Chaos Engineering",
+        "ja": "カオスエンジニアリング"
+      }
+    },
+    {
+      "id": "multi-cluster",
+      "label": {
+        "zh": "多集群治理",
+        "en": "Multi-cluster",
+        "ja": "マルチクラスター"
+      }
+    },
+    {
+      "id": "traffic-governance",
+      "label": {
+        "zh": "流量治理",
+        "en": "Traffic Governance",
+        "ja": "トラフィックガバナンス"
+      }
+    },
+    {
+      "id": "disaster-recovery",
+      "label": {
+        "zh": "容灾恢复",
+        "en": "Disaster Recovery",
+        "ja": "災害復旧"
+      }
+    },
+    {
+      "id": "cost-optimization",
+      "label": {
+        "zh": "成本优化",
+        "en": "Cost Optimization",
+        "ja": "コスト最適化"
+      }
+    },
+    {
+      "id": "platform-roadmap",
+      "label": {
+        "zh": "平台规划",
+        "en": "Platform Roadmap",
+        "ja": "プラットフォームロードマップ"
+      }
+    },
+    {
+      "id": "team-maturity",
+      "label": {
+        "zh": "团队成熟度",
+        "en": "Team Maturity",
+        "ja": "チーム成熟度"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲平台边界、集群规模、稳定性目标和架构决策结果。",
+        "en": "Frame platform scope, cluster scale, reliability goals, and architecture outcomes.",
+        "ja": "Frame platform scope, cluster scale, reliability goals, and architecture outcomes."
+      },
+      "categories": [
+        "platform-story",
+        "production-scale",
+        "reliability-impact"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "重点追问 Kubernetes、交付链路、可观测性和平台能力边界。",
+        "en": "Deep-dives into Kubernetes, delivery flow, observability, and platform boundaries.",
+        "ja": "Deep-dives into Kubernetes, delivery flow, observability, and platform boundaries."
+      },
+      "categories": [
+        "kubernetes",
+        "cicd",
+        "gitops",
+        "oam",
+        "observability",
+        "service-mesh",
+        "container-runtime"
+      ],
+      "questionTypes": [
+        "principle",
+        "troubleshooting",
+        "scenario"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "重点看你怎样把平台能力、治理规范和可靠性指标落到组织里。",
+        "en": "Focus on platform enablement, governance, and reliability outcomes.",
+        "ja": "Focus on platform enablement, governance, and reliability outcomes."
+      },
+      "categories": [
+        "platform-engineering",
+        "gitops",
+        "observability",
+        "oam",
+        "chaos-engineering",
+        "cicd"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景通常围绕多集群、流量治理、容灾、成本和事故恢复展开。",
+        "en": "Scenarios cover multi-cluster governance, traffic, DR, cost, and incident recovery.",
+        "ja": "Scenarios cover multi-cluster governance, traffic, DR, cost, and incident recovery."
+      },
+      "categories": [
+        "multi-cluster",
+        "traffic-governance",
+        "disaster-recovery",
+        "cost-optimization",
+        "cicd",
+        "kubernetes"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "适合追问平台规划、团队成熟度和稳定性目标。",
+        "en": "Ask about platform roadmap, team maturity, and reliability goals.",
+        "ja": "Ask about platform roadmap, team maturity, and reliability goals."
+      },
+      "categories": [
+        "platform-roadmap",
+        "team-maturity",
+        "reliability-impact"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

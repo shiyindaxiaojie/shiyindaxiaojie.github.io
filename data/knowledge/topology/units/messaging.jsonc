@@ -1,0 +1,35 @@
+// Unit: messaging. Messaging domain: message queues and event streaming.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "messaging",
+  "rootNode": "mq",
+  "nodes": [
+    {
+      "id": "mq",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "kafka",
+      "options": [
+        {
+          "id": "kafka",
+          "name": "Kafka",
+          "path": "data/knowledge/middleware/kafka.md"
+        },
+        {
+          "id": "rocketmq",
+          "name": "RocketMQ",
+          "path": "data/knowledge/middleware/rocketmq.md"
+        },
+        {
+          "id": "rabbitmq",
+          "name": "RabbitMQ",
+          "path": "data/knowledge/middleware/rabbitmq.md"
+        }
+      ],
+      "titleKey": "topology.nodes.mq.title",
+      "summaryKey": "topology.nodes.mq.summary"
+    }
+  ],
+  "edges": []
+}

@@ -1,0 +1,335 @@
+{
+  "id": "devops",
+  "title": {
+    "zh": "DevOps / SRE 工程师",
+    "en": "DevOps / SRE Engineer",
+    "ja": "DevOps / SREエンジニア"
+  },
+  "shortTitle": {
+    "zh": "DevOps/SRE",
+    "en": "DevOps/SRE",
+    "ja": "DevOps/SRE"
+  },
+  "summary": {
+    "zh": "面向交付效率、基础设施自动化、监控告警、值班事故和稳定性运营。",
+    "en": "Delivery efficiency, infrastructure automation, monitoring, on-call, and reliability operations.",
+    "ja": "Delivery efficiency, infrastructure automation, monitoring, on-call, and reliability operations."
+  },
+  "accent": "#0284c7",
+  "categories": [
+    {
+      "id": "delivery-story",
+      "label": {
+        "zh": "交付经历",
+        "en": "Delivery Story",
+        "ja": "デリバリー経験"
+      }
+    },
+    {
+      "id": "ops-scale",
+      "label": {
+        "zh": "运维规模",
+        "en": "Ops Scale",
+        "ja": "運用規模"
+      }
+    },
+    {
+      "id": "incident-story",
+      "label": {
+        "zh": "故障复盘",
+        "en": "Incident Story",
+        "ja": "障害対応経験"
+      }
+    },
+    {
+      "id": "linux",
+      "label": {
+        "zh": "Linux",
+        "en": "Linux",
+        "ja": "Linux"
+      }
+    },
+    {
+      "id": "networking",
+      "label": {
+        "zh": "网络",
+        "en": "Networking",
+        "ja": "ネットワーク"
+      }
+    },
+    {
+      "id": "cicd",
+      "label": {
+        "zh": "CI/CD",
+        "en": "CI/CD",
+        "ja": "CI/CD"
+      }
+    },
+    {
+      "id": "kubernetes",
+      "label": {
+        "zh": "Kubernetes",
+        "en": "Kubernetes",
+        "ja": "Kubernetes"
+      }
+    },
+    {
+      "id": "terraform",
+      "label": {
+        "zh": "Terraform",
+        "en": "Terraform",
+        "ja": "Terraform"
+      }
+    },
+    {
+      "id": "ansible",
+      "label": {
+        "zh": "Ansible",
+        "en": "Ansible",
+        "ja": "Ansible"
+      }
+    },
+    {
+      "id": "monitoring",
+      "label": {
+        "zh": "监控告警",
+        "en": "Monitoring",
+        "ja": "監視"
+      }
+    },
+    {
+      "id": "release-engineering",
+      "label": {
+        "zh": "发布工程",
+        "en": "Release Engineering",
+        "ja": "リリースエンジニアリング"
+      }
+    },
+    {
+      "id": "infra-automation",
+      "label": {
+        "zh": "基础设施自动化",
+        "en": "Infrastructure Automation",
+        "ja": "インフラ自動化"
+      }
+    },
+    {
+      "id": "incident-management",
+      "label": {
+        "zh": "事故管理",
+        "en": "Incident Management",
+        "ja": "インシデント管理"
+      }
+    },
+    {
+      "id": "rollback",
+      "label": {
+        "zh": "回滚止血",
+        "en": "Rollback",
+        "ja": "ロールバック"
+      }
+    },
+    {
+      "id": "capacity-planning",
+      "label": {
+        "zh": "容量规划",
+        "en": "Capacity Planning",
+        "ja": "キャパシティプランニング"
+      }
+    },
+    {
+      "id": "pipeline-failure",
+      "label": {
+        "zh": "流水线故障",
+        "en": "Pipeline Failure",
+        "ja": "パイプライン障害"
+      }
+    },
+    {
+      "id": "oncall-culture",
+      "label": {
+        "zh": "值班文化",
+        "en": "On-call Culture",
+        "ja": "オンコール文化"
+      }
+    },
+    {
+      "id": "automation-level",
+      "label": {
+        "zh": "自动化程度",
+        "en": "Automation Level",
+        "ja": "自動化レベル"
+      }
+    }
+  ],
+  "stages": [
+    {
+      "id": "intro",
+      "title": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "shortTitle": {
+        "zh": "自我介绍",
+        "en": "Intro",
+        "ja": "自己紹介"
+      },
+      "summary": {
+        "zh": "先讲环境规模、交付链路、自动化成果和一次典型故障。",
+        "en": "Open with environment scale, delivery flow, automation outcomes, and one incident.",
+        "ja": "Open with environment scale, delivery flow, automation outcomes, and one incident."
+      },
+      "categories": [
+        "delivery-story",
+        "ops-scale",
+        "incident-story"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    },
+    {
+      "id": "technical",
+      "title": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "shortTitle": {
+        "zh": "技术面试",
+        "en": "Technical",
+        "ja": "技術面接"
+      },
+      "summary": {
+        "zh": "重点追问系统基础、发布流水线、自动化和可观测性。",
+        "en": "Deep-dives into system basics, delivery pipelines, automation, and observability.",
+        "ja": "Deep-dives into system basics, delivery pipelines, automation, and observability."
+      },
+      "categories": [
+        "linux",
+        "networking",
+        "cicd",
+        "kubernetes",
+        "terraform",
+        "ansible",
+        "monitoring"
+      ],
+      "questionTypes": [
+        "principle",
+        "troubleshooting",
+        "scenario"
+      ],
+      "filterKind": "skill",
+      "filterLabel": {
+        "zh": "技术",
+        "en": "Skill",
+        "ja": "技術"
+      }
+    },
+    {
+      "id": "project",
+      "title": {
+        "zh": "项目经验",
+        "en": "Project Deep Dive",
+        "ja": "プロジェクト深掘り"
+      },
+      "shortTitle": {
+        "zh": "项目经验",
+        "en": "Project",
+        "ja": "プロジェクト"
+      },
+      "summary": {
+        "zh": "看你如何推进发布工程、自动化治理、监控体系和事故机制。",
+        "en": "Focus on release engineering, automation governance, monitoring, and incident process.",
+        "ja": "Focus on release engineering, automation governance, monitoring, and incident process."
+      },
+      "categories": [
+        "release-engineering",
+        "infra-automation",
+        "monitoring",
+        "incident-management",
+        "cicd"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "domain",
+      "filterLabel": {
+        "zh": "领域",
+        "en": "Domain",
+        "ja": "領域"
+      }
+    },
+    {
+      "id": "scenario",
+      "title": {
+        "zh": "场景设计",
+        "en": "Scenario Design",
+        "ja": "シナリオ設計"
+      },
+      "shortTitle": {
+        "zh": "场景设计",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      },
+      "summary": {
+        "zh": "场景常围绕回滚、容量、流水线失败和值班事故。",
+        "en": "Scenarios usually cover rollback, capacity, pipeline failures, and on-call incidents.",
+        "ja": "Scenarios usually cover rollback, capacity, pipeline failures, and on-call incidents."
+      },
+      "categories": [
+        "rollback",
+        "capacity-planning",
+        "pipeline-failure",
+        "incident-management",
+        "cicd"
+      ],
+      "questionTypes": [
+        "scenario",
+        "troubleshooting"
+      ],
+      "filterKind": "scenario",
+      "filterLabel": {
+        "zh": "场景",
+        "en": "Scenario",
+        "ja": "シナリオ"
+      }
+    },
+    {
+      "id": "reverse",
+      "title": {
+        "zh": "反问环节",
+        "en": "Closing Questions",
+        "ja": "逆質問"
+      },
+      "shortTitle": {
+        "zh": "反问环节",
+        "en": "Closing",
+        "ja": "逆質問"
+      },
+      "summary": {
+        "zh": "适合追问值班文化、自动化成熟度和事故复盘机制。",
+        "en": "Ask about on-call culture, automation level, and incident review.",
+        "ja": "Ask about on-call culture, automation level, and incident review."
+      },
+      "categories": [
+        "oncall-culture",
+        "automation-level",
+        "incident-story"
+      ],
+      "questionTypes": [],
+      "filterKind": "topic",
+      "filterLabel": {
+        "zh": "主题",
+        "en": "Topic",
+        "ja": "トピック"
+      }
+    }
+  ]
+}

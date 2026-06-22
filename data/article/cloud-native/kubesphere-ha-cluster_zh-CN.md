@@ -1,0 +1,1599 @@
+---
+title: KubeSphere 高可用集群搭建
+date: 2024-10-15
+description: 笔者最近在部署自建机房，准备搭建 KubeSphere 集群，KubeSphere 官网的文档似乎有点小问题，所以用这篇文章来记录一下实际的操作，可以放心食用。
+tags:
+  - Kubernetes
+  - 高可用集群
+  - 自建机房
+cover: https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/KubeSphere.png
+---
+
+# 背景介绍
+
+笔者最近在部署自建机房，准备搭建 KubeSphere 集群，KubeSphere 官网的文档似乎有点小问题，所以用这篇文章来记录一下实际的操作，可以放心食用。
+
+# 准备环境
+
+假设有 4 台机器节点，规划如下：
+* 10.2.2.109：控制节点和 etcd
+* 10.2.2.140：数据节点1
+* 10.2.2.211：数据节点2
+* 10.2.1.9: NFS 服务器，与 KubeSphere 集群隔离 IP 网段
+
+## DNS 初始化
+
+```bash
+> cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+10.2.2.109      k3s-master      k3s-master.novalocal
+10.2.2.140      k3s-worker-01   k3s-worker-01.novalocal
+10.2.2.211      k3s-worker-02   k3s-worker-02.novalocal
+```
+
+## NFS 初始化
+
+容器重启后数据会丢失，建议您提前部署好一个 NFS 存储，作为 Kubernetes 的默认存储类。
+
+在所有服务器节点执行。
+
+```bash
+> yum install -y nfs-common
+> yum upgrade -y
+> vgcreate containervg /dev/vdb
+> lvcreate -n container -l 100%FREE containervg
+> mkfs.xfs /dev/mapper/containervg-container
+> vi /etc/fstab
+/dev/mapper/containervg-container /var/lib/containerd xfs     defaults        0 0
+> mount -a
+> yum install -y socat conntrack ebtables ipset ipvsadm
+```
+
+在服务器节点 10.2.1.9 执行。
+```bash
+> parted /dev/sda
+Using /dev/sda
+Welcome to GNU Parted! Type 'help' to view a list of commands.
+(parted) print
+Model: DELL PERC H330 Mini (scsi)
+Disk /dev/sda: 6000GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: pmbr_boot
+
+Number  Start   End     Size    File system  Name            Flags
+ 1      1049kB  3146kB  2097kB                               bios_grub
+ 2      3146kB  2151MB  2147MB  xfs
+ 3      2151MB  110GB   107GB                                lvm
+ 4      110GB   2000GB  1890GB               cinder-volumes  lvm
+ 5      2000GB  2500GB  500GB                image-volume    lvm
+ 6      2500GB  3000GB  500GB                backup-volume   lvm
+ 7      3000GB  3500GB  500GB                nova-volume     lvm
+
+(parted) mkpart k3s-nfs xfs 3500GB 5500GB
+(parted) set 8 lvm on
+(parted) print
+Model: DELL PERC H330 Mini (scsi)
+Disk /dev/sda: 6000GB
+Sector size (logical/physical): 512B/512B
+Partition Table: gpt
+Disk Flags: pmbr_boot
+
+Number  Start   End     Size    File system  Name            Flags
+ 1      1049kB  3146kB  2097kB                               bios_grub
+ 2      3146kB  2151MB  2147MB  xfs
+ 3      2151MB  110GB   107GB                                lvm
+ 4      110GB   2000GB  1890GB               cinder-volumes  lvm
+ 5      2000GB  2500GB  500GB                image-volume    lvm
+ 6      2500GB  3000GB  500GB                backup-volume   lvm
+ 7      3000GB  3500GB  500GB                nova-volume     lvm
+ 8      3500GB  5500GB  2000GB  xfs          k3s-nfs         lvm
+
+(parted) quit
+Information: You may need to update /etc/fstab.
+
+> udevadm settle
+> cat /proc/partitions
+> vgcreate k3snfsvg /dev/sda8
+> lvcreate -n k3snfs -l 100%FREE k3snfsvg
+> mkfs.xfs /dev/mapper/k3snfsvg-k3snfs
+> mkdir -p /nfs/kubesphere
+> vim /etc/fstab
+/dev/mapper/k3snfsvg-k3snfs /nfs/kubesphere xfs     defaults        0 0
+
+> systemctl daemon-reload
+> mount -a
+> df -h
+> vim /etc/exports
+/nfs/kubesphere   10.0.0.0/8(rw,sync,no_root_squash)
+
+> exportfs -rv
+> showmount -e localhost
+> cd /nfs/kubesphere
+> mkdir {rootfs,data,log,config}
+```
+
+## Docker 初始化
+
+如果 Kubernetes 使用 Containered 作为容器运行时，可以跳过此步骤。
+
+在所有服务器节点执行。
+
+```bash
+> yum install -y yum-utils
+> yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+> yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+> systemctl enable docker.service
+# 如果不支持 VPN，建议设置镜像源为 m.daocloud.io
+> vim /etc/docker/daemon.json
+{
+    "registry-mirrors": ["https://m.daocloud.io"]
+}
+> systemctl daemon-reload
+> systemctl start docker.service
+> systemctl status -l docker.service
+```
+
+# 部署流程
+
+## Master 节点
+
+在服务器节点 10.2.2.109 执行。
+
+```bash
+> export KKZONE=cn
+> mkdir k3s
+> cd k3s
+> curl -sfL https://get-kk.kubesphere.io | sh -
+> sudo chmod +x kk
+> ./kk version --show-supported-k8s
+> ./kk create config --with-kubernetes v1.24.17 --with-kubesphere v3.4.1
+> cp -p config-sample.yaml config-init.yaml
+> vim config-init.yaml
+```
+
+执行 vim nfs-client.yaml 创建 NFS 配置文件，内容如下。
+```bash
+apiVersion: kubekey.kubesphere.io/v1alpha2
+kind: Cluster
+metadata:
+  name: puyi
+spec:
+  hosts:
+  - {name: k3s-master, address: 10.2.2.109, internalAddress: 10.2.2.109, user: root, password: "k3s-master@123"}
+  roleGroups:
+    etcd:
+    - k3s-master
+    control-plane:
+    - k3s-master
+    worker:
+    - k3s-master
+  controlPlaneEndpoint:
+    domain: lb.kubesphere.local
+    address: ""
+    port: 6443
+  kubernetes:
+    version: v1.24.17
+    clusterName: cluster.local
+    autoRenewCerts: true
+    containerManager: containerd
+    maxPods: 220
+  etcd:
+    type: kubekey
+  network:
+    plugin: calico
+    kubePodsCIDR: 10.233.64.0/18
+    kubeServiceCIDR: 10.233.0.0/18
+    multusCNI:
+      enabled: false
+  registry:
+    privateRegistry: ""
+    namespaceOverride: ""
+    registryMirrors: []
+    insecureRegistries: []
+# 这个依赖好像失效了，先注释掉
+#  addons: 
+#  - name: nfs-rootfs
+#    namespace: kube-system
+#    sources:
+#      chart:
+#        name: nfs-rootfs-provisioner
+#        repo: https://charts.kubesphere.io/main
+#        valuesFile: /root/k3s/nfs-client.yaml
+---
+apiVersion: installer.kubesphere.io/v1alpha1
+kind: ClusterConfiguration
+metadata:
+  name: ks-installer
+  namespace: kubesphere-system
+  labels:
+    version: v3.4.1
+spec:
+  persistence:
+    storageClass: ""
+  authentication:
+    jwtSecret: ""
+  local_registry: ""
+  etcd:
+    monitoring: false
+    endpointIps: localhost
+    port: 2379
+    tlsEnable: true
+  common:
+    core:
+      console:
+        enableMultiLogin: true
+        port: 30880
+        type: NodePort
+    redis:
+      enabled: false
+      enableHA: false
+      volumeSize: 2Gi
+    openldap:
+      enabled: false
+      volumeSize: 2Gi
+    minio:
+      volumeSize: 20Gi
+    monitoring:
+      endpoint: http://prometheus-operated.kubesphere-monitoring-system.svc:9090
+      GPUMonitoring:
+        enabled: false
+    gpu:
+      kinds:
+      - resourceName: "nvidia.com/gpu"
+        resourceType: "GPU"
+        default: true
+    es:
+      enabled: false
+      logMaxAge: 7
+      auditingMaxAge: 2
+      eventMaxAge: 1
+      istioMaxAge: 4
+      elkPrefix: logstash
+      basicAuth:
+        enabled: false
+        username: ""
+        password: ""
+      externalElasticsearchHost: ""
+      externalElasticsearchPort: ""
+    opensearch:
+      enabled: true
+      logMaxAge: 7
+      auditingMaxAge: 2
+      eventMaxAge: 1
+      istioMaxAge: 4
+      opensearchPrefix: whizard
+      basicAuth:
+        enabled: true
+        username: "admin"
+        password: "admin"
+      externalOpensearchHost: ""
+      externalOpensearchPort: ""
+      dashboard:
+        enabled: false
+  alerting:
+    enabled: true
+  auditing:
+    enabled: false
+  devops:
+    enabled: true
+    jenkinsCpuReq: 1
+    jenkinsCpuLim: 1
+    jenkinsMemoryReq: 4Gi
+    jenkinsMemoryLim: 4Gi
+    jenkinsVolumeSize: 30Gi
+  events:
+    enabled: true
+    ruler:
+      enabled: true
+      replicas: 2
+  logging:
+    enabled: true
+    logsidecar:
+      enabled: true
+      replicas: 2
+  metrics_server:
+    enabled: true
+  monitoring:
+    storageClass: ""
+    node_exporter:
+      port: 9100
+    gpu:
+      nvidia_dcgm_exporter:
+        enabled: false
+  multicluster:
+    clusterRole: none
+  network:
+    networkpolicy:
+      enabled: true
+    ippool:
+      type: calico
+    topology:
+      type: weave-scope
+  openpitrix:
+    store:
+      enabled: true
+  servicemesh:
+    enabled: false
+    istio:
+      components:
+        ingressGateways:
+        - name: istio-ingressgateway
+          enabled: false
+        cni:
+          enabled: false
+  edgeruntime:
+    enabled: false
+    kubeedge:
+      enabled: false
+      cloudCore:
+        cloudHub:
+          advertiseAddress:
+            - ""
+        service:
+          cloudhubNodePort: "30000"
+          cloudhubQuicNodePort: "30001"
+          cloudhubHttpsNodePort: "30002"
+          cloudstreamNodePort: "30003"
+          tunnelNodePort: "30004"
+      iptables-manager:
+        enabled: true
+        mode: "external"
+  gatekeeper:
+    enabled: false
+  terminal:
+    timeout: 600
+  zone: ""
+```
+
+修改后按 ESC 输入 `:wq` 保存退出，接着使用 KubeKey 开始安装。
+```bash
+> egrep -v '#|^$' config-init.yaml
+> ./kk create cluster -f config-init.yaml
+
+
+ _   __      _          _   __
+| | / /     | |        | | / /
+| |/ / _   _| |__   ___| |/ /  ___ _   _
+|    \| | | | '_ \ / _ \    \ / _ \ | | |
+| |\  \ |_| | |_) |  __/ |\  \  __/ |_| |
+\_| \_/\__,_|_.__/ \___\_| \_/\___|\__, |
+                                    __/ |
+                                   |___/
+
+13:39:30 CST [GreetingsModule] Greetings
+13:39:30 CST message: [k3s-master]
+Greetings, KubeKey!
+13:39:30 CST success: [k3s-master]
+13:39:30 CST [NodePreCheckModule] A pre-check on nodes
+13:39:30 CST success: [k3s-master]
+13:39:30 CST [ConfirmModule] Display confirmation form
++------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+| name       | sudo | curl | openssl | ebtables | socat | ipset | ipvsadm | conntrack | chrony | docker | containerd | nfs client | ceph client | glusterfs client | time         |
++------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+| k3s-master | y    | y    | y       | y        | y     | y     | y       | y         | y      |        | v1.7.13    | y          |             |                  | CST 13:39:30 |
++------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+
+This is a simple check of your environment.
+Before installation, ensure that your machines meet all requirements specified at
+https://github.com/kubesphere/kubekey#requirements-and-recommendations
+
+Install k8s with specify version:  v1.24.17
+
+Continue this installation? [yes/no]: yes
+13:39:37 CST success: [LocalHost]
+13:39:37 CST [NodeBinariesModule] Download installation binaries
+13:39:37 CST message: [localhost]
+downloading amd64 kubeadm v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 43.4M  100 43.4M    0     0   900k      0  0:00:49  0:00:49 --:--:-- 1076k
+13:40:27 CST message: [localhost]
+downloading amd64 kubelet v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  112M  100  112M    0     0   971k      0  0:01:58  0:01:58 --:--:-- 1063k
+13:42:26 CST message: [localhost]
+downloading amd64 kubectl v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 44.5M  100 44.5M    0     0   907k      0  0:00:50  0:00:50 --:--:-- 1083k
+13:43:16 CST message: [localhost]
+downloading amd64 helm v3.14.3 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 48.3M  100 48.3M    0     0   914k      0  0:00:54  0:00:54 --:--:-- 1076k
+13:44:11 CST message: [localhost]
+downloading amd64 kubecni v1.2.0 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 38.6M  100 38.6M    0     0   900k      0  0:00:43  0:00:43 --:--:-- 1173k
+13:44:55 CST message: [localhost]
+downloading amd64 crictl v1.29.0 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 23.2M  100 23.2M    0     0   819k      0  0:00:29  0:00:29 --:--:-- 1080k
+13:45:24 CST message: [localhost]
+downloading amd64 etcd v3.5.13 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 19.1M  100 19.1M    0     0   778k      0  0:00:25  0:00:25 --:--:-- 1036k
+13:45:49 CST message: [localhost]
+downloading amd64 containerd 1.7.13 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 45.7M  100 45.7M    0     0   908k      0  0:00:51  0:00:51 --:--:-- 1079k
+13:46:41 CST message: [localhost]
+downloading amd64 runc v1.1.12 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10.2M  100 10.2M    0     0   658k      0  0:00:15  0:00:15 --:--:-- 1079k
+13:46:57 CST message: [localhost]
+downloading amd64 calicoctl v3.27.4 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 61.3M  100 61.3M    0     0   939k      0  0:01:06  0:01:06 --:--:-- 1101k
+13:48:04 CST success: [LocalHost]
+13:48:04 CST [ConfigureOSModule] Get OS release
+13:48:04 CST success: [k3s-master]
+13:48:04 CST [ConfigureOSModule] Prepare to init OS
+13:48:05 CST success: [k3s-master]
+13:48:05 CST [ConfigureOSModule] Generate init os script
+13:48:05 CST success: [k3s-master]
+13:48:05 CST [ConfigureOSModule] Exec init os script
+13:48:07 CST stdout: [k3s-master]
+setenforce: SELinux is disabled
+Disabled
+net.ipv4.tcp_syncookies = 1
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+kernel.sched_child_runs_first = 1
+kernel.sched_latency_ns = 80000000
+kernel.sched_migration_cost_ns = 125000
+kernel.sched_min_granularity_ns = 40000000
+kernel.sched_wakeup_granularity_ns = 3750000
+kernel.sched_nr_migrate = 128
+kernel.pid_max = 65535
+kernel.msgmax = 2097152
+kernel.msgmnb = 4194304
+kernel.shmmni = 32768
+kernel.sem = 2000 256000 256 1024
+vm.overcommit_memory = 0
+vm.max_map_count = 262144
+vm.swappiness = 0
+vm.dirty_background_ratio = 40
+vm.dirty_ratio = 50
+fs.aio-max-nr = 262144
+fs.inotify.max_user_instances = 524288
+fs.inotify.max_user_watches = 524288
+net.core.rps_sock_flow_entries = 65536
+net.core.dev_weight = 1024
+net.core.busy_poll = 200
+net.core.busy_read = 200
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.core.somaxconn = 32768
+net.core.netdev_max_backlog = 65535
+net.core.netdev_budget = 4800
+net.ipv4.neigh.default.gc_thresh1 = 512
+net.ipv4.neigh.default.gc_thresh2 = 2048
+net.ipv4.neigh.default.gc_thresh3 = 4096
+net.ipv4.neigh.default.unres_qlen_bytes = 262144
+net.netfilter.nf_conntrack_max = 1048576
+net.netfilter.nf_conntrack_tcp_timeout_established = 300
+sysctl: setting key "net.netfilter.nf_conntrack_buckets": No such file or directory
+net.ipv4.ipfrag_high_thresh = 16777216
+net.ipv4.ipfrag_low_thresh = 12582912
+net.ipv4.tcp_rmem = 8388608 16777216 67108864
+net.ipv4.tcp_wmem = 8388608 16777216 67108864
+net.ipv4.udp_rmem_min = 131072
+net.ipv4.udp_wmem_min = 131072
+net.core.rmem_default = 33554432
+net.core.wmem_default = 33554432
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+net.ipv4.tcp_fin_timeout = 5
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_max_syn_backlog = 1048576
+net.ipv4.tcp_max_tw_buckets = 1048576
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-arptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_local_reserved_ports = 30000-32767
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_max_orphans = 65535
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 10
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.all.arp_accept = 1
+net.ipv4.conf.default.arp_accept = 1
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.default.arp_ignore = 1
+fs.pipe-max-size = 4194304
+kernel.watchdog_thresh = 5
+kernel.hung_task_timeout_secs = 5
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
+net.ipv6.conf.all.forwarding = 1
+13:48:07 CST success: [k3s-master]
+13:48:07 CST [ConfigureOSModule] configure the ntp server for each node
+13:48:07 CST skipped: [k3s-master]
+13:48:07 CST [KubernetesStatusModule] Get kubernetes cluster status
+13:48:08 CST success: [k3s-master]
+13:48:08 CST [InstallContainerModule] Sync containerd binaries
+13:48:08 CST skipped: [k3s-master]
+13:48:08 CST [InstallContainerModule] Generate containerd service
+13:48:08 CST skipped: [k3s-master]
+13:48:08 CST [InstallContainerModule] Generate containerd config
+13:48:08 CST skipped: [k3s-master]
+13:48:08 CST [InstallContainerModule] Enable containerd
+13:48:08 CST skipped: [k3s-master]
+13:48:08 CST [InstallContainerModule] Sync crictl binaries
+13:48:08 CST skipped: [k3s-master]
+13:48:08 CST [InstallContainerModule] Generate crictl config
+13:48:08 CST success: [k3s-master]
+13:48:08 CST [PullModule] Start to pull images on all nodes
+13:48:08 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.7
+13:48:08 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-apiserver:v1.24.17
+13:48:08 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controller-manager:v1.24.17
+13:48:08 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-scheduler:v1.24.17
+13:48:08 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-proxy:v1.24.17
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/coredns:1.8.6
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/k8s-dns-node-cache:1.22.20
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controllers:v3.27.4
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/cni:v3.27.4
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/node:v3.27.4
+13:48:09 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pod2daemon-flexvol:v3.27.4
+13:48:09 CST success: [k3s-master]
+13:48:09 CST [ETCDPreCheckModule] Get etcd status
+13:48:09 CST success: [k3s-master]
+13:48:09 CST [CertsModule] Fetch etcd certs
+13:48:09 CST success: [k3s-master]
+13:48:09 CST [CertsModule] Generate etcd Certs
+[certs] Generating "ca" certificate and key
+[certs] admin-k3s-master serving cert is signed for DNS names [etcd etcd.kube-system etcd.kube-system.svc etcd.kube-system.svc.cluster.local k3s-master lb.kubesphere.local localhost] and IPs [127.0.0.1 ::1 10.2.2.109]
+[certs] member-k3s-master serving cert is signed for DNS names [etcd etcd.kube-system etcd.kube-system.svc etcd.kube-system.svc.cluster.local k3s-master lb.kubesphere.local localhost] and IPs [127.0.0.1 ::1 10.2.2.109]
+[certs] node-k3s-master serving cert is signed for DNS names [etcd etcd.kube-system etcd.kube-system.svc etcd.kube-system.svc.cluster.local k3s-master lb.kubesphere.local localhost] and IPs [127.0.0.1 ::1 10.2.2.109]
+13:48:11 CST success: [LocalHost]
+13:48:11 CST [CertsModule] Synchronize certs file
+13:48:12 CST success: [k3s-master]
+13:48:12 CST [CertsModule] Synchronize certs file to master
+13:48:12 CST skipped: [k3s-master]
+13:48:12 CST [InstallETCDBinaryModule] Install etcd using binary
+13:48:14 CST success: [k3s-master]
+13:48:14 CST [InstallETCDBinaryModule] Generate etcd service
+13:48:14 CST success: [k3s-master]
+13:48:14 CST [InstallETCDBinaryModule] Generate access address
+13:48:14 CST success: [k3s-master]
+13:48:14 CST [ETCDConfigureModule] Health check on exist etcd
+13:48:14 CST skipped: [k3s-master]
+13:48:14 CST [ETCDConfigureModule] Generate etcd.env config on new etcd
+13:48:14 CST success: [k3s-master]
+13:48:14 CST [ETCDConfigureModule] Refresh etcd.env config on all etcd
+13:48:14 CST success: [k3s-master]
+13:48:14 CST [ETCDConfigureModule] Restart etcd
+13:48:19 CST success: [k3s-master]
+13:48:19 CST [ETCDConfigureModule] Health check on all etcd
+13:48:19 CST success: [k3s-master]
+13:48:19 CST [ETCDConfigureModule] Refresh etcd.env config to exist mode on all etcd
+13:48:19 CST success: [k3s-master]
+13:48:19 CST [ETCDConfigureModule] Health check on all etcd
+13:48:20 CST success: [k3s-master]
+13:48:20 CST [ETCDBackupModule] Backup etcd data regularly
+13:48:20 CST success: [k3s-master]
+13:48:20 CST [ETCDBackupModule] Generate backup ETCD service
+13:48:20 CST success: [k3s-master]
+13:48:20 CST [ETCDBackupModule] Generate backup ETCD timer
+13:48:20 CST success: [k3s-master]
+13:48:20 CST [ETCDBackupModule] Enable backup etcd service
+13:48:20 CST success: [k3s-master]
+13:48:20 CST [InstallKubeBinariesModule] Synchronize kubernetes binaries
+13:48:27 CST success: [k3s-master]
+13:48:27 CST [InstallKubeBinariesModule] Change kubelet mode
+13:48:27 CST success: [k3s-master]
+13:48:27 CST [InstallKubeBinariesModule] Generate kubelet service
+13:48:27 CST success: [k3s-master]
+13:48:27 CST [InstallKubeBinariesModule] Enable kubelet service
+13:48:28 CST success: [k3s-master]
+13:48:28 CST [InstallKubeBinariesModule] Generate kubelet env
+13:48:28 CST success: [k3s-master]
+13:48:28 CST [InitKubernetesModule] Generate kubeadm config
+13:48:28 CST success: [k3s-master]
+13:48:28 CST [InitKubernetesModule] Generate audit policy
+13:48:28 CST skipped: [k3s-master]
+13:48:28 CST [InitKubernetesModule] Generate audit webhook
+13:48:28 CST skipped: [k3s-master]
+13:48:28 CST [InitKubernetesModule] Init cluster using kubeadm
+13:48:51 CST stdout: [k3s-master]
+W1009 13:48:28.956892   11930 utils.go:69] The recommended value for "clusterDNS" in "KubeletConfiguration" is: [10.233.0.10]; the provided value is: [169.254.25.10]
+[init] Using Kubernetes version: v1.24.17
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [k3s-master k3s-master.cluster.local kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local lb.kubesphere.local localhost] and IPs [10.233.0.1 10.2.2.109 127.0.0.1]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] External etcd mode: Skipping etcd/ca certificate authority generation
+[certs] External etcd mode: Skipping etcd/server certificate generation
+[certs] External etcd mode: Skipping etcd/peer certificate generation
+[certs] External etcd mode: Skipping etcd/healthcheck-client certificate generation
+[certs] External etcd mode: Skipping apiserver-etcd-client certificate generation
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 17.503847 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Skipping phase. Please see --upload-certs
+[mark-control-plane] Marking the node k3s-master as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node k3s-master as control-plane by adding the taints [node-role.kubernetes.io/master:NoSchedule node-role.kubernetes.io/control-plane:NoSchedule]
+[bootstrap-token] Using token: kvwh7d.tiuyjnwfbc8bqyt7
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of control-plane nodes by copying certificate authorities
+and service account keys on each node and then running the following as root:
+
+  kubeadm join lb.kubesphere.local:6443 --token kvwh7d.tiuyjnwfbc8bqyt7 \
+        --discovery-token-ca-cert-hash sha256:1f5b22071a80e7c647e441c29d0569b391de0dd15d2065c4283ee4c744a1327c \
+        --control-plane
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join lb.kubesphere.local:6443 --token kvwh7d.tiuyjnwfbc8bqyt7 \
+        --discovery-token-ca-cert-hash sha256:1f5b22071a80e7c647e441c29d0569b391de0dd15d2065c4283ee4c744a1327c
+13:48:51 CST success: [k3s-master]
+13:48:51 CST [InitKubernetesModule] Copy admin.conf to ~/.kube/config
+13:48:51 CST success: [k3s-master]
+13:48:51 CST [InitKubernetesModule] Remove master taint
+13:48:53 CST stdout: [k3s-master]
+node/k3s-master untainted
+13:48:53 CST stdout: [k3s-master]
+node/k3s-master untainted
+13:48:53 CST success: [k3s-master]
+13:48:53 CST [ClusterDNSModule] Generate coredns configmap
+13:48:53 CST success: [k3s-master]
+13:48:53 CST [ClusterDNSModule] Apply coredns configmap
+13:48:54 CST stdout: [k3s-master]
+Warning: resource configmaps/coredns is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+configmap/coredns configured
+13:48:54 CST success: [k3s-master]
+13:48:54 CST [ClusterDNSModule] Generate coredns manifests
+13:48:54 CST success: [k3s-master]
+13:48:54 CST [ClusterDNSModule] Deploy coredns
+13:48:54 CST stdout: [k3s-master]
+service "kube-dns" deleted
+13:48:55 CST stdout: [k3s-master]
+Warning: resource clusterroles/system:coredns is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+clusterrole.rbac.authorization.k8s.io/system:coredns configured
+service/coredns created
+Warning: resource deployments/coredns is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+deployment.apps/coredns configured
+13:48:55 CST stdout: [k3s-master]
+deployment.apps/coredns restarted
+13:48:55 CST success: [k3s-master]
+13:48:55 CST [ClusterDNSModule] Generate nodelocaldns configmap
+13:48:55 CST success: [k3s-master]
+13:48:55 CST [ClusterDNSModule] Apply nodelocaldns configmap
+13:48:56 CST stdout: [k3s-master]
+configmap/nodelocaldns created
+13:48:56 CST success: [k3s-master]
+13:48:56 CST [ClusterDNSModule] Generate nodelocaldns
+13:48:56 CST success: [k3s-master]
+13:48:56 CST [ClusterDNSModule] Deploy nodelocaldns
+13:48:56 CST stdout: [k3s-master]
+serviceaccount/nodelocaldns created
+daemonset.apps/nodelocaldns created
+13:48:56 CST success: [k3s-master]
+13:48:56 CST [KubernetesStatusModule] Get kubernetes cluster status
+13:48:56 CST stdout: [k3s-master]
+v1.24.17
+13:48:56 CST stdout: [k3s-master]
+k3s-master   v1.24.17   [map[address:10.2.2.109 type:InternalIP] map[address:k3s-master type:Hostname]]
+13:48:57 CST stdout: [k3s-master]
+W1009 13:48:57.018811   13416 utils.go:69] The recommended value for "clusterDNS" in "KubeletConfiguration" is: [10.233.0.10]; the provided value is: [169.254.25.10]
+[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+64625b6043ef538848338b08d634ec2fdb933288b8b816ce928214b0398da1fa
+13:48:57 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+13:48:57 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+13:48:57 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+13:48:57 CST stdout: [k3s-master]
+gda258.973k95vadvzwx5y1
+13:48:57 CST success: [k3s-master]
+13:48:57 CST [JoinNodesModule] Generate kubeadm config
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Generate audit policy
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Generate audit webhook
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Join control-plane node
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Join worker node
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Copy admin.conf to ~/.kube/config
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Remove master taint
+13:48:57 CST skipped: [k3s-master]
+13:48:57 CST [JoinNodesModule] Add worker label to all nodes
+13:48:57 CST stdout: [k3s-master]
+node/k3s-master labeled
+13:48:57 CST success: [k3s-master]
+13:48:57 CST [DeployNetworkPluginModule] Generate calico
+13:48:58 CST success: [k3s-master]
+13:48:58 CST [DeployNetworkPluginModule] Deploy calico
+13:49:00 CST stdout: [k3s-master]
+poddisruptionbudget.policy/calico-kube-controllers created
+serviceaccount/calico-kube-controllers created
+serviceaccount/calico-node created
+serviceaccount/calico-cni-plugin created
+configmap/calico-config created
+customresourcedefinition.apiextensions.k8s.io/bgpconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgpfilters.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/bgppeers.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/blockaffinities.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/caliconodestatuses.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/clusterinformations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/felixconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/globalnetworksets.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/hostendpoints.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamblocks.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamconfigs.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipamhandles.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ippools.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/ipreservations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/kubecontrollersconfigurations.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networkpolicies.crd.projectcalico.org created
+customresourcedefinition.apiextensions.k8s.io/networksets.crd.projectcalico.org created
+clusterrole.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrole.rbac.authorization.k8s.io/calico-node created
+clusterrole.rbac.authorization.k8s.io/calico-cni-plugin created
+clusterrolebinding.rbac.authorization.k8s.io/calico-kube-controllers created
+clusterrolebinding.rbac.authorization.k8s.io/calico-node created
+clusterrolebinding.rbac.authorization.k8s.io/calico-cni-plugin created
+daemonset.apps/calico-node created
+deployment.apps/calico-kube-controllers created
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [ConfigureKubernetesModule] Configure kubernetes
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [ChownModule] Chown user $HOME/.kube dir
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [AutoRenewCertsModule] Generate k8s certs renew script
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [AutoRenewCertsModule] Generate k8s certs renew service
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [AutoRenewCertsModule] Generate k8s certs renew timer
+13:49:00 CST success: [k3s-master]
+13:49:00 CST [AutoRenewCertsModule] Enable k8s certs renew service
+13:49:01 CST success: [k3s-master]
+13:49:01 CST [SaveKubeConfigModule] Save kube config as a configmap
+13:49:01 CST success: [LocalHost]
+13:49:01 CST [AddonsModule] Install addons
+13:49:01 CST message: [LocalHost]
+[0/0] enabled addons
+13:49:01 CST success: [LocalHost]
+13:49:01 CST [DeployStorageClassModule] Generate OpenEBS manifest
+13:49:01 CST success: [k3s-master]
+13:49:01 CST [DeployStorageClassModule] Deploy OpenEBS as cluster default StorageClass
+13:49:02 CST success: [k3s-master]
+13:49:02 CST [DeployKubeSphereModule] Generate KubeSphere ks-installer crd manifests
+13:49:02 CST success: [k3s-master]
+13:49:02 CST [DeployKubeSphereModule] Apply ks-installer
+13:49:03 CST stdout: [k3s-master]
+namespace/kubesphere-system created
+serviceaccount/ks-installer created
+customresourcedefinition.apiextensions.k8s.io/clusterconfigurations.installer.kubesphere.io created
+clusterrole.rbac.authorization.k8s.io/ks-installer created
+clusterrolebinding.rbac.authorization.k8s.io/ks-installer created
+deployment.apps/ks-installer created
+13:49:03 CST success: [k3s-master]
+13:49:03 CST [DeployKubeSphereModule] Add config to ks-installer manifests
+13:49:03 CST success: [k3s-master]
+13:49:03 CST [DeployKubeSphereModule] Create the kubesphere namespace
+13:49:03 CST success: [k3s-master]
+13:49:03 CST [DeployKubeSphereModule] Setup ks-installer config
+13:49:03 CST stdout: [k3s-master]
+secret/kube-etcd-client-certs created
+13:49:03 CST success: [k3s-master]
+13:49:03 CST [DeployKubeSphereModule] Apply ks-installer
+13:49:06 CST stdout: [k3s-master]
+namespace/kubesphere-system unchanged
+serviceaccount/ks-installer unchanged
+customresourcedefinition.apiextensions.k8s.io/clusterconfigurations.installer.kubesphere.io unchanged
+clusterrole.rbac.authorization.k8s.io/ks-installer unchanged
+clusterrolebinding.rbac.authorization.k8s.io/ks-installer unchanged
+deployment.apps/ks-installer unchanged
+clusterconfiguration.installer.kubesphere.io/ks-installer created
+13:49:06 CST success: [k3s-master]
+#####################################################
+###              Welcome to KubeSphere!           ###
+#####################################################
+
+Console: http://10.2.2.109:30880
+Account: admin
+Password: P@88w0rd
+NOTES：
+  1. After you log into the console, please check the
+     monitoring status of service components in
+     "Cluster Management". If any service is not
+     ready, please wait patiently until all components
+     are up and running.
+  2. Please change the default password after login.
+
+#####################################################
+https://kubesphere.io             2024-10-09 14:08:38
+#####################################################
+14:08:40 CST success: [k3s-master]
+14:08:40 CST Pipeline[CreateClusterPipeline] execute successfully
+Installation is complete.
+```
+
+安装完成，通过以下命令检查安装是否正常。
+
+```bash
+> kubectl logs -n kubesphere-system $(kubectl get pod -n kubesphere-system -l 'app in (ks-install, ks-installer)' -o jsonpath='{.items[0].metadata.name}') -f
+> export KUBECONFIG=/etc/kubernetes/admin.conf
+> kubectl get event -A -w
+> kubectl get pod -A -w
+> kubectl get sc
+```
+
+访问 KubeSphere 控制台，界面如下。
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-install-master.png)
+
+## Worker 节点
+
+在服务器节点 10.2.2.140 和 10.2.2.211 执行。
+
+```bash
+> export KKZONE=cn
+> rsync -aAvz -e 'ssh -p 22' 10.2.2.109:/root/k3s /root/
+> cd k3s
+> vim config-init.yaml
+# 修改关键内容
+spec:
+  hosts:
+  - {name: k3s-master, address: 10.2.2.109, internalAddress: 10.2.2.109, user: root, password: "k3s-master@123"}
+  - {name: k3s-worker-01, address: 10.2.2.140, internalAddress: 10.2.2.140, user: root, password: "k3s-worker01@123"}
+  - {name: k3s-worker-02, address: 10.2.2.211, internalAddress: 10.2.2.211, user: root, password: "k3s-worker02@123"}
+  roleGroups:
+    etcd:
+    - k3s-master
+    control-plane:
+    - k3s-master
+    worker:
+    - k3s-master
+    - k3s-worker-01
+    - k3s-worker-02
+```
+
+使用 KubeKey 安装。
+
+```bash
+> ./kk add nodes -f config-init.yaml
+
+_   __      _          _   __
+| | / /     | |        | | / /
+| |/ / _   _| |__   ___| |/ /  ___ _   _
+|    \| | | | '_ \ / _ \    \ / _ \ | | |
+| |\  \ |_| | |_) |  __/ |\  \  __/ |_| |
+\_| \_/\__,_|_.__/ \___\_| \_/\___|\__, |
+                                    __/ |
+                                   |___/
+
+15:26:05 CST [GreetingsModule] Greetings
+15:26:05 CST message: [k3s-worker-02]
+Greetings, KubeKey!
+15:26:06 CST message: [k3s-master]
+Greetings, KubeKey!
+15:26:06 CST message: [k3s-worker-01]
+Greetings, KubeKey!
+15:26:06 CST success: [k3s-worker-02]
+15:26:06 CST success: [k3s-master]
+15:26:06 CST success: [k3s-worker-01]
+15:26:06 CST [NodePreCheckModule] A pre-check on nodes
+15:26:06 CST success: [k3s-worker-01]
+15:26:06 CST success: [k3s-worker-02]
+15:26:06 CST success: [k3s-master]
+15:26:06 CST [ConfirmModule] Display confirmation form
++---------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+| name          | sudo | curl | openssl | ebtables | socat | ipset | ipvsadm | conntrack | chrony | docker | containerd | nfs client | ceph client | glusterfs client | time         |
++---------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+| k3s-master    | y    | y    | y       | y        | y     | y     | y       | y         | y      |        | v1.7.13    | y          |             |                  | CST 15:26:06 |
+| k3s-worker-01 | y    | y    | y       | y        | y     | y     | y       | y         | y      |        | v1.7.13    | y          |             |                  | CST 15:26:06 |
+| k3s-worker-02 | y    | y    | y       | y        | y     | y     | y       | y         | y      |        | v1.7.13    | y          |             |                  | CST 15:26:06 |
++---------------+------+------+---------+----------+-------+-------+---------+-----------+--------+--------+------------+------------+-------------+------------------+--------------+
+
+This is a simple check of your environment.
+Before installation, ensure that your machines meet all requirements specified at
+https://github.com/kubesphere/kubekey#requirements-and-recommendations
+
+Install k8s with specify version:  v1.24.17
+
+Continue this installation? [yes/no]: yes
+15:26:08 CST success: [LocalHost]
+15:26:08 CST [NodeBinariesModule] Download installation binaries
+15:26:08 CST message: [localhost]
+downloading amd64 kubeadm v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 43.4M  100 43.4M    0     0   904k      0  0:00:49  0:00:49 --:--:-- 1084k
+15:26:57 CST message: [localhost]
+downloading amd64 kubelet v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  112M  100  112M    0     0   973k      0  0:01:58  0:01:58 --:--:-- 1088k
+15:28:56 CST message: [localhost]
+downloading amd64 kubectl v1.24.17 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 44.5M  100 44.5M    0     0   910k      0  0:00:50  0:00:50 --:--:-- 1087k
+15:29:47 CST message: [localhost]
+downloading amd64 helm v3.14.3 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 48.3M  100 48.3M    0     0   915k      0  0:00:54  0:00:54 --:--:-- 1076k
+15:30:41 CST message: [localhost]
+downloading amd64 kubecni v1.2.0 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 38.6M  100 38.6M    0     0   893k      0  0:00:44  0:00:44 --:--:-- 1088k
+15:31:25 CST message: [localhost]
+downloading amd64 crictl v1.29.0 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 23.2M  100 23.2M    0     0   821k      0  0:00:28  0:00:28 --:--:-- 1065k
+15:31:54 CST message: [localhost]
+downloading amd64 etcd v3.5.13 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 19.1M  100 19.1M    0     0   789k      0  0:00:24  0:00:24 --:--:-- 1062k
+15:32:19 CST message: [localhost]
+downloading amd64 containerd 1.7.13 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 45.7M  100 45.7M    0     0   910k      0  0:00:51  0:00:51 --:--:-- 1077k
+15:33:11 CST message: [localhost]
+downloading amd64 runc v1.1.12 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 10.2M  100 10.2M    0     0   660k      0  0:00:15  0:00:15 --:--:-- 1078k
+15:33:27 CST message: [localhost]
+downloading amd64 calicoctl v3.27.4 ...
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100 61.3M  100 61.3M    0     0   933k      0  0:01:07  0:01:07 --:--:-- 1026k
+15:34:34 CST success: [LocalHost]
+15:34:34 CST [ConfigureOSModule] Get OS release
+15:34:34 CST success: [k3s-worker-02]
+15:34:34 CST success: [k3s-master]
+15:34:34 CST success: [k3s-worker-01]
+15:34:34 CST [ConfigureOSModule] Prepare to init OS
+15:34:36 CST success: [k3s-worker-02]
+15:34:36 CST success: [k3s-worker-01]
+15:34:36 CST success: [k3s-master]
+15:34:36 CST [ConfigureOSModule] Generate init os script
+15:34:36 CST success: [k3s-worker-02]
+15:34:36 CST success: [k3s-worker-01]
+15:34:36 CST success: [k3s-master]
+15:34:36 CST [ConfigureOSModule] Exec init os script
+15:34:39 CST stdout: [k3s-worker-01]
+setenforce: SELinux is disabled
+Disabled
+net.ipv4.tcp_syncookies = 1
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+kernel.sched_child_runs_first = 1
+kernel.sched_latency_ns = 80000000
+kernel.sched_migration_cost_ns = 125000
+kernel.sched_min_granularity_ns = 40000000
+kernel.sched_wakeup_granularity_ns = 3750000
+kernel.sched_nr_migrate = 128
+kernel.pid_max = 65535
+kernel.msgmax = 2097152
+kernel.msgmnb = 4194304
+kernel.shmmni = 32768
+kernel.sem = 2000 256000 256 1024
+vm.overcommit_memory = 0
+vm.max_map_count = 262144
+vm.swappiness = 0
+vm.dirty_background_ratio = 40
+vm.dirty_ratio = 50
+fs.aio-max-nr = 262144
+fs.inotify.max_user_instances = 524288
+fs.inotify.max_user_watches = 524288
+net.core.rps_sock_flow_entries = 65536
+net.core.dev_weight = 1024
+net.core.busy_poll = 200
+net.core.busy_read = 200
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.core.somaxconn = 32768
+net.core.netdev_max_backlog = 65535
+net.core.netdev_budget = 4800
+net.ipv4.neigh.default.gc_thresh1 = 512
+net.ipv4.neigh.default.gc_thresh2 = 2048
+net.ipv4.neigh.default.gc_thresh3 = 4096
+net.ipv4.neigh.default.unres_qlen_bytes = 262144
+net.netfilter.nf_conntrack_max = 1048576
+net.netfilter.nf_conntrack_tcp_timeout_established = 300
+sysctl: setting key "net.netfilter.nf_conntrack_buckets": No such file or directory
+net.ipv4.ipfrag_high_thresh = 16777216
+net.ipv4.ipfrag_low_thresh = 12582912
+net.ipv4.tcp_rmem = 8388608 16777216 67108864
+net.ipv4.tcp_wmem = 8388608 16777216 67108864
+net.ipv4.udp_rmem_min = 131072
+net.ipv4.udp_wmem_min = 131072
+net.core.rmem_default = 33554432
+net.core.wmem_default = 33554432
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+net.ipv4.tcp_fin_timeout = 5
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_max_syn_backlog = 1048576
+net.ipv4.tcp_max_tw_buckets = 1048576
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-arptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_local_reserved_ports = 30000-32767
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_max_orphans = 65535
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 10
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.all.arp_accept = 1
+net.ipv4.conf.default.arp_accept = 1
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.default.arp_ignore = 1
+fs.pipe-max-size = 4194304
+kernel.watchdog_thresh = 5
+kernel.hung_task_timeout_secs = 5
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
+net.ipv6.conf.all.forwarding = 1
+15:34:39 CST stdout: [k3s-worker-02]
+setenforce: SELinux is disabled
+Disabled
+net.ipv4.tcp_syncookies = 1
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+kernel.sched_child_runs_first = 1
+kernel.sched_latency_ns = 80000000
+kernel.sched_migration_cost_ns = 125000
+kernel.sched_min_granularity_ns = 40000000
+kernel.sched_wakeup_granularity_ns = 3750000
+kernel.sched_nr_migrate = 128
+kernel.pid_max = 65535
+kernel.msgmax = 2097152
+kernel.msgmnb = 4194304
+kernel.shmmni = 32768
+kernel.sem = 2000 256000 256 1024
+vm.overcommit_memory = 0
+vm.max_map_count = 262144
+vm.swappiness = 0
+vm.dirty_background_ratio = 40
+vm.dirty_ratio = 50
+fs.aio-max-nr = 262144
+fs.inotify.max_user_instances = 524288
+fs.inotify.max_user_watches = 524288
+net.core.rps_sock_flow_entries = 65536
+net.core.dev_weight = 1024
+net.core.busy_poll = 200
+net.core.busy_read = 200
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.core.somaxconn = 32768
+net.core.netdev_max_backlog = 65535
+net.core.netdev_budget = 4800
+net.ipv4.neigh.default.gc_thresh1 = 512
+net.ipv4.neigh.default.gc_thresh2 = 2048
+net.ipv4.neigh.default.gc_thresh3 = 4096
+net.ipv4.neigh.default.unres_qlen_bytes = 262144
+net.netfilter.nf_conntrack_max = 1048576
+net.netfilter.nf_conntrack_tcp_timeout_established = 300
+sysctl: setting key "net.netfilter.nf_conntrack_buckets": No such file or directory
+net.ipv4.ipfrag_high_thresh = 16777216
+net.ipv4.ipfrag_low_thresh = 12582912
+net.ipv4.tcp_rmem = 8388608 16777216 67108864
+net.ipv4.tcp_wmem = 8388608 16777216 67108864
+net.ipv4.udp_rmem_min = 131072
+net.ipv4.udp_wmem_min = 131072
+net.core.rmem_default = 33554432
+net.core.wmem_default = 33554432
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+net.ipv4.tcp_fin_timeout = 5
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_max_syn_backlog = 1048576
+net.ipv4.tcp_max_tw_buckets = 1048576
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-arptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_local_reserved_ports = 30000-32767
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_max_orphans = 65535
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 10
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.all.arp_accept = 1
+net.ipv4.conf.default.arp_accept = 1
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.default.arp_ignore = 1
+fs.pipe-max-size = 4194304
+kernel.watchdog_thresh = 5
+kernel.hung_task_timeout_secs = 5
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
+net.ipv6.conf.all.forwarding = 1
+15:34:40 CST stdout: [k3s-master]
+setenforce: SELinux is disabled
+Disabled
+net.ipv4.tcp_syncookies = 1
+net.ipv4.conf.all.accept_source_route = 0
+net.ipv4.conf.all.accept_redirects = 0
+net.ipv4.conf.all.rp_filter = 0
+net.ipv4.icmp_echo_ignore_broadcasts = 1
+net.ipv4.icmp_ignore_bogus_error_responses = 1
+kernel.sched_child_runs_first = 1
+kernel.sched_latency_ns = 80000000
+kernel.sched_migration_cost_ns = 125000
+kernel.sched_min_granularity_ns = 40000000
+kernel.sched_wakeup_granularity_ns = 3750000
+kernel.sched_nr_migrate = 128
+kernel.pid_max = 65535
+kernel.msgmax = 2097152
+kernel.msgmnb = 4194304
+kernel.shmmni = 32768
+kernel.sem = 2000 256000 256 1024
+vm.overcommit_memory = 0
+vm.max_map_count = 262144
+vm.swappiness = 0
+vm.dirty_background_ratio = 40
+vm.dirty_ratio = 50
+fs.aio-max-nr = 262144
+fs.inotify.max_user_instances = 524288
+fs.inotify.max_user_watches = 524288
+net.core.rps_sock_flow_entries = 65536
+net.core.dev_weight = 1024
+net.core.busy_poll = 200
+net.core.busy_read = 200
+net.ipv4.tcp_moderate_rcvbuf = 1
+net.core.somaxconn = 32768
+net.core.netdev_max_backlog = 65535
+net.core.netdev_budget = 4800
+net.ipv4.neigh.default.gc_thresh1 = 512
+net.ipv4.neigh.default.gc_thresh2 = 2048
+net.ipv4.neigh.default.gc_thresh3 = 4096
+net.ipv4.neigh.default.unres_qlen_bytes = 262144
+net.netfilter.nf_conntrack_max = 1048576
+net.netfilter.nf_conntrack_tcp_timeout_established = 300
+sysctl: setting key "net.netfilter.nf_conntrack_buckets": No such file or directory
+net.ipv4.ipfrag_high_thresh = 16777216
+net.ipv4.ipfrag_low_thresh = 12582912
+net.ipv4.tcp_rmem = 8388608 16777216 67108864
+net.ipv4.tcp_wmem = 8388608 16777216 67108864
+net.ipv4.udp_rmem_min = 131072
+net.ipv4.udp_wmem_min = 131072
+net.core.rmem_default = 33554432
+net.core.wmem_default = 33554432
+net.core.rmem_max = 33554432
+net.core.wmem_max = 33554432
+net.ipv4.tcp_fin_timeout = 5
+net.ipv4.tcp_keepalive_time = 600
+net.ipv4.ip_local_port_range = 10000 65000
+net.ipv4.tcp_max_syn_backlog = 1048576
+net.ipv4.tcp_max_tw_buckets = 1048576
+net.ipv4.ip_forward = 1
+net.bridge.bridge-nf-call-arptables = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_local_reserved_ports = 30000-32767
+net.ipv4.tcp_retries2 = 15
+net.ipv4.tcp_max_orphans = 65535
+net.ipv4.tcp_keepalive_intvl = 30
+net.ipv4.tcp_keepalive_probes = 10
+net.ipv4.conf.default.rp_filter = 0
+net.ipv4.conf.all.arp_accept = 1
+net.ipv4.conf.default.arp_accept = 1
+net.ipv4.conf.all.arp_ignore = 1
+net.ipv4.conf.default.arp_ignore = 1
+fs.pipe-max-size = 4194304
+kernel.watchdog_thresh = 5
+kernel.hung_task_timeout_secs = 5
+net.ipv6.conf.all.disable_ipv6 = 0
+net.ipv6.conf.default.disable_ipv6 = 0
+net.ipv6.conf.lo.disable_ipv6 = 0
+net.ipv6.conf.all.forwarding = 1
+15:34:40 CST success: [k3s-worker-01]
+15:34:40 CST success: [k3s-worker-02]
+15:34:40 CST success: [k3s-master]
+15:34:40 CST [ConfigureOSModule] configure the ntp server for each node
+15:34:40 CST skipped: [k3s-worker-01]
+15:34:40 CST skipped: [k3s-master]
+15:34:40 CST skipped: [k3s-worker-02]
+15:34:40 CST [KubernetesStatusModule] Get kubernetes cluster status
+15:34:41 CST stdout: [k3s-master]
+v1.24.17
+15:34:41 CST stdout: [k3s-master]
+k3s-master      v1.24.17   [map[address:10.2.2.109 type:InternalIP] map[address:k3s-master type:Hostname]]
+k3s-worker-01   v1.24.17   [map[address:10.2.2.140 type:InternalIP] map[address:k3s-worker-01 type:Hostname]]
+15:34:42 CST stdout: [k3s-master]
+W1009 15:34:42.019455   34906 utils.go:69] The recommended value for "clusterDNS" in "KubeletConfiguration" is: [10.233.0.10]; the provided value is: [169.254.25.10]
+[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+56a046cb392827bf42cec14effc1b0d27c3722e741e53ff9c5139d4c943b9efd
+15:34:42 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+15:34:42 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+15:34:42 CST stdout: [k3s-master]
+secret/kubeadm-certs patched
+15:34:43 CST stdout: [k3s-master]
+0x3xku.uqjzfg1xclpwfkey
+15:34:43 CST success: [k3s-master]
+15:34:43 CST [InstallContainerModule] Sync containerd binaries
+15:34:43 CST skipped: [k3s-master]
+15:34:43 CST skipped: [k3s-worker-01]
+15:34:43 CST skipped: [k3s-worker-02]
+15:34:43 CST [InstallContainerModule] Generate containerd service
+15:34:43 CST skipped: [k3s-master]
+15:34:43 CST skipped: [k3s-worker-01]
+15:34:43 CST skipped: [k3s-worker-02]
+15:34:43 CST [InstallContainerModule] Generate containerd config
+15:34:43 CST skipped: [k3s-master]
+15:34:43 CST skipped: [k3s-worker-01]
+15:34:43 CST skipped: [k3s-worker-02]
+15:34:43 CST [InstallContainerModule] Enable containerd
+15:34:43 CST skipped: [k3s-master]
+15:34:43 CST skipped: [k3s-worker-01]
+15:34:43 CST skipped: [k3s-worker-02]
+15:34:43 CST [InstallContainerModule] Sync crictl binaries
+15:34:44 CST skipped: [k3s-master]
+15:34:44 CST skipped: [k3s-worker-01]
+15:34:44 CST skipped: [k3s-worker-02]
+15:34:44 CST [InstallContainerModule] Generate crictl config
+15:34:44 CST skipped: [k3s-master]
+15:34:44 CST skipped: [k3s-worker-01]
+15:34:44 CST success: [k3s-worker-02]
+15:34:44 CST [PullModule] Start to pull images on all nodes
+15:34:44 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.7
+15:34:44 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.7
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pause:3.7
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-proxy:v1.24.17
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/coredns:1.8.6
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/k8s-dns-node-cache:1.22.20
+15:34:44 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-apiserver:v1.24.17
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controllers:v3.27.4
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/cni:v3.27.4
+15:34:44 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controller-manager:v1.24.17
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/node:v3.27.4
+15:34:44 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-scheduler:v1.24.17
+15:34:44 CST message: [k3s-worker-02]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pod2daemon-flexvol:v3.27.4
+15:34:44 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-proxy:v1.24.17
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/coredns:1.8.6
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/k8s-dns-node-cache:1.22.20
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controllers:v3.27.4
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/cni:v3.27.4
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/node:v3.27.4
+15:34:45 CST message: [k3s-master]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pod2daemon-flexvol:v3.27.4
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-proxy:v1.24.17
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/coredns:1.8.6
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/k8s-dns-node-cache:1.22.20
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/kube-controllers:v3.27.4
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/cni:v3.27.4
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/node:v3.27.4
+15:34:46 CST message: [k3s-worker-01]
+downloading image: registry.cn-beijing.aliyuncs.com/kubesphereio/pod2daemon-flexvol:v3.27.4
+15:34:46 CST success: [k3s-worker-02]
+15:34:46 CST success: [k3s-master]
+15:34:46 CST success: [k3s-worker-01]
+15:34:46 CST [ETCDPreCheckModule] Get etcd status
+15:34:46 CST stdout: [k3s-master]
+ETCD_NAME=etcd-k3s-master
+15:34:46 CST success: [k3s-master]
+15:34:46 CST [CertsModule] Fetch etcd certs
+15:34:47 CST success: [k3s-master]
+15:34:47 CST [CertsModule] Generate etcd Certs
+[certs] Using existing ca certificate authority
+[certs] Using existing admin-k3s-master certificate and key on disk
+[certs] Using existing member-k3s-master certificate and key on disk
+[certs] Using existing node-k3s-master certificate and key on disk
+15:34:47 CST success: [LocalHost]
+15:34:47 CST [CertsModule] Synchronize certs file
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [CertsModule] Synchronize certs file to master
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [InstallETCDBinaryModule] Install etcd using binary
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [InstallETCDBinaryModule] Generate etcd service
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [InstallETCDBinaryModule] Generate access address
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Health check on exist etcd
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Generate etcd.env config on new etcd
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Join etcd member
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Health check on new etcd
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Check etcd member
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Refresh etcd.env config on all etcd
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Restart etcd
+15:34:50 CST skipped: [k3s-master]
+15:34:50 CST [ETCDConfigureModule] Health check on all etcd
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDBackupModule] Backup etcd data regularly
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDBackupModule] Generate backup ETCD service
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDBackupModule] Generate backup ETCD timer
+15:34:50 CST success: [k3s-master]
+15:34:50 CST [ETCDBackupModule] Enable backup etcd service
+15:34:51 CST success: [k3s-master]
+15:34:51 CST [InstallKubeBinariesModule] Synchronize kubernetes binaries
+15:35:00 CST skipped: [k3s-master]
+15:35:00 CST skipped: [k3s-worker-01]
+15:35:00 CST success: [k3s-worker-02]
+15:35:00 CST [InstallKubeBinariesModule] Change kubelet mode
+15:35:00 CST skipped: [k3s-master]
+15:35:00 CST skipped: [k3s-worker-01]
+15:35:00 CST success: [k3s-worker-02]
+15:35:00 CST [InstallKubeBinariesModule] Generate kubelet service
+15:35:00 CST skipped: [k3s-master]
+15:35:00 CST skipped: [k3s-worker-01]
+15:35:00 CST success: [k3s-worker-02]
+15:35:00 CST [InstallKubeBinariesModule] Enable kubelet service
+15:35:01 CST skipped: [k3s-worker-01]
+15:35:01 CST skipped: [k3s-master]
+15:35:01 CST success: [k3s-worker-02]
+15:35:01 CST [InstallKubeBinariesModule] Generate kubelet env
+15:35:02 CST skipped: [k3s-master]
+15:35:02 CST skipped: [k3s-worker-01]
+15:35:02 CST success: [k3s-worker-02]
+15:35:02 CST [JoinNodesModule] Generate kubeadm config
+15:35:02 CST skipped: [k3s-master]
+15:35:02 CST skipped: [k3s-worker-01]
+15:35:02 CST success: [k3s-worker-02]
+15:35:02 CST [JoinNodesModule] Generate audit policy
+15:35:02 CST skipped: [k3s-master]
+15:35:02 CST [JoinNodesModule] Generate audit webhook
+15:35:02 CST skipped: [k3s-master]
+15:35:02 CST [JoinNodesModule] Join control-plane node
+15:35:02 CST skipped: [k3s-master]
+15:35:02 CST [JoinNodesModule] Join worker node
+15:35:17 CST stdout: [k3s-worker-02]
+[preflight] Running pre-flight checks
+[preflight] Reading configuration from the cluster...
+[preflight] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+W1009 15:35:02.987472   10480 utils.go:69] The recommended value for "clusterDNS" in "KubeletConfiguration" is: [10.233.0.10]; the provided value is: [169.254.25.10]
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Starting the kubelet
+[kubelet-start] Waiting for the kubelet to perform the TLS Bootstrap...
+
+This node has joined the cluster:
+* Certificate signing request was sent to apiserver and a response was received.
+* The Kubelet was informed of the new secure connection details.
+
+Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
+15:35:17 CST skipped: [k3s-master]
+15:35:17 CST skipped: [k3s-worker-01]
+15:35:17 CST success: [k3s-worker-02]
+15:35:17 CST [JoinNodesModule] Copy admin.conf to ~/.kube/config
+15:35:17 CST skipped: [k3s-master]
+15:35:17 CST [JoinNodesModule] Remove master taint
+15:35:17 CST skipped: [k3s-master]
+15:35:17 CST [JoinNodesModule] Add worker label to all nodes
+15:35:18 CST stdout: [k3s-master]
+node/k3s-master not labeled
+15:35:18 CST stdout: [k3s-master]
+node/k3s-worker-01 not labeled
+15:35:18 CST stdout: [k3s-master]
+node/k3s-worker-02 labeled
+15:35:18 CST success: [k3s-master]
+15:35:18 CST [ConfigureKubernetesModule] Configure kubernetes
+15:35:18 CST success: [k3s-master]
+15:35:18 CST [ChownModule] Chown user $HOME/.kube dir
+15:35:18 CST success: [k3s-worker-02]
+15:35:18 CST success: [k3s-worker-01]
+15:35:18 CST success: [k3s-master]
+15:35:18 CST [AutoRenewCertsModule] Generate k8s certs renew script
+15:35:18 CST success: [k3s-master]
+15:35:18 CST [AutoRenewCertsModule] Generate k8s certs renew service
+15:35:19 CST success: [k3s-master]
+15:35:19 CST [AutoRenewCertsModule] Generate k8s certs renew timer
+15:35:19 CST success: [k3s-master]
+15:35:19 CST [AutoRenewCertsModule] Enable k8s certs renew service
+15:35:19 CST success: [k3s-master]
+15:35:19 CST Pipeline[AddNodesPipeline] execute successfully
+```
+
+验证集群状态。
+
+```bash
+> kubectl get node,cs
+Warning: v1 ComponentStatus is deprecated in v1.19+
+NAME                 STATUS   ROLES                  AGE    VERSION
+node/k3s-master      Ready    control-plane,worker   108m   v1.24.17
+node/k3s-worker-01   Ready    worker                 20m    v1.24.17
+node/k3s-worker-02   Ready    worker                 99s    v1.24.17
+
+NAME                                 STATUS    MESSAGE                         ERROR
+componentstatus/scheduler            Healthy   ok
+componentstatus/controller-manager   Healthy   ok
+componentstatus/etcd-0               Healthy   {"health":"true","reason":""}
+```
+
+查看控制台，Worker 节点成功接入集群。
+
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-install-worker.png)
+
+为方便使用，建议修改 NodePort 的端口范围，在所有服务器节点执行。
+
+```bash
+> vim /etc/kubernetes/manifests/kube-apiserver.yaml
+
+  - --service-node-port-range=1-65535
+  
+> systemctl daemon-reload
+> systemctl restart kubelet
+```
+
+## 创建 NFS 存储类
+
+在所有服务器节点执行。
+
+```bash
+> export KUBECONFIG=/etc/kubernetes/admin.conf
+> helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
+
+# 创建名为 data-nfs-client 的存储类，用于存储数据
+> helm install data-nfs-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=10.2.1.9 --set nfs.path=/nfs/kubesphere/data --set replicaCount=3 --set storageClass.name=data-nfs-client --set storageClass.provisionerName=nfs-data --set storageClass.accessModes=ReadWriteMany --set nfs.volumeName=data-nfs-root --set image.repository=m.daocloud.io/registry.k8s.io/sig-storage/nfs-subdir-external-provisioner
+
+# 创建名为 log-nfs-client 的存储类，用于存储日志
+> helm install log-nfs-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=10.2.1.9 --set nfs.path=/nfs/kubesphere/log --set replicaCount=1 --set storageClass.name=log-nfs-client --set storageClass.provisionerName=nfs-log --set storageClass.accessModes=ReadWriteMany --set nfs.volumeName=log-nfs-root --set image.repository=m.daocloud.io/registry.k8s.io/sig-storage/nfs-subdir-external-provisioner
+
+# 创建名为 config-nfs-client 的存储类，用于存储配置
+> helm install config-nfs-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner --set nfs.server=10.2.1.9 --set nfs.path=/nfs/kubesphere/config --set replicaCount=3 --set storageClass.name=config-nfs-client --set storageClass.provisionerName=nfs-config --set storageClass.accessModes=ReadWriteMany --set nfs.volumeName=config-nfs-root --set image.repository=m.daocloud.io/registry.k8s.io/sig-storage/nfs-subdir-external-provisioner
+
+# 设置默认的存储类为数据盘
+> kubectl patch storageclass data-nfs-client -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+storageclass.storage.k8s.io/data-nfs-client patched
+```
+
+## 调整镜像仓库配置
+
+[DaoCloud](https://github.com/DaoCloud/public-image-mirror) 提供了 DockerHub 的加速镜像源。如果您无法访问 DockerHub，可以参考以下代码片段进行设置。
+
+```bash
+# 查看 K8s 使用 CONTAINER-TUNTIME 是 containerd:// 还是 docker://
+> kubectl get nodes -o wide
+NAME            STATUS   ROLES                  AGE     VERSION    INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION                 CONTAINER-RUNTIME
+k3s-master      Ready    control-plane,worker   3d23h   v1.24.17   10.2.2.109    <none>        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+k3s-worker-01   Ready    worker                 3d22h   v1.24.17   10.2.2.140    <none>        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+k3s-worker-02   Ready    worker                 3d22h   v1.24.17   10.2.2.211    <none>        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+
+# If use docker
+> vim /etc/docker/daemon.json
+{
+    "registry-mirrors": ["https://docker.m.daocloud.io"]
+}
+:wq
+> sudo systemctl daemon-reload
+> sudo systemctl restart docker
+
+# If use containerd
+> vim /etc/containerd/config.toml
+
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    ...
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+          endpoint = ["https://docker.m.daocloud.io"]
+
+> sudo systemctl daemon-reload
+> sudo systemctl restart containerd
+```

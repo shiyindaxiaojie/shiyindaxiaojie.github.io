@@ -1,0 +1,205 @@
+{
+  "feeds": [
+    {
+      "id": "dynamic",
+      "label": "动态",
+      "title": "全部科技资讯",
+      "description": "AI、云原生、平台工程、可观测性等技术资讯流",
+      "enabled": true,
+      "visible": true
+    }
+  ],
+  "taxonomy": {
+    "specialties": [
+      {
+        "id": "ai",
+        "label": "AI",
+        "topics": [
+          { "id": "agent-engineering", "label": "AI Agent", "aliases": ["agent", "agents", "agentic", "tool use", "tool calling", "multi-agent", "mcp", "workflow agent", "智能体", "多智能体"] },
+          { "id": "model-engineering", "label": "大模型", "aliases": ["model", "models", "llm", "gpt", "claude", "deepseek", "inference", "fine-tuning", "fine tuning", "eval", "evaluation", "embedding", "大模型", "推理", "微调", "评测"] },
+          { "id": "rag", "label": "RAG", "aliases": ["rag", "retrieval", "knowledge graph", "vector", "embedding", "知识库", "知识图谱", "检索增强", "向量检索"] },
+          { "id": "ai-infra", "label": "AI Infra", "aliases": ["gpu", "cuda", "serving", "ai infra", "ai infrastructure", "vllm", "ollama", "model serving", "vector database", "推理服务", "模型服务", "向量数据库"] },
+          { "id": "llmops", "label": "LLMOps", "aliases": ["llmops", "prompt management", "prompt engineering", "langfuse", "tracing", "dataset", "evals", "提示词", "模型运维"] },
+          { "id": "multimodal-ai", "label": "多模态", "aliases": ["multimodal", "vision language", "vlm", "video generation", "audio model", "image generation", "多模态", "视觉语言", "视频生成"] },
+          { "id": "ai-security", "label": "AI 安全", "aliases": ["ai security", "safety", "alignment", "jailbreak", "prompt injection", "sandbox", "permission", "guardrail", "安全", "对齐", "越狱", "提示注入"] }
+        ]
+      },
+      {
+        "id": "cloud-native",
+        "label": "云原生",
+        "topics": [
+          {
+            "id": "kubernetes",
+            "label": "Kubernetes",
+            "aliases": ["kubernetes", "k8s", "kubelet", "kubeadm", "kubectl", "apiserver", "helm", "operator", "controller", "scheduler", "workload", "pod", "deployment", "statefulset", "容器编排"],
+            "focuses": [
+              { "id": "k8s-release", "label": "版本发布", "aliases": ["kubernetes release", "k8s release", "kubernetes version", "k8s version", "kubernetes changelog", "k8s changelog"] },
+              { "id": "k8s-workload", "label": "工作负载", "aliases": ["workload", "pod", "deployment", "statefulset", "daemonset", "job", "cronjob", "工作负载"] },
+              { "id": "k8s-scheduling", "label": "调度与弹性", "aliases": ["scheduler", "scheduling", "autoscaling", "hpa", "vpa", "keda", "调度", "弹性伸缩"] },
+              { "id": "k8s-operator", "label": "Operator", "aliases": ["operator", "controller", "crd", "custom resource"] },
+              { "id": "k8s-security", "label": "集群安全", "aliases": ["rbac", "pod security", "admission", "service account", "cluster security", "集群安全"] }
+            ]
+          },
+          {
+            "id": "container-platform",
+            "label": "容器与镜像",
+            "aliases": ["container", "containers", "container runtime", "container-runtime", "containerd", "cri-o", "docker", "oci", "container image", "docker image", "oci image", "image registry", "registry", "harbor", "buildkit", "镜像仓库", "容器运行时"],
+            "focuses": [
+              { "id": "container-runtime", "label": "运行时", "aliases": ["container runtime", "container-runtime", "containerd", "cri-o", "docker", "runtime", "运行时"] },
+              { "id": "container-image", "label": "镜像构建", "aliases": ["container image", "docker image", "oci image", "buildkit", "dockerfile", "镜像构建"] },
+              { "id": "container-registry", "label": "镜像仓库", "aliases": ["registry", "image registry", "harbor", "artifact registry", "镜像仓库"] }
+            ]
+          },
+          {
+            "id": "cloud-native-networking",
+            "label": "云原生网络",
+            "aliases": ["cloud native networking", "networking", "cni", "gateway api", "gateway-api", "ingress", "nginx ingress", "higress", "apisix", "envoy gateway", "cilium", "ebpf", "bpf", "hubble", "load balancer", "dns", "网络", "网关"],
+            "focuses": [
+              { "id": "gateway-api", "label": "Gateway API", "aliases": ["gateway api", "gateway-api", "envoy gateway", "gateway controller"] },
+              { "id": "ingress", "label": "Ingress", "aliases": ["ingress", "nginx ingress", "higress", "apisix"] },
+              { "id": "cni", "label": "CNI", "aliases": ["cni", "calico", "flannel", "cilium cni"] },
+              { "id": "ebpf", "label": "eBPF", "aliases": ["ebpf", "bpf", "cilium", "hubble"] }
+            ]
+          },
+          { "id": "service-mesh", "label": "服务网格", "aliases": ["service mesh", "service-mesh", "istio", "envoy", "linkerd", "ambient mesh", "traffic management", "服务网格"] },
+          { "id": "serverless", "label": "Serverless", "aliases": ["serverless", "lambda", "cloud functions", "faas", "knative", "scale to zero", "event driven", "事件驱动"] },
+          { "id": "multi-cluster-management", "label": "多集群管理", "aliases": ["multi cluster", "multi-cluster", "fleet", "karmada", "federation", "cluster api", "cluster-api", "多集群"] },
+          { "id": "cloud-native-storage", "label": "云原生存储", "aliases": ["cloud native storage", "kubernetes storage", "sig storage", "csi", "persistent volume", "persistentvolume", "pv", "pvc", "storageclass", "rook", "ceph", "openebs", "velero", "volume snapshot", "云原生存储"] },
+          { "id": "edge-computing", "label": "边缘计算", "aliases": ["edge", "edge computing", "kubeedge", "k3s", "iot", "edge cloud", "边缘计算", "边缘云"] }
+        ]
+      },
+      {
+        "id": "platform-engineering",
+        "label": "平台工程",
+        "topics": [
+          {
+            "id": "gitops",
+            "label": "GitOps",
+            "aliases": ["gitops", "argo cd", "argocd", "flux", "declarative delivery", "声明式交付"],
+            "focuses": [
+              { "id": "argocd", "label": "Argo CD", "aliases": ["argo cd", "argocd"] },
+              { "id": "flux", "label": "Flux", "aliases": ["flux", "fluxcd"] }
+            ]
+          },
+          {
+            "id": "oam",
+            "label": "应用模型",
+            "aliases": ["oam", "open application model", "kubevela", "vela", "application model", "应用模型", "应用编排"],
+            "focuses": [
+              { "id": "oam-model", "label": "OAM", "aliases": ["oam", "open application model"] },
+              { "id": "kubevela", "label": "KubeVela", "aliases": ["kubevela", "vela"] }
+            ]
+          },
+          {
+            "id": "idp",
+            "label": "开发者平台",
+            "aliases": ["idp", "platform-engineering", "platform engineering", "internal developer platform", "internal developer portal", "backstage", "developer portal", "开发者平台", "内部开发者平台", "开发者门户"],
+            "focuses": [
+              { "id": "backstage", "label": "Backstage", "aliases": ["backstage"] },
+              { "id": "developer-portal", "label": "开发者门户", "aliases": ["developer portal", "internal developer portal", "开发者门户"] }
+            ]
+          },
+          {
+            "id": "cicd",
+            "label": "流水线",
+            "aliases": ["ci/cd", "continuous delivery", "continuous deployment", "github actions", "gitlab ci", "jenkins", "pipeline", "持续交付", "流水线"],
+            "focuses": [
+              { "id": "github-actions", "label": "GitHub Actions", "aliases": ["github actions"] },
+              { "id": "jenkins", "label": "Jenkins", "aliases": ["jenkins"] },
+              { "id": "gitlab-ci", "label": "GitLab CI", "aliases": ["gitlab ci"] }
+            ]
+          },
+          {
+            "id": "release-engineering",
+            "label": "发布管理",
+            "aliases": ["release engineering", "deployment", "progressive delivery", "canary", "blue green", "rollout", "rollback", "发布管理", "灰度", "金丝雀", "回滚"],
+            "focuses": [
+              { "id": "progressive-delivery", "label": "渐进式发布", "aliases": ["progressive delivery", "canary", "blue green", "rollout", "灰度", "金丝雀"] },
+              { "id": "rollback", "label": "回滚", "aliases": ["rollback", "roll back", "回滚"] }
+            ]
+          },
+          {
+            "id": "devex",
+            "label": "研发效能",
+            "aliases": ["developer experience", "devex", "developer-tools", "devtools", "productivity", "platform ops", "copilot usage metrics", "usage metrics api", "研发效能", "开发者体验", "开发工具"],
+            "focuses": [
+              { "id": "developer-experience", "label": "开发体验", "aliases": ["developer experience", "开发者体验"] },
+              { "id": "developer-tools", "label": "开发工具", "aliases": ["developer-tools", "devtools", "开发工具"] },
+              { "id": "productivity", "label": "效能度量", "aliases": ["productivity", "usage metrics", "metrics api", "效能度量"] }
+            ]
+          },
+          {
+            "id": "policy-as-code",
+            "label": "准入策略",
+            "aliases": ["policy as code", "opa", "open policy agent", "kyverno", "admission control", "policy", "策略即代码", "准入控制", "准入策略"],
+            "focuses": [
+              { "id": "opa", "label": "OPA", "aliases": ["opa", "open policy agent"] },
+              { "id": "kyverno", "label": "Kyverno", "aliases": ["kyverno"] },
+              { "id": "admission-control", "label": "准入控制", "aliases": ["admission control", "准入控制"] }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "observability",
+        "label": "可观测性",
+        "topics": [
+          { "id": "opentelemetry", "label": "OpenTelemetry", "aliases": ["opentelemetry", "otel", "observability", "telemetry", "trace context", "可观测", "可观测标准"] },
+          { "id": "metrics", "label": "Metrics", "aliases": ["metrics", "prometheus", "grafana", "victoriametrics", "监控", "指标"] },
+          { "id": "tracing", "label": "Tracing", "aliases": ["tracing", "trace", "jaeger", "zipkin", "tempo", "链路追踪", "调用链"] },
+          { "id": "logging", "label": "Logging", "aliases": ["logging", "logs", "loki", "elastic", "elasticsearch", "victorialogs", "日志"] },
+          { "id": "profiling", "label": "Profiling", "aliases": ["profiling", "profile", "pyroscope", "parca", "continuous profiling", "性能剖析"] },
+          { "id": "slo", "label": "SLO", "aliases": ["slo", "sli", "sla", "error budget", "service level objective", "错误预算"] },
+          { "id": "aiops", "label": "AIOps", "aliases": ["aiops", "incident", "root cause", "mttr", "oncall", "故障诊断", "根因分析", "告警"] }
+        ]
+      },
+      {
+        "id": "security-governance",
+        "label": "安全架构",
+        "topics": [
+          { "id": "ai-security-governance", "label": "AI 安全", "aliases": ["ai security", "prompt injection", "jailbreak", "guardrail", "model security", "agent security", "AI 安全", "提示注入"] },
+          { "id": "cloud-security", "label": "云安全", "aliases": ["security", "cloud security", "container security", "kubernetes security", "workload identity", "安全", "云安全", "容器安全"] },
+          { "id": "supply-chain-security", "label": "供应链安全", "aliases": ["supply chain", "software supply chain", "sbom", "slsa", "dependency", "provenance", "attestation", "供应链安全"] },
+          { "id": "zero-trust", "label": "零信任", "aliases": ["zero trust", "ztna", "least privilege", "零信任", "最小权限"] },
+          { "id": "identity", "label": "IAM", "aliases": ["identity", "iam", "oauth", "oidc", "auth", "authentication", "authorization", "cognito", "otp", "sms otp", "mfa", "fraud", "account takeover", "身份", "认证", "授权"] },
+          { "id": "vulnerability", "label": "漏洞攻防", "aliases": ["vulnerability", "cve", "exploit", "patch", "漏洞", "攻防", "补丁"] },
+          { "id": "compliance", "label": "合规", "aliases": ["privacy", "compliance", "gdpr", "data governance", "隐私", "合规", "数据治理"] }
+        ]
+      },
+      {
+        "id": "data-storage",
+        "label": "数据治理",
+        "topics": [
+          { "id": "database", "label": "数据库", "aliases": ["database", "postgres", "postgresql", "mysql", "mongodb", "tidb", "数据库"] },
+          { "id": "cache", "label": "缓存", "aliases": ["cache", "redis", "memcached", "dragonfly", "valkey", "缓存"] },
+          { "id": "message-queue", "label": "消息队列", "aliases": ["message queue", "mq", "kafka", "rabbitmq", "rocketmq", "pulsar", "消息队列"] },
+          { "id": "streaming", "label": "流式计算", "aliases": ["streaming", "flink", "spark streaming", "ksql", "stream processing", "流式", "实时计算"] },
+          { "id": "lakehouse", "label": "湖仓", "aliases": ["lakehouse", "data lake", "warehouse", "delta lake", "iceberg", "hudi", "湖仓", "数据湖"] },
+          { "id": "search-vector", "label": "搜索向量", "aliases": ["search", "elasticsearch", "opensearch", "vector search", "vector database", "milvus", "qdrant", "weaviate", "搜索", "向量"] },
+          { "id": "data-pipeline", "label": "数据管道", "aliases": ["data-engineering", "data engineering", "pipeline", "etl", "elt", "airflow", "dagster", "数据工程", "数据管道"] }
+        ]
+      },
+      {
+        "id": "programming-language",
+        "label": "编程开发",
+        "topics": [
+          {
+            "id": "java-ecosystem",
+            "label": "Java 生态",
+            "aliases": ["java", "java se", "java language", "jakarta", "jakarta ee"],
+            "focuses": [
+              { "id": "jdk", "label": "JDK", "aliases": ["jdk", "openjdk", "jep", "inside java", "java version", "java release", "jdk 17", "jdk 21", "jdk 25", "jdk 26", "jdk 27", "loom", "panama", "valhalla", "amber", "leyden"] },
+              { "id": "spring", "label": "Spring", "aliases": ["spring", "spring framework", "spring boot", "spring cloud", "spring security", "spring data", "spring ai", "spring release", "spring releases"] },
+              { "id": "jvm", "label": "JVM", "aliases": ["jvm", "hotspot", "jfr", "gc", "garbage collection", "zgc", "shenandoah", "virtual thread"] },
+              { "id": "graalvm", "label": "GraalVM", "aliases": ["graalvm", "native image", "aot"] }
+            ]
+          },
+          { "id": "go", "label": "Go 工程", "aliases": ["go", "golang", "goroutine"] },
+          { "id": "python", "label": "Python 工程", "aliases": ["python", "py", "fastapi", "django"] },
+          { "id": "rust", "label": "Rust 工程", "aliases": ["rust", "rustlang", "cargo"] },
+          { "id": "javascript", "label": "前端工程", "aliases": ["javascript", "typescript", "node.js", "nodejs", "react", "vue", "vite", "next.js", "frontend-engineering", "web-performance", "build-tools", "前端"] }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,175 @@
+{
+  "owner": "shiyindaxiaojie",
+  "fallbackCategory": "engineering",
+  "includeForks": true,
+  "includeArchived": true,
+  "excludes": [
+    "shiyindaxiaojie",
+    "shiyindaxiaojie.github.io",
+    "blog",
+    "book",
+    "note",
+    "family",
+    "acg",
+    "toolkit",
+    "study",
+    "work",
+    "other",
+    "knowbase"
+  ],
+  "categories": [
+    {
+      "id": "all",
+      "label": "全部作品",
+      "labelEn": "All",
+      "labelJa": "すべて",
+      "description": "完整开源项目清单",
+      "descriptionJa": "公開プロジェクト全体"
+    },
+    {
+      "id": "cloud-native",
+      "label": "云原生",
+      "labelEn": "Cloud Native",
+      "labelJa": "クラウドネイティブ",
+      "description": "注册中心、网关、服务治理与云原生基础设施",
+      "descriptionJa": "レジストリ、ゲートウェイ、サービスガバナンス、クラウドネイティブ基盤",
+      "repositories": [
+        "eden-cloud-gateway",
+        "eden-registry"
+      ],
+      "topics": [
+        "cloud-native",
+        "spring-cloud",
+        "gateway",
+        "registry",
+        "nacos",
+        "sentinel"
+      ],
+      "keywords": [
+        "gateway",
+        "registry",
+        "service governance",
+        "spring cloud"
+      ]
+    },
+    {
+      "id": "frameworks",
+      "label": "基础框架",
+      "labelEn": "Frameworks",
+      "labelJa": "基盤フレームワーク",
+      "description": "可复用的基础框架、Starter 与脚手架",
+      "descriptionJa": "再利用できる基盤フレームワーク、Starter、スキャフォールド",
+      "repositories": [
+        "eden-architect",
+        "eden-archetype",
+        "eden-business",
+        "eden-demo-cola",
+        "eden-demo-layer",
+        "eden-demo-mvc",
+        "eden-demo-golang"
+      ],
+      "topics": [
+        "framework",
+        "starter",
+        "archetype",
+        "ddd",
+        "cola",
+        "mvc",
+        "golang"
+      ],
+      "keywords": [
+        "framework",
+        "starter",
+        "archetype",
+        "cola",
+        "ddd",
+        "mvc"
+      ]
+    },
+    {
+      "id": "middleware",
+      "label": "中间件",
+      "labelEn": "Middleware",
+      "labelJa": "ミドルウェア",
+      "description": "消息、任务调度、Dubbo 控制台与中间件增强",
+      "descriptionJa": "メッセージング、ジョブスケジューリング、Dubbo コンソール、ミドルウェア拡張",
+      "repositories": [
+        "rocketmq",
+        "dubbo-admin",
+        "xxl-job",
+        "sentinel"
+      ],
+      "topics": [
+        "middleware",
+        "rocketmq",
+        "dubbo",
+        "xxl-job",
+        "message-queue",
+        "sentinel"
+      ],
+      "keywords": [
+        "rocketmq",
+        "dubbo",
+        "xxl job",
+        "middleware",
+        "message queue"
+      ]
+    },
+    {
+      "id": "observability",
+      "label": "可观测性",
+      "labelEn": "Observability",
+      "labelJa": "オブザーバビリティ",
+      "description": "链路追踪、监控、诊断与线上治理工具",
+      "descriptionJa": "トレーシング、モニタリング、診断、運用ガバナンスツール",
+      "repositories": [
+        "cat",
+        "arthas"
+      ],
+      "topics": [
+        "observability",
+        "tracing",
+        "diagnostics",
+        "monitoring",
+        "arthas",
+        "cat"
+      ],
+      "keywords": [
+        "tracing",
+        "diagnostic",
+        "monitoring",
+        "arthas",
+        "cat"
+      ]
+    },
+    {
+      "id": "engineering",
+      "label": "平台工程",
+      "labelEn": "Engineering",
+      "labelJa": "プラットフォームエンジニアリング",
+      "description": "CI/CD、安全、日志、迁移与发布流程",
+      "descriptionJa": "CI/CD、セキュリティ、ログ、移行、リリースフロー",
+      "repositories": [
+        "jenkins",
+        "eden-go-logger",
+        "eden-go-migration"
+      ],
+      "topics": [
+        "devops",
+        "cicd",
+        "jenkins",
+        "logging",
+        "migration",
+        "engineering"
+      ],
+      "keywords": [
+        "jenkins",
+        "ci",
+        "cd",
+        "logger",
+        "migration",
+        "engineering"
+      ]
+    }
+  ]
+}

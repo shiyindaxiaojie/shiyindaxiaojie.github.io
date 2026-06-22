@@ -1,0 +1,34 @@
+FROM gcr.m.daocloud.io/kaniko-project/executor:debug AS kaniko
+FROM m.daocloud.io/docker.io/library/openjdk:11.0.11-jdk AS jdk11
+FROM docker.m.daocloud.io/jenkins/inbound-agent:latest-jdk17
+
+USER root
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    curl unzip zip maven coreutils && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY --from=jdk11 /usr/local/openjdk-11 /usr/local/openjdk-11
+
+RUN ln -s /usr/local/openjdk-11 /opt/jdk11 && \
+    chmod -R +x /opt/jdk11/bin
+
+COPY --from=kaniko /kaniko/executor /usr/local/bin/kaniko
+COPY --from=kaniko /kaniko/docker-credential-gcr /usr/local/bin/
+COPY --from=kaniko /kaniko/docker-credential-ecr-login /usr/local/bin/
+COPY --from=kaniko /kaniko/docker-credential-acr-env /usr/local/bin/
+
+RUN mkdir -p /kaniko/.docker /home/jenkins/.m2/repository && \
+    chown -R jenkins:jenkins /home/jenkins /kaniko
+
+COPY settings.xml /home/jenkins/.m2/settings.xml
+
+RUN chown jenkins:jenkins /home/jenkins/.m2/settings.xml
+
+ENV DOCKER_CONFIG=/kaniko/.docker
+ENV MAVEN_OPTS="-Dmaven.repo.local=/home/jenkins/.m2/repository"
+
+USER jenkins
+
+WORKDIR /build

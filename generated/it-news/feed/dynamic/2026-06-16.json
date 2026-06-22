@@ -1,0 +1,677 @@
+{
+  "feedType": "dynamic",
+  "label": "动态",
+  "source": {
+    "title": "全部科技资讯",
+    "siteUrl": "",
+    "feedUrl": ""
+  },
+  "sourceType": "aggregate",
+  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "date": "2026-06-16",
+  "itemCount": 25,
+  "items": [
+    {
+      "id": "github:k3s-io/k3s:340256293",
+      "feedType": "dynamic",
+      "title": "k3s-io/k3s v1.36.2-rc1+k3s1",
+      "titleEn": null,
+      "link": "https://github.com/k3s-io/k3s/releases/tag/v1.36.2-rc1%2Bk3s1",
+      "guid": "340256293",
+      "publishedAt": "2026-06-16T15:53:08.000Z",
+      "date": "2026-06-16",
+      "time": "23:53",
+      "source": "github.com",
+      "sourceLabel": "GitHub: k3s-io/k3s",
+      "sourceType": "github",
+      "author": "k3s-io/k3s",
+      "authorHandle": "",
+      "summary": "What's Changed [Release 1.36] Backport GitHub Action SHA pin updates from main by @dereknola in https://github.com/k3s io/k3s/pull/14127 [release 1.36] Backports for 2026 06 by @brandond in https://github.com/k3s io/k3s/pull/14151 [Release 1.36] Bump v3.7.4 Traefik by @manuelbuil in https://github.com/k3s io/k3s/pull/...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "edge-computing",
+        "kubernetes"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:k3s-io/k3s:340256229",
+      "feedType": "dynamic",
+      "title": "k3s-io/k3s v1.35.6-rc1+k3s1",
+      "titleEn": null,
+      "link": "https://github.com/k3s-io/k3s/releases/tag/v1.35.6-rc1%2Bk3s1",
+      "guid": "340256229",
+      "publishedAt": "2026-06-16T15:52:26.000Z",
+      "date": "2026-06-16",
+      "time": "23:52",
+      "source": "github.com",
+      "sourceLabel": "GitHub: k3s-io/k3s",
+      "sourceType": "github",
+      "author": "k3s-io/k3s",
+      "authorHandle": "",
+      "summary": "What's Changed [Release 1.35] Backport GitHub Action SHA pin updates from main by @dereknola in https://github.com/k3s io/k3s/pull/14126 [release 1.35] Backports for 2026 06 by @brandond in https://github.com/k3s io/k3s/pull/14152 [Release 1.35] Bump v3.7.4 Traefik by @manuelbuil in https://github.com/k3s io/k3s/pull/...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "edge-computing",
+        "kubernetes"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:k3s-io/k3s:340255914",
+      "feedType": "dynamic",
+      "title": "k3s-io/k3s v1.34.9-rc1+k3s1",
+      "titleEn": null,
+      "link": "https://github.com/k3s-io/k3s/releases/tag/v1.34.9-rc1%2Bk3s1",
+      "guid": "340255914",
+      "publishedAt": "2026-06-16T15:51:52.000Z",
+      "date": "2026-06-16",
+      "time": "23:51",
+      "source": "github.com",
+      "sourceLabel": "GitHub: k3s-io/k3s",
+      "sourceType": "github",
+      "author": "k3s-io/k3s",
+      "authorHandle": "",
+      "summary": "What's Changed [Release 1.34] Backport GitHub Action SHA pin updates from main by @dereknola in https://github.com/k3s io/k3s/pull/14125 [release 1.34] Backports for 2026 06 by @brandond in https://github.com/k3s io/k3s/pull/14154 [Release 1.34] Bump v3.7.4 Traefik by @manuelbuil in https://github.com/k3s io/k3s/pull/...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "edge-computing",
+        "kubernetes"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:jenkinsci/jenkins:337230964",
+      "feedType": "dynamic",
+      "title": "jenkinsci/jenkins 2.569",
+      "titleEn": null,
+      "link": "https://github.com/jenkinsci/jenkins/releases/tag/jenkins-2.569",
+      "guid": "337230964",
+      "publishedAt": "2026-06-16T13:08:40.000Z",
+      "date": "2026-06-16",
+      "time": "21:08",
+      "source": "github.com",
+      "sourceLabel": "GitHub: jenkinsci/jenkins",
+      "sourceType": "github",
+      "author": "jenkinsci/jenkins",
+      "authorHandle": "",
+      "summary": "This is an automatically generated changelog draft for Jenkins weekly releases. See https://www.jenkins.io/changelog/2.569/ for the official changelog for this release. 🚀 New features and improvements Standardise command palette, dialog, dropdown, and tooltip materials ( 26900) @janfaracik Hide CSRF configuration UI...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cicd"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:argoproj/argo-cd:340151187",
+      "feedType": "dynamic",
+      "title": "argoproj/argo-cd v3.5.0-rc1",
+      "titleEn": null,
+      "link": "https://github.com/argoproj/argo-cd/releases/tag/v3.5.0-rc1",
+      "guid": "340151187",
+      "publishedAt": "2026-06-16T13:01:40.000Z",
+      "date": "2026-06-16",
+      "time": "21:01",
+      "source": "github.com",
+      "sourceLabel": "GitHub: argoproj/argo-cd",
+      "sourceType": "github",
+      "author": "argoproj/argo-cd",
+      "authorHandle": "",
+      "summary": "Quick Start Non HA: HA: Release Signatures and Provenance All Argo CD container images are signed by cosign. A Provenance is generated for container images and CLI binaries which meet the SLSA Level 3 specifications. See the documentation on how to verify. Release Notes Blog Post For a detailed breakdown of the key ch...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "gitops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:910effa11dda7cf2056cb844eaaca39567e28d38",
+      "feedType": "dynamic",
+      "title": "Cloudflare DMARC Management is now generally available",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/dmarc-management-ga/",
+      "guid": "1Ng3fFBbnnbu6qxP1HMqpB",
+      "publishedAt": "2026-06-16T13:00:00.000Z",
+      "date": "2026-06-16",
+      "time": "21:00",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "Get unified visibility into your email authentication posture and reach full DMARC enforcement with deeper reporting, record analysis, and SPF audits free for every Cloudflare customer.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:cilium/cilium:340123687",
+      "feedType": "dynamic",
+      "title": "cilium/cilium 1.19.5",
+      "titleEn": null,
+      "link": "https://github.com/cilium/cilium/releases/tag/v1.19.5",
+      "guid": "340123687",
+      "publishedAt": "2026-06-16T12:25:41.000Z",
+      "date": "2026-06-16",
+      "time": "20:25",
+      "source": "github.com",
+      "sourceLabel": "GitHub: cilium/cilium",
+      "sourceType": "github",
+      "author": "cilium/cilium",
+      "authorHandle": "",
+      "summary": "Summary of Changes Minor Changes: Extend the information reported by the troubleshoot kvstore and clustermesh commands (Backport PR cilium/cilium 46554, Upstream PR cilium/cilium 46516, @giorio94) helm: Remove loadBalancer.standalone option (Backport PR cilium/cilium 46170, Upstream PR cilium/cilium 46070, @joestringe...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cloud-native-networking"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:cilium/cilium:340122549",
+      "feedType": "dynamic",
+      "title": "cilium/cilium 1.18.11",
+      "titleEn": null,
+      "link": "https://github.com/cilium/cilium/releases/tag/v1.18.11",
+      "guid": "340122549",
+      "publishedAt": "2026-06-16T12:22:23.000Z",
+      "date": "2026-06-16",
+      "time": "20:22",
+      "source": "github.com",
+      "sourceLabel": "GitHub: cilium/cilium",
+      "sourceType": "github",
+      "author": "cilium/cilium",
+      "authorHandle": "",
+      "summary": "Summary of Changes Minor Changes: Extend the information reported by the troubleshoot kvstore and clustermesh commands (Backport PR cilium/cilium 46555, Upstream PR cilium/cilium 46516, @giorio94) Bugfixes: bug: fixed weighted backend traffic splitting for TLSRoute passthrough listeners in Gateway API (Backport PR cil...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cloud-native-networking"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:cilium/cilium:340122426",
+      "feedType": "dynamic",
+      "title": "cilium/cilium 1.17.17",
+      "titleEn": null,
+      "link": "https://github.com/cilium/cilium/releases/tag/v1.17.17",
+      "guid": "340122426",
+      "publishedAt": "2026-06-16T12:22:05.000Z",
+      "date": "2026-06-16",
+      "time": "20:22",
+      "source": "github.com",
+      "sourceLabel": "GitHub: cilium/cilium",
+      "sourceType": "github",
+      "author": "cilium/cilium",
+      "authorHandle": "",
+      "summary": "Summary of Changes Minor Changes: Extend the information reported by the troubleshoot kvstore and clustermesh commands (Backport PR cilium/cilium 46556, Upstream PR cilium/cilium 46516, @giorio94) Bugfixes: multipool: Fix retries for CiliumNode Get errors (Backport PR cilium/cilium 46413, Upstream PR cilium/cilium 461...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cloud-native-networking"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:01d89548211a2315cceb71eeca49502646fd619b",
+      "feedType": "dynamic",
+      "title": "Building Reliable Agentic AI Systems",
+      "titleEn": null,
+      "link": "https://martinfowler.com/articles/reliable-llm-bayer.html",
+      "guid": "tag:martinfowler.com,2026-06-16:Building-Reliable-Agentic-AI-Systems",
+      "publishedAt": "2026-06-16T12:11:00.000Z",
+      "date": "2026-06-16",
+      "time": "20:11",
+      "source": "martinfowler.com",
+      "sourceLabel": "Martin Fowler",
+      "sourceType": "rss",
+      "author": "Martin Fowler",
+      "authorHandle": "",
+      "summary": "One of the most interesting projects my colleagues have done with LLMs has been building a system with Bayer to allow pharmaceutical researchers to query decades of information about studies buried in PDF reports. Sarang Sanjay Kulkarni describes its evolution from keyword-based search to an intelligent research assis...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "idp",
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:63f3acd7ea38ee080551e73cbfc8d8e50ef39b9e",
+      "feedType": "dynamic",
+      "title": "What’s in the SOSS? Podcast #63 – S3E15 Big Thoughts, Open Sources: Driving Enterprise Security and Career Growth Through Open Source with Jamie Thomas (IBM)",
+      "titleEn": null,
+      "link": "https://openssf.org/podcast/2026/06/16/whats-in-the-soss-podcast-63-s3e15-big-thoughts-open-sources-driving-enterprise-security-and-career-growth-through-open-source-with-jamie-thomas-ibm/",
+      "guid": "https://openssf.org/?p=11120",
+      "publishedAt": "2026-06-16T12:04:56.000Z",
+      "date": "2026-06-16",
+      "time": "20:04",
+      "source": "openssf.org",
+      "sourceLabel": "OpenSSF Blog",
+      "sourceType": "rss",
+      "author": "OpenSSF Blog",
+      "authorHandle": "",
+      "summary": "Summary In this episode of Big Thoughts, Open Sources , host CRob sits down with Jamie Thomas, IBM Enterprise Security Executive and OpenSSF Governing Board Member (former Chair!), to tackle the vital shifting dynamics of enterprise open source engagement. From IBM’s historical “billion-dollar bet” on Linux to modern...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "supply-chain-security"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.10-m01-int",
+      "feedType": "dynamic",
+      "title": "redis/redis 8.10-m01-int: MOD-16291: Update RediSearch module to v8.9.80 (#15343)",
+      "titleEn": null,
+      "link": "https://github.com/redis/redis/releases/tag/8.10-m01-int",
+      "guid": "tag:github.com,2008:Repository/156018/8.10-m01-int",
+      "publishedAt": "2026-06-16T11:05:12.000Z",
+      "date": "2026-06-16",
+      "time": "19:05",
+      "source": "github.com",
+      "sourceLabel": "GitHub: redis/redis",
+      "sourceType": "github",
+      "author": "redis/redis",
+      "authorHandle": "",
+      "summary": "Jira: https://redislabs.atlassian.net/browse/MOD-16291 Updates the bundled RediSearch module version used by Redis module builds from v8.8.0 to v8.9.80 . This picks up the tagged RediSearch 8.9.80 release. Validation: Checked that v8.9.80 exists in RediSearch/RediSearch and resolves to 280c3ce1bd65fd7306cae75a1d54bce3...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cache",
+        "database"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:246486ee88d552120bd5a2f16b655dfdfe6f80ba",
+      "feedType": "dynamic",
+      "title": "From data residency to digital sovereignty: Architectural patterns for cloud native platforms",
+      "titleEn": null,
+      "link": "https://www.cncf.io/blog/2026/06/16/from-data-residency-to-digital-sovereignty-architectural-patterns-for-cloud-native-platforms/",
+      "guid": "https://www.cncf.io/?p=168514",
+      "publishedAt": "2026-06-16T11:00:00.000Z",
+      "date": "2026-06-16",
+      "time": "19:00",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "Over the past two years, digital sovereignty has evolved from a policy discussion into a practical platform engineering concern. The EU Data Act has been fully applicable since January 11, 2025. NIS-2 and DORA already shape...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.37.9",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.37.9 - Default vector index runtime config setting validation Fix",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.37.9",
+      "guid": "tag:github.com,2008:Repository/55072677/v1.37.9",
+      "publishedAt": "2026-06-16T06:45:40.000Z",
+      "date": "2026-06-16",
+      "time": "14:45",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes fix: disable debug endpoints by default by @amourao in #11173 fix(config): validate replication factor bounds at startup by @gkampitakis in #11679 chore(gh-workflow): adjust the slack notify workflow msg by @moogacs in #11697 security(Dockerfile): update Alpine image versi...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:455a8f46ffd07b657a55bf1c5bd3c8ff37d2bbaa",
+      "feedType": "dynamic",
+      "title": "Fragments: June 16",
+      "titleEn": null,
+      "link": "https://martinfowler.com/fragments/2026-06-16.html",
+      "guid": "https://martinfowler.com/fragments/2026-06-16.html",
+      "publishedAt": "2026-06-16T06:44:00.000Z",
+      "date": "2026-06-16",
+      "time": "14:44",
+      "source": "martinfowler.com",
+      "sourceLabel": "Martin Fowler",
+      "sourceType": "rss",
+      "author": "Martin Fowler",
+      "authorHandle": "",
+      "summary": "“Prag Dave” Thomas (co-author of the outstanding “Pragmatic Programmer”) has loved programming since he was young. Programming was how I could express myself. I wasn’t an artist. When I sing, dogs howl. When I draw, friends say, “Very nice. What is it?” I didn’t connect particularly well with people, even though I wan...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "idp",
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:8a7d1b89a248b2b9f49ac6d083acab9e8b2fde77",
+      "feedType": "dynamic",
+      "title": "This Week in Spring - June 16th, 2026",
+      "titleEn": null,
+      "link": "https://spring.io/blog/2026/06/16/this-week-in-spring-june-16-2026",
+      "guid": "https://spring.io/blog/2026/06/16/this-week-in-spring-june-16-2026",
+      "publishedAt": "2026-06-16T00:00:00.000Z",
+      "date": "2026-06-16",
+      "time": "08:00",
+      "source": "spring.io",
+      "sourceLabel": "Spring Blog",
+      "sourceType": "rss",
+      "author": "Spring Blog",
+      "authorHandle": "",
+      "summary": "Hi Spring fans! Welcome to another installment of This Week in Spring ! I'm writing this from the oh-so-delightful (and delicious!) city of New Delhi, India. It's been a real privilege to come and visit so many amazing people. Last night my friend DaShaun and I presented here at the local Delhi JUG, too. Amazing. Toni...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "Spring"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:10eef9ec61dd6990b4be18560abdf8b9779fe340",
+      "feedType": "dynamic",
+      "title": "Build vs Buy Streaming for Real-Time RAG: 2026 Guide",
+      "titleEn": null,
+      "link": "https://www.confluent.io/blog/build-vs-buy-real-time-rag-streaming/",
+      "guid": "https://www.confluent.io/blog/build-vs-buy-real-time-rag-streaming/",
+      "publishedAt": "2026-06-15T21:40:34.000Z",
+      "date": "2026-06-16",
+      "time": "05:40",
+      "source": "confluent.io",
+      "sourceLabel": "Confluent Blog",
+      "sourceType": "rss",
+      "author": "Confluent Blog",
+      "authorHandle": "",
+      "summary": "Compare build vs buy for real-time RAG streaming in 2026. AWS MSK, Redpanda, and Confluent measured on TCO and a four-verb evaluation framework.Build vs Buy Streaming for Real-Time RAG: 2026 Guide",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:4ca3442f8b7a84fa58342ab6b1fe29481b8c66e5",
+      "feedType": "dynamic",
+      "title": "Build Compliant AI Agents With Stateful Stream Processing",
+      "titleEn": null,
+      "link": "https://www.confluent.io/blog/compliant-ai-agents-stateful-stream-processing/",
+      "guid": "https://www.confluent.io/blog/compliant-ai-agents-stateful-stream-processing/",
+      "publishedAt": "2026-06-15T21:40:34.000Z",
+      "date": "2026-06-16",
+      "time": "05:40",
+      "source": "confluent.io",
+      "sourceLabel": "Confluent Blog",
+      "sourceType": "rss",
+      "author": "Confluent Blog",
+      "authorHandle": "",
+      "summary": "Architect audit-ready, EU AI Act-compliant agents with stateful stream processing on Apache Kafka and Flink. Get 7 states, 4 patterns, and a phased rollout.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:8937ac663544954ba4c8e8a46c9fcd8da0f8d065",
+      "feedType": "dynamic",
+      "title": "GitHub Copilot CLI for Beginners: Overview of common slash commands",
+      "titleEn": null,
+      "link": "https://github.blog/ai-and-ml/github-copilot/github-copilot-cli-for-beginners-overview-of-common-slash-commands/",
+      "guid": "https://github.blog/?p=96773",
+      "publishedAt": "2026-06-15T20:15:31.000Z",
+      "date": "2026-06-16",
+      "time": "04:15",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Blog",
+      "sourceType": "rss",
+      "author": "GitHub Blog",
+      "authorHandle": "",
+      "summary": "GitHub Copilot CLI for Beginners: Learn how to use slash commands to control your terminal AI agent. The post GitHub Copilot CLI for Beginners: Overview of common slash commands appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:ollama/ollama:339321705",
+      "feedType": "dynamic",
+      "title": "ollama/ollama v0.30.9",
+      "titleEn": null,
+      "link": "https://github.com/ollama/ollama/releases/tag/v0.30.9",
+      "guid": "339321705",
+      "publishedAt": "2026-06-15T19:55:07.000Z",
+      "date": "2026-06-16",
+      "time": "03:55",
+      "source": "github.com",
+      "sourceLabel": "GitHub: ollama/ollama",
+      "sourceType": "github",
+      "author": "ollama/ollama",
+      "authorHandle": "",
+      "summary": "What's Changed Support for Cohere2Moe architecture Fixed LFM2 parser/render for cases where thinking was not emitted Fixed issue where ollama launch claude and other coding agent or assistant use cases would only output one token Ollama will now return an error if a single message is larger than the current context wi...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "ai-infra",
+        "model-engineering"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc1",
+      "feedType": "dynamic",
+      "title": "apache/kafka 4.3.1-rc1",
+      "titleEn": null,
+      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc1",
+      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc1",
+      "publishedAt": "2026-06-15T19:25:51.000Z",
+      "date": "2026-06-16",
+      "time": "03:25",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/kafka",
+      "sourceType": "github",
+      "author": "apache/kafka",
+      "authorHandle": "",
+      "summary": "4.3.1-rc1",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "streaming",
+        "message-queue"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:f2c810084cb12effaeb87010dc9ca8f13ee1b7a3",
+      "feedType": "dynamic",
+      "title": "Accelerating researchers and developers building multilingual AI with a new open dataset",
+      "titleEn": null,
+      "link": "https://github.blog/ai-and-ml/llms/accelerating-researchers-and-developers-building-multilingual-ai-with-a-new-open-dataset/",
+      "guid": "https://github.blog/?p=96776",
+      "publishedAt": "2026-06-15T19:17:30.000Z",
+      "date": "2026-06-16",
+      "time": "03:17",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Blog",
+      "sourceType": "rss",
+      "author": "GitHub Blog",
+      "authorHandle": "",
+      "summary": "A new repository-level dataset, published on GitHub under CC0-1.0, helps researchers and developers discover multilingual developer content across READMEs, issues, and pull requests. The post Accelerating researchers and developers building multilingual AI with a new open dataset appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:robusta-dev/robusta:339739980",
+      "feedType": "dynamic",
+      "title": "robusta-dev/robusta 0.42.0",
+      "titleEn": null,
+      "link": "https://github.com/robusta-dev/robusta/releases/tag/0.42.0",
+      "guid": "339739980",
+      "publishedAt": "2026-06-15T18:57:42.000Z",
+      "date": "2026-06-16",
+      "time": "02:57",
+      "source": "github.com",
+      "sourceLabel": "GitHub: robusta-dev/robusta",
+      "sourceType": "github",
+      "author": "robusta-dev/robusta",
+      "authorHandle": "",
+      "summary": "What's Changed ROB 310 Upgrade Holmes GPT dependency to version 0.33.0 by @naomi robusta in https://github.com/robusta dev/robusta/pull/2101 Full Changelog : https://github.com/robusta dev/robusta/compare/0.41.0...0.42.0",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "aiops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:huggingface/transformers:339672105",
+      "feedType": "dynamic",
+      "title": "huggingface/transformers Patch release v5.12.1",
+      "titleEn": null,
+      "link": "https://github.com/huggingface/transformers/releases/tag/v5.12.1",
+      "guid": "339672105",
+      "publishedAt": "2026-06-15T17:29:59.000Z",
+      "date": "2026-06-16",
+      "time": "01:29",
+      "source": "github.com",
+      "sourceLabel": "GitHub: huggingface/transformers",
+      "sourceType": "github",
+      "author": "huggingface/transformers",
+      "authorHandle": "",
+      "summary": "Patch release v5.12.1 Updated the lower bound for PEFT and a fix for auto tokenizer to properly resolve the mistral tokenizer (when mistral common is installed). This is similar to v.5.10.3 minus the fixes that were already included in the main release vLLM will first target 5.10.3 :hugs: Fix peft lower bound 46605 by...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:huggingface/transformers:339671002",
+      "feedType": "dynamic",
+      "title": "huggingface/transformers Patch release v5.10.4",
+      "titleEn": null,
+      "link": "https://github.com/huggingface/transformers/releases/tag/v5.10.3",
+      "guid": "339671002",
+      "publishedAt": "2026-06-15T17:29:39.000Z",
+      "date": "2026-06-16",
+      "time": "01:29",
+      "source": "github.com",
+      "sourceLabel": "GitHub: huggingface/transformers",
+      "sourceType": "github",
+      "author": "huggingface/transformers",
+      "authorHandle": "",
+      "summary": "Patch release v5.10.4 Update: Note that on pypi 5.10.3 doesn't exist and this this saved under 5.10.4 (so essentially a minor version skipped). Sorry about that, that's on me. Just wanted to clarify to make this less confusing! A few fixes needed for vLLM to sync with transformers :hugs: [fix] regression introduced by...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai"
+      ],
+      "category": null
+    }
+  ]
+}

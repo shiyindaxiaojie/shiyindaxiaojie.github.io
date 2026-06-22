@@ -1,0 +1,169 @@
+// Unit: gateway. Application traffic entry: load balancer, Ingress, Gateway API, API Gateway, and NAT gateway.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "gateway",
+  "rootNode": "gateway-traffic",
+  "nodes": [
+    {
+      "id": "load-balance",
+      "kind": "concept",
+      "zone": "network",
+      "defaultOption": "clb",
+      "options": [
+        {
+          "id": "slb",
+          "path": null,
+          "nameKey": "topology.options.load-balance.slb.name"
+        },
+        {
+          "id": "clb",
+          "path": null,
+          "nameKey": "topology.options.load-balance.clb.name"
+        },
+        {
+          "id": "aws-elb",
+          "path": null,
+          "nameKey": "topology.options.load-balance.aws-elb.name"
+        },
+        {
+          "id": "haproxy",
+          "name": "HAProxy",
+          "path": "data/knowledge/operations/haproxy_zh-CN.md"
+        }
+      ],
+      "titleKey": "topology.nodes.load-balance.title",
+      "summaryKey": "topology.nodes.load-balance.summary"
+    },
+    {
+      "id": "gateway-traffic",
+      "kind": "stage",
+      "zone": "gateway",
+      "children": [
+        "nat-gateway",
+        "ingress",
+        "api-gateway",
+        "gray-release"
+      ],
+      "titleKey": "topology.nodes.gateway-traffic.title",
+      "summaryKey": "topology.nodes.gateway-traffic.summary"
+    },
+    {
+      "id": "ingress",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "gateway-api",
+      "options": [
+        {
+          "id": "gateway-api",
+          "name": "Gateway API",
+          "path": null
+        },
+        {
+          "id": "ingress-api",
+          "name": "Ingress API",
+          "path": "data/knowledge/topics/kubernetes/nginx-ingress-canary.md"
+        },
+        {
+          "id": "service-mesh-gateway",
+          "name": "Service Mesh Gateway",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.ingress.title",
+      "summaryKey": "topology.nodes.ingress.summary"
+    },
+    {
+      "id": "nat-gateway",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "tencent-nat-gateway",
+      "options": [
+        {
+          "id": "tencent-nat-gateway",
+          "path": null,
+          "nameKey": "topology.options.nat-gateway.tencent-nat-gateway.name"
+        },
+        {
+          "id": "aliyun-nat-gateway",
+          "path": null,
+          "nameKey": "topology.options.nat-gateway.aliyun-nat-gateway.name"
+        },
+        {
+          "id": "aws-nat-gateway",
+          "name": "AWS NAT Gateway",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.nat-gateway.title",
+      "summaryKey": "topology.nodes.nat-gateway.summary"
+    },
+    {
+      "id": "api-gateway",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "scg",
+      "options": [
+        {
+          "id": "scg",
+          "name": "Spring Cloud Gateway",
+          "path": "data/knowledge/java/spring-cloud.md"
+        },
+        {
+          "id": "kong",
+          "name": "Kong",
+          "path": null
+        },
+        {
+          "id": "apisix",
+          "name": "APISIX",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.api-gateway.title",
+      "summaryKey": "topology.nodes.api-gateway.summary"
+    },
+    {
+      "id": "gray-release",
+      "kind": "concept",
+      "zone": "gateway",
+      "defaultOption": "istio",
+      "options": [
+        {
+          "id": "istio",
+          "name": "Istio",
+          "path": "data/knowledge/cloud-native/istio.md"
+        },
+        {
+          "id": "gateway-canary",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "nameKey": "topology.options.gray-release.gateway-canary.name"
+        },
+        {
+          "id": "flagger",
+          "name": "Flagger",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.gray-release.title",
+      "summaryKey": "topology.nodes.gray-release.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "gateway-traffic",
+      "target": "ingress",
+      "type": "contains"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "api-gateway",
+      "type": "contains"
+    },
+    {
+      "source": "gateway-traffic",
+      "target": "gray-release",
+      "type": "contains"
+    }
+  ]
+}

@@ -1,0 +1,175 @@
+// Unit: observability. Observability domain: metrics, logs, tracing, alerting, notification, and diagnostics.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "observability",
+  "rootNode": "observability",
+  "nodes": [
+    {
+      "id": "observability",
+      "kind": "stage",
+      "zone": "observability",
+      "children": [
+        "metrics",
+        "notification-channel",
+        "tracing",
+        "logging",
+        "diagnostics"
+      ],
+      "titleKey": "topology.nodes.observability.title",
+      "summaryKey": "topology.nodes.observability.summary"
+    },
+    {
+      "id": "metrics",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "prometheus",
+      "options": [
+        {
+          "id": "prometheus",
+          "name": "Prometheus",
+          "path": "data/knowledge/cloud-native/prometheus.md"
+        },
+        {
+          "id": "victoria",
+          "name": "VictoriaMetrics",
+          "path": null
+        },
+        {
+          "id": "cloud-monitor",
+          "path": null,
+          "nameKey": "topology.options.metrics.cloud-monitor.name"
+        }
+      ],
+      "titleKey": "topology.nodes.metrics.title",
+      "summaryKey": "topology.nodes.metrics.summary"
+    },
+    {
+      "id": "notification-channel",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "dingtalk",
+      "options": [
+        {
+          "id": "dingtalk",
+          "path": null,
+          "nameKey": "topology.options.notification-channel.dingtalk.name"
+        },
+        {
+          "id": "wechat",
+          "path": null,
+          "nameKey": "topology.options.notification-channel.wechat.name"
+        },
+        {
+          "id": "feishu",
+          "path": null,
+          "nameKey": "topology.options.notification-channel.feishu.name"
+        }
+      ],
+      "titleKey": "topology.nodes.notification-channel.title",
+      "summaryKey": "topology.nodes.notification-channel.summary"
+    },
+    {
+      "id": "tracing",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "skywalking",
+      "options": [
+        {
+          "id": "skywalking",
+          "name": "SkyWalking",
+          "path": null
+        },
+        {
+          "id": "zipkin",
+          "name": "Zipkin",
+          "path": null
+        },
+        {
+          "id": "jaeger",
+          "name": "Jaeger",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.tracing.title",
+      "summaryKey": "topology.nodes.tracing.summary"
+    },
+    {
+      "id": "logging",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "elk",
+      "options": [
+        {
+          "id": "elk",
+          "name": "ELK",
+          "path": "data/knowledge/elasticsearch/index.md"
+        },
+        {
+          "id": "loki",
+          "name": "Loki",
+          "path": null
+        },
+        {
+          "id": "es-kibana",
+          "name": "ES + Kibana",
+          "path": "data/knowledge/elasticsearch/index.md"
+        }
+      ],
+      "titleKey": "topology.nodes.logging.title",
+      "summaryKey": "topology.nodes.logging.summary"
+    },
+    {
+      "id": "diagnostics",
+      "kind": "concept",
+      "zone": "observability",
+      "defaultOption": "arthas",
+      "options": [
+        {
+          "id": "arthas",
+          "name": "Arthas",
+          "path": "data/knowledge/java/arthas.md"
+        },
+        {
+          "id": "jfr",
+          "name": "JFR",
+          "path": null
+        },
+        {
+          "id": "bpf",
+          "name": "eBPF",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.diagnostics.title",
+      "summaryKey": "topology.nodes.diagnostics.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "observability",
+      "target": "metrics",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "notification-channel",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "tracing",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "logging",
+      "type": "contains"
+    },
+    {
+      "source": "observability",
+      "target": "diagnostics",
+      "type": "contains"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+// Provider: generic.
+// Neutral catalog used when the topology is not bound to a cloud vendor.
+{
+  "id": "generic",
+  "labelKey": "topology.providers.generic",
+  "default": true,
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ]
+}

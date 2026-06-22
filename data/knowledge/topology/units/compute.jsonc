@@ -1,0 +1,35 @@
+// Unit: compute. Compute substrate: VM, bare metal, host, and node-level compute resources.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "compute",
+  "rootNode": "compute",
+  "nodes": [
+    {
+      "id": "compute",
+      "kind": "concept",
+      "zone": "datacenter",
+      "defaultOption": "cvm",
+      "options": [
+        {
+          "id": "cvm",
+          "name": "CVM",
+          "path": "data/knowledge/os/linux.md"
+        },
+        {
+          "id": "kvm",
+          "name": "KVM",
+          "path": "data/knowledge/cloud-native/kvm.md"
+        },
+        {
+          "id": "openstack",
+          "name": "OpenStack",
+          "path": "data/knowledge/cloud-native/openstack.md"
+        }
+      ],
+      "titleKey": "topology.nodes.compute.title",
+      "summaryKey": "topology.nodes.compute.summary"
+    }
+  ],
+  "edges": []
+}

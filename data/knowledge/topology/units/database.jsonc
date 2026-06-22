@@ -1,0 +1,113 @@
+// Unit: database. Database domain: relational, NoSQL, search, and analytical data systems.
+// rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
+// Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
+{
+  "id": "database",
+  "rootNode": "data-middle",
+  "nodes": [
+    {
+      "id": "data-middle",
+      "kind": "stage",
+      "zone": "data",
+      "children": [
+        "database",
+        "cache",
+        "nosql",
+        "coordination-component",
+        "file-storage",
+        "object-storage",
+        "archive-storage",
+        "mq"
+      ],
+      "titleKey": "topology.nodes.data-middle.title",
+      "summaryKey": "topology.nodes.data-middle.summary"
+    },
+    {
+      "id": "database",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "mysql",
+      "options": [
+        {
+          "id": "mysql",
+          "name": "MySQL",
+          "path": "data/knowledge/mysql/index.md"
+        },
+        {
+          "id": "postgresql",
+          "name": "PostgreSQL",
+          "path": "data/knowledge/postgresql/index.md"
+        },
+        {
+          "id": "oracle",
+          "name": "Oracle",
+          "path": "data/knowledge/oracle/index.md"
+        }
+      ],
+      "titleKey": "topology.nodes.database.title",
+      "summaryKey": "topology.nodes.database.summary"
+    },
+    {
+      "id": "nosql",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "mongodb",
+      "options": [
+        {
+          "id": "mongodb",
+          "name": "MongoDB",
+          "path": "data/knowledge/mongodb/index.md"
+        },
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "path": "data/knowledge/bigdata/clickhouse.md"
+        },
+        {
+          "id": "elasticsearch",
+          "name": "Elasticsearch",
+          "path": "data/knowledge/elasticsearch/index.md"
+        }
+      ],
+      "titleKey": "topology.nodes.nosql.title",
+      "summaryKey": "topology.nodes.nosql.summary"
+    },
+    {
+      "id": "search-log",
+      "kind": "concept",
+      "zone": "data",
+      "defaultOption": "elasticsearch",
+      "options": [
+        {
+          "id": "elasticsearch",
+          "name": "Elasticsearch",
+          "path": "data/knowledge/elasticsearch/index.md"
+        },
+        {
+          "id": "clickhouse",
+          "name": "ClickHouse",
+          "path": "data/knowledge/bigdata/clickhouse.md"
+        },
+        {
+          "id": "mongodb",
+          "name": "MongoDB",
+          "path": "data/knowledge/mongodb/index.md"
+        }
+      ],
+      "titleKey": "topology.nodes.search-log.title",
+      "summaryKey": "topology.nodes.search-log.summary"
+    }
+  ],
+  "edges": [
+    {
+      "source": "data-middle",
+      "target": "database",
+      "type": "contains"
+    },
+    {
+      "source": "data-middle",
+      "target": "nosql",
+      "type": "contains"
+    }
+  ]
+}

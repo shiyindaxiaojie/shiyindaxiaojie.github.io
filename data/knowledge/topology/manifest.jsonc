@@ -1,0 +1,155 @@
+// Knowledge topology source manifest.
+// This is the hand-written entry point for maintainers.
+//
+// Rules:
+// - rootFlow and units use topology unit ids only.
+// - Legacy stage ids stay inside unit.rootNode as a temporary compatibility bridge
+//   for the Vue page.
+// - The generated runtime file is generated/knowledge.json.
+{
+  "schemaVersion": 1,
+  // Display metadata for the generated runtime file.
+  // Text lives in topology/locales/*.json so adding a language does not touch this file.
+  "meta": {
+    "titleKey": "topology.meta.title"
+  },
+  // Main knowledge path shown by the topology page.
+  // These ids must match topology/units/<id>.jsonc. Do not put legacy stage ids here.
+  "rootFlow": [
+    "frontend",
+    "edge",
+    "security",
+    "gateway",
+    "workloads",
+    "microservice",
+    "database",
+    "observability",
+    "delivery",
+    "placement"
+  ],
+  // Unit source files. Keep this list explicit so a new unit cannot silently appear.
+  // Unit names are CNCF / cloud architecture domain names, not page labels.
+  "units": [
+    "frontend",
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "microservice",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ],
+  // Perspective catalogs. They group the same units for architecture, development,
+  // and operations views without duplicating node data.
+  "perspectives": [
+    "architecture",
+    "development",
+    "operations"
+  ],
+  // Provider catalogs. Provider-specific product aliases belong there, not in units.
+  "providers": [
+    "generic",
+    "tencent-cloud",
+    "aliyun",
+    "aws"
+  ],
+  // Locale catalogs. The build script checks every key referenced by manifest,
+  // units, perspectives, providers, and options.
+  "locales": [
+    "zh",
+    "en",
+    "ja"
+  ],
+  // Cross-unit edges only. Inside a unit file, use concrete node ids directly.
+  // Across units, source/target may use either a unit id or a concrete node id.
+  // Unit ids are resolved to each unit.rootNode only here, never inside unit files.
+  "edges": [
+    {
+      "source": "frontend",
+      "target": "edge",
+      "type": "path"
+    },
+    {
+      "source": "edge",
+      "target": "security",
+      "type": "path"
+    },
+    {
+      "source": "security",
+      "target": "gateway",
+      "type": "path"
+    },
+    {
+      "source": "gateway",
+      "target": "workloads",
+      "type": "path"
+    },
+    {
+      "source": "workloads",
+      "target": "microservice",
+      "type": "path"
+    },
+    {
+      "source": "microservice",
+      "target": "database",
+      "type": "path"
+    },
+    {
+      "source": "database",
+      "target": "observability",
+      "type": "path"
+    },
+    {
+      "source": "observability",
+      "target": "delivery",
+      "type": "path"
+    },
+    {
+      "source": "delivery",
+      "target": "placement",
+      "type": "path"
+    },
+    {
+      "source": "edge",
+      "target": "load-balance",
+      "type": "contains"
+    },
+    {
+      "source": "security",
+      "target": "vpc-isolation",
+      "type": "contains"
+    },
+    {
+      "source": "workloads",
+      "target": "service-framework",
+      "type": "contains"
+    },
+    {
+      "source": "workloads",
+      "target": "rpc-job",
+      "type": "contains"
+    },
+    {
+      "source": "placement",
+      "target": "compute",
+      "type": "contains"
+    },
+    {
+      "source": "placement",
+      "target": "network",
+      "type": "contains"
+    },
+    {
+      "source": "placement",
+      "target": "storage-backup",
+      "type": "contains"
+    }
+  ]
+}

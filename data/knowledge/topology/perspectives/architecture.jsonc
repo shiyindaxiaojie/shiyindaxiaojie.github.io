@@ -1,0 +1,24 @@
+// Perspective: architecture.
+// Owns the end-to-end architecture view. Later, architecture frames, routes,
+// boxes, and search anchors from index.vue should move here.
+{
+  "id": "architecture",
+  "labelKey": "topology.perspectives.architecture",
+  "units": [
+    "frontend",
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "microservice",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ]
+}

@@ -1,0 +1,20 @@
+// Perspective: operations.
+// Owns VPC, subnet, cross-region, hybrid network, and runtime operation views.
+{
+  "id": "operations",
+  "labelKey": "topology.perspectives.operations",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "placement"
+  ]
+}
