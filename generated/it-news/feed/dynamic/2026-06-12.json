@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-12",
-  "itemCount": 16,
+  "itemCount": 14,
   "items": [
     {
       "id": "github:spring-projects/spring-ai:338456234",
@@ -252,30 +252,6 @@
       "category": null
     },
     {
-      "id": "rss:2345bee8bbd5e7d1503b2772849c142510b9a39f",
-      "feedType": "dynamic",
-      "title": "Securing CI/CD for an open source project: Locking down dependencies",
-      "titleEn": null,
-      "link": "https://www.cncf.io/blog/2026/06/12/securing-ci-cd-for-an-open-source-project-locking-down-dependencies/",
-      "guid": "https://www.cncf.io/?p=167908",
-      "publishedAt": "2026-06-12T11:00:00.000Z",
-      "date": "2026-06-12",
-      "time": "19:00",
-      "source": "cncf.io",
-      "sourceLabel": "CNCF Blog",
-      "sourceType": "rss",
-      "author": "CNCF Blog",
-      "authorHandle": "",
-      "summary": "Part two This is the second post in a three-part series on how Cilium hardens its CI/CD pipeline. Part 1 covered access control: who can trigger builds and what code CI is allowed to execute. This...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [],
-      "category": null
-    },
-    {
       "id": "rss:4d3d368a7522a77db427bc7096a3a43fbb1ae266",
       "feedType": "dynamic",
       "title": "Spring AI 2.0.0 GA Available Now",
@@ -354,33 +330,6 @@
       ],
       "topics": [
         "devex"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc0",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc0",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc0",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc0",
-      "publishedAt": "2026-06-11T20:19:43.000Z",
-      "date": "2026-06-12",
-      "time": "04:19",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc0",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
       ],
       "category": null
     },

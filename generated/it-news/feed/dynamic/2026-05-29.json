@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-05-29",
-  "itemCount": 11,
+  "itemCount": 12,
   "items": [
     {
       "id": "github:vllm-project/vllm:331396286",
@@ -61,6 +61,32 @@
       ],
       "topics": [
         "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:331316417",
+      "feedType": "dynamic",
+      "title": "apache/airflow Apache Airflow 3.2.2",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/3.2.2",
+      "guid": "331316417",
+      "publishedAt": "2026-05-29T06:27:24.000Z",
+      "date": "2026-05-29",
+      "time": "14:27",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": "📦 PyPI: https://pypi.org/project/apache airflow/3.2.2/ 📚 Docs: https://airflow.apache.org/docs/apache airflow/3.2.2/ 🛠 Release Notes: https://airflow.apache.org/docs/apache airflow/3.2.2/release notes.html 🐳 Docker Image: \"docker pull apache/airflow:3.2.2\" 🚏 Constraints: https://github.com/apache/airflow/tree/con...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
       ],
       "category": null
     },

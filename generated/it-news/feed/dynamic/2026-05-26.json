@@ -7,7 +7,7 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-05-26",
   "itemCount": 5,
   "items": [
@@ -94,12 +94,12 @@
       "category": null
     },
     {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/client/v2.6.5",
+      "id": "github:milvus-io/milvus:329162457",
       "feedType": "dynamic",
       "title": "milvus-io/milvus client/v2.6.5",
       "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/client%2Fv2.6.5",
-      "guid": "tag:github.com,2008:Repository/208728772/client/v2.6.5",
+      "link": "https://github.com/milvus-io/milvus/releases/tag/client/v2.6.5",
+      "guid": "329162457",
       "publishedAt": "2026-05-26T02:44:44.000Z",
       "date": "2026-05-26",
       "time": "10:44",
@@ -108,7 +108,7 @@
       "sourceType": "github",
       "author": "milvus-io/milvus",
       "authorHandle": "",
-      "summary": "Highlights Adds Go SDK support for nullable vector columns across dense, binary, sparse, and int8 vector types. Adds Array field partial update helpers for ARRAY_APPEND and ARRAY_REMOVE in upsert requests. Validates that vector fields added to existing collections are nullable before sending AddCollectionField request...",
+      "summary": "Highlights Adds Go SDK support for nullable vector columns across dense, binary, sparse, and int8 vector types. Adds Array field partial update helpers for ARRAY APPEND and ARRAY REMOVE in upsert requests. Validates that vector fields added to existing collections are nullable before sending AddCollectionField request...",
       "avatar": null,
       "image": null,
       "tags": [

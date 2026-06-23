@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-21",
-  "itemCount": 3,
+  "itemCount": 4,
   "items": [
     {
       "id": "github:keephq/keep:342542724",
@@ -38,12 +38,12 @@
       "category": null
     },
     {
-      "id": "github:vercel/next.js:tag:github.com,2008:Repository/70107786/v16.3.0-canary.60",
+      "id": "github:vercel/next.js:342422224",
       "feedType": "dynamic",
       "title": "vercel/next.js v16.3.0-canary.60",
       "titleEn": null,
       "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.60",
-      "guid": "tag:github.com,2008:Repository/70107786/v16.3.0-canary.60",
+      "guid": "342422224",
       "publishedAt": "2026-06-21T00:03:52.000Z",
       "date": "2026-06-21",
       "time": "08:03",
@@ -52,7 +52,7 @@
       "sourceType": "github",
       "author": "vercel/next.js",
       "authorHandle": "",
-      "summary": "Misc Changes Remove embedded Claude Code plugin marketplace: #94877 Credits Huge thanks to @gaojude for helping!",
+      "summary": "Misc Changes Remove embedded Claude Code plugin marketplace: 94877 Credits Huge thanks to @gaojude for helping!",
       "avatar": null,
       "image": null,
       "tags": [
@@ -84,6 +84,33 @@
       "tags": [
         "RSS",
         "Spring"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:e511a3b681d50d900c3b3113309915c7c8537882",
+      "feedType": "dynamic",
+      "title": "Better Tools for Immutable Data",
+      "titleEn": null,
+      "link": "https://inside.java/2026/06/21/better-tools-immutable-data/",
+      "guid": "https://inside.java/2026/06/21/better-tools-immutable-data/",
+      "publishedAt": "2026-06-21T00:00:00.000Z",
+      "date": "2026-06-21",
+      "time": "08:00",
+      "source": "inside.java",
+      "sourceLabel": "Inside Java",
+      "sourceType": "rss",
+      "author": "Inside Java",
+      "authorHandle": "",
+      "summary": "This session covers new and upcoming Java features for working with immutable data, and explains how they improve reliability and performance while enabling JVM optimizations and guiding when to use them.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "JDK"
       ],
       "topics": [
         "java-ecosystem"

@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-18",
-  "itemCount": 35,
+  "itemCount": 36,
   "items": [
     {
       "id": "rss:691bc8889e8718f88eb93d5d2be42aecf2a2e129",
@@ -91,32 +91,6 @@
       "category": null
     },
     {
-      "id": "rss:b69a6c7c462dcac9e999dd6f604dc48d7d2a5a8a",
-      "feedType": "dynamic",
-      "title": "Control who and what triggers GitHub Actions workflows",
-      "titleEn": null,
-      "link": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
-      "guid": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
-      "publishedAt": "2026-06-18T14:06:18.000Z",
-      "date": "2026-06-18",
-      "time": "22:06",
-      "source": "github.blog",
-      "sourceLabel": "GitHub Changelog",
-      "sourceType": "rss",
-      "author": "GitHub Changelog",
-      "authorHandle": "",
-      "summary": "Workflow execution protections are now in public preview for GitHub Enterprise, organizations, and repositories. This new capability lets enterprise administrators define an allow list that controls who can trigger GitHub… The post Control who and what triggers GitHub Actions workflows appeared first on The GitHub Blo...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "devex"
-      ],
-      "category": null
-    },
-    {
       "id": "github:google/osv-scanner:341422713",
       "feedType": "dynamic",
       "title": "google/osv-scanner v2.4.0",
@@ -168,21 +142,21 @@
       "category": null
     },
     {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.38.1",
+      "id": "github:weaviate/weaviate:341339516",
       "feedType": "dynamic",
       "title": "weaviate/weaviate v1.38.1 - Auto-enable async replication when erf=1 and arf>1, Fix MCP hybrid search returning objects without properties",
       "titleEn": null,
       "link": "https://github.com/weaviate/weaviate/releases/tag/v1.38.1",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.38.1",
-      "publishedAt": "2026-06-18T11:03:02.000Z",
+      "guid": "341339516",
+      "publishedAt": "2026-06-18T10:53:37.000Z",
       "date": "2026-06-18",
-      "time": "19:03",
+      "time": "18:53",
       "source": "github.com",
       "sourceLabel": "GitHub: weaviate/weaviate",
       "sourceType": "github",
       "author": "weaviate/weaviate",
       "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes fix(backup): return 422 instead of 500 when backend module is missing by @gkampitakis in #11666 Add env vars to disable bucket access check by @dirkkul in #11645 backport: chore: add slack notifier for release notes ( #11576 ) by @moogacs in #11674 fix: disable debug endpo...",
+      "summary": "Breaking Changes none New Features none Fixes fix(backup): return 422 instead of 500 when backend module is missing by @gkampitakis in https://github.com/weaviate/weaviate/pull/11666 Add env vars to disable bucket access check by @dirkkul in https://github.com/weaviate/weaviate/pull/11645 backport: chore: add slack no...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -191,6 +165,33 @@
       "topics": [
         "search-vector",
         "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:545905100ccfcb3651ffd69cc61cc82410752519",
+      "feedType": "dynamic",
+      "title": "Building a SQL ETL Pipeline: The Complete Guide for Data Engineers",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/sql-etl-pipeline",
+      "guid": "https://www.databricks.com/blog/sql-etl-pipeline",
+      "publishedAt": "2026-06-18T09:48:20.000Z",
+      "date": "2026-06-18",
+      "time": "17:48",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "An SQL ETL pipeline is one of the most foundational components in any modern analytics stack...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
       ],
       "category": null
     },
@@ -262,6 +263,60 @@
       "author": "Databricks Blog",
       "authorHandle": "",
       "summary": "Artificial intelligence (AI) is a branch of computer science that lets machines perform...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:b36838b2bceb1521b0beac476f80e4d628a9dafd",
+      "feedType": "dynamic",
+      "title": "Data Engineering for AI: A Practical Guide for Data Professionals",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/data-engineering-for-ai",
+      "guid": "https://www.databricks.com/blog/data-engineering-for-ai",
+      "publishedAt": "2026-06-18T08:03:49.000Z",
+      "date": "2026-06-18",
+      "time": "16:03",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Data engineering is the foundational backbone of artificial intelligence systems....",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:10fc654bca786171af6b7f5d2dcc040360401178",
+      "feedType": "dynamic",
+      "title": "Data Warehouse Types: A Complete Guide to Architectures and Use Cases",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/data-warehouse-types",
+      "guid": "https://www.databricks.com/blog/data-warehouse-types",
+      "publishedAt": "2026-06-18T07:43:27.000Z",
+      "date": "2026-06-18",
+      "time": "15:43",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "A data warehouse is a centralized repository that collects, organizes, and stores...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -505,12 +560,12 @@
       "category": null
     },
     {
-      "id": "github:delta-io/delta:tag:github.com,2008:Repository/182849188/v4.3.0",
+      "id": "github:delta-io/delta:341157098",
       "feedType": "dynamic",
       "title": "delta-io/delta Delta Lake 4.3.0",
       "titleEn": null,
       "link": "https://github.com/delta-io/delta/releases/tag/v4.3.0",
-      "guid": "tag:github.com,2008:Repository/182849188/v4.3.0",
+      "guid": "341157098",
       "publishedAt": "2026-06-18T04:26:28.000Z",
       "date": "2026-06-18",
       "time": "12:26",
@@ -519,7 +574,7 @@
       "sourceType": "github",
       "author": "delta-io/delta",
       "authorHandle": "",
-      "summary": "We are excited to announce the release of Delta Lake 4.3.0 , which delivers new features, performance improvements, and protocol updates across Delta Spark, Kernel, UniForm, Sharing, and Flink. See the highlights below for the marquee changes. Highlights [Spark] Unity Catalog Delta REST API integration : Spark now sup...",
+      "summary": "We are excited to announce the release of Delta Lake 4.3.0, which delivers new features, performance improvements, and protocol updates across Delta Spark, Kernel, UniForm, Sharing, and Flink. See the highlights below for the marquee changes. Highlights \\[Spark\\] Unity Catalog Delta REST API integration : Spark now su...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -767,6 +822,33 @@
       "category": null
     },
     {
+      "id": "rss:3e7d8b0c50e20704a7de03a4a3395338a3950b8f",
+      "feedType": "dynamic",
+      "title": "Payment Fraud Detection: How Banks and Businesses Stop Fraudulent Transactions",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/payment-fraud-detection",
+      "guid": "https://www.databricks.com/blog/payment-fraud-detection",
+      "publishedAt": "2026-06-17T21:45:24.000Z",
+      "date": "2026-06-18",
+      "time": "05:45",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Payment fraud detection has become one of the most data-intensive challenges in financial services...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
       "id": "rss:9c717337ab27186a8c6e57a98314a459a078fc8b",
       "feedType": "dynamic",
       "title": "What is an AI agent harness?",
@@ -782,33 +864,6 @@
       "author": "Databricks Blog",
       "authorHandle": "",
       "summary": "An AI agent harness is the software infrastructure that wraps around a large language...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:d9afa88592c194daf571fb38d3e79b86b3d3cc0f",
-      "feedType": "dynamic",
-      "title": "Databricks and NVIDIA: Building for the Agentic Era",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
-      "guid": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
-      "publishedAt": "2026-06-17T19:50:00.000Z",
-      "date": "2026-06-18",
-      "time": "03:50",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "The Full Stack of AI, AcceleratedNVIDIA accelerated computing powers some of the...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -868,33 +923,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc2",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc2",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc2",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc2",
-      "publishedAt": "2026-06-17T18:29:04.000Z",
-      "date": "2026-06-18",
-      "time": "02:29",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc2",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
-      ],
       "category": null
     },
     {

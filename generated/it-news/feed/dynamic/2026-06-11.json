@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-11",
-  "itemCount": 12,
+  "itemCount": 11,
   "items": [
     {
       "id": "rss:7245d7294ebf6cc88aa8f189f74fc83f847a7b9d",
@@ -39,12 +39,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.5.38",
+      "id": "github:vuejs/core:337767702",
       "feedType": "dynamic",
       "title": "vuejs/core v3.5.38",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.5.38",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.5.38",
+      "guid": "337767702",
       "publishedAt": "2026-06-11T08:00:58.000Z",
       "date": "2026-06-11",
       "time": "16:00",
@@ -53,7 +53,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [
@@ -65,12 +65,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.6.0-beta.15",
+      "id": "github:vuejs/core:337758081",
       "feedType": "dynamic",
       "title": "vuejs/core v3.6.0-beta.15",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.6.0-beta.15",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.6.0-beta.15",
+      "guid": "337758081",
       "publishedAt": "2026-06-11T07:44:47.000Z",
       "date": "2026-06-11",
       "time": "15:44",
@@ -79,7 +79,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [
@@ -303,32 +303,6 @@
       ],
       "topics": [
         "java-ecosystem"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:e0bef26f7c96c1ae147898648442f7cf87b39102",
-      "feedType": "dynamic",
-      "title": "Give GitHub Copilot CLI real code intelligence with language servers",
-      "titleEn": null,
-      "link": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
-      "guid": "https://github.blog/?p=96610",
-      "publishedAt": "2026-06-10T16:00:00.000Z",
-      "date": "2026-06-11",
-      "time": "00:00",
-      "source": "github.blog",
-      "sourceLabel": "GitHub Blog",
-      "sourceType": "rss",
-      "author": "GitHub Blog",
-      "authorHandle": "",
-      "summary": "Install and configure LSP servers for GitHub Copilot CLI, replacing brute-force grep/decompile with real code intelligence. The post Give GitHub Copilot CLI real code intelligence with language servers appeared first on The GitHub Blog .",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "devex"
       ],
       "category": null
     }

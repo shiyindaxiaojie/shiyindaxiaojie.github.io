@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-03",
-  "itemCount": 10,
+  "itemCount": 9,
   "items": [
     {
       "id": "rss:6292aeccbc7c6eab857388210e4e5c59b9f1160c",
@@ -138,34 +138,6 @@
       "topics": [
         "model-engineering",
         "multimodal-ai",
-        "ai-infra"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
-      "feedType": "dynamic",
-      "title": "milvus-io/milvus pkg/v2.6.18: enhance: Bump milvus & proto to v2.6.18 (#50254)",
-      "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/pkg%2Fv2.6.18",
-      "guid": "tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
-      "publishedAt": "2026-06-03T03:18:18.000Z",
-      "date": "2026-06-03",
-      "time": "11:18",
-      "source": "github.com",
-      "sourceLabel": "GitHub: milvus-io/milvus",
-      "sourceType": "github",
-      "author": "milvus-io/milvus",
-      "authorHandle": "",
-      "summary": "Signed-off-by: Congqi Xia congqi.xia@zilliz.com",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag",
         "ai-infra"
       ],
       "category": null

@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-15",
-  "itemCount": 12,
+  "itemCount": 11,
   "items": [
     {
       "id": "rss:f9be84f571529d2dfd5e080e48e61720951f2bad",
@@ -139,12 +139,12 @@
       "category": null
     },
     {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/plugin-legacy@8.1.0-beta.0",
+      "id": "github:vitejs/vite:339307882",
       "feedType": "dynamic",
       "title": "vitejs/vite plugin-legacy@8.1.0-beta.0",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/plugin-legacy%408.1.0-beta.0",
-      "guid": "tag:github.com,2008:Repository/257485422/plugin-legacy@8.1.0-beta.0",
+      "guid": "339307882",
       "publishedAt": "2026-06-15T03:07:19.000Z",
       "date": "2026-06-15",
       "time": "11:07",
@@ -165,12 +165,12 @@
       "category": null
     },
     {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/v8.1.0-beta.0",
+      "id": "github:vitejs/vite:339307597",
       "feedType": "dynamic",
       "title": "vitejs/vite v8.1.0-beta.0",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/v8.1.0-beta.0",
-      "guid": "tag:github.com,2008:Repository/257485422/v8.1.0-beta.0",
+      "guid": "339307597",
       "publishedAt": "2026-06-15T03:06:07.000Z",
       "date": "2026-06-15",
       "time": "11:06",
@@ -211,33 +211,6 @@
       "tags": [
         "RSS",
         "JDK"
-      ],
-      "topics": [
-        "java-ecosystem"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:47769dca6bbd66af5f4b68897efb9ecaa73f5312",
-      "feedType": "dynamic",
-      "title": "Tool Calling in Spring AI 2.0: A Composable, Agentic Architecture",
-      "titleEn": null,
-      "link": "https://spring.io/blog/2026/06/15/spring-ai-composable-tool-calling",
-      "guid": "https://spring.io/blog/2026/06/15/spring-ai-composable-tool-calling",
-      "publishedAt": "2026-06-15T00:00:00.000Z",
-      "date": "2026-06-15",
-      "time": "08:00",
-      "source": "spring.io",
-      "sourceLabel": "Spring Blog",
-      "sourceType": "rss",
-      "author": "Spring Blog",
-      "authorHandle": "",
-      "summary": "Tool calling — the ability for an AI model to invoke application-defined functions and act on the results — is the essential building block of agentic AI systems. A model that can discover information, take action, and loop until a goal is reached is an agent. Spring AI 2.0 rearchitects tool calling from the ground up...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS",
-        "Spring"
       ],
       "topics": [
         "java-ecosystem"

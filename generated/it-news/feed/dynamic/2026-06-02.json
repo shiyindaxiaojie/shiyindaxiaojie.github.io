@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-02",
-  "itemCount": 21,
+  "itemCount": 18,
   "items": [
     {
       "id": "rss:440b7646f5767e29323bc647b882f2d7add19e78",
@@ -169,58 +169,6 @@
       "category": null
     },
     {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/release-0.14.2-rc2",
-      "feedType": "dynamic",
-      "title": "apache/hudi release-0.14.2-rc2",
-      "titleEn": null,
-      "link": "https://github.com/apache/hudi/releases/tag/release-0.14.2-rc2",
-      "guid": "tag:github.com,2008:Repository/76474200/release-0.14.2-rc2",
-      "publishedAt": "2026-06-02T07:33:29.000Z",
-      "date": "2026-06-02",
-      "time": "15:33",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/hudi",
-      "sourceType": "github",
-      "author": "apache/hudi",
-      "authorHandle": "",
-      "summary": "0.14.2",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:delta-io/delta:tag:github.com,2008:Repository/182849188/dbi-20260601-d54ec0da0",
-      "feedType": "dynamic",
-      "title": "delta-io/delta dbi-20260601-d54ec0da0",
-      "titleEn": null,
-      "link": "https://github.com/delta-io/delta/releases/tag/dbi-20260601-d54ec0da0",
-      "guid": "tag:github.com,2008:Repository/182849188/dbi-20260601-d54ec0da0",
-      "publishedAt": "2026-06-02T00:03:43.000Z",
-      "date": "2026-06-02",
-      "time": "08:03",
-      "source": "github.com",
-      "sourceLabel": "GitHub: delta-io/delta",
-      "sourceType": "github",
-      "author": "delta-io/delta",
-      "authorHandle": "",
-      "summary": "dbi-20260601-d54ec0da0",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:31f909427ac428c8d6d88cdb1e0df73382576d0d",
       "feedType": "dynamic",
       "title": "Intelligent JVM Monitoring: Combining JDK Flight Recorder with AI",
@@ -349,32 +297,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:postgres/postgres:tag:github.com,2008:Repository/927442/REL_19_BETA1",
-      "feedType": "dynamic",
-      "title": "postgres/postgres REL_19_BETA1",
-      "titleEn": null,
-      "link": "https://github.com/postgres/postgres/releases/tag/REL_19_BETA1",
-      "guid": "tag:github.com,2008:Repository/927442/REL_19_BETA1",
-      "publishedAt": "2026-06-01T20:02:13.000Z",
-      "date": "2026-06-02",
-      "time": "04:02",
-      "source": "github.com",
-      "sourceLabel": "GitHub: postgres/postgres",
-      "sourceType": "github",
-      "author": "postgres/postgres",
-      "authorHandle": "",
-      "summary": "Stamp 19beta1.",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "database"
-      ],
       "category": null
     },
     {

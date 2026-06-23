@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-05",
-  "itemCount": 13,
+  "itemCount": 15,
   "items": [
     {
       "id": "rss:859c73d2fa122d9b921e05ea472bac2f8249ed85",
@@ -137,6 +137,34 @@
       ],
       "topics": [
         "aiops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:milvus-io/milvus:334719280",
+      "feedType": "dynamic",
+      "title": "milvus-io/milvus milvus-2.6.18",
+      "titleEn": null,
+      "link": "https://github.com/milvus-io/milvus/releases/tag/v2.6.18",
+      "guid": "334719280",
+      "publishedAt": "2026-06-05T04:03:06.000Z",
+      "date": "2026-06-05",
+      "time": "12:03",
+      "source": "github.com",
+      "sourceLabel": "GitHub: milvus-io/milvus",
+      "sourceType": "github",
+      "author": "milvus-io/milvus",
+      "authorHandle": "",
+      "summary": "v2.6.18 Release date: June 5, 2026 Milvus Version Python SDK Version Node.js SDK Version Java SDK Version Go SDK Version 2.6.18 2.6.15 2.6.17 2.6.20 2.6.18 We are excited to announce the release of Milvus v2.6.18! This release adds element level search on Struct fields and nullable vector support, improves QueryNode a...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag",
+        "ai-infra"
       ],
       "category": null
     },
@@ -300,12 +328,12 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.6.4",
+      "id": "github:redis/redis:334472920",
       "feedType": "dynamic",
       "title": "redis/redis 8.6.4",
       "titleEn": null,
       "link": "https://github.com/redis/redis/releases/tag/8.6.4",
-      "guid": "tag:github.com,2008:Repository/156018/8.6.4",
+      "guid": "334472920",
       "publishedAt": "2026-06-04T16:36:44.000Z",
       "date": "2026-06-05",
       "time": "00:36",
@@ -314,7 +342,7 @@
       "sourceType": "github",
       "author": "redis/redis",
       "authorHandle": "",
-      "summary": "Update urgency: HIGH : There are critical bugs that may affect a subset of users. Bug fixes #15175 , RediSearch/RediSearch#9262 Redis fails to start on AArch64 #15163 MULTI queue memory incorrect memory accounting #15115 Under-copy in the Lua debugger #15094 Cluster crash when CLIENT KILL unsubscribes SSUBSCRIBE clien...",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 15163 MULTI queue memory incorrect memory accounting 15115 Under copy in the Lua debugger 15094 Cluster crash when CLIENT KILL unsubscribes SSUBSCRIBE client insi...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -327,12 +355,12 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.4.4",
+      "id": "github:redis/redis:334472350",
       "feedType": "dynamic",
       "title": "redis/redis 8.4.4",
       "titleEn": null,
       "link": "https://github.com/redis/redis/releases/tag/8.4.4",
-      "guid": "tag:github.com,2008:Repository/156018/8.4.4",
+      "guid": "334472350",
       "publishedAt": "2026-06-04T16:35:27.000Z",
       "date": "2026-06-05",
       "time": "00:35",
@@ -341,7 +369,34 @@
       "sourceType": "github",
       "author": "redis/redis",
       "authorHandle": "",
-      "summary": "Update urgency: HIGH : There are critical bugs that may affect a subset of users. Bug fixes #15175 , RediSearch/RediSearch#9262 Redis fails to start on AArch64 #15163 MULTI queue memory incorrect memory accounting #14581 Rare server hang at shutdown #14545 ACL: AOF loading fails if ACL rules are changed and don't allo...",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 15163 MULTI queue memory incorrect memory accounting 14581 Rare server hang at shutdown 14545 ACL: AOF loading fails if ACL rules are changed and don't allow some...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cache",
+        "database"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:redis/redis:334471221",
+      "feedType": "dynamic",
+      "title": "redis/redis 8.2.7",
+      "titleEn": null,
+      "link": "https://github.com/redis/redis/releases/tag/8.2.7",
+      "guid": "334471221",
+      "publishedAt": "2026-06-04T16:33:50.000Z",
+      "date": "2026-06-05",
+      "time": "00:33",
+      "source": "github.com",
+      "sourceLabel": "GitHub: redis/redis",
+      "sourceType": "github",
+      "author": "redis/redis",
+      "authorHandle": "",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 14537 SCAN: restore original filter order (revert change introduced in 8.2) 14816 setModuleEnumConfig() passing prefixed name to module callbacks 14623 Streams: X...",
       "avatar": null,
       "image": null,
       "tags": [

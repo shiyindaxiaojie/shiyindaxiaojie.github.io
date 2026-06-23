@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-01",
-  "itemCount": 7,
+  "itemCount": 6,
   "items": [
     {
       "id": "rss:2995ca1c3636d92f482be20355930ccccbca56a0",
@@ -122,38 +122,12 @@
       "category": null
     },
     {
-      "id": "github:googleapis/release-please:332500443",
-      "feedType": "dynamic",
-      "title": "googleapis/release-please v17.7.0",
-      "titleEn": null,
-      "link": "https://github.com/googleapis/release-please/releases/tag/v17.7.0",
-      "guid": "332500443",
-      "publishedAt": "2026-06-01T13:09:58.000Z",
-      "date": "2026-06-01",
-      "time": "21:09",
-      "source": "github.com",
-      "sourceLabel": "GitHub: googleapis/release-please",
-      "sourceType": "github",
-      "author": "googleapis/release-please",
-      "authorHandle": "",
-      "summary": "17.7.0 (2026 05 29) Features update librarian.yaml for Node ( 2775) (0c8f20a) Bug Fixes upgrade tmp to 0.2.6 to resolve path traversal vulnerability ( 2794) (fcec69c) use artifact id instead of distribution name override in librarian.yaml ( 2792) (9acbc83)",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "release-engineering"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/v8.0.16",
+      "id": "github:vitejs/vite:332405521",
       "feedType": "dynamic",
       "title": "vitejs/vite v8.0.16",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/v8.0.16",
-      "guid": "tag:github.com,2008:Repository/257485422/v8.0.16",
+      "guid": "332405521",
       "publishedAt": "2026-06-01T09:50:08.000Z",
       "date": "2026-06-01",
       "time": "17:50",

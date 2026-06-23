@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-05-28",
-  "itemCount": 12,
+  "itemCount": 10,
   "items": [
     {
       "id": "github:open-policy-agent/opa:330921636",
@@ -38,12 +38,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v9.4.2",
+      "id": "github:elastic/elasticsearch:330918765",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 9.4.2",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v9.4.2",
-      "guid": "tag:github.com,2008:Repository/507775/v9.4.2",
+      "guid": "330918765",
       "publishedAt": "2026-05-28T14:59:44.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -52,7 +52,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release-notes/elasticsearch#elasticsearch-9.4.2-release-notes",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release notes/elasticsearch elasticsearch 9.4.2 release notes",
       "avatar": null,
       "image": null,
       "tags": [
@@ -65,12 +65,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v9.3.5",
+      "id": "github:elastic/elasticsearch:330918629",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 9.3.5",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v9.3.5",
-      "guid": "tag:github.com,2008:Repository/507775/v9.3.5",
+      "guid": "330918629",
       "publishedAt": "2026-05-28T14:59:30.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -79,7 +79,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release-notes/elasticsearch#elasticsearch-9.3.5-release-notes",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release notes/elasticsearch elasticsearch 9.3.5 release notes",
       "avatar": null,
       "image": null,
       "tags": [
@@ -92,12 +92,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v8.19.16",
+      "id": "github:elastic/elasticsearch:330918401",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 8.19.16",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v8.19.16",
-      "guid": "tag:github.com,2008:Repository/507775/v8.19.16",
+      "guid": "330918401",
       "publishedAt": "2026-05-28T14:59:08.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -106,7 +106,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/guide/en/elasticsearch/reference/8.19/release-notes-8.19.16.html",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/guide/en/elasticsearch/reference/8.19/release notes 8.19.16.html",
       "avatar": null,
       "image": null,
       "tags": [
@@ -142,32 +142,6 @@
       "topics": [
         "devex",
         "idp"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/rfc-105-pre-cleanup",
-      "feedType": "dynamic",
-      "title": "apache/hudi rfc-105-pre-cleanup",
-      "titleEn": null,
-      "link": "https://github.com/apache/hudi/releases/tag/rfc-105-pre-cleanup",
-      "guid": "tag:github.com,2008:Repository/76474200/rfc-105-pre-cleanup",
-      "publishedAt": "2026-05-28T13:07:47.000Z",
-      "date": "2026-05-28",
-      "time": "21:07",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/hudi",
-      "sourceType": "github",
-      "author": "apache/hudi",
-      "authorHandle": "",
-      "summary": "fix(integ): drop stale trino-coordinator-1 / trinobase refs after mod…",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
       ],
       "category": null
     },
@@ -245,33 +219,6 @@
       "topics": [
         "search-vector",
         "rag"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:7beb788411b075eb582dc4005bddd1fc61e1ff97",
-      "feedType": "dynamic",
-      "title": "Episode 59 “Java *is* Memory Efficient” [AtA]",
-      "titleEn": null,
-      "link": "https://inside.java/2026/05/28/podcast-059/",
-      "guid": "https://inside.java/2026/05/28/podcast-059/",
-      "publishedAt": "2026-05-28T00:00:00.000Z",
-      "date": "2026-05-28",
-      "time": "08:00",
-      "source": "inside.java",
-      "sourceLabel": "Inside Java",
-      "sourceType": "rss",
-      "author": "Inside Java",
-      "authorHandle": "",
-      "summary": "Java's use of memory, often chided for being excessive, is actually a strength as it trades more memory use for fewer CPU cycles, a tradeoff it can only make due to its moving garbage collectors.",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS",
-        "JDK"
-      ],
-      "topics": [
-        "java-ecosystem"
       ],
       "category": null
     },

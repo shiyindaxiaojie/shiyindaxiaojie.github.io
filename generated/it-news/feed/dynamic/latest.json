@@ -8,23 +8,23 @@
   },
   "sourceType": "aggregate",
   "visible": true,
-  "syncedAt": "2026-06-22T06:40:38.803Z",
-  "itemCount": 313,
+  "syncedAt": "2026-06-23T05:13:51.988Z",
+  "itemCount": 312,
   "filters": {
     "sourceTypes": [
       {
         "id": "rss",
-        "count": 171
+        "count": 176
       },
       {
         "id": "github",
-        "count": 142
+        "count": 136
       }
     ],
     "sources": [
       {
         "name": "github.com",
-        "count": 142
+        "count": 136
       },
       {
         "name": "github.blog",
@@ -36,15 +36,15 @@
       },
       {
         "name": "blog.cloudflare.com",
-        "count": 17
-      },
-      {
-        "name": "snyk.io",
-        "count": 15
+        "count": 18
       },
       {
         "name": "aws.amazon.com",
-        "count": 11
+        "count": 15
+      },
+      {
+        "name": "snyk.io",
+        "count": 14
       },
       {
         "name": "cncf.io",
@@ -87,6 +87,10 @@
         "count": 4
       },
       {
+        "name": "engineering.fb.com",
+        "count": 3
+      },
+      {
         "name": "kubernetes.io",
         "count": 3
       },
@@ -96,10 +100,6 @@
       },
       {
         "name": "engineering.atspotify.com",
-        "count": 2
-      },
-      {
-        "name": "engineering.fb.com",
         "count": 2
       },
       {
@@ -117,10 +117,6 @@
     ],
     "topics": [
       {
-        "id": "ai-infra",
-        "count": 29
-      },
-      {
         "id": "java-ecosystem",
         "count": 29
       },
@@ -129,16 +125,20 @@
         "count": 29
       },
       {
-        "id": "devex",
+        "id": "ai-infra",
         "count": 28
       },
       {
         "id": "data-pipeline",
-        "count": 27
+        "count": 28
+      },
+      {
+        "id": "devex",
+        "count": 28
       },
       {
         "id": "supply-chain-security",
-        "count": 27
+        "count": 26
       },
       {
         "id": "multimodal-ai",
@@ -150,43 +150,39 @@
       },
       {
         "id": "cloud-security",
-        "count": 21
+        "count": 20
       },
       {
         "id": "vulnerability",
-        "count": 19
-      },
-      {
-        "id": "lakehouse",
-        "count": 15
-      },
-      {
-        "id": "streaming",
-        "count": 15
+        "count": 18
       },
       {
         "id": "rag",
-        "count": 14
+        "count": 13
       },
       {
         "id": "search-vector",
-        "count": 14
+        "count": 13
       },
       {
-        "id": "message-queue",
-        "count": 13
+        "id": "lakehouse",
+        "count": 12
+      },
+      {
+        "id": "streaming",
+        "count": 12
       },
       {
         "id": "idp",
         "count": 11
       },
       {
-        "id": "kubernetes",
-        "count": 9
+        "id": "message-queue",
+        "count": 10
       },
       {
-        "id": "database",
-        "count": 7
+        "id": "kubernetes",
+        "count": 9
       },
       {
         "id": "agent-engineering",
@@ -194,6 +190,10 @@
       },
       {
         "id": "aiops",
+        "count": 6
+      },
+      {
+        "id": "database",
         "count": 6
       },
       {
@@ -237,6 +237,10 @@
         "count": 3
       },
       {
+        "id": "container-platform",
+        "count": 3
+      },
+      {
         "id": "edge-computing",
         "count": 3
       },
@@ -249,7 +253,15 @@
         "count": 3
       },
       {
+        "id": "metrics",
+        "count": 3
+      },
+      {
         "id": "multi-cluster-management",
+        "count": 3
+      },
+      {
+        "id": "oam",
         "count": 3
       },
       {
@@ -265,19 +277,7 @@
         "count": 3
       },
       {
-        "id": "container-platform",
-        "count": 2
-      },
-      {
         "id": "logging",
-        "count": 2
-      },
-      {
-        "id": "metrics",
-        "count": 2
-      },
-      {
-        "id": "oam",
         "count": 2
       },
       {
@@ -300,11 +300,11 @@
     "tags": [
       {
         "name": "RSS",
-        "count": 171
+        "count": 176
       },
       {
         "name": "GitHub",
-        "count": 142
+        "count": 136
       },
       {
         "name": "Spring",
@@ -322,8 +322,16 @@
   },
   "days": [
     {
+      "date": "2026-06-23",
+      "count": 17
+    },
+    {
+      "date": "2026-06-22",
+      "count": 4
+    },
+    {
       "date": "2026-06-21",
-      "count": 3
+      "count": 4
     },
     {
       "date": "2026-06-20",
@@ -331,43 +339,43 @@
     },
     {
       "date": "2026-06-19",
-      "count": 24
+      "count": 19
     },
     {
       "date": "2026-06-18",
-      "count": 35
+      "count": 36
     },
     {
       "date": "2026-06-17",
-      "count": 26
+      "count": 21
     },
     {
       "date": "2026-06-16",
-      "count": 25
+      "count": 23
     },
     {
       "date": "2026-06-15",
-      "count": 12
+      "count": 11
     },
     {
       "date": "2026-06-14",
-      "count": 2
+      "count": 3
     },
     {
       "date": "2026-06-13",
-      "count": 7
+      "count": 6
     },
     {
       "date": "2026-06-12",
-      "count": 16
+      "count": 14
     },
     {
       "date": "2026-06-11",
-      "count": 12
+      "count": 11
     },
     {
       "date": "2026-06-10",
-      "count": 22
+      "count": 20
     },
     {
       "date": "2026-06-09",
@@ -383,27 +391,27 @@
     },
     {
       "date": "2026-06-06",
-      "count": 2
+      "count": 1
     },
     {
       "date": "2026-06-05",
-      "count": 13
+      "count": 15
     },
     {
       "date": "2026-06-04",
-      "count": 11
+      "count": 12
     },
     {
       "date": "2026-06-03",
-      "count": 10
+      "count": 9
     },
     {
       "date": "2026-06-02",
-      "count": 21
+      "count": 18
     },
     {
       "date": "2026-06-01",
-      "count": 7
+      "count": 6
     },
     {
       "date": "2026-05-30",
@@ -411,15 +419,15 @@
     },
     {
       "date": "2026-05-29",
-      "count": 11
-    },
-    {
-      "date": "2026-05-28",
       "count": 12
     },
     {
+      "date": "2026-05-28",
+      "count": 10
+    },
+    {
       "date": "2026-05-27",
-      "count": 8
+      "count": 7
     },
     {
       "date": "2026-05-26",
@@ -428,13 +436,554 @@
     {
       "date": "2026-05-25",
       "count": 4
-    },
-    {
-      "date": "2026-05-24",
-      "count": 1
     }
   ],
   "items": [
+    {
+      "id": "github:langchain-ai/langchain:343265713",
+      "feedType": "dynamic",
+      "title": "langchain-ai/langchain langchain-openrouter==0.2.4",
+      "titleEn": null,
+      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain-openrouter%3D%3D0.2.4",
+      "guid": "343265713",
+      "publishedAt": "2026-06-23T03:45:32.000Z",
+      "date": "2026-06-23",
+      "time": "11:45",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceType": "github",
+      "author": "langchain-ai/langchain",
+      "authorHandle": "",
+      "summary": "Changes since langchain openrouter==0.2.3 release(openrouter): 0.2.4 ( 38381) chore(openrouter): bump openrouter floor to 0.9.2, drop file workaround ( 38216) test(openrouter): cover cache control passthrough on tool defs ( 38215) feat(openrouter): surface parallel tool calls on bind tools ( 38214) chore(model profile...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "agent-engineering",
+        "rag",
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:vercel/next.js:343212505",
+      "feedType": "dynamic",
+      "title": "vercel/next.js v16.3.0-canary.61",
+      "titleEn": null,
+      "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.61",
+      "guid": "343212505",
+      "publishedAt": "2026-06-23T00:10:37.000Z",
+      "date": "2026-06-23",
+      "time": "08:10",
+      "source": "github.com",
+      "sourceLabel": "GitHub: vercel/next.js",
+      "sourceType": "github",
+      "author": "vercel/next.js",
+      "authorHandle": "",
+      "summary": "Misc Changes [test] Fix failing determinism test using adapter: 95051 docs: fix typo in slot missing default.mdx: 94531 [otel] Correctly set error code attributes for App API routes: 94979 docs: Cache components requires Node.js runtime: 94897 [scripts] Write pnpm overrides for pnpm projects in pack/patch helpers: 947...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:54bdfe9d735ec572bf814da8617deb90f2be3af1",
+      "feedType": "dynamic",
+      "title": "This Week in Spring - June 23rd, 2026",
+      "titleEn": null,
+      "link": "https://spring.io/blog/2026/06/23/this-week-in-spring-june-23-2026",
+      "guid": "https://spring.io/blog/2026/06/23/this-week-in-spring-june-23-2026",
+      "publishedAt": "2026-06-23T00:00:00.000Z",
+      "date": "2026-06-23",
+      "time": "08:00",
+      "source": "spring.io",
+      "sourceLabel": "Spring Blog",
+      "sourceType": "rss",
+      "author": "Spring Blog",
+      "authorHandle": "",
+      "summary": "Hi Spring fans! In this installment, we look at the wide and wonderful world of Spring, as usual, and there's a good amount to get to, fresh off the recent Spring Boot 4.1 generation release train, so let's dive right into it! I wrote a blog post looking at Spring Batch, MongoDB, and Spring Boot 4.1 . Spring AI lead C...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "Spring"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langchain-ai/langchain:343201834",
+      "feedType": "dynamic",
+      "title": "langchain-ai/langchain langchain==1.3.11",
+      "titleEn": null,
+      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.3.11",
+      "guid": "343201834",
+      "publishedAt": "2026-06-22T23:00:47.000Z",
+      "date": "2026-06-23",
+      "time": "07:00",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceType": "github",
+      "author": "langchain-ai/langchain",
+      "authorHandle": "",
+      "summary": "Changes since langchain==1.3.10 release(langchain): 1.3.11 ( 38377) fix(langchain,openai): only set strict=True on tools for OpenAI compatible models in ProviderStrategy ( 38370) chore: bump pydantic settings from 2.12.0 to 2.14.2 in /libs/langchain v1 ( 38279) chore: bump vcrpy from 8.1.1 to 8.2.1 in /libs/langchain...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "agent-engineering",
+        "rag",
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:langchain-ai/langchain:343200282",
+      "feedType": "dynamic",
+      "title": "langchain-ai/langchain langchain-openai==1.3.3",
+      "titleEn": null,
+      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.3.3",
+      "guid": "343200282",
+      "publishedAt": "2026-06-22T22:54:23.000Z",
+      "date": "2026-06-23",
+      "time": "06:54",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceType": "github",
+      "author": "langchain-ai/langchain",
+      "authorHandle": "",
+      "summary": "Changes since langchain openai==1.3.2 release(openai): 1.3.3 ( 38375) fix(openai): drop response item ids when store is false ( 38372) fix(langchain,openai): only set strict=True on tools for OpenAI compatible models in ProviderStrategy ( 38370) test(openai): clarify expected strict schema error ( 38338) fix(openai):...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "agent-engineering",
+        "rag",
+        "llmops"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:a53c97fb4747391905759f5f6234eb829c8355a0",
+      "feedType": "dynamic",
+      "title": "How we found a bug in the hyper HTTP library",
+      "titleEn": null,
+      "link": "https://blog.cloudflare.com/hyper-bug/",
+      "guid": "5X4Vz9KDcjIBXgHIFSuJFZ",
+      "publishedAt": "2026-06-22T18:00:00.000Z",
+      "date": "2026-06-23",
+      "time": "02:00",
+      "source": "blog.cloudflare.com",
+      "sourceLabel": "Cloudflare Blog",
+      "sourceType": "rss",
+      "author": "Cloudflare Blog",
+      "authorHandle": "",
+      "summary": "By rearchitecting the Images binding, we accidentally uncovered a bug that existed in the open-source hyper library across multiple major versions.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:crossplane/crossplane:343065402",
+      "feedType": "dynamic",
+      "title": "crossplane/crossplane v2.3.3",
+      "titleEn": null,
+      "link": "https://github.com/crossplane/crossplane/releases/tag/v2.3.3",
+      "guid": "343065402",
+      "publishedAt": "2026-06-22T17:32:52.000Z",
+      "date": "2026-06-23",
+      "time": "01:32",
+      "source": "github.com",
+      "sourceLabel": "GitHub: crossplane/crossplane",
+      "sourceType": "github",
+      "author": "crossplane/crossplane",
+      "authorHandle": "",
+      "summary": "v2.3.3 is a patch release scoped to fixing issues reported by users of Crossplane v2.3 and fixing security related issues in Crossplane's dependencies. 🎉 Highlights Fixed package signature verification TOCTOU (GHSA mf7q r4rv jv94): A time of check to time of use flaw could let a malicious OCI registry pass signature...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "oam"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:cc4cf48fcbb182bf3021bef8f48e50aa7dc4045b",
+      "feedType": "dynamic",
+      "title": "From pledge to practice: Building a more inclusive open source ecosystem",
+      "titleEn": null,
+      "link": "https://github.blog/open-source/from-pledge-to-practice-building-a-more-inclusive-open-source-ecosystem/",
+      "guid": "https://github.blog/?p=96917",
+      "publishedAt": "2026-06-22T17:20:31.000Z",
+      "date": "2026-06-23",
+      "time": "01:20",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Blog",
+      "sourceType": "rss",
+      "author": "GitHub Blog",
+      "authorHandle": "",
+      "summary": "Learn about the progress we’ve made toward our accessibility goals and how you can help make open source more inclusive. The post From pledge to practice: Building a more inclusive open source ecosystem appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:googleapis/release-please:343051506",
+      "feedType": "dynamic",
+      "title": "googleapis/release-please v17.10.0",
+      "titleEn": null,
+      "link": "https://github.com/googleapis/release-please/releases/tag/v17.10.0",
+      "guid": "343051506",
+      "publishedAt": "2026-06-22T17:05:53.000Z",
+      "date": "2026-06-23",
+      "time": "01:05",
+      "source": "github.com",
+      "sourceLabel": "GitHub: googleapis/release-please",
+      "sourceType": "github",
+      "author": "googleapis/release-please",
+      "authorHandle": "",
+      "summary": "17.10.0 (2026 06 22) Features update librarian preview version ( 2809) (d6c840a) upgrade project to Node 22 ( 2812) (285b023) Bug Fixes go librarian: change default version to 0.1.0 ( 2821) (ad4603f) go librarian: support Go v2 subdirectory releases without branch collisions ( 2818) (6fb9ee0), closes 2817 yoshi java m...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "release-engineering"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:crossplane/crossplane:343048463",
+      "feedType": "dynamic",
+      "title": "crossplane/crossplane v2.2.3",
+      "titleEn": null,
+      "link": "https://github.com/crossplane/crossplane/releases/tag/v2.2.3",
+      "guid": "343048463",
+      "publishedAt": "2026-06-22T16:58:39.000Z",
+      "date": "2026-06-23",
+      "time": "00:58",
+      "source": "github.com",
+      "sourceLabel": "GitHub: crossplane/crossplane",
+      "sourceType": "github",
+      "author": "crossplane/crossplane",
+      "authorHandle": "",
+      "summary": "v2.2.3 is a patch release scoped to fixing issues reported by users of Crossplane v2.2 and fixing security related issues in Crossplane and its dependencies. 🎉 Highlights Fixed package signature verification TOCTOU (GHSA wfqx gjrf g28r): A time of check to time of use flaw would let a malicious OCI registry serve a c...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "oam"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:f5fe11c30968edeb412dda0a3df0a030a19fd084",
+      "feedType": "dynamic",
+      "title": "Secure multi-tenant RAG with Amazon Bedrock and Verified Permissions",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/architecture/secure-multi-tenant-rag-with-amazon-bedrock-and-verified-permissions/",
+      "guid": "f826346cb1296d1306eca3a35547d4c1936b93cf",
+      "publishedAt": "2026-06-22T16:49:13.000Z",
+      "date": "2026-06-23",
+      "time": "00:49",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Architecture Blog",
+      "sourceType": "rss",
+      "author": "AWS Architecture Blog",
+      "authorHandle": "",
+      "summary": "This post walks you through a two-layer, defense-in-depth authorization pattern for granular, intra-tenant access control in RAG applications. Defense in depth is a security strategy that uses multiple independent layers of protection. Each layer operates independently. If one layer is misconfigured, the other layer s...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:prometheus/prometheus:342994379",
+      "feedType": "dynamic",
+      "title": "prometheus/prometheus 3.13.0-rc.1 / 2026-06-22",
+      "titleEn": null,
+      "link": "https://github.com/prometheus/prometheus/releases/tag/v3.13.0-rc.1",
+      "guid": "342994379",
+      "publishedAt": "2026-06-22T16:45:27.000Z",
+      "date": "2026-06-23",
+      "time": "00:45",
+      "source": "github.com",
+      "sourceLabel": "GitHub: prometheus/prometheus",
+      "sourceType": "github",
+      "author": "prometheus/prometheus",
+      "authorHandle": "",
+      "summary": "Release notes of the 3.13 rc.1 release: The 3.13.0 rc.0 release was only partially successful due to the migration from NPM to PNPM and subsequent CI issues, so most of the changes in this release candidate are CI/build related. The only user facing change is: [CHANGE] UI: Third party npm dependency licenses are now e...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "metrics"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:0e923cc7e98434c351f8aad5244304b8e7f42513",
+      "feedType": "dynamic",
+      "title": "Modernizing financial analytics with Amazon SageMaker Unified Studio",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/architecture/modernizing-financial-analytics-with-amazon-sagemaker-unified-studio/",
+      "guid": "7b74f2ea3ba81a144eb3a6b7539e7cecb9b1b513",
+      "publishedAt": "2026-06-22T16:42:55.000Z",
+      "date": "2026-06-23",
+      "time": "00:42",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Architecture Blog",
+      "sourceType": "rss",
+      "author": "AWS Architecture Blog",
+      "authorHandle": "",
+      "summary": "Avanse Financial Services, India’s leading education loan providers, migrated to a cloud-native lakehouse architecture using Amazon SageMaker Unified Studio, which unified their data engineering, analytics, and artificial intelligence (AI) workflows in a single governed environment on AWS. In this post, we walk throug...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:crossplane/crossplane:343040314",
+      "feedType": "dynamic",
+      "title": "crossplane/crossplane v2.1.7",
+      "titleEn": null,
+      "link": "https://github.com/crossplane/crossplane/releases/tag/v2.1.7",
+      "guid": "343040314",
+      "publishedAt": "2026-06-22T16:40:45.000Z",
+      "date": "2026-06-23",
+      "time": "00:40",
+      "source": "github.com",
+      "sourceLabel": "GitHub: crossplane/crossplane",
+      "sourceType": "github",
+      "author": "crossplane/crossplane",
+      "authorHandle": "",
+      "summary": "v2.1.7 is a patch release scoped to fixing issues reported by users of Crossplane v2.1 and fixing security related issues in Crossplane's dependencies. What's Changed chore(deps): update module github.com/quic go/quic go to v0.59.1 [security] (release 2.1) by @crossplane renovate[bot] in https://github.com/crossplane/...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "oam"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:7b4d68accee59d9f715935ce98fcea4487cf5fe4",
+      "feedType": "dynamic",
+      "title": "Architecting AI-powered resilience framework on AWS",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/architecture/architecting-ai-powered-resilience-framework-on-aws/",
+      "guid": "98ef5bb1305a4795ddca9c7137daee688de7bc69",
+      "publishedAt": "2026-06-22T16:35:07.000Z",
+      "date": "2026-06-23",
+      "time": "00:35",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Architecture Blog",
+      "sourceType": "rss",
+      "author": "AWS Architecture Blog",
+      "authorHandle": "",
+      "summary": "In this post, you’ll learn how to architect and implement a five-layer AI-powered resilience framework that automatically discovers dependencies, generates targeted experiments, and integrates with your existing Continuous Integration/Continuous Deployment (CI/CD) pipelines. First, we’ll explore the key challenges in...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "rss:6214ec4a05b93506a51a9efa8ec0ae7d11ad004f",
+      "feedType": "dynamic",
+      "title": "Amazon EKS now supports control plane egress through your VPC",
+      "titleEn": null,
+      "link": "https://aws.amazon.com/blogs/containers/amazon-eks-now-supports-control-plane-egress-through-your-vpc/",
+      "guid": "1d2f4239bc88f5b5e63c945cb76947b04fb2bc3b",
+      "publishedAt": "2026-06-22T16:20:28.000Z",
+      "date": "2026-06-23",
+      "time": "00:20",
+      "source": "aws.amazon.com",
+      "sourceLabel": "AWS Containers Blog",
+      "sourceType": "rss",
+      "author": "AWS Containers Blog",
+      "authorHandle": "",
+      "summary": "Today, we’re announcing customer-routed control plane egress, a new capability that you can use to route Kubernetes control plane traffic through your own Amazon Virtual Private Cloud (Amazon VPC). This includes admission webhook callbacks, OpenID Connect (OIDC) provider lookups, and aggregate API server requests. Wit...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "container-platform"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:6787fc60f5b1042d21cc76a654ae3063a857e301",
+      "feedType": "dynamic",
+      "title": "Adopting AV1 for Real-Time Communication (RTC) at Scale",
+      "titleEn": null,
+      "link": "https://engineering.fb.com/2026/06/22/video-engineering/adopting-av1-for-real-time-communication-rtc-meta/",
+      "guid": "https://engineering.fb.com/?p=24054",
+      "publishedAt": "2026-06-22T16:00:08.000Z",
+      "date": "2026-06-23",
+      "time": "00:00",
+      "source": "engineering.fb.com",
+      "sourceLabel": "Meta Engineering",
+      "sourceType": "rss",
+      "author": "Meta Engineering",
+      "authorHandle": "",
+      "summary": "Adopting AV1 for real-time communication at Meta has been a multi-year effort spanning codec selection, device eligibility, rate control, and error resilience. We’re sharing the technical and operational challenges while deploying AV1 and expanding coverage, and how we addressed them for real-time communication. We’re...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:133cc3a95cf33b6e65110ea58ba5897d89ccd400",
+      "feedType": "dynamic",
+      "title": "New features and Claude as agent provider preview in JetBrains IDEs",
+      "titleEn": null,
+      "link": "https://github.blog/changelog/2026-06-22-new-features-and-claude-as-agent-provider-preview-in-jetbrains-ides",
+      "guid": "https://github.blog/changelog/2026-06-19-new-features-and-claude-as-agent-provider-preview-in-jetbrains-ides",
+      "publishedAt": "2026-06-22T15:34:00.000Z",
+      "date": "2026-06-22",
+      "time": "23:34",
+      "source": "github.blog",
+      "sourceLabel": "GitHub Changelog",
+      "sourceType": "rss",
+      "author": "GitHub Changelog",
+      "authorHandle": "",
+      "summary": "This update adds support for organization and enterprise agents from GitHub, lets you queue and steer messages in Copilot CLI sessions, introduces a new agent debug logs summary view, and… The post New features and Claude as agent provider preview in JetBrains IDEs appeared first on The GitHub Blog .",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:493a508e4ceaa14c153f1cf6111d4d075ab15b9d",
+      "feedType": "dynamic",
+      "title": "PP-OCRv6 on Hugging Face: 50-Language OCR from 1.5M to 34.5M Parameters",
+      "titleEn": null,
+      "link": "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6",
+      "guid": "https://huggingface.co/blog/PaddlePaddle/pp-ocrv6",
+      "publishedAt": "2026-06-22T13:18:56.000Z",
+      "date": "2026-06-22",
+      "time": "21:18",
+      "source": "huggingface.co",
+      "sourceLabel": "Hugging Face Blog",
+      "sourceType": "rss",
+      "author": "Hugging Face Blog",
+      "authorHandle": "",
+      "summary": "",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "model-engineering",
+        "multimodal-ai",
+        "ai-infra"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:f751ca7a05a2aa4d830ccd29d851af475ec1a7c3",
+      "feedType": "dynamic",
+      "title": "Telemetry that matters: Designing sustainable, high-impact observability pipelines",
+      "titleEn": null,
+      "link": "https://www.cncf.io/blog/2026/06/22/telemetry-that-matters-designing-sustainable-high-impact-observability-pipelines/",
+      "guid": "https://www.cncf.io/?p=168890",
+      "publishedAt": "2026-06-22T11:00:00.000Z",
+      "date": "2026-06-22",
+      "time": "19:00",
+      "source": "cncf.io",
+      "sourceLabel": "CNCF Blog",
+      "sourceType": "rss",
+      "author": "CNCF Blog",
+      "authorHandle": "",
+      "summary": "As system architectures grow increasingly complex, the cloud-native community faces a subtle but pressing challenge: we are drowning in our own telemetry data. It is easier than ever to instrument an application and collect signals, but...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [],
+      "category": null
+    },
+    {
+      "id": "github:langfuse/langfuse:342769234",
+      "feedType": "dynamic",
+      "title": "langfuse/langfuse v3.194.1",
+      "titleEn": null,
+      "link": "https://github.com/langfuse/langfuse/releases/tag/v3.194.1",
+      "guid": "342769234",
+      "publishedAt": "2026-06-22T08:32:13.000Z",
+      "date": "2026-06-22",
+      "time": "16:32",
+      "source": "github.com",
+      "sourceLabel": "GitHub: langfuse/langfuse",
+      "sourceType": "github",
+      "author": "langfuse/langfuse",
+      "authorHandle": "",
+      "summary": "What's Changed ci(deps): bump the github actions group with 3 updates by @dependabot[bot] in https://github.com/langfuse/langfuse/pull/14384 revert(slack): remove Marketplace install then link flow by @wochinge in https://github.com/langfuse/langfuse/pull/14416 fix(agents): use patch artifact for model price audit by...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "llmops"
+      ],
+      "category": null
+    },
     {
       "id": "github:keephq/keep:342542724",
       "feedType": "dynamic",
@@ -462,12 +1011,12 @@
       "category": null
     },
     {
-      "id": "github:vercel/next.js:tag:github.com,2008:Repository/70107786/v16.3.0-canary.60",
+      "id": "github:vercel/next.js:342422224",
       "feedType": "dynamic",
       "title": "vercel/next.js v16.3.0-canary.60",
       "titleEn": null,
       "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.60",
-      "guid": "tag:github.com,2008:Repository/70107786/v16.3.0-canary.60",
+      "guid": "342422224",
       "publishedAt": "2026-06-21T00:03:52.000Z",
       "date": "2026-06-21",
       "time": "08:03",
@@ -476,7 +1025,7 @@
       "sourceType": "github",
       "author": "vercel/next.js",
       "authorHandle": "",
-      "summary": "Misc Changes Remove embedded Claude Code plugin marketplace: #94877 Credits Huge thanks to @gaojude for helping!",
+      "summary": "Misc Changes Remove embedded Claude Code plugin marketplace: 94877 Credits Huge thanks to @gaojude for helping!",
       "avatar": null,
       "image": null,
       "tags": [
@@ -515,12 +1064,39 @@
       "category": null
     },
     {
-      "id": "github:vercel/next.js:tag:github.com,2008:Repository/70107786/v16.3.0-canary.59",
+      "id": "rss:e511a3b681d50d900c3b3113309915c7c8537882",
+      "feedType": "dynamic",
+      "title": "Better Tools for Immutable Data",
+      "titleEn": null,
+      "link": "https://inside.java/2026/06/21/better-tools-immutable-data/",
+      "guid": "https://inside.java/2026/06/21/better-tools-immutable-data/",
+      "publishedAt": "2026-06-21T00:00:00.000Z",
+      "date": "2026-06-21",
+      "time": "08:00",
+      "source": "inside.java",
+      "sourceLabel": "Inside Java",
+      "sourceType": "rss",
+      "author": "Inside Java",
+      "authorHandle": "",
+      "summary": "This session covers new and upcoming Java features for working with immutable data, and explains how they improve reliability and performance while enabling JVM optimizations and guiding when to use them.",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS",
+        "JDK"
+      ],
+      "topics": [
+        "java-ecosystem"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:vercel/next.js:342177425",
       "feedType": "dynamic",
       "title": "vercel/next.js v16.3.0-canary.59",
       "titleEn": null,
       "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.59",
-      "guid": "tag:github.com,2008:Repository/70107786/v16.3.0-canary.59",
+      "guid": "342177425",
       "publishedAt": "2026-06-20T00:09:41.000Z",
       "date": "2026-06-20",
       "time": "08:09",
@@ -529,7 +1105,7 @@
       "sourceType": "github",
       "author": "vercel/next.js",
       "authorHandle": "",
-      "summary": "Misc Changes Upgrade to swc 70: #94814 [turbopack] Sort modules in chunks to reduce duplicates: #94961 router instrumentation: refactor client hook dispatch (1/7): #94755 [otel] Add more verbose-mode OTEL spans for App Router: #94894 Enforce route segment configs on metadata routes under Cache Components: #94962 typeg...",
+      "summary": "Misc Changes Upgrade to swc 70: 94814 [turbopack] Sort modules in chunks to reduce duplicates: 94961 router instrumentation: refactor client hook dispatch (1/7): 94755 [otel] Add more verbose mode OTEL spans for App Router: 94894 Enforce route segment configs on metadata routes under Cache Components: 94962 typegen: d...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -750,110 +1326,6 @@
       "category": null
     },
     {
-      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-ssh/5.0.3rc1",
-      "feedType": "dynamic",
-      "title": "apache/airflow providers-ssh/5.0.3rc1",
-      "titleEn": null,
-      "link": "https://github.com/apache/airflow/releases/tag/providers-ssh%2F5.0.3rc1",
-      "guid": "tag:github.com,2008:Repository/33884891/providers-ssh/5.0.3rc1",
-      "publishedAt": "2026-06-19T09:30:52.000Z",
-      "date": "2026-06-19",
-      "time": "17:30",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/airflow",
-      "sourceType": "github",
-      "author": "apache/airflow",
-      "authorHandle": "",
-      "summary": "Release 2026-06-16 of providers",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-standard/1.15.0rc1",
-      "feedType": "dynamic",
-      "title": "apache/airflow providers-standard/1.15.0rc1",
-      "titleEn": null,
-      "link": "https://github.com/apache/airflow/releases/tag/providers-standard%2F1.15.0rc1",
-      "guid": "tag:github.com,2008:Repository/33884891/providers-standard/1.15.0rc1",
-      "publishedAt": "2026-06-19T09:30:52.000Z",
-      "date": "2026-06-19",
-      "time": "17:30",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/airflow",
-      "sourceType": "github",
-      "author": "apache/airflow",
-      "authorHandle": "",
-      "summary": "Release 2026-06-16 of providers",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/airflow:tag:github.com,2008:Repository/33884891/providers-weaviate/3.3.5rc1",
-      "feedType": "dynamic",
-      "title": "apache/airflow providers-weaviate/3.3.5rc1",
-      "titleEn": null,
-      "link": "https://github.com/apache/airflow/releases/tag/providers-weaviate%2F3.3.5rc1",
-      "guid": "tag:github.com,2008:Repository/33884891/providers-weaviate/3.3.5rc1",
-      "publishedAt": "2026-06-19T09:30:52.000Z",
-      "date": "2026-06-19",
-      "time": "17:30",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/airflow",
-      "sourceType": "github",
-      "author": "apache/airflow",
-      "authorHandle": "",
-      "summary": "Release 2026-06-16 of providers",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:vercel/next.js:tag:github.com,2008:Repository/70107786/v16.3.0-canary.58",
-      "feedType": "dynamic",
-      "title": "vercel/next.js v16.3.0-canary.58",
-      "titleEn": null,
-      "link": "https://github.com/vercel/next.js/releases/tag/v16.3.0-canary.58",
-      "guid": "tag:github.com,2008:Repository/70107786/v16.3.0-canary.58",
-      "publishedAt": "2026-06-19T00:15:25.000Z",
-      "date": "2026-06-19",
-      "time": "08:15",
-      "source": "github.com",
-      "sourceLabel": "GitHub: vercel/next.js",
-      "sourceType": "github",
-      "author": "vercel/next.js",
-      "authorHandle": "",
-      "summary": "Misc Changes Fix dev overlay hydration error ordering: #94555 [turbopack] Retry chunk loading on failure: #94918 Upgrade React from ad78e251-20260616 to b1786c31-20260618 : #94951 [ci] Update playwright to 1.61.0: #94871 [cd] reduce size of npm metadata on publish: #94953 Credits Huge thanks to @timneutkens , @sampode...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "javascript"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:4f4fa9bb905b54a91e1d01cf9f35eab21cad752e",
       "feedType": "dynamic",
       "title": "Upcoming deprecation of Opus 4.6 (fast)",
@@ -934,32 +1406,6 @@
       "category": null
     },
     {
-      "id": "github:langfuse/langfuse:341655344",
-      "feedType": "dynamic",
-      "title": "langfuse/langfuse v3.192.2",
-      "titleEn": null,
-      "link": "https://github.com/langfuse/langfuse/releases/tag/v3.192.2",
-      "guid": "341655344",
-      "publishedAt": "2026-06-18T21:33:15.000Z",
-      "date": "2026-06-19",
-      "time": "05:33",
-      "source": "github.com",
-      "sourceLabel": "GitHub: langfuse/langfuse",
-      "sourceType": "github",
-      "author": "langfuse/langfuse",
-      "authorHandle": "",
-      "summary": "What's Changed fix(deps): pin @types/nodemailer to v7 to unbreak next auth typecheck by @niklassemmler in https://github.com/langfuse/langfuse/pull/14380 feat(worker): add BullMQ stall + blob export observability (LFE 10388) by @niklassemmler in https://github.com/langfuse/langfuse/pull/14379 Full Changelog : https://...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "llmops"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:e18ef44eec6bb563340def706612ded6301ecb09",
       "feedType": "dynamic",
       "title": "KubeCon + CloudNativeCon, OpenInfra Summit and PyTorch Conference Unite in China to Scale AI",
@@ -1010,58 +1456,29 @@
       "category": null
     },
     {
-      "id": "github:langchain-ai/langchain:341609553",
+      "id": "rss:9de63998f1d799cff3062eb829e0b35793ceb9c8",
       "feedType": "dynamic",
-      "title": "langchain-ai/langchain langchain==1.3.10",
+      "title": "Data scientists: Powering the future of AI and analytics",
       "titleEn": null,
-      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain%3D%3D1.3.10",
-      "guid": "341609553",
-      "publishedAt": "2026-06-18T19:43:17.000Z",
+      "link": "https://www.databricks.com/blog/data-scientists",
+      "guid": "https://www.databricks.com/blog/data-scientists",
+      "publishedAt": "2026-06-18T19:46:16.000Z",
       "date": "2026-06-19",
-      "time": "03:43",
-      "source": "github.com",
-      "sourceLabel": "GitHub: langchain-ai/langchain",
-      "sourceType": "github",
-      "author": "langchain-ai/langchain",
+      "time": "03:46",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
       "authorHandle": "",
-      "summary": "Changes since langchain==1.3.9 release(langchain): 1.3.10 ( 38255) chore: bump cryptography from 46.0.7 to 48.0.1 in /libs/langchain v1 ( 38176) chore: bump aiohttp from 3.14.0 to 3.14.1 in /libs/langchain v1 ( 38179) fix(langchain): switch summary format ( 38171) fix(langchain): detect provider strategy for dated gpt...",
+      "summary": "Data scientists sit at the intersection of analytics, machine learning (ML) and AI,...",
       "avatar": null,
       "image": null,
       "tags": [
-        "GitHub"
+        "RSS"
       ],
       "topics": [
-        "agent-engineering",
-        "rag",
-        "llmops"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:langchain-ai/langchain:341607808",
-      "feedType": "dynamic",
-      "title": "langchain-ai/langchain langchain-core==1.4.8",
-      "titleEn": null,
-      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain-core%3D%3D1.4.8",
-      "guid": "341607808",
-      "publishedAt": "2026-06-18T19:39:42.000Z",
-      "date": "2026-06-19",
-      "time": "03:39",
-      "source": "github.com",
-      "sourceLabel": "GitHub: langchain-ai/langchain",
-      "sourceType": "github",
-      "author": "langchain-ai/langchain",
-      "authorHandle": "",
-      "summary": "Changes since langchain core==1.4.7 chore: bump jupyter server from 2.18.0 to 2.20.0 in /libs/core ( 38252) chore: bump tornado from 6.5.6 to 6.5.7 in /libs/core ( 38184) chore: bump bleach from 6.3.0 to 6.4.0 in /libs/core ( 38198) release(core): 1.4.8 ( 38254) refactor(langchain classic): remove code for Python < 3....",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "agent-engineering",
-        "rag",
-        "llmops"
+        "lakehouse",
+        "data-pipeline"
       ],
       "category": null
     },
@@ -1222,6 +1639,33 @@
       "category": null
     },
     {
+      "id": "rss:66e6358faf1274b3fc0ab1131e7d7029cb2cf65f",
+      "feedType": "dynamic",
+      "title": "Data Pipeline Best Practices: Architecture, Modern Pipelines, and Deployment",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/data-pipeline-best-practices",
+      "guid": "https://www.databricks.com/blog/data-pipeline-best-practices",
+      "publishedAt": "2026-06-18T16:14:42.000Z",
+      "date": "2026-06-19",
+      "time": "00:14",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Purpose and Core ComponentsA data pipeline is the automated system that moves raw data from source systems...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
       "id": "rss:e4c973301acc4bacaba01c19d595559c594a7b02",
       "feedType": "dynamic",
       "title": "How pull request limits are cutting down the noise",
@@ -1327,32 +1771,6 @@
       "category": null
     },
     {
-      "id": "rss:b69a6c7c462dcac9e999dd6f604dc48d7d2a5a8a",
-      "feedType": "dynamic",
-      "title": "Control who and what triggers GitHub Actions workflows",
-      "titleEn": null,
-      "link": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
-      "guid": "https://github.blog/changelog/2026-06-18-control-who-and-what-triggers-github-actions-workflows",
-      "publishedAt": "2026-06-18T14:06:18.000Z",
-      "date": "2026-06-18",
-      "time": "22:06",
-      "source": "github.blog",
-      "sourceLabel": "GitHub Changelog",
-      "sourceType": "rss",
-      "author": "GitHub Changelog",
-      "authorHandle": "",
-      "summary": "Workflow execution protections are now in public preview for GitHub Enterprise, organizations, and repositories. This new capability lets enterprise administrators define an allow list that controls who can trigger GitHub… The post Control who and what triggers GitHub Actions workflows appeared first on The GitHub Blo...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "devex"
-      ],
-      "category": null
-    },
-    {
       "id": "github:google/osv-scanner:341422713",
       "feedType": "dynamic",
       "title": "google/osv-scanner v2.4.0",
@@ -1404,21 +1822,21 @@
       "category": null
     },
     {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.38.1",
+      "id": "github:weaviate/weaviate:341339516",
       "feedType": "dynamic",
       "title": "weaviate/weaviate v1.38.1 - Auto-enable async replication when erf=1 and arf>1, Fix MCP hybrid search returning objects without properties",
       "titleEn": null,
       "link": "https://github.com/weaviate/weaviate/releases/tag/v1.38.1",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.38.1",
-      "publishedAt": "2026-06-18T11:03:02.000Z",
+      "guid": "341339516",
+      "publishedAt": "2026-06-18T10:53:37.000Z",
       "date": "2026-06-18",
-      "time": "19:03",
+      "time": "18:53",
       "source": "github.com",
       "sourceLabel": "GitHub: weaviate/weaviate",
       "sourceType": "github",
       "author": "weaviate/weaviate",
       "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes fix(backup): return 422 instead of 500 when backend module is missing by @gkampitakis in #11666 Add env vars to disable bucket access check by @dirkkul in #11645 backport: chore: add slack notifier for release notes ( #11576 ) by @moogacs in #11674 fix: disable debug endpo...",
+      "summary": "Breaking Changes none New Features none Fixes fix(backup): return 422 instead of 500 when backend module is missing by @gkampitakis in https://github.com/weaviate/weaviate/pull/11666 Add env vars to disable bucket access check by @dirkkul in https://github.com/weaviate/weaviate/pull/11645 backport: chore: add slack no...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -1427,6 +1845,33 @@
       "topics": [
         "search-vector",
         "rag"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:545905100ccfcb3651ffd69cc61cc82410752519",
+      "feedType": "dynamic",
+      "title": "Building a SQL ETL Pipeline: The Complete Guide for Data Engineers",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/sql-etl-pipeline",
+      "guid": "https://www.databricks.com/blog/sql-etl-pipeline",
+      "publishedAt": "2026-06-18T09:48:20.000Z",
+      "date": "2026-06-18",
+      "time": "17:48",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "An SQL ETL pipeline is one of the most foundational components in any modern analytics stack...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
       ],
       "category": null
     },
@@ -1498,6 +1943,60 @@
       "author": "Databricks Blog",
       "authorHandle": "",
       "summary": "Artificial intelligence (AI) is a branch of computer science that lets machines perform...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:b36838b2bceb1521b0beac476f80e4d628a9dafd",
+      "feedType": "dynamic",
+      "title": "Data Engineering for AI: A Practical Guide for Data Professionals",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/data-engineering-for-ai",
+      "guid": "https://www.databricks.com/blog/data-engineering-for-ai",
+      "publishedAt": "2026-06-18T08:03:49.000Z",
+      "date": "2026-06-18",
+      "time": "16:03",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Data engineering is the foundational backbone of artificial intelligence systems....",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
+      "id": "rss:10fc654bca786171af6b7f5d2dcc040360401178",
+      "feedType": "dynamic",
+      "title": "Data Warehouse Types: A Complete Guide to Architectures and Use Cases",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/data-warehouse-types",
+      "guid": "https://www.databricks.com/blog/data-warehouse-types",
+      "publishedAt": "2026-06-18T07:43:27.000Z",
+      "date": "2026-06-18",
+      "time": "15:43",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "A data warehouse is a centralized repository that collects, organizes, and stores...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -1741,12 +2240,12 @@
       "category": null
     },
     {
-      "id": "github:delta-io/delta:tag:github.com,2008:Repository/182849188/v4.3.0",
+      "id": "github:delta-io/delta:341157098",
       "feedType": "dynamic",
       "title": "delta-io/delta Delta Lake 4.3.0",
       "titleEn": null,
       "link": "https://github.com/delta-io/delta/releases/tag/v4.3.0",
-      "guid": "tag:github.com,2008:Repository/182849188/v4.3.0",
+      "guid": "341157098",
       "publishedAt": "2026-06-18T04:26:28.000Z",
       "date": "2026-06-18",
       "time": "12:26",
@@ -1755,7 +2254,7 @@
       "sourceType": "github",
       "author": "delta-io/delta",
       "authorHandle": "",
-      "summary": "We are excited to announce the release of Delta Lake 4.3.0 , which delivers new features, performance improvements, and protocol updates across Delta Spark, Kernel, UniForm, Sharing, and Flink. See the highlights below for the marquee changes. Highlights [Spark] Unity Catalog Delta REST API integration : Spark now sup...",
+      "summary": "We are excited to announce the release of Delta Lake 4.3.0, which delivers new features, performance improvements, and protocol updates across Delta Spark, Kernel, UniForm, Sharing, and Flink. See the highlights below for the marquee changes. Highlights \\[Spark\\] Unity Catalog Delta REST API integration : Spark now su...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -2003,6 +2502,33 @@
       "category": null
     },
     {
+      "id": "rss:3e7d8b0c50e20704a7de03a4a3395338a3950b8f",
+      "feedType": "dynamic",
+      "title": "Payment Fraud Detection: How Banks and Businesses Stop Fraudulent Transactions",
+      "titleEn": null,
+      "link": "https://www.databricks.com/blog/payment-fraud-detection",
+      "guid": "https://www.databricks.com/blog/payment-fraud-detection",
+      "publishedAt": "2026-06-17T21:45:24.000Z",
+      "date": "2026-06-18",
+      "time": "05:45",
+      "source": "databricks.com",
+      "sourceLabel": "Databricks Blog",
+      "sourceType": "rss",
+      "author": "Databricks Blog",
+      "authorHandle": "",
+      "summary": "Payment fraud detection has become one of the most data-intensive challenges in financial services...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "RSS"
+      ],
+      "topics": [
+        "lakehouse",
+        "data-pipeline"
+      ],
+      "category": null
+    },
+    {
       "id": "rss:9c717337ab27186a8c6e57a98314a459a078fc8b",
       "feedType": "dynamic",
       "title": "What is an AI agent harness?",
@@ -2018,33 +2544,6 @@
       "author": "Databricks Blog",
       "authorHandle": "",
       "summary": "An AI agent harness is the software infrastructure that wraps around a large language...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:d9afa88592c194daf571fb38d3e79b86b3d3cc0f",
-      "feedType": "dynamic",
-      "title": "Databricks and NVIDIA: Building for the Agentic Era",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
-      "guid": "https://www.databricks.com/blog/databricks-and-nvidia-building-agentic-era",
-      "publishedAt": "2026-06-17T19:50:00.000Z",
-      "date": "2026-06-18",
-      "time": "03:50",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "The Full Stack of AI, AcceleratedNVIDIA accelerated computing powers some of the...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -2104,33 +2603,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc2",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc2",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc2",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc2",
-      "publishedAt": "2026-06-17T18:29:04.000Z",
-      "date": "2026-06-18",
-      "time": "02:29",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc2",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
-      ],
       "category": null
     },
     {
@@ -2263,141 +2735,6 @@
       "category": null
     },
     {
-      "id": "rss:9b5a392a114859fa6c18f450562ed48259fc47e0",
-      "feedType": "dynamic",
-      "title": "The Partner Well-Architected Framework: What's New and What's Next",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/partner-well-architected-framework-whats-new-and-whats-next",
-      "guid": "https://www.databricks.com/blog/partner-well-architected-framework-whats-new-and-whats-next",
-      "publishedAt": "2026-06-17T12:59:26.000Z",
-      "date": "2026-06-17",
-      "time": "20:59",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "In February, we launched the Partner Well-Architected Framework (PWAF), moving our...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:f65533214d3289578b72dedaf366f863d197a835",
-      "feedType": "dynamic",
-      "title": "What’s coming next to Free Edition",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/whats-coming-next-free-edition",
-      "guid": "https://www.databricks.com/blog/whats-coming-next-free-edition",
-      "publishedAt": "2026-06-17T12:45:16.000Z",
-      "date": "2026-06-17",
-      "time": "20:45",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "Today, more people than ever want to learn data and AI so we're expanding what they...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:f931e528b6a334411878e477a15c4410c5821091",
-      "feedType": "dynamic",
-      "title": "Becoming the most comprehensive data & AI ecosystem on earth",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/becoming-most-comprehensive-data-ai-ecosystem-earth",
-      "guid": "https://www.databricks.com/blog/becoming-most-comprehensive-data-ai-ecosystem-earth",
-      "publishedAt": "2026-06-17T12:45:00.000Z",
-      "date": "2026-06-17",
-      "time": "20:45",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "All in all, we’re just another brick in the wallAs I complete my first year at Databricks,...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:79ed3df8f631dab8f6700369d5254a27362e4042",
-      "feedType": "dynamic",
-      "title": "Design Beautiful Dashboards in AI/BI",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/design-beautiful-dashboards-aibi",
-      "guid": "https://www.databricks.com/blog/design-beautiful-dashboards-aibi",
-      "publishedAt": "2026-06-17T12:40:41.000Z",
-      "date": "2026-06-17",
-      "time": "20:40",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "IntroductionEvery company has a brand identity that reflects what it stands for,...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:2f46393236ca3f2c93baf7693ef9fb77df2d1c82",
-      "feedType": "dynamic",
-      "title": "What’s new in Genie Code at Data + AI Summit 2026",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/whats-new-genie-code-data-ai-summit-2026",
-      "guid": "https://www.databricks.com/blog/whats-new-genie-code-data-ai-summit-2026",
-      "publishedAt": "2026-06-17T12:40:08.000Z",
-      "date": "2026-06-17",
-      "time": "20:40",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "Genie Code helps data and ML teams build and improve systems faster on Databricks. Over the past year...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
       "id": "github:grafana/pyroscope:340695778",
       "feedType": "dynamic",
       "title": "grafana/pyroscope v2.0.4",
@@ -2476,33 +2813,6 @@
       "category": null
     },
     {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.36.18",
-      "feedType": "dynamic",
-      "title": "weaviate/weaviate v1.36.18 - Introduce rate limiter in batch simple logic, Disable debug endpoints by default",
-      "titleEn": null,
-      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.36.18",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.36.18",
-      "publishedAt": "2026-06-17T09:51:55.000Z",
-      "date": "2026-06-17",
-      "time": "17:51",
-      "source": "github.com",
-      "sourceLabel": "GitHub: weaviate/weaviate",
-      "sourceType": "github",
-      "author": "weaviate/weaviate",
-      "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes use the same update time for batch references everywhere by @dirkkul in #11553 fix(inverted): index references provided as untyped JSON beacons by @moogacs in #11551 Fix race in dynamic users with concurrent pointer access by @dirkkul in #11573 fix(resource): don't auto-re...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag"
-      ],
-      "category": null
-    },
-    {
       "id": "github:grafana/pyroscope:340645494",
       "feedType": "dynamic",
       "title": "grafana/pyroscope v2.1.0",
@@ -2525,6 +2835,33 @@
       ],
       "topics": [
         "profiling"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:340618199",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.36.18 - Introduce rate limiter in batch simple logic, Disable debug endpoints by default",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.36.18",
+      "guid": "340618199",
+      "publishedAt": "2026-06-17T09:02:04.000Z",
+      "date": "2026-06-17",
+      "time": "17:02",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes use the same update time for batch references everywhere by @dirkkul in https://github.com/weaviate/weaviate/pull/11553 fix(inverted): index references provided as untyped JSON beacons by @moogacs in https://github.com/weaviate/weaviate/pull/11551 Fix race in dynamic users...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
       ],
       "category": null
     },
@@ -2610,12 +2947,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.6.0-beta.16",
+      "id": "github:vuejs/core:340502704",
       "feedType": "dynamic",
       "title": "vuejs/core v3.6.0-beta.16",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.6.0-beta.16",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.6.0-beta.16",
+      "guid": "340502704",
       "publishedAt": "2026-06-17T03:00:53.000Z",
       "date": "2026-06-17",
       "time": "11:00",
@@ -2624,7 +2961,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [
@@ -3139,33 +3476,6 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.10-m01-int",
-      "feedType": "dynamic",
-      "title": "redis/redis 8.10-m01-int: MOD-16291: Update RediSearch module to v8.9.80 (#15343)",
-      "titleEn": null,
-      "link": "https://github.com/redis/redis/releases/tag/8.10-m01-int",
-      "guid": "tag:github.com,2008:Repository/156018/8.10-m01-int",
-      "publishedAt": "2026-06-16T11:05:12.000Z",
-      "date": "2026-06-16",
-      "time": "19:05",
-      "source": "github.com",
-      "sourceLabel": "GitHub: redis/redis",
-      "sourceType": "github",
-      "author": "redis/redis",
-      "authorHandle": "",
-      "summary": "Jira: https://redislabs.atlassian.net/browse/MOD-16291 Updates the bundled RediSearch module version used by Redis module builds from v8.8.0 to v8.9.80 . This picks up the tagged RediSearch 8.9.80 release. Validation: Checked that v8.9.80 exists in RediSearch/RediSearch and resolves to 280c3ce1bd65fd7306cae75a1d54bce3...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "cache",
-        "database"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:246486ee88d552120bd5a2f16b655dfdfe6f80ba",
       "feedType": "dynamic",
       "title": "From data residency to digital sovereignty: Architectural patterns for cloud native platforms",
@@ -3187,33 +3497,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.37.9",
-      "feedType": "dynamic",
-      "title": "weaviate/weaviate v1.37.9 - Default vector index runtime config setting validation Fix",
-      "titleEn": null,
-      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.37.9",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.37.9",
-      "publishedAt": "2026-06-16T06:45:40.000Z",
-      "date": "2026-06-16",
-      "time": "14:45",
-      "source": "github.com",
-      "sourceLabel": "GitHub: weaviate/weaviate",
-      "sourceType": "github",
-      "author": "weaviate/weaviate",
-      "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes fix: disable debug endpoints by default by @amourao in #11173 fix(config): validate replication factor bounds at startup by @gkampitakis in #11679 chore(gh-workflow): adjust the slack notify workflow msg by @moogacs in #11697 security(Dockerfile): update Alpine image versi...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag"
-      ],
       "category": null
     },
     {
@@ -3240,6 +3523,33 @@
       "topics": [
         "idp",
         "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:339938262",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.37.9 - Default vector index runtime config setting validation Fix",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.37.9",
+      "guid": "339938262",
+      "publishedAt": "2026-06-16T06:38:19.000Z",
+      "date": "2026-06-16",
+      "time": "14:38",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes fix: disable debug endpoints by default by @amourao in https://github.com/weaviate/weaviate/pull/11173 fix(config): validate replication factor bounds at startup by @gkampitakis in https://github.com/weaviate/weaviate/pull/11679 chore(gh workflow): adjust the slack notify...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
       ],
       "category": null
     },
@@ -3376,33 +3686,6 @@
       "topics": [
         "ai-infra",
         "model-engineering"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc1",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc1",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc1",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc1",
-      "publishedAt": "2026-06-15T19:25:51.000Z",
-      "date": "2026-06-16",
-      "time": "03:25",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc1",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
       ],
       "category": null
     },
@@ -3640,12 +3923,12 @@
       "category": null
     },
     {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/plugin-legacy@8.1.0-beta.0",
+      "id": "github:vitejs/vite:339307882",
       "feedType": "dynamic",
       "title": "vitejs/vite plugin-legacy@8.1.0-beta.0",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/plugin-legacy%408.1.0-beta.0",
-      "guid": "tag:github.com,2008:Repository/257485422/plugin-legacy@8.1.0-beta.0",
+      "guid": "339307882",
       "publishedAt": "2026-06-15T03:07:19.000Z",
       "date": "2026-06-15",
       "time": "11:07",
@@ -3666,12 +3949,12 @@
       "category": null
     },
     {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/v8.1.0-beta.0",
+      "id": "github:vitejs/vite:339307597",
       "feedType": "dynamic",
       "title": "vitejs/vite v8.1.0-beta.0",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/v8.1.0-beta.0",
-      "guid": "tag:github.com,2008:Repository/257485422/v8.1.0-beta.0",
+      "guid": "339307597",
       "publishedAt": "2026-06-15T03:06:07.000Z",
       "date": "2026-06-15",
       "time": "11:06",
@@ -3712,33 +3995,6 @@
       "tags": [
         "RSS",
         "JDK"
-      ],
-      "topics": [
-        "java-ecosystem"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:47769dca6bbd66af5f4b68897efb9ecaa73f5312",
-      "feedType": "dynamic",
-      "title": "Tool Calling in Spring AI 2.0: A Composable, Agentic Architecture",
-      "titleEn": null,
-      "link": "https://spring.io/blog/2026/06/15/spring-ai-composable-tool-calling",
-      "guid": "https://spring.io/blog/2026/06/15/spring-ai-composable-tool-calling",
-      "publishedAt": "2026-06-15T00:00:00.000Z",
-      "date": "2026-06-15",
-      "time": "08:00",
-      "source": "spring.io",
-      "sourceLabel": "Spring Blog",
-      "sourceType": "rss",
-      "author": "Spring Blog",
-      "authorHandle": "",
-      "summary": "Tool calling — the ability for an AI model to invoke application-defined functions and act on the results — is the essential building block of agentic AI systems. A model that can discover information, take action, and loop until a goal is reached is an agent. Spring AI 2.0 rearchitects tool calling from the ground up...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS",
-        "Spring"
       ],
       "topics": [
         "java-ecosystem"
@@ -3883,30 +4139,28 @@
       "category": null
     },
     {
-      "id": "github:langchain-ai/langchain:338908030",
+      "id": "github:apache/airflow:334088828",
       "feedType": "dynamic",
-      "title": "langchain-ai/langchain langchain-openai==1.3.2",
+      "title": "apache/airflow Apache Airflow Helm Chart 1.22.0",
       "titleEn": null,
-      "link": "https://github.com/langchain-ai/langchain/releases/tag/langchain-openai%3D%3D1.3.2",
-      "guid": "338908030",
-      "publishedAt": "2026-06-13T05:42:30.000Z",
-      "date": "2026-06-13",
-      "time": "13:42",
+      "link": "https://github.com/apache/airflow/releases/tag/helm-chart/1.22.0",
+      "guid": "334088828",
+      "publishedAt": "2026-06-13T23:37:21.000Z",
+      "date": "2026-06-14",
+      "time": "07:37",
       "source": "github.com",
-      "sourceLabel": "GitHub: langchain-ai/langchain",
+      "sourceLabel": "GitHub: apache/airflow",
       "sourceType": "github",
-      "author": "langchain-ai/langchain",
+      "author": "apache/airflow",
       "authorHandle": "",
-      "summary": "Changes since langchain openai==1.3.1 release(openai): 1.3.2 ( 38130)",
+      "summary": "Significant Changes Minimum Helm version was updated to 3.19.0 ( 66970) Default Airflow image is updated to 3.2.2 ( 67681) The default Airflow image that is used with the Chart is now 3.2.2, previously it was 3.2.1. Added support for configuring enableServiceLinks ( 67447) The default will become false in Chart 2.0. I...",
       "avatar": null,
       "image": null,
       "tags": [
         "GitHub"
       ],
       "topics": [
-        "agent-engineering",
-        "rag",
-        "llmops"
+        "data-pipeline"
       ],
       "category": null
     },
@@ -4312,30 +4566,6 @@
       "category": null
     },
     {
-      "id": "rss:2345bee8bbd5e7d1503b2772849c142510b9a39f",
-      "feedType": "dynamic",
-      "title": "Securing CI/CD for an open source project: Locking down dependencies",
-      "titleEn": null,
-      "link": "https://www.cncf.io/blog/2026/06/12/securing-ci-cd-for-an-open-source-project-locking-down-dependencies/",
-      "guid": "https://www.cncf.io/?p=167908",
-      "publishedAt": "2026-06-12T11:00:00.000Z",
-      "date": "2026-06-12",
-      "time": "19:00",
-      "source": "cncf.io",
-      "sourceLabel": "CNCF Blog",
-      "sourceType": "rss",
-      "author": "CNCF Blog",
-      "authorHandle": "",
-      "summary": "Part two This is the second post in a three-part series on how Cilium hardens its CI/CD pipeline. Part 1 covered access control: who can trigger builds and what code CI is allowed to execute. This...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [],
-      "category": null
-    },
-    {
       "id": "rss:4d3d368a7522a77db427bc7096a3a43fbb1ae266",
       "feedType": "dynamic",
       "title": "Spring AI 2.0.0 GA Available Now",
@@ -4414,33 +4644,6 @@
       ],
       "topics": [
         "devex"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc0",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc0",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc0",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc0",
-      "publishedAt": "2026-06-11T20:19:43.000Z",
-      "date": "2026-06-12",
-      "time": "04:19",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc0",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
       ],
       "category": null
     },
@@ -4524,12 +4727,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.5.38",
+      "id": "github:vuejs/core:337767702",
       "feedType": "dynamic",
       "title": "vuejs/core v3.5.38",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.5.38",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.5.38",
+      "guid": "337767702",
       "publishedAt": "2026-06-11T08:00:58.000Z",
       "date": "2026-06-11",
       "time": "16:00",
@@ -4538,7 +4741,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [
@@ -4550,12 +4753,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.6.0-beta.15",
+      "id": "github:vuejs/core:337758081",
       "feedType": "dynamic",
       "title": "vuejs/core v3.6.0-beta.15",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.6.0-beta.15",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.6.0-beta.15",
+      "guid": "337758081",
       "publishedAt": "2026-06-11T07:44:47.000Z",
       "date": "2026-06-11",
       "time": "15:44",
@@ -4564,7 +4767,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [
@@ -4792,32 +4995,6 @@
       "category": null
     },
     {
-      "id": "rss:e0bef26f7c96c1ae147898648442f7cf87b39102",
-      "feedType": "dynamic",
-      "title": "Give GitHub Copilot CLI real code intelligence with language servers",
-      "titleEn": null,
-      "link": "https://github.blog/ai-and-ml/github-copilot/give-github-copilot-cli-real-code-intelligence-with-language-servers/",
-      "guid": "https://github.blog/?p=96610",
-      "publishedAt": "2026-06-10T16:00:00.000Z",
-      "date": "2026-06-11",
-      "time": "00:00",
-      "source": "github.blog",
-      "sourceLabel": "GitHub Blog",
-      "sourceType": "rss",
-      "author": "GitHub Blog",
-      "authorHandle": "",
-      "summary": "Install and configure LSP servers for GitHub Copilot CLI, replacing brute-force grep/decompile with real code intelligence. The post Give GitHub Copilot CLI real code intelligence with language servers appeared first on The GitHub Blog .",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "devex"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:bc950e0ae00687272c0a18322ca2fe0b5cfe1fc2",
       "feedType": "dynamic",
       "title": "Introducing the Snowflake and AWS Custom Lens for the AWS Well-Architected Framework",
@@ -4967,34 +5144,6 @@
       ],
       "topics": [
         "idp"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/v2.6.18",
-      "feedType": "dynamic",
-      "title": "milvus-io/milvus milvus-2.6.18",
-      "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/v2.6.18",
-      "guid": "tag:github.com,2008:Repository/208728772/v2.6.18",
-      "publishedAt": "2026-06-10T06:09:18.000Z",
-      "date": "2026-06-10",
-      "time": "14:09",
-      "source": "github.com",
-      "sourceLabel": "GitHub: milvus-io/milvus",
-      "sourceType": "github",
-      "author": "milvus-io/milvus",
-      "authorHandle": "",
-      "summary": "v2.6.18 Release date: June 5, 2026 Milvus Version Python SDK Version Node.js SDK Version Java SDK Version Go SDK Version 2.6.18 2.6.15 2.6.17 2.6.20 2.6.18 We are excited to announce the release of Milvus v2.6.18! This release adds element-level search on Struct fields and nullable vector support, improves QueryNode a...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag",
-        "ai-infra"
       ],
       "category": null
     },
@@ -5255,32 +5404,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:crossplane/crossplane:336742742",
-      "feedType": "dynamic",
-      "title": "crossplane/crossplane v2.3.2",
-      "titleEn": null,
-      "link": "https://github.com/crossplane/crossplane/releases/tag/v2.3.2",
-      "guid": "336742742",
-      "publishedAt": "2026-06-09T16:51:27.000Z",
-      "date": "2026-06-10",
-      "time": "00:51",
-      "source": "github.com",
-      "sourceLabel": "GitHub: crossplane/crossplane",
-      "sourceType": "github",
-      "author": "crossplane/crossplane",
-      "authorHandle": "",
-      "summary": "v2.3.2 is a patch release scoped to fixing issues reported by users of Crossplane v2.3 and fixing security related issues in Crossplane's dependencies. The primary goal of this release is to fix regressions in the Crossplane CLI's render commands. What's Changed [Backport release 2.3] build: tag the apis/ Go submodule...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "oam"
-      ],
       "category": null
     },
     {
@@ -5680,21 +5803,21 @@
       "category": null
     },
     {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/release-0.14.2",
+      "id": "github:apache/hudi:335872300",
       "feedType": "dynamic",
       "title": "apache/hudi 0.14.2 Release",
       "titleEn": null,
       "link": "https://github.com/apache/hudi/releases/tag/release-0.14.2",
-      "guid": "tag:github.com,2008:Repository/76474200/release-0.14.2",
-      "publishedAt": "2026-06-08T10:10:59.000Z",
+      "guid": "335872300",
+      "publishedAt": "2026-06-08T10:09:51.000Z",
       "date": "2026-06-08",
-      "time": "18:10",
+      "time": "18:09",
       "source": "github.com",
       "sourceLabel": "GitHub: apache/hudi",
       "sourceType": "github",
       "author": "apache/hudi",
       "authorHandle": "",
-      "summary": "What's Changed change back to 0.14.2-SNAPSHOT by @HuangZhenQiu in #11863 [ HUDI-8066 ] cherry pick Flink 1.18 into 0.14.2 by @HuangZhenQiu in #11780 [MINOR] Remove shaded of codahale metrics in flink bundle. by @zhangwl9 in #11954 [ HUDI-1517 ] create marker file for every log file by @lokeshj1703 in #17890 fix( HUDI-...",
+      "summary": "What's Changed change back to 0.14.2 SNAPSHOT by @HuangZhenQiu in https://github.com/apache/hudi/pull/11863 [HUDI 8066] cherry pick Flink 1.18 into 0.14.2 by @HuangZhenQiu in https://github.com/apache/hudi/pull/11780 [MINOR] Remove shaded of codahale metrics in flink bundle. by @zhangwl9 in https://github.com/apache/h...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -5784,32 +5907,6 @@
       ],
       "topics": [
         "java-ecosystem"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:crossplane/crossplane:335215798",
-      "feedType": "dynamic",
-      "title": "crossplane/crossplane v1.20.9",
-      "titleEn": null,
-      "link": "https://github.com/crossplane/crossplane/releases/tag/v1.20.9",
-      "guid": "335215798",
-      "publishedAt": "2026-06-05T22:07:22.000Z",
-      "date": "2026-06-06",
-      "time": "06:07",
-      "source": "github.com",
-      "sourceLabel": "GitHub: crossplane/crossplane",
-      "sourceType": "github",
-      "author": "crossplane/crossplane",
-      "authorHandle": "",
-      "summary": "v1.20.9 is a patch release scoped to fixing issues reported by users of Crossplane v1.20 and fixing security related issues in Crossplane's dependencies. It also ships a notable new crossplane beta upgrade check command to help you more easily prepare for Crossplane v2. 🎉 Highlights Check your control plane's v2 upgr...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "oam"
       ],
       "category": null
     },
@@ -5965,6 +6062,34 @@
       ],
       "topics": [
         "aiops"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:milvus-io/milvus:334719280",
+      "feedType": "dynamic",
+      "title": "milvus-io/milvus milvus-2.6.18",
+      "titleEn": null,
+      "link": "https://github.com/milvus-io/milvus/releases/tag/v2.6.18",
+      "guid": "334719280",
+      "publishedAt": "2026-06-05T04:03:06.000Z",
+      "date": "2026-06-05",
+      "time": "12:03",
+      "source": "github.com",
+      "sourceLabel": "GitHub: milvus-io/milvus",
+      "sourceType": "github",
+      "author": "milvus-io/milvus",
+      "authorHandle": "",
+      "summary": "v2.6.18 Release date: June 5, 2026 Milvus Version Python SDK Version Node.js SDK Version Java SDK Version Go SDK Version 2.6.18 2.6.15 2.6.17 2.6.20 2.6.18 We are excited to announce the release of Milvus v2.6.18! This release adds element level search on Struct fields and nullable vector support, improves QueryNode a...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag",
+        "ai-infra"
       ],
       "category": null
     },
@@ -6128,12 +6253,12 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.6.4",
+      "id": "github:redis/redis:334472920",
       "feedType": "dynamic",
       "title": "redis/redis 8.6.4",
       "titleEn": null,
       "link": "https://github.com/redis/redis/releases/tag/8.6.4",
-      "guid": "tag:github.com,2008:Repository/156018/8.6.4",
+      "guid": "334472920",
       "publishedAt": "2026-06-04T16:36:44.000Z",
       "date": "2026-06-05",
       "time": "00:36",
@@ -6142,7 +6267,7 @@
       "sourceType": "github",
       "author": "redis/redis",
       "authorHandle": "",
-      "summary": "Update urgency: HIGH : There are critical bugs that may affect a subset of users. Bug fixes #15175 , RediSearch/RediSearch#9262 Redis fails to start on AArch64 #15163 MULTI queue memory incorrect memory accounting #15115 Under-copy in the Lua debugger #15094 Cluster crash when CLIENT KILL unsubscribes SSUBSCRIBE clien...",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 15163 MULTI queue memory incorrect memory accounting 15115 Under copy in the Lua debugger 15094 Cluster crash when CLIENT KILL unsubscribes SSUBSCRIBE client insi...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -6155,12 +6280,12 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.4.4",
+      "id": "github:redis/redis:334472350",
       "feedType": "dynamic",
       "title": "redis/redis 8.4.4",
       "titleEn": null,
       "link": "https://github.com/redis/redis/releases/tag/8.4.4",
-      "guid": "tag:github.com,2008:Repository/156018/8.4.4",
+      "guid": "334472350",
       "publishedAt": "2026-06-04T16:35:27.000Z",
       "date": "2026-06-05",
       "time": "00:35",
@@ -6169,7 +6294,34 @@
       "sourceType": "github",
       "author": "redis/redis",
       "authorHandle": "",
-      "summary": "Update urgency: HIGH : There are critical bugs that may affect a subset of users. Bug fixes #15175 , RediSearch/RediSearch#9262 Redis fails to start on AArch64 #15163 MULTI queue memory incorrect memory accounting #14581 Rare server hang at shutdown #14545 ACL: AOF loading fails if ACL rules are changed and don't allo...",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 15163 MULTI queue memory incorrect memory accounting 14581 Rare server hang at shutdown 14545 ACL: AOF loading fails if ACL rules are changed and don't allow some...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "cache",
+        "database"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:redis/redis:334471221",
+      "feedType": "dynamic",
+      "title": "redis/redis 8.2.7",
+      "titleEn": null,
+      "link": "https://github.com/redis/redis/releases/tag/8.2.7",
+      "guid": "334471221",
+      "publishedAt": "2026-06-04T16:33:50.000Z",
+      "date": "2026-06-05",
+      "time": "00:33",
+      "source": "github.com",
+      "sourceLabel": "GitHub: redis/redis",
+      "sourceType": "github",
+      "author": "redis/redis",
+      "authorHandle": "",
+      "summary": "Update urgency: HIGH: There are critical bugs that may affect a subset of users. Bug fixes 15175, RediSearch/RediSearch 9262 Redis fails to start on AArch64 14537 SCAN: restore original filter order (revert change introduced in 8.2) 14816 setModuleEnumConfig() passing prefixed name to module callbacks 14623 Streams: X...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -6206,21 +6358,21 @@
       "category": null
     },
     {
-      "id": "github:qdrant/qdrant:tag:github.com,2008:Repository/268163609/v1.18.2",
+      "id": "github:qdrant/qdrant:333816459",
       "feedType": "dynamic",
       "title": "qdrant/qdrant v1.18.2",
       "titleEn": null,
       "link": "https://github.com/qdrant/qdrant/releases/tag/v1.18.2",
-      "guid": "tag:github.com,2008:Repository/268163609/v1.18.2",
-      "publishedAt": "2026-06-04T07:36:19.000Z",
+      "guid": "333816459",
+      "publishedAt": "2026-06-04T06:50:36.000Z",
       "date": "2026-06-04",
-      "time": "15:36",
+      "time": "14:50",
       "source": "github.com",
       "sourceLabel": "GitHub: qdrant/qdrant",
       "sourceType": "github",
       "author": "qdrant/qdrant",
       "authorHandle": "",
-      "summary": "Change log Improvements #9282 - Log slow operations during shard WAL recovery #9137 - Clear cache of ID tracker after building a segment #9138 - Don't rebuild payload index if changing on_disk flag Bug Fixes #9285 - Fix potential infinite loop in optimizer when using multi vectors with prevent_unoptimized #9217 - Clea...",
+      "summary": "Change log Improvements https://github.com/qdrant/qdrant/pull/9282 Log slow operations during shard WAL recovery https://github.com/qdrant/qdrant/pull/9137 Clear cache of ID tracker after building a segment https://github.com/qdrant/qdrant/pull/9138 Don't rebuild payload index if changing on disk flag Bug Fixes https:...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -6367,6 +6519,32 @@
       ],
       "topics": [
         "profiling"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:333981785",
+      "feedType": "dynamic",
+      "title": "apache/airflow Apache Airflow Ctl (airflowctl) 0.1.5",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/airflow-ctl/0.1.5",
+      "guid": "333981785",
+      "publishedAt": "2026-06-03T20:29:33.000Z",
+      "date": "2026-06-04",
+      "time": "04:29",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": ":package: PyPI: https://pypi.org/project/apache airflow ctl/0.1.5 :books: Docs: https://airflow.apache.org/docs/apache airflow ctl/0.1.5 :hammer and wrench: Release Notes: https://airflow.apache.org/docs/apache airflow ctl/0.1.5/release notes.html Significant Changes Add dags next execution command ( 66172, 66188) Add...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
       ],
       "category": null
     },
@@ -6597,34 +6775,6 @@
       "topics": [
         "model-engineering",
         "multimodal-ai",
-        "ai-infra"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
-      "feedType": "dynamic",
-      "title": "milvus-io/milvus pkg/v2.6.18: enhance: Bump milvus & proto to v2.6.18 (#50254)",
-      "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/pkg%2Fv2.6.18",
-      "guid": "tag:github.com,2008:Repository/208728772/pkg/v2.6.18",
-      "publishedAt": "2026-06-03T03:18:18.000Z",
-      "date": "2026-06-03",
-      "time": "11:18",
-      "source": "github.com",
-      "sourceLabel": "GitHub: milvus-io/milvus",
-      "sourceType": "github",
-      "author": "milvus-io/milvus",
-      "authorHandle": "",
-      "summary": "Signed-off-by: Congqi Xia congqi.xia@zilliz.com",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag",
         "ai-infra"
       ],
       "category": null
@@ -6896,58 +7046,6 @@
       "category": null
     },
     {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/release-0.14.2-rc2",
-      "feedType": "dynamic",
-      "title": "apache/hudi release-0.14.2-rc2",
-      "titleEn": null,
-      "link": "https://github.com/apache/hudi/releases/tag/release-0.14.2-rc2",
-      "guid": "tag:github.com,2008:Repository/76474200/release-0.14.2-rc2",
-      "publishedAt": "2026-06-02T07:33:29.000Z",
-      "date": "2026-06-02",
-      "time": "15:33",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/hudi",
-      "sourceType": "github",
-      "author": "apache/hudi",
-      "authorHandle": "",
-      "summary": "0.14.2",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:delta-io/delta:tag:github.com,2008:Repository/182849188/dbi-20260601-d54ec0da0",
-      "feedType": "dynamic",
-      "title": "delta-io/delta dbi-20260601-d54ec0da0",
-      "titleEn": null,
-      "link": "https://github.com/delta-io/delta/releases/tag/dbi-20260601-d54ec0da0",
-      "guid": "tag:github.com,2008:Repository/182849188/dbi-20260601-d54ec0da0",
-      "publishedAt": "2026-06-02T00:03:43.000Z",
-      "date": "2026-06-02",
-      "time": "08:03",
-      "source": "github.com",
-      "sourceLabel": "GitHub: delta-io/delta",
-      "sourceType": "github",
-      "author": "delta-io/delta",
-      "authorHandle": "",
-      "summary": "dbi-20260601-d54ec0da0",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:31f909427ac428c8d6d88cdb1e0df73382576d0d",
       "feedType": "dynamic",
       "title": "Intelligent JVM Monitoring: Combining JDK Flight Recorder with AI",
@@ -7076,32 +7174,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:postgres/postgres:tag:github.com,2008:Repository/927442/REL_19_BETA1",
-      "feedType": "dynamic",
-      "title": "postgres/postgres REL_19_BETA1",
-      "titleEn": null,
-      "link": "https://github.com/postgres/postgres/releases/tag/REL_19_BETA1",
-      "guid": "tag:github.com,2008:Repository/927442/REL_19_BETA1",
-      "publishedAt": "2026-06-01T20:02:13.000Z",
-      "date": "2026-06-02",
-      "time": "04:02",
-      "source": "github.com",
-      "sourceLabel": "GitHub: postgres/postgres",
-      "sourceType": "github",
-      "author": "postgres/postgres",
-      "authorHandle": "",
-      "summary": "Stamp 19beta1.",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "database"
-      ],
       "category": null
     },
     {
@@ -7395,38 +7467,12 @@
       "category": null
     },
     {
-      "id": "github:googleapis/release-please:332500443",
-      "feedType": "dynamic",
-      "title": "googleapis/release-please v17.7.0",
-      "titleEn": null,
-      "link": "https://github.com/googleapis/release-please/releases/tag/v17.7.0",
-      "guid": "332500443",
-      "publishedAt": "2026-06-01T13:09:58.000Z",
-      "date": "2026-06-01",
-      "time": "21:09",
-      "source": "github.com",
-      "sourceLabel": "GitHub: googleapis/release-please",
-      "sourceType": "github",
-      "author": "googleapis/release-please",
-      "authorHandle": "",
-      "summary": "17.7.0 (2026 05 29) Features update librarian.yaml for Node ( 2775) (0c8f20a) Bug Fixes upgrade tmp to 0.2.6 to resolve path traversal vulnerability ( 2794) (fcec69c) use artifact id instead of distribution name override in librarian.yaml ( 2792) (9acbc83)",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "release-engineering"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:vitejs/vite:tag:github.com,2008:Repository/257485422/v8.0.16",
+      "id": "github:vitejs/vite:332405521",
       "feedType": "dynamic",
       "title": "vitejs/vite v8.0.16",
       "titleEn": null,
       "link": "https://github.com/vitejs/vite/releases/tag/v8.0.16",
-      "guid": "tag:github.com,2008:Repository/257485422/v8.0.16",
+      "guid": "332405521",
       "publishedAt": "2026-06-01T09:50:08.000Z",
       "date": "2026-06-01",
       "time": "17:50",
@@ -7654,6 +7700,32 @@
       ],
       "topics": [
         "javascript"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:apache/airflow:331316417",
+      "feedType": "dynamic",
+      "title": "apache/airflow Apache Airflow 3.2.2",
+      "titleEn": null,
+      "link": "https://github.com/apache/airflow/releases/tag/3.2.2",
+      "guid": "331316417",
+      "publishedAt": "2026-05-29T06:27:24.000Z",
+      "date": "2026-05-29",
+      "time": "14:27",
+      "source": "github.com",
+      "sourceLabel": "GitHub: apache/airflow",
+      "sourceType": "github",
+      "author": "apache/airflow",
+      "authorHandle": "",
+      "summary": "📦 PyPI: https://pypi.org/project/apache airflow/3.2.2/ 📚 Docs: https://airflow.apache.org/docs/apache airflow/3.2.2/ 🛠 Release Notes: https://airflow.apache.org/docs/apache airflow/3.2.2/release notes.html 🐳 Docker Image: \"docker pull apache/airflow:3.2.2\" 🚏 Constraints: https://github.com/apache/airflow/tree/con...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "data-pipeline"
       ],
       "category": null
     },
@@ -7928,12 +8000,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v9.4.2",
+      "id": "github:elastic/elasticsearch:330918765",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 9.4.2",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v9.4.2",
-      "guid": "tag:github.com,2008:Repository/507775/v9.4.2",
+      "guid": "330918765",
       "publishedAt": "2026-05-28T14:59:44.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -7942,7 +8014,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release-notes/elasticsearch#elasticsearch-9.4.2-release-notes",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release notes/elasticsearch elasticsearch 9.4.2 release notes",
       "avatar": null,
       "image": null,
       "tags": [
@@ -7955,12 +8027,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v9.3.5",
+      "id": "github:elastic/elasticsearch:330918629",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 9.3.5",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v9.3.5",
-      "guid": "tag:github.com,2008:Repository/507775/v9.3.5",
+      "guid": "330918629",
       "publishedAt": "2026-05-28T14:59:30.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -7969,7 +8041,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release-notes/elasticsearch#elasticsearch-9.3.5-release-notes",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/docs/release notes/elasticsearch elasticsearch 9.3.5 release notes",
       "avatar": null,
       "image": null,
       "tags": [
@@ -7982,12 +8054,12 @@
       "category": null
     },
     {
-      "id": "github:elastic/elasticsearch:tag:github.com,2008:Repository/507775/v8.19.16",
+      "id": "github:elastic/elasticsearch:330918401",
       "feedType": "dynamic",
       "title": "elastic/elasticsearch Elasticsearch 8.19.16",
       "titleEn": null,
       "link": "https://github.com/elastic/elasticsearch/releases/tag/v8.19.16",
-      "guid": "tag:github.com,2008:Repository/507775/v8.19.16",
+      "guid": "330918401",
       "publishedAt": "2026-05-28T14:59:08.000Z",
       "date": "2026-05-28",
       "time": "22:59",
@@ -7996,7 +8068,7 @@
       "sourceType": "github",
       "author": "elastic/elasticsearch",
       "authorHandle": "",
-      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/guide/en/elasticsearch/reference/8.19/release-notes-8.19.16.html",
+      "summary": "Downloads: https://elastic.co/downloads/elasticsearch Release notes: https://www.elastic.co/guide/en/elasticsearch/reference/8.19/release notes 8.19.16.html",
       "avatar": null,
       "image": null,
       "tags": [
@@ -8032,32 +8104,6 @@
       "topics": [
         "devex",
         "idp"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/rfc-105-pre-cleanup",
-      "feedType": "dynamic",
-      "title": "apache/hudi rfc-105-pre-cleanup",
-      "titleEn": null,
-      "link": "https://github.com/apache/hudi/releases/tag/rfc-105-pre-cleanup",
-      "guid": "tag:github.com,2008:Repository/76474200/rfc-105-pre-cleanup",
-      "publishedAt": "2026-05-28T13:07:47.000Z",
-      "date": "2026-05-28",
-      "time": "21:07",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/hudi",
-      "sourceType": "github",
-      "author": "apache/hudi",
-      "authorHandle": "",
-      "summary": "fix(integ): drop stale trino-coordinator-1 / trinobase refs after mod…",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "lakehouse"
       ],
       "category": null
     },
@@ -8135,33 +8181,6 @@
       "topics": [
         "search-vector",
         "rag"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:7beb788411b075eb582dc4005bddd1fc61e1ff97",
-      "feedType": "dynamic",
-      "title": "Episode 59 “Java *is* Memory Efficient” [AtA]",
-      "titleEn": null,
-      "link": "https://inside.java/2026/05/28/podcast-059/",
-      "guid": "https://inside.java/2026/05/28/podcast-059/",
-      "publishedAt": "2026-05-28T00:00:00.000Z",
-      "date": "2026-05-28",
-      "time": "08:00",
-      "source": "inside.java",
-      "sourceLabel": "Inside Java",
-      "sourceType": "rss",
-      "author": "Inside Java",
-      "authorHandle": "",
-      "summary": "Java's use of memory, often chided for being excessive, is actually a strength as it trades more memory use for fewer CPU cycles, a tradeoff it can only make due to its moving garbage collectors.",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS",
-        "JDK"
-      ],
-      "topics": [
-        "java-ecosystem"
       ],
       "category": null
     },
@@ -8351,34 +8370,6 @@
       "category": null
     },
     {
-      "id": "rss:5b218fefef6f1e0680a7cfdf2fea4482f6ed9275",
-      "feedType": "dynamic",
-      "title": "Reachy Mini goes fully local",
-      "titleEn": null,
-      "link": "https://huggingface.co/blog/local-reachy-mini-conversation",
-      "guid": "https://huggingface.co/blog/local-reachy-mini-conversation",
-      "publishedAt": "2026-05-27T00:00:00.000Z",
-      "date": "2026-05-27",
-      "time": "08:00",
-      "source": "huggingface.co",
-      "sourceLabel": "Hugging Face Blog",
-      "sourceType": "rss",
-      "author": "Hugging Face Blog",
-      "authorHandle": "",
-      "summary": "",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "model-engineering",
-        "multimodal-ai",
-        "ai-infra"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:8fcd8732e85e395933fb5f33acb7b8f4dae9036e",
       "feedType": "dynamic",
       "title": "Reconciling the Past: Correcting Records for Unfixed Kubernetes CVEs",
@@ -8513,12 +8504,12 @@
       "category": null
     },
     {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/client/v2.6.5",
+      "id": "github:milvus-io/milvus:329162457",
       "feedType": "dynamic",
       "title": "milvus-io/milvus client/v2.6.5",
       "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/client%2Fv2.6.5",
-      "guid": "tag:github.com,2008:Repository/208728772/client/v2.6.5",
+      "link": "https://github.com/milvus-io/milvus/releases/tag/client/v2.6.5",
+      "guid": "329162457",
       "publishedAt": "2026-05-26T02:44:44.000Z",
       "date": "2026-05-26",
       "time": "10:44",
@@ -8527,7 +8518,7 @@
       "sourceType": "github",
       "author": "milvus-io/milvus",
       "authorHandle": "",
-      "summary": "Highlights Adds Go SDK support for nullable vector columns across dense, binary, sparse, and int8 vector types. Adds Array field partial update helpers for ARRAY_APPEND and ARRAY_REMOVE in upsert requests. Validates that vector fields added to existing collections are nullable before sending AddCollectionField request...",
+      "summary": "Highlights Adds Go SDK support for nullable vector columns across dense, binary, sparse, and int8 vector types. Adds Array field partial update helpers for ARRAY APPEND and ARRAY REMOVE in upsert requests. Validates that vector fields added to existing collections are nullable before sending AddCollectionField request...",
       "avatar": null,
       "image": null,
       "tags": [
@@ -8669,34 +8660,6 @@
       ],
       "topics": [
         "rust"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:296bd223ffe2c7efe4f2e91ae0e76215ec8cafab",
-      "feedType": "dynamic",
-      "title": "Laravel Lang Supply Chain Advisory",
-      "titleEn": null,
-      "link": "https://snyk.io/blog/laravel-lang-supply-chain-advisory/",
-      "guid": "https://snyk.io/blog/laravel-lang-supply-chain-advisory/",
-      "publishedAt": "2026-05-23T16:00:00.000Z",
-      "date": "2026-05-24",
-      "time": "00:00",
-      "source": "snyk.io",
-      "sourceLabel": "Snyk Blog",
-      "sourceType": "rss",
-      "author": "Snyk Blog",
-      "authorHandle": "",
-      "summary": "Hundreds of historical Laravel Lang Packagist releases were republished with malicious code, putting Composer installs at risk of credential theft and secret exfiltration.",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "vulnerability",
-        "supply-chain-security",
-        "cloud-security"
       ],
       "category": null
     }

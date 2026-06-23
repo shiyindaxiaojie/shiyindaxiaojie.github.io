@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-17",
-  "itemCount": 26,
+  "itemCount": 21,
   "items": [
     {
       "id": "rss:07c125a38d887b78876076e79ca4cc0715d08b45",
@@ -114,141 +114,6 @@
       "category": null
     },
     {
-      "id": "rss:9b5a392a114859fa6c18f450562ed48259fc47e0",
-      "feedType": "dynamic",
-      "title": "The Partner Well-Architected Framework: What's New and What's Next",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/partner-well-architected-framework-whats-new-and-whats-next",
-      "guid": "https://www.databricks.com/blog/partner-well-architected-framework-whats-new-and-whats-next",
-      "publishedAt": "2026-06-17T12:59:26.000Z",
-      "date": "2026-06-17",
-      "time": "20:59",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "In February, we launched the Partner Well-Architected Framework (PWAF), moving our...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:f65533214d3289578b72dedaf366f863d197a835",
-      "feedType": "dynamic",
-      "title": "What’s coming next to Free Edition",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/whats-coming-next-free-edition",
-      "guid": "https://www.databricks.com/blog/whats-coming-next-free-edition",
-      "publishedAt": "2026-06-17T12:45:16.000Z",
-      "date": "2026-06-17",
-      "time": "20:45",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "Today, more people than ever want to learn data and AI so we're expanding what they...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:f931e528b6a334411878e477a15c4410c5821091",
-      "feedType": "dynamic",
-      "title": "Becoming the most comprehensive data & AI ecosystem on earth",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/becoming-most-comprehensive-data-ai-ecosystem-earth",
-      "guid": "https://www.databricks.com/blog/becoming-most-comprehensive-data-ai-ecosystem-earth",
-      "publishedAt": "2026-06-17T12:45:00.000Z",
-      "date": "2026-06-17",
-      "time": "20:45",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "All in all, we’re just another brick in the wallAs I complete my first year at Databricks,...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:79ed3df8f631dab8f6700369d5254a27362e4042",
-      "feedType": "dynamic",
-      "title": "Design Beautiful Dashboards in AI/BI",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/design-beautiful-dashboards-aibi",
-      "guid": "https://www.databricks.com/blog/design-beautiful-dashboards-aibi",
-      "publishedAt": "2026-06-17T12:40:41.000Z",
-      "date": "2026-06-17",
-      "time": "20:40",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "IntroductionEvery company has a brand identity that reflects what it stands for,...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:2f46393236ca3f2c93baf7693ef9fb77df2d1c82",
-      "feedType": "dynamic",
-      "title": "What’s new in Genie Code at Data + AI Summit 2026",
-      "titleEn": null,
-      "link": "https://www.databricks.com/blog/whats-new-genie-code-data-ai-summit-2026",
-      "guid": "https://www.databricks.com/blog/whats-new-genie-code-data-ai-summit-2026",
-      "publishedAt": "2026-06-17T12:40:08.000Z",
-      "date": "2026-06-17",
-      "time": "20:40",
-      "source": "databricks.com",
-      "sourceLabel": "Databricks Blog",
-      "sourceType": "rss",
-      "author": "Databricks Blog",
-      "authorHandle": "",
-      "summary": "Genie Code helps data and ML teams build and improve systems faster on Databricks. Over the past year...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "lakehouse",
-        "data-pipeline"
-      ],
-      "category": null
-    },
-    {
       "id": "github:grafana/pyroscope:340695778",
       "feedType": "dynamic",
       "title": "grafana/pyroscope v2.0.4",
@@ -327,33 +192,6 @@
       "category": null
     },
     {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.36.18",
-      "feedType": "dynamic",
-      "title": "weaviate/weaviate v1.36.18 - Introduce rate limiter in batch simple logic, Disable debug endpoints by default",
-      "titleEn": null,
-      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.36.18",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.36.18",
-      "publishedAt": "2026-06-17T09:51:55.000Z",
-      "date": "2026-06-17",
-      "time": "17:51",
-      "source": "github.com",
-      "sourceLabel": "GitHub: weaviate/weaviate",
-      "sourceType": "github",
-      "author": "weaviate/weaviate",
-      "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes use the same update time for batch references everywhere by @dirkkul in #11553 fix(inverted): index references provided as untyped JSON beacons by @moogacs in #11551 Fix race in dynamic users with concurrent pointer access by @dirkkul in #11573 fix(resource): don't auto-re...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag"
-      ],
-      "category": null
-    },
-    {
       "id": "github:grafana/pyroscope:340645494",
       "feedType": "dynamic",
       "title": "grafana/pyroscope v2.1.0",
@@ -376,6 +214,33 @@
       ],
       "topics": [
         "profiling"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:340618199",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.36.18 - Introduce rate limiter in batch simple logic, Disable debug endpoints by default",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.36.18",
+      "guid": "340618199",
+      "publishedAt": "2026-06-17T09:02:04.000Z",
+      "date": "2026-06-17",
+      "time": "17:02",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes use the same update time for batch references everywhere by @dirkkul in https://github.com/weaviate/weaviate/pull/11553 fix(inverted): index references provided as untyped JSON beacons by @moogacs in https://github.com/weaviate/weaviate/pull/11551 Fix race in dynamic users...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
       ],
       "category": null
     },
@@ -461,12 +326,12 @@
       "category": null
     },
     {
-      "id": "github:vuejs/core:tag:github.com,2008:Repository/137078487/v3.6.0-beta.16",
+      "id": "github:vuejs/core:340502704",
       "feedType": "dynamic",
       "title": "vuejs/core v3.6.0-beta.16",
       "titleEn": null,
       "link": "https://github.com/vuejs/core/releases/tag/v3.6.0-beta.16",
-      "guid": "tag:github.com,2008:Repository/137078487/v3.6.0-beta.16",
+      "guid": "340502704",
       "publishedAt": "2026-06-17T03:00:53.000Z",
       "date": "2026-06-17",
       "time": "11:00",
@@ -475,7 +340,7 @@
       "sourceType": "github",
       "author": "vuejs/core",
       "authorHandle": "",
-      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre-releases, please refer to CHANGELOG.md of the minor branch.",
+      "summary": "For stable releases, please refer to CHANGELOG.md for details. For pre releases, please refer to CHANGELOG.md of the minor branch.",
       "avatar": null,
       "image": null,
       "tags": [

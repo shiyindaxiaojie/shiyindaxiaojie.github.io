@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-16",
-  "itemCount": 25,
+  "itemCount": 23,
   "items": [
     {
       "id": "github:k3s-io/k3s:340256293",
@@ -300,33 +300,6 @@
       "category": null
     },
     {
-      "id": "github:redis/redis:tag:github.com,2008:Repository/156018/8.10-m01-int",
-      "feedType": "dynamic",
-      "title": "redis/redis 8.10-m01-int: MOD-16291: Update RediSearch module to v8.9.80 (#15343)",
-      "titleEn": null,
-      "link": "https://github.com/redis/redis/releases/tag/8.10-m01-int",
-      "guid": "tag:github.com,2008:Repository/156018/8.10-m01-int",
-      "publishedAt": "2026-06-16T11:05:12.000Z",
-      "date": "2026-06-16",
-      "time": "19:05",
-      "source": "github.com",
-      "sourceLabel": "GitHub: redis/redis",
-      "sourceType": "github",
-      "author": "redis/redis",
-      "authorHandle": "",
-      "summary": "Jira: https://redislabs.atlassian.net/browse/MOD-16291 Updates the bundled RediSearch module version used by Redis module builds from v8.8.0 to v8.9.80 . This picks up the tagged RediSearch 8.9.80 release. Validation: Checked that v8.9.80 exists in RediSearch/RediSearch and resolves to 280c3ce1bd65fd7306cae75a1d54bce3...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "cache",
-        "database"
-      ],
-      "category": null
-    },
-    {
       "id": "rss:246486ee88d552120bd5a2f16b655dfdfe6f80ba",
       "feedType": "dynamic",
       "title": "From data residency to digital sovereignty: Architectural patterns for cloud native platforms",
@@ -348,33 +321,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:weaviate/weaviate:tag:github.com,2008:Repository/55072677/v1.37.9",
-      "feedType": "dynamic",
-      "title": "weaviate/weaviate v1.37.9 - Default vector index runtime config setting validation Fix",
-      "titleEn": null,
-      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.37.9",
-      "guid": "tag:github.com,2008:Repository/55072677/v1.37.9",
-      "publishedAt": "2026-06-16T06:45:40.000Z",
-      "date": "2026-06-16",
-      "time": "14:45",
-      "source": "github.com",
-      "sourceLabel": "GitHub: weaviate/weaviate",
-      "sourceType": "github",
-      "author": "weaviate/weaviate",
-      "authorHandle": "",
-      "summary": "Breaking Changes none New Features none Fixes fix: disable debug endpoints by default by @amourao in #11173 fix(config): validate replication factor bounds at startup by @gkampitakis in #11679 chore(gh-workflow): adjust the slack notify workflow msg by @moogacs in #11697 security(Dockerfile): update Alpine image versi...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag"
-      ],
       "category": null
     },
     {
@@ -401,6 +347,33 @@
       "topics": [
         "idp",
         "devex"
+      ],
+      "category": null
+    },
+    {
+      "id": "github:weaviate/weaviate:339938262",
+      "feedType": "dynamic",
+      "title": "weaviate/weaviate v1.37.9 - Default vector index runtime config setting validation Fix",
+      "titleEn": null,
+      "link": "https://github.com/weaviate/weaviate/releases/tag/v1.37.9",
+      "guid": "339938262",
+      "publishedAt": "2026-06-16T06:38:19.000Z",
+      "date": "2026-06-16",
+      "time": "14:38",
+      "source": "github.com",
+      "sourceLabel": "GitHub: weaviate/weaviate",
+      "sourceType": "github",
+      "author": "weaviate/weaviate",
+      "authorHandle": "",
+      "summary": "Breaking Changes none New Features none Fixes fix: disable debug endpoints by default by @amourao in https://github.com/weaviate/weaviate/pull/11173 fix(config): validate replication factor bounds at startup by @gkampitakis in https://github.com/weaviate/weaviate/pull/11679 chore(gh workflow): adjust the slack notify...",
+      "avatar": null,
+      "image": null,
+      "tags": [
+        "GitHub"
+      ],
+      "topics": [
+        "search-vector",
+        "rag"
       ],
       "category": null
     },
@@ -537,33 +510,6 @@
       "topics": [
         "ai-infra",
         "model-engineering"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:apache/kafka:tag:github.com,2008:Repository/2211243/4.3.1-rc1",
-      "feedType": "dynamic",
-      "title": "apache/kafka 4.3.1-rc1",
-      "titleEn": null,
-      "link": "https://github.com/apache/kafka/releases/tag/4.3.1-rc1",
-      "guid": "tag:github.com,2008:Repository/2211243/4.3.1-rc1",
-      "publishedAt": "2026-06-15T19:25:51.000Z",
-      "date": "2026-06-16",
-      "time": "03:25",
-      "source": "github.com",
-      "sourceLabel": "GitHub: apache/kafka",
-      "sourceType": "github",
-      "author": "apache/kafka",
-      "authorHandle": "",
-      "summary": "4.3.1-rc1",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "streaming",
-        "message-queue"
       ],
       "category": null
     },

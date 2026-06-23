@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-05-27",
-  "itemCount": 8,
+  "itemCount": 7,
   "items": [
     {
       "id": "rss:8e4bff4b94acfc990e7a5862d98a7d1d9e1933e5",
@@ -142,34 +142,6 @@
         "vulnerability",
         "supply-chain-security",
         "cloud-security"
-      ],
-      "category": null
-    },
-    {
-      "id": "rss:5b218fefef6f1e0680a7cfdf2fea4482f6ed9275",
-      "feedType": "dynamic",
-      "title": "Reachy Mini goes fully local",
-      "titleEn": null,
-      "link": "https://huggingface.co/blog/local-reachy-mini-conversation",
-      "guid": "https://huggingface.co/blog/local-reachy-mini-conversation",
-      "publishedAt": "2026-05-27T00:00:00.000Z",
-      "date": "2026-05-27",
-      "time": "08:00",
-      "source": "huggingface.co",
-      "sourceLabel": "Hugging Face Blog",
-      "sourceType": "rss",
-      "author": "Hugging Face Blog",
-      "authorHandle": "",
-      "summary": "",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "RSS"
-      ],
-      "topics": [
-        "model-engineering",
-        "multimodal-ai",
-        "ai-infra"
       ],
       "category": null
     },

@@ -7,7 +7,7 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-08",
   "itemCount": 6,
   "items": [
@@ -88,21 +88,21 @@
       "category": null
     },
     {
-      "id": "github:apache/hudi:tag:github.com,2008:Repository/76474200/release-0.14.2",
+      "id": "github:apache/hudi:335872300",
       "feedType": "dynamic",
       "title": "apache/hudi 0.14.2 Release",
       "titleEn": null,
       "link": "https://github.com/apache/hudi/releases/tag/release-0.14.2",
-      "guid": "tag:github.com,2008:Repository/76474200/release-0.14.2",
-      "publishedAt": "2026-06-08T10:10:59.000Z",
+      "guid": "335872300",
+      "publishedAt": "2026-06-08T10:09:51.000Z",
       "date": "2026-06-08",
-      "time": "18:10",
+      "time": "18:09",
       "source": "github.com",
       "sourceLabel": "GitHub: apache/hudi",
       "sourceType": "github",
       "author": "apache/hudi",
       "authorHandle": "",
-      "summary": "What's Changed change back to 0.14.2-SNAPSHOT by @HuangZhenQiu in #11863 [ HUDI-8066 ] cherry pick Flink 1.18 into 0.14.2 by @HuangZhenQiu in #11780 [MINOR] Remove shaded of codahale metrics in flink bundle. by @zhangwl9 in #11954 [ HUDI-1517 ] create marker file for every log file by @lokeshj1703 in #17890 fix( HUDI-...",
+      "summary": "What's Changed change back to 0.14.2 SNAPSHOT by @HuangZhenQiu in https://github.com/apache/hudi/pull/11863 [HUDI 8066] cherry pick Flink 1.18 into 0.14.2 by @HuangZhenQiu in https://github.com/apache/hudi/pull/11780 [MINOR] Remove shaded of codahale metrics in flink bundle. by @zhangwl9 in https://github.com/apache/h...",
       "avatar": null,
       "image": null,
       "tags": [

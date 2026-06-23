@@ -7,9 +7,9 @@
     "feedUrl": ""
   },
   "sourceType": "aggregate",
-  "syncedAt": "2026-06-22T06:40:38.803Z",
+  "syncedAt": "2026-06-23T05:13:51.988Z",
   "date": "2026-06-10",
-  "itemCount": 22,
+  "itemCount": 20,
   "items": [
     {
       "id": "rss:bc950e0ae00687272c0a18322ca2fe0b5cfe1fc2",
@@ -161,34 +161,6 @@
       ],
       "topics": [
         "idp"
-      ],
-      "category": null
-    },
-    {
-      "id": "github:milvus-io/milvus:tag:github.com,2008:Repository/208728772/v2.6.18",
-      "feedType": "dynamic",
-      "title": "milvus-io/milvus milvus-2.6.18",
-      "titleEn": null,
-      "link": "https://github.com/milvus-io/milvus/releases/tag/v2.6.18",
-      "guid": "tag:github.com,2008:Repository/208728772/v2.6.18",
-      "publishedAt": "2026-06-10T06:09:18.000Z",
-      "date": "2026-06-10",
-      "time": "14:09",
-      "source": "github.com",
-      "sourceLabel": "GitHub: milvus-io/milvus",
-      "sourceType": "github",
-      "author": "milvus-io/milvus",
-      "authorHandle": "",
-      "summary": "v2.6.18 Release date: June 5, 2026 Milvus Version Python SDK Version Node.js SDK Version Java SDK Version Go SDK Version 2.6.18 2.6.15 2.6.17 2.6.20 2.6.18 We are excited to announce the release of Milvus v2.6.18! This release adds element-level search on Struct fields and nullable vector support, improves QueryNode a...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "search-vector",
-        "rag",
-        "ai-infra"
       ],
       "category": null
     },
@@ -449,32 +421,6 @@
         "RSS"
       ],
       "topics": [],
-      "category": null
-    },
-    {
-      "id": "github:crossplane/crossplane:336742742",
-      "feedType": "dynamic",
-      "title": "crossplane/crossplane v2.3.2",
-      "titleEn": null,
-      "link": "https://github.com/crossplane/crossplane/releases/tag/v2.3.2",
-      "guid": "336742742",
-      "publishedAt": "2026-06-09T16:51:27.000Z",
-      "date": "2026-06-10",
-      "time": "00:51",
-      "source": "github.com",
-      "sourceLabel": "GitHub: crossplane/crossplane",
-      "sourceType": "github",
-      "author": "crossplane/crossplane",
-      "authorHandle": "",
-      "summary": "v2.3.2 is a patch release scoped to fixing issues reported by users of Crossplane v2.3 and fixing security related issues in Crossplane's dependencies. The primary goal of this release is to fix regressions in the Crossplane CLI's render commands. What's Changed [Backport release 2.3] build: tag the apis/ Go submodule...",
-      "avatar": null,
-      "image": null,
-      "tags": [
-        "GitHub"
-      ],
-      "topics": [
-        "oam"
-      ],
       "category": null
     },
     {
