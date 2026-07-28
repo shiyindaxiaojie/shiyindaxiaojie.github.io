@@ -5,6 +5,7 @@ slug: prompt-hallucination-control
 tracks:
   - ai-agent
 category: prompt
+stage: technical
 difficulty: senior
 questionType: scenario
 frequency: high

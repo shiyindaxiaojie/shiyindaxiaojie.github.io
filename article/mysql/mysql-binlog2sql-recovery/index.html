@@ -1,0 +1,175 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>使用 binlog2sql 工具在线恢复数据 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="验证 binlog2sql 工具是否可以快速恢复数据。"><meta property="og:type" content="article"><meta property="og:title" content="使用 binlog2sql 工具在线恢复数据 - 梦想歌の后花园"><meta property="og:description" content="验证 binlog2sql 工具是否可以快速恢复数据。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/mysql/mysql-binlog2sql-recovery/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/MySQL.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/mysql/mysql-binlog2sql-recovery/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"使用 binlog2sql 工具在线恢复数据","description":"验证 binlog2sql 工具是否可以快速恢复数据。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/MySQL.png","datePublished":"2023-10-25","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"MySQL, 数据恢复","mainEntityOfPage":"https://mengxiangge.netlify.app/article/mysql/mysql-binlog2sql-recovery/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"使用 binlog2sql 工具在线恢复数据","item":"https://mengxiangge.netlify.app/article/mysql/mysql-binlog2sql-recovery/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>使用 binlog2sql 工具在线恢复数据</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/MySQL.png" alt="使用 binlog2sql 工具在线恢复数据"></div><header class="doc-header"><h1 class="doc-title">使用 binlog2sql 工具在线恢复数据</h1><p class="doc-desc">验证 binlog2sql 工具是否可以快速恢复数据。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">MySQL</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">数据恢复</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>生产数据库执行 SQL 脚本，一般会经过正规的审批流程才能运行。但有些情况是例外的，业务部门在提出一些删除数据的需求后打算撤回，或者在运营后台不小心删除了一些数据，然后找到 DBA 团队协助，希望能恢复数据。</p>
+<p>经调研，binlog2sql 是大众点评开源的一款用于解析 MySQL binlog 的工具，根据不同选项，可以得到原始SQL、回滚SQL、去除主键的INSERT SQL 等，适用于数据快速回滚（闪回）和主从切换后新 Master 丢数据的修复工作。</p>
+<h1 id="目标">目标</h1>
+<p>验证 binlog2sql 工具是否可以快速恢复数据。</p>
+<h1 id="步骤">步骤</h1>
+<h2 id="准备工作">准备工作</h2>
+<p>安装 binlog2sql 工具。</p>
+<pre class="hljs"><code>&gt; git clone https://github.com/danfengcao/binlog2sql.git &amp;&amp; cd binlog2sql
+
+# &gt; yum install python3-pip
+# &gt; whereis pip
+# &gt; pip3.6 install -r requirements.txt
+&gt; pip install -r requirements.txt
+</code></pre><p>MySQL 服务端配置以下参数，请注意，binlog2sql 仅支持 row 格式。</p>
+<pre class="hljs"><code>[mysqld]
+server_id = 1
+log_bin = /var/log/mysql/mysql-bin.log
+max_binlog_size = 1G
+binlog_format = row
+binlog_row_image = full
+</code></pre><p>指定执行脚本的数据库用户授权。</p>
+<pre class="hljs"><code>-- SELECT 权限：查询 information_schema.COLUMNS
+-- REPLICATION SLAVE：通过 BINLOG_DUMP 协议获取 binlog 内容
+-- REPLICATION CLIENT：执行 SHOW MASTER STATUS 获取 binlog 信息
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO user
+</code></pre><p>准备一张用户表 user，并填充 1W 条数据。</p>
+<pre class="hljs"><code>CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) DEFAULT NULL,
+  `gmt_create` date DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+
+DELIMITER $$
+
+CREATE PROCEDURE InsertRandomData()
+BEGIN
+    DECLARE i INT DEFAULT 1;
+    DECLARE randomName CHAR(10);
+    DECLARE randomDate DATE;
+
+    WHILE i &lt;= 10000 DO
+        -- 生成随机 name (随机字符串)
+        SET randomName = CONCAT(
+            CHAR(FLOOR(RAND() * 26) + 65), 
+            CHAR(FLOOR(RAND() * 26) + 65), 
+            CHAR(FLOOR(RAND() * 26) + 65), 
+            CHAR(FLOOR(RAND() * 26) + 65), 
+            CHAR(FLOOR(RAND() * 26) + 65)
+        );
+
+        -- 生成随机日期 (2013-11-11 起始，随机范围约为一年内)
+        SET randomDate = DATE_ADD('2023-01-01', INTERVAL FLOOR(RAND() * 365) DAY);
+
+        -- 插入数据
+        INSERT INTO `user` (`name`, `gmt_create`) VALUES (randomName, randomDate);
+
+        SET i = i + 1;
+    END WHILE;
+END$$
+
+DELIMITER ;
+
+-- 调用存储过程
+CALL InsertRandomData();
+</code></pre><p>查看大于 11 月份的数据总数，共 363 条。</p>
+<pre class="hljs"><code>mysql &gt; SELECT count(*) FROM user WHERE gmt_create &gt; '2023-11-01 00:00:00';
+
++----------+
+| count(*) |
++----------+
+|      363 |
++----------+
+</code></pre><p>模拟误删除，假设在 15:30 左右删除了 11 月份之后的数据。</p>
+<pre class="hljs"><code>mysql &gt; DELETE FROM user WHERE gmt_create &gt; '2023-11-01 00:00:00';
+</code></pre><h2 id="恢复数据">恢复数据</h2>
+<p>查看主库 binlog 状态，最新的文件为 mysql-bin.000003。</p>
+<pre class="hljs"><code>-- 低版本使用 SHOW MASTER STATUS;
+mysql &gt; SHOW BINARY LOGS;
++------------------+-----------+-----------+
+| Log_name         | File_size | Encrypted |
++------------------+-----------+-----------+
+| mysql-bin.000001 |      1871 | No        |
+| mysql-bin.000002 |       181 | No        |
+| mysql-bin.000003 |    917878 | No        |
++------------------+-----------+-----------+
+3 rows in set (0.04 sec)
+</code></pre><p>筛选出需要回滚的SQL，误操作人一般知道大致的误操作时间，我们首先根据时间做一次过滤。</p>
+<pre class="hljs"><code>shell&gt; python binlog2sql/binlog2sql.py -h地址 -P端口 -u用户 -p'密码' -d库民 -t表名 --start-file='mysql-bin.000003' --start-datetime='2023-11-02 15:00:00' --stop-datetime='2023-11-02 16:00:00' &gt; /tmp/raw.sql
+
+raw.sql输出：
+DELETE FROM `test`.`user` WHERE `gmt_create`='2023-11-01 00:00:00' AND `id`=1351 AND `name`='TPUDJ' LIMIT 1; #start 105311 end 262311 time 2023-11-02 15:31:10
+DELETE FROM `test`.`user` WHERE `gmt_create`='2023-11-01 00:00:00' AND `id`=1352 AND `name`='YKIIS' LIMIT 1; #start 105311 end 262311 time 2023-11-02 15:31:10
+...
+DELETE FROM `test`.`user` WHERE `gmt_create`='2023-12-31 00:00:00' AND `id`=1714 AND `name`='SHKBC' LIMIT 1; #start 105311 end 265754 time 2023-11-02 15:31:10
+</code></pre><p>根据 raw.sql 的位置信息，可以判断误操作的 SQL 来自同一个事务，准确位置在 105311-265754 之间，根据位置过滤，使用 -B 选项生成回滚 SQL。</p>
+<pre class="hljs"><code>shell&gt; python binlog2sql/binlog2sql.py -h地址 -P端口 -u用户 -p'密码' -d库民 -t表名 --start-file='mysql-bin.000003' --start-position=105311 --stop-position=265754 -B &gt; /tmp/rollback.sql
+
+rollback.sql输出：
+INSERT INTO `test`.`user`(`gmt_create`, `id`, `name`) VALUES ('2023-11-01 00:00:00', 1351, 'TPUDJ'); #start 105311 end 262311 time 2023-11-02 15:31:10
+INSERT INTO `test`.`user`(`gmt_create`, `id`, `name`) VALUES ('2023-11-01 00:00:00', 1352, 'YKIIS'); #start 105311 end 262311 time 2023-11-02 15:31:10
+...
+INSERT INTO `test`.`user`(`gmt_create`, `id`, `name`) VALUES ('2023-12-31 00:00:00', 1714, 'SHKBC'); #start 105311 end 265754 time 2023-11-02 15:31:10
+</code></pre><h2 id="结果验证">结果验证</h2>
+<p>确认回滚 SQL 总行数是否对应误删除的 363 条。</p>
+<pre class="hljs"><code>shell&gt; wc -l /tmp/rollback.sql
+
+363 /tmp/rollback.sql
+</code></pre><p>与业务方确认回滚 SQL 没问题，执行回滚语句。登录 MySQL，确认回滚成功。</p>
+<pre class="hljs"><code>shell&gt; mysql -h地址 -P端口 -u用户 -p'密码' &lt; /tmp/rollback.sql
+
+mysql&gt; SELECT count(*) FROM user WHERE gmt_create &gt; '2023-11-01 00:00:00';
++----------+
+| count(*) |
++----------+
+|    363   |
++----------+
+</code></pre><h1 id="结论">结论</h1>
+<p>binlog2sql 适用于在线恢复误操作的数据，但不适用于以下情况：</p>
+<ol>
+<li><strong>数据恢复建议控制在 50W 以内</strong>，数据量越大，逆向生成的语句越多，超过这个数值，恢复时间可能会超过 15 分钟。</li>
+<li><strong>不支持 DDL 恢复操作</strong>。因为即使在 row 模式下，binlog对于 DDL 操作不会记录每行数据的变化。要实现 DDL 快速回滚，必须修改 MySQL 源码，使得在执行 DDL 前先备份老数据。阿里林晓斌团队提交了 patch 给 MySQL 官方，相关实现方案可以查阅 <a href="https://www.iteye.com/blog/dinglin-1539167">MySQL闪回方案讨论及实现</a>。</li>
+<li>根据官方说法，在线召回数据推荐使用 binlog2sql 工具，离线解析使用 mysqlbinlog 工具，MySQL 闪回特性最早由阿里彭立勋开发，具体可以查阅 <a href="http://www.penglixun.com/database/mysql_flashback_feature.html">MySQL Flashback Feature</a>。</li>
+</ol>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 步骤</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 准备工作</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 恢复数据</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 结果验证</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 结论</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

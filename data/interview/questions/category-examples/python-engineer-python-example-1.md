@@ -1,46 +1,37 @@
 ---
 id: python-engineer-python-example-1
-title: Python 的 GIL 到底限制了什么，并发程序该怎么选模型？
+title: "Python 的 GIL 限制了什么，并发模型怎么选？"
 slug: python-engineer-python-example-1
 tracks:
   - python-engineer
 category: python
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: medium
 tags:
-  - Python
-  - GIL
-  - 多线程
-  - 多进程
-summary: 围绕 Python 的机制、边界、故障模式和工程取舍做追问。
+  - "Python"
+  - "GIL"
+  - "并发模型"
+  - "性能分析"
+summary: "围绕Python的真实问题，沿着机制、证据和失败边界继续追问。"
 estimatedRead: 3
 ---
 
 ::interviewer::
-Python 的 GIL 到底限制了什么，并发程序该怎么选模型？
+Python 的 GIL 限制了什么，并发模型怎么选？
 
 ::candidate level="core"::
-我会把这题先落到生产现场看：Python（GIL、多线程、多进程） 不是孤立概念，它通常会影响延迟、错误率、资源水位、发布风险或一致性边界。回答时我先判断它解决什么问题，再说明它依赖哪些前提，最后讲前提失效时会出现什么信号。
-
-以线上排查为例，我不会只背定义。第一步看入口指标，确认 QPS、P95/P99、错误率和饱和度是不是一起变化；第二步看依赖指标，确认数据库、缓存、队列、下游服务或运行时有没有慢调用；第三步看单机证据，比如日志、Trace、线程或协程栈、连接池、CPU/I/O、GC 或队列长度。
+CPython 的 GIL 让一个进程内同一时刻只有一个线程执行 Python 字节码，I/O 等待时会释放，因此线程适合阻塞 I/O，不适合纯 Python CPU 密集。CPU 任务用多进程、原生扩展或任务队列，asyncio 适合大量可协作 I/O。
 
 ::interviewer::
-你别泛泛讲流程，给我一个能落地的排查路径。
+别停在原理上，Python落到线上先看什么证据？
 
 ::candidate level="deep"::
-我会按“入口指标 -> 依赖指标 -> 单机证据 -> 变更记录”收敛。入口看用户侧延迟和错误码，依赖看慢查询、缓存命中率、队列堆积或下游超时，单机看资源瓶颈和运行时栈，最后把现象和发布、配置、扩容、流量切换做时间线对齐。
-
-如果证据冲突，比如服务日志没有错误但用户侧超时，我会补网关日志和链路追踪，确认请求是在客户端超时、网关排队、服务处理，还是下游等待里消失。只有证据链闭合后才会改参数或改架构。
+保留 py-spy 火焰图、线程/协程栈、事件循环延迟、连接池和 Trace，压测验证模型变化后的吞吐与尾延迟。
 
 ::interviewer::
-那你怎么证明你的方案不是拍脑袋？
+Python这套判断在哪个边界下会失效？
 
 ::candidate::
-我会给出改动前基线、预期改善指标、灰度范围、回滚条件和复盘结果。比如只改线程池、连接池或重试策略，就要说明当前瓶颈确实是排队、连接耗尽或抖动放大；如果要做架构调整，就要说明局部调参已经到边界。
-
-::interviewer::
-这个回答里我还会继续追问什么边界？
-
-::candidate::
-我会准备三个边界：什么时候这个方案不适用，指标到什么阈值必须降级，故障复现不了时如何保留日志、Trace 和采样指标。这样这道 Python 题就不是名词解释，而是能落到真实生产链路。
+多进程会增加内存和数据传输，asyncio 中一次阻塞调用会卡住整个事件循环。模型选择要跟任务性质和库支持匹配。

@@ -5,6 +5,7 @@ slug: java-jmm-volatile-happens-before
 tracks:
   - java-backend
 category: concurrency
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: high
@@ -37,13 +38,19 @@ volatile 主要保证两件事：写入后对其他线程可见，以及禁止�
 那 volatile int count++ 为什么还是不安全？
 
 ::candidate level="deep"::
-因为 count++ 不是一次操作，它至少包含读、加一、写回。volatile 能让每次读写都可见，但不能让这三步合成一个不可打断的整体。两个线程可能都读到 10，各自加到 11，再写回，最后少算一次。这里要用 AtomicInteger、LongAdder，或者锁。
+因为 count++ 不是一次操作，它至少包含读、加一、写回。[[volatile]] 能让每次读写都可见，但不能让这三步合成一个不可打断的整体。两个线程可能都读到 10，各自加到 11，再写回，最后少算一次。这里要用 AtomicInteger、LongAdder，或者锁。
+
+::candidate variant="misconception"::
+volatile 已经禁止重排了，所以 `count++` 也不会丢数据。
+
+::interviewer correction="true"::
+禁止重排解决的是特定读写的可见性和有序性，不会把读、改、写变成一个原子步骤。并发计数要选原子类、LongAdder 或锁，取决于写入竞争和读取语义。
 
 ::interviewer::
 happens-before 你怎么理解？别背规则，讲它解决什么问题。
 
 ::candidate::
-happens-before 是判断可见性和顺序的规则。它告诉我们：如果 A happens-before B，那么 A 的结果对 B 可见，A 的顺序也不会被 B 看到成乱序。比如解锁 happens-before 后续对同一把锁的加锁，volatile 写 happens-before 后续 volatile 读。它让我们不用猜底层缓存细节，而是按同步关系推导程序是否安全。
+[[happens-before]] 是判断可见性和顺序的规则。它告诉我们：如果 A happens-before B，那么 A 的结果对 B 可见，A 的顺序也不会被 B 看到成乱序。比如解锁 happens-before 后续对同一把锁的加锁，volatile 写 happens-before 后续 volatile 读。它让我们不用猜底层缓存细节，而是按同步关系推导程序是否安全。
 
 ::interviewer::
 双重检查单例为什么要 volatile？
@@ -62,3 +69,7 @@ happens-before 是判断可见性和顺序的规则。它告诉我们：如果 A
 
 ::candidate::
 普通单元测试不太靠谱，因为它可能跑一万次也碰不到。我会用 `JCStress` 这类并发测试工具，把两个线程的读写结果枚举出来，看是否出现不允许的结果；性能层面再用 `JMH` 避免被 JIT 和预热影响。线上排查则看代码里的共享状态有没有同步边界，`jcmd <pid> Thread.print -l` 只能证明线程卡在哪里，不能直接证明 JMM 语义正确。
+
+::terms::
+volatile = 保证共享变量的可见性，并约束相关读写重排；不保证复合操作原子性。 | docs=https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html | knowledge=/knowledge/?mode=search&q=volatile
+happens-before = 用同步关系推导跨线程可见性和顺序的规则。 | docs=https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html | knowledge=/knowledge/?mode=search&q=happens-before

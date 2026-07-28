@@ -1,0 +1,190 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>URL 短链系统设计 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="设计一个 URL 短链服务，类似 bit.ly、tinyurl.com。"><meta property="og:type" content="article"><meta property="og:title" content="URL 短链系统设计 - 梦想歌の后花园"><meta property="og:description" content="设计一个 URL 短链服务，类似 bit.ly、tinyurl.com。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/system-design/url-shortener-design/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/short-url.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/system-design/url-shortener-design/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"URL 短链系统设计","description":"设计一个 URL 短链服务，类似 bit.ly、tinyurl.com。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/short-url.png","datePublished":"2023-08-25","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"系统设计","mainEntityOfPage":"https://mengxiangge.netlify.app/article/system-design/url-shortener-design/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"URL 短链系统设计","item":"https://mengxiangge.netlify.app/article/system-design/url-shortener-design/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>URL 短链系统设计</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/short-url.png" alt="URL 短链系统设计"></div><header class="doc-header"><h1 class="doc-title">URL 短链系统设计</h1><p class="doc-desc">设计一个 URL 短链服务，类似 bit.ly、tinyurl.com。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">系统设计</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="场景">场景</h1>
+<p>设计一个 URL 短链服务，类似 <a href="http://bit.ly">bit.ly</a>、<a href="http://tinyurl.com">tinyurl.com</a>。</p>
+<p>需求点：</p>
+<ol>
+<li>给定长 URL，生成短链接</li>
+<li>访问短链接，重定向到原始 URL</li>
+<li>短链接长度尽量短（7 位字符）</li>
+<li>支持自定义短链接</li>
+<li>日活用户 1 亿，每天生成 1 亿条短链接</li>
+</ol>
+<h1 id="估算">估算</h1>
+<p>写入：</p>
+<ul>
+<li>日生成量：1 亿条/天</li>
+<li>写入 QPS：100,000,000 / 86400 ≈ 1157 次/秒</li>
+</ul>
+<p>读取（假设读写比 10:1）：</p>
+<ul>
+<li>读取 QPS：11570 次/秒</li>
+<li>峰值 QPS：约 23000 次/秒</li>
+</ul>
+<p>存储：</p>
+<ul>
+<li>每条记录约 500 字节（短链 + 长链 + 元数据）</li>
+<li>日存储量：1 亿 × 500B = 50GB/天</li>
+<li>5 年存储：50GB × 365 × 5 ≈ 91TB</li>
+</ul>
+<p>短链长度计算：</p>
+<ul>
+<li>使用 [0-9a-zA-Z] 共 62 个字符</li>
+<li>7 位短链：62^7 ≈ 3.5 万亿，足够使用</li>
+</ul>
+<h1 id="设计">设计</h1>
+<h2 id="整体架构">整体架构</h2>
+<pre class="hljs"><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   Client    │────▶│   API GW    │────▶│  Short URL  │
+│             │     │   + LB      │     │   Service   │
+└─────────────┘     └─────────────┘     └─────────────┘
+                                               │
+                    ┌──────────────────────────┼──────────────────────────┐
+                    │                          │                          │
+                    ▼                          ▼                          ▼
+             ┌─────────────┐           ┌─────────────┐           ┌─────────────┐
+             │   Redis     │           │   MySQL     │           │    ID       │
+             │   Cache     │           │   Storage   │           │  Generator  │
+             └─────────────┘           └─────────────┘           └─────────────┘
+</code></pre><h2 id="短链生成方案">短链生成方案</h2>
+<h3 id="方案一-哈希-冲突处理">方案一：哈希 + 冲突处理</h3>
+<pre class="hljs"><code>长URL → MD5/SHA256 → 取前7位 → 检查冲突 → 存储
+</code></pre><p><strong>冲突处理</strong>：如果短链已存在，追加随机字符重新生成</p>
+<p><strong>缺点</strong>：需要查库检查冲突，性能较差</p>
+<h3 id="方案二-自增-id-base62-编码-推荐">方案二：自增 ID + Base62 编码 ⭐ 推荐</h3>
+<pre class="hljs"><code>长URL → 生成唯一ID → Base62编码 → 短链
+</code></pre><pre class="hljs"><code>public String encode(long id) {
+    String chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    StringBuilder sb = new StringBuilder();
+    while (id &gt; 0) {
+        sb.append(chars.charAt((int)(id % 62)));
+        id /= 62;
+    }
+    return sb.reverse().toString();
+}
+</code></pre><p><strong>优点</strong>：无冲突，性能高</p>
+<h2 id="数据存储">数据存储</h2>
+<pre class="hljs"><code>CREATE TABLE url_mapping (
+    id BIGINT PRIMARY KEY,
+    short_url VARCHAR(10) UNIQUE,
+    long_url VARCHAR(2048),
+    created_at TIMESTAMP,
+    expires_at TIMESTAMP,
+    INDEX idx_short_url (short_url)
+);
+</code></pre><h2 id="重定向方式">重定向方式</h2>
+<table>
+<thead>
+<tr>
+<th>状态码</th>
+<th>说明</th>
+<th>场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>301</td>
+<td>永久重定向，浏览器缓存</td>
+<td>不需要统计点击</td>
+</tr>
+<tr>
+<td>302</td>
+<td>临时重定向，每次请求服务器</td>
+<td>需要统计点击数据</td>
+</tr>
+</tbody>
+</table>
+<p>推荐使用 <strong>302</strong>，便于统计分析。</p>
+<h2 id="缓存策略">缓存策略</h2>
+<pre class="hljs"><code>读取流程：
+1. 查询 Redis 缓存
+2. 缓存命中 → 直接返回
+3. 缓存未命中 → 查询数据库 → 写入缓存 → 返回
+</code></pre><p>热点数据缓存，设置合理的 TTL（如 24 小时）。</p>
+<h2 id="高可用设计">高可用设计</h2>
+<ol>
+<li><strong>数据库主从复制</strong>：读写分离</li>
+<li><strong>多机房部署</strong>：异地多活</li>
+<li><strong>限流降级</strong>：防止恶意请求</li>
+</ol>
+<h1 id="总结">总结</h1>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>技术选型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ID 生成</td>
+<td>雪花算法 / 号段模式</td>
+</tr>
+<tr>
+<td>缓存</td>
+<td>Redis Cluster</td>
+</tr>
+<tr>
+<td>存储</td>
+<td>MySQL + 分库分表</td>
+</tr>
+<tr>
+<td>编码</td>
+<td>Base62</td>
+</tr>
+</tbody>
+</table>
+<p>核心挑战：</p>
+<ol>
+<li><strong>短链唯一性</strong>：避免冲突</li>
+<li><strong>高并发读取</strong>：缓存 + CDN</li>
+<li><strong>海量存储</strong>：分库分表 + 冷热分离</li>
+</ol>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 场景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 估算</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 设计</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 整体架构</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 短链生成方案</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.1. 方案一：哈希 + 冲突处理</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.2. 方案二：自增 ID + Base62 编码 ⭐ 推荐</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 数据存储</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4. 重定向方式</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5. 缓存策略</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.6. 高可用设计</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 总结</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

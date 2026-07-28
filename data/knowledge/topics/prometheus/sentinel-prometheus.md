@@ -279,11 +279,11 @@ public class SentinelPrometheusAutoConfiguration {
 
 启动项目，访问 /actuator/prometheus 端点。
 
-![](spring-boot-actuator-prometheus.png)
+![](images/spring-boot-actuator-prometheus.png)
 
 ## 配置 Grafana 可视化
 
-![](grafana-sentinel.png)
+![](images/grafana-sentinel.png)
 
 
 

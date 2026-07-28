@@ -5,6 +5,7 @@ slug: jvm-gc-roots
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: medium

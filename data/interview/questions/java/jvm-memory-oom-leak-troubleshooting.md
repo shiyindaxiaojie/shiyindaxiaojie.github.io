@@ -5,6 +5,7 @@ slug: jvm-memory-oom-leak-troubleshooting
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high

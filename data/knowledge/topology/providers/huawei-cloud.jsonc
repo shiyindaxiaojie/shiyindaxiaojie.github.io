@@ -1,0 +1,21 @@
+// Provider: huawei-cloud.
+// Huawei Cloud catalog placeholder for provider-specific product aliases.
+{
+  "id": "huawei-cloud",
+  "labelKey": "topology.providers.huaweiCloud",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ]
+}

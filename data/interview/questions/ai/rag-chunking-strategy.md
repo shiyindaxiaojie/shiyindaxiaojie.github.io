@@ -5,6 +5,7 @@ slug: rag-chunking-strategy
 tracks:
   - ai-agent
 category: llm
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: high

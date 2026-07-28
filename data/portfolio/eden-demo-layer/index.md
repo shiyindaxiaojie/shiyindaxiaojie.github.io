@@ -6,14 +6,13 @@ category: "frameworks"
 covers: ["./assets/component.png"]
 tags: ["alibaba","architect","demo","spring-boot"]
 summary: {
-    "zh-CN": "经典分层架构示例工程，用于说明应用、领域、基础设施之间的职责划分。",
+    "zh-CN": "阿里巴巴经典分层架构示例工程",
     "en": "A layered architecture sample explaining responsibilities across application, domain, and infrastructure layers."
 },
 features: {
     "zh-CN": [
-        "展示轻量级业务分层方式",
-        "适合中小型后端服务落地",
-        "与 COLA 示例形成架构取舍对照"
+        "展示应用、领域、基础设施之间的职责划分",
+        "适合中小型后端服务落地"
     ],
     "en": [
         "Shows lightweight business layering",
@@ -21,5 +20,5 @@ features: {
         "Provides a contrast to the COLA sample"
     ]
 },
-order: 6
+order: 8
 ---

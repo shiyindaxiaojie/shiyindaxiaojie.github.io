@@ -7,6 +7,7 @@ tracks:
   - go-backend
   - python-engineer
 category: order-payment
+stage: scenario
 difficulty: senior
 questionType: system-design
 frequency: high

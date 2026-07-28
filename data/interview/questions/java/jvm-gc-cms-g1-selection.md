@@ -5,6 +5,7 @@ slug: jvm-gc-cms-g1-selection
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high

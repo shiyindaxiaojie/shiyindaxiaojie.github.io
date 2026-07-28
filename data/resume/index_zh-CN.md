@@ -3,8 +3,8 @@
 # name：封面显示的名字；role：职业身份；headline/summary：封面和摘要会用到的短介绍。
 name: 梦想歌
 role: 系统架构师
-headline: 专注云原生解决方案的系统架构师，擅长 AI Agent、GitOps、OAM 与可观测性。
-summary: 专注云原生解决方案的系统架构师，擅长 AI Agent、GitOps、OAM 与可观测性。
+headline: 专注云原生解决方案的系统架构师，擅长 AI Agent、GitOps、平台工程和可观测性。
+summary: 专注云原生解决方案的系统架构师，擅长 AI Agent、GitOps、平台工程和可观测性。
 
 # 联系方式配置。contact 页会读取这些字段。
 github: https://github.com/shiyindaxiaojie
@@ -30,7 +30,8 @@ cover: /data/resume/assets/cover.png
 <!-- section: 关于我 -->
 <!-- layout: cover -->
 <!-- image: /data/resume/assets/cover.png -->
-> 专注云原生解决方案的系统架构师，擅长 AI Agent、GitOps、OAM 与可观测性。
+> 专注云原生解决方案的系统架构师
+> 擅长 AI Agent、GitOps、平台工程和可观测性。
 
 # 作品展示
 <!-- section: 做过什么 -->
@@ -149,8 +150,8 @@ cover: /data/resume/assets/cover.png
 - 分层脚手架 :: 老业务系统也能按更清楚的层次往前改。
 - 研发规范 :: 目录、配置、发布方式保持一致，少靠口头约定。
 
-# 联系我
-<!-- section: 联系我 -->
+# 欢迎联系
+<!-- section: 欢迎联系 -->
 <!-- layout: contact -->
 > 扫码添加，请注明公司+来意
 

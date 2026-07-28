@@ -1,0 +1,811 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Boot 实现自定义审计功能 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="提供自定义注解给业务侧，实现开箱即用的事件审计存储功能。"><meta property="og:type" content="article"><meta property="og:title" content="Spring Boot 实现自定义审计功能 - 梦想歌の后花园"><meta property="og:description" content="提供自定义注解给业务侧，实现开箱即用的事件审计存储功能。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/java/spring-custom-audit/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/java/spring-custom-audit/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Spring Boot 实现自定义审计功能","description":"提供自定义注解给业务侧，实现开箱即用的事件审计存储功能。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png","datePublished":"2024-02-11","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"扩展点, Spring, Spring Boot, 自定义审计","mainEntityOfPage":"https://mengxiangge.netlify.app/article/java/spring-custom-audit/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Spring Boot 实现自定义审计功能","item":"https://mengxiangge.netlify.app/article/java/spring-custom-audit/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Spring Boot 实现自定义审计功能</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png" alt="Spring Boot 实现自定义审计功能"></div><header class="doc-header"><h1 class="doc-title">Spring Boot 实现自定义审计功能</h1><p class="doc-desc">提供自定义注解给业务侧，实现开箱即用的事件审计存储功能。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">扩展点</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">Spring</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">Spring Boot</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">自定义审计</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>在现代应用系统中，事件审计是一个至关重要的功能。通过记录用户的操作行为，我们可以追踪问题、分析用户行为，甚至在出现安全问题时提供关键证据。由于目前没有较好的事件审计框架，笔者决定实现一套可扩展的事件审计组件，要求对业务低侵入性，可以轻松获取前后变更的内容。</p>
+<h1 id="目标">目标</h1>
+<p>提供自定义注解给业务侧，实现开箱即用的事件审计存储功能。</p>
+<h1 id="实现">实现</h1>
+<h2 id="审计">审计</h2>
+<p>我们定义了 <code>@EventAuditor</code> 注解，关键字段包括 <code>operator</code>（操作人）、<code>content</code>（操作内容模板）、<code>bizScenario</code>（事件发生的场景）等。</p>
+<pre class="hljs"><code>@Documented
+@Inherited
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD})
+public @interface EventAuditor {
+
+	/**
+	 * 操作对象，支持 SpEL 表达式
+	 *
+	 * @return 操作对象
+	 */
+	String operator() default Strings.EMPTY;
+
+	/**
+	 * 操作角色，支持 SpEL 表达式
+	 * &lt;br/&gt; 用于区分运营人员和用户
+	 *
+	 * @return 操作角色
+	 */
+	String role() default Strings.EMPTY;
+
+	/**
+	 * 业务场景，支持 SpEL 表达式
+	 * &lt;br/&gt; 推荐风格：产品线+用例+场景
+	 *
+	 * @return 业务场景
+	 */
+	String bizScenario() default Strings.EMPTY;
+
+	/**
+	 * 记录内容
+	 *
+	 * @return 记录内容，支持 SpEL 表达式
+	 */
+	String content() default Strings.EMPTY;
+
+	/**
+	 * 额外信息
+	 * &lt;br/&gt; 防止记录的内容过长无法展示，额外序列化保存
+	 *
+	 * @return 额外信息，支持 SpEL 表达式
+	 */
+	String extra() default Strings.EMPTY;
+
+	/**
+	 * 触发条件
+	 *
+	 * @return 触发条件，为空表示默认触发
+	 */
+	String condition() default Strings.EMPTY;
+
+	/**
+	 * 调用方法之前解析 SpEL 参数
+	 * &lt;br/&gt;
+	 *
+	 * @return 是否提前解析
+	 */
+	boolean evalBeforeInvoke() default true;
+
+	/**
+	 * 是否记录返回值
+	 * &lt;br/&gt; 防止记录查询类返回的 List 大对象导致 OOM
+	 *
+	 * @return 是否记录
+	 */
+	boolean recordReturnValue() default false;
+}
+</code></pre><p>通过 Spring 的 <code>MethodInterceptor</code>，我们实现了 <code>EventAuditorInterceptor</code> 来捕获 <code>@EventAuditor</code> 注解，并在方法调用前后进行审计记录。</p>
+<pre class="hljs"><code>@RequiredArgsConstructor
+@Slf4j
+public class EventAuditorInterceptor implements MethodInterceptor {
+
+	private static final String RETURN = "_return";
+
+	private static final String ERROR_MSG = "_errorMsg";
+
+	private final EventAuditorConfig eventAuditorConfig;
+
+	private AsyncTaskExecutor asyncTaskExecutor;
+
+	/**
+	 * 方法调用拦截处理
+	 *
+	 * @param invocation 方法调用元信息
+	 * @return 返回值
+	 * @throws Throwable 异常
+	 */
+	@Override
+	public Object invoke(@NotNull MethodInvocation invocation) throws Throwable {
+		if (AopUtils.isAopProxy(invocation.getThis())) {
+			return invocation.proceed();
+		}
+
+		LocalDateTime now = LocalDateTime.now();
+		Method method = invocation.getMethod();
+		EventAuditor[] eventAuditors;
+		try {
+			eventAuditors = method.getAnnotationsByType(EventAuditor.class);
+		} catch (Throwable throwable) {
+			// 如果解析异常，直接执行返回
+			return invocation.proceed();
+		}
+
+		List&lt;AuditingEvent&gt; events = Lists.newArrayList();
+		events.addAll(parseList(invocation, eventAuditors, true));
+
+		Object result = null;
+		boolean success = true;
+		long executionCost = 0L;
+		String errorMsg = null;
+		// 执行耗时
+		String watchId = invocation.getClass() + Strings.DOT + invocation.getMethod().getName();
+		StopWatch stopWatch = new StopWatch(watchId);
+		stopWatch.start();
+		try {
+			result = invocation.proceed();
+		} catch (Throwable e) {
+			if (stopWatch.isRunning()) {
+				stopWatch.stop();
+				executionCost = stopWatch.getTotalTimeMillis();
+			}
+			success = false;
+			errorMsg = e.getMessage();
+			SpelEvaluationContext.setVariable(ERROR_MSG, errorMsg);    // 异常信息
+			throw e;
+		} finally {
+			if (stopWatch.isRunning()) {
+				stopWatch.stop();
+				executionCost = stopWatch.getTotalTimeMillis();
+			}
+			SpelEvaluationContext.setVariable(RETURN, result);    // 返回值处理
+			events.addAll(parseList(invocation, eventAuditors, false));
+			for (AuditingEvent event : events) {
+				event.setSuccess(success);
+				event.setOperateDate(now);
+				event.setExecutionCost(executionCost);
+				if (errorMsg != null) {
+					event.setThrowable(errorMsg);
+				}
+			}
+
+			send(events);
+			SpelEvaluationContext.remove(); // 清理当前线程变量
+		}
+		return result;
+	}
+
+	/**
+	 * 异步开启后需要设置 AsyncTaskExecutor
+	 *
+	 * @param asyncTaskExecutor 异步任务执行器
+	 */
+	public void setAsyncTaskExecutor(AsyncTaskExecutor asyncTaskExecutor) {
+		this.asyncTaskExecutor = asyncTaskExecutor;
+	}
+
+	/**
+	 * 发送审计事件
+	 *
+	 * @param events 审计事件列表
+	 */
+	private void send(List&lt;AuditingEvent&gt; events) {
+		String senderType = eventAuditorConfig.getSender().getSenderType();
+		EventSenderBuilder eventSenderBuilder = ExtensionLoader.getExtensionLoader(EventSenderBuilder.class).getExtension(senderType);
+		eventSenderBuilder.setEventAuditorConfig(eventAuditorConfig);
+		EventSender eventSender = eventSenderBuilder.build();
+		if (eventAuditorConfig.getSender().isAsync() &amp;&amp; asyncTaskExecutor != null) {
+			asyncTaskExecutor.execute(() -&gt; eventSender.send(events));
+		} else {
+			eventSender.send(events);
+		}
+	}
+
+	/**
+	 * 解析 {@code AuditingEvent} 列表
+	 *
+	 * @param invocation       方法调用元信息
+	 * @param eventAuditors    审计注解
+	 * @param evalBeforeInvoke 是否在调用方法之前提前解析
+	 * @return {@code AuditingEvent} 列表
+	 */
+	private List&lt;AuditingEvent&gt; parseList(@NotNull MethodInvocation invocation, EventAuditor[] eventAuditors,
+										  boolean evalBeforeInvoke) {
+		List&lt;AuditingEvent&gt; events = Lists.newArrayList();
+		for (EventAuditor eventAuditor : eventAuditors) {
+			if (eventAuditor.evalBeforeInvoke() == evalBeforeInvoke) {
+				AuditingEvent auditingEvent = this.parseModel(eventAuditor, invocation);
+				if (auditingEvent != null) {
+					events.add(auditingEvent);
+				}
+			}
+		}
+		return events;
+	}
+
+	/**
+	 * 解析模型
+	 *
+	 * @param eventAuditor 事件审计注解
+	 * @param invocation   方法调用元信息
+	 * @return 目标模型
+	 */
+	private AuditingEvent parseModel(EventAuditor eventAuditor, MethodInvocation invocation) {
+		EvaluationContext context = SpelEvaluationContext.getContext();
+		CustomFunctionRegistrar.register((StandardEvaluationContext) context);
+		Method method = invocation.getMethod();
+		String[] parameterNames = SpelExpressionEvaluator.getParameterNameDiscoverer().getParameterNames(method);
+		Object[] arguments = invocation.getArguments();
+		if (parameterNames != null) {
+			int len = parameterNames.length;
+			for (int i = 0; i &lt; len; i++) {
+				context.setVariable(parameterNames[i], arguments[i]);
+			}
+		}
+
+		ExpressionParser parser = SpelExpressionEvaluator.getExpressionParser();
+		if (StringUtils.isNotBlank(eventAuditor.condition())) {
+			Expression expression = parser.parseExpression(eventAuditor.condition());
+			if (!Boolean.TRUE.equals(expression.getValue(context, Boolean.class))) {
+				return null;
+			}
+		}
+
+		AuditingEvent auditingEvent = new AuditingEvent();
+		if (StringUtils.isNotBlank(eventAuditor.operator())) {
+			Expression expression = parser.parseExpression(eventAuditor.operator());
+			auditingEvent.setOperator(expression.getValue(context, String.class));
+		}
+
+		if (StringUtils.isNotBlank(eventAuditor.role())) {
+			Expression expression = parser.parseExpression(eventAuditor.role());
+			auditingEvent.setRole(expression.getValue(context, String.class));
+		}
+
+		if (StringUtils.isNotBlank(eventAuditor.bizScenario())) {
+			Expression expression = parser.parseExpression(eventAuditor.bizScenario());
+			auditingEvent.setBizScenario(expression.getValue(context, String.class));
+		}
+
+		if (StringUtils.isNotBlank(eventAuditor.content())) {
+			Expression expression = parser.parseExpression(eventAuditor.content());
+			auditingEvent.setContent(expression.getValue(context, String.class));
+		}
+
+		if (StringUtils.isNotBlank(eventAuditor.extra())) {
+			Expression expression = parser.parseExpression(eventAuditor.extra());
+			Object extra = expression.getValue(context, Object.class);
+			auditingEvent.setExtra(extra instanceof String ? (String) extra : JSONHelper.json().toJSONString(extra));
+		}
+		return auditingEvent;
+	}
+}
+</code></pre><p>上述代码中有 3 个关键类，分别是：</p>
+<ol>
+<li><code>SpelExpressionEvaluator</code> ：处理 SpEL 表达式。</li>
+<li><code>CustomFunctionRegistrar</code>：存储自定义函数和 Java 方法的关联关系，解析自定义函数时，通过缓存找到对应的 Java 方法反射调用。</li>
+<li><code>EventSenderBuilder</code> ：将事件内容往其他渠道发送，例如消息队列、数据库，便于存储。</li>
+</ol>
+<p>接下来依次展开说明。</p>
+<h2 id="spel-表达式解析实现">SpEL 表达式解析实现</h2>
+<p>SpEL 是 Spring 特有的表示解析格式，内部通过 <code>StandardEvaluationContext</code> 实现，我们可以在这个基础上进行封装。</p>
+<pre class="hljs"><code>public class SpelExpressionEvaluator {
+
+	private static final ExpressionParser PARSER = new SpelExpressionParser();
+
+	private static final ParameterNameDiscoverer DISCOVERER = new LocalVariableTableParameterNameDiscoverer();
+
+	public static ExpressionParser getExpressionParser() {
+		return PARSER;
+	}
+
+	public static ParameterNameDiscoverer getParameterNameDiscoverer() {
+		return DISCOVERER;
+	}
+
+	/**
+	 * 解析 SpEL 表达式
+	 *
+	 * @param expressionString SpEL 表达式
+	 * @param method           方法
+	 * @param arguments        参数
+	 * @return 解析后的内容
+	 */
+	public static String parseExpression(String expressionString, Method method, Object[] arguments) {
+		String[] params = DISCOVERER.getParameterNames(method);
+		if (params != null &amp;&amp; params.length &gt; 0) {
+			for (int i = 0; i &lt; params.length; i++) {
+				SpelEvaluationContext.setVariable(params[i], arguments[i]);
+			}
+		}
+
+		Expression expression = PARSER.parseExpression(expressionString);
+		return expression.getValue(SpelEvaluationContext.getContext(), String.class);
+	}
+}
+
+public class SpelEvaluationContext {
+
+	private static final TransmittableThreadLocal&lt;EvaluationContext&gt; VARIABLES =
+		new TransmittableThreadLocal&lt;EvaluationContext&gt;() {
+
+			@Override
+			protected EvaluationContext initialValue() {
+				return new StandardEvaluationContext();
+			}
+		};
+
+	public static EvaluationContext getContext() {
+		return VARIABLES.get();
+	}
+
+	public static Object lookupVariable(String key) {
+		EvaluationContext context = getContext();
+		return context.lookupVariable(key);
+	}
+
+	public static void setVariable(String key, Object value) {
+		EvaluationContext context = getContext();
+		context.setVariable(key, value);
+		VARIABLES.set(context);
+	}
+
+	public static void remove() {
+		VARIABLES.remove();
+	}
+}
+</code></pre><h2 id="自定义函数解决上下文历史">自定义函数解决上下文历史</h2>
+<p>通过 <code>MethodInterceptor</code> 方法拦截只能获取入参和返回值，对于修改内容的场景，没办法获取原始记录。我们引入了 <code>CustomFunctionRegistrar</code> 自定义函数，由用户来决定调用哪个 Java 方法。</p>
+<p>在应用启动时，基于 Spring 自动扫描所有标记了 <code>CustomFunctionRegistrar</code> 的代码，通过 AOP 生成代理，将自定义函数和代理方法的映射存到缓存中，这样就可以通过自定义函数找到代理方法，调用业务指定的逻辑了。</p>
+<pre class="hljs"><code>@Slf4j
+public class CustomFunctionRegistrar implements ApplicationContextAware {
+
+	private static final Map&lt;String, Method&gt; FUNCTION_CACHE = new ConcurrentHashMap&lt;&gt;();
+
+	/**
+	 * 初始化
+	 *
+	 * @param applicationContext ApplicationContext
+	 * @throws BeansException 初始化Bean异常
+	 */
+	@Override
+	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+		initialize(applicationContext);
+	}
+
+	/**
+	 * 初始化自定义函数
+	 *
+	 * @param applicationContext ApplicationContext
+	 */
+	private void initialize(ApplicationContext applicationContext) {
+		Map&lt;String, Object&gt; components = applicationContext.getBeansWithAnnotation(Component.class);
+		components.values().forEach(component -&gt; {
+			Method[] methods = component.getClass().getMethods();
+			if (methods.length == 0) {
+				return;
+			}
+
+			Object targetObject = AopUtils.getDynamicProxyTargetObject(component);
+			for (Method method : methods) {
+				CustomFunction annotation = AnnotatedElementUtils.findMergedAnnotation(method, CustomFunction.class);
+				if (annotation == null) {
+					continue;
+				}
+				if (ReflectionUtils.isStaticMethod(method)) {
+					cache(annotation, method);
+					continue;
+				}
+				ClassPool pool = ClassPool.getDefault();
+				Class&lt;?&gt; targetClass = targetObject.getClass();
+				String staticallyClassName = targetClass.getName() + "_Statically";
+				Class&lt;?&gt; delegateClass;
+				CtClass ctClass = pool.getOrNull(staticallyClassName);
+				try {
+					if (ctClass == null) {
+						ctClass = constructCtClass(method, pool, targetClass, staticallyClassName);
+						delegateClass = ctClass.toClass();
+					} else {
+						delegateClass = ctClass.getClass().getClassLoader().loadClass(staticallyClassName);
+					}
+					Object proxy = delegateClass.getConstructor(targetClass).newInstance(component);
+					Method[] proxyMethods = proxy.getClass().getDeclaredMethods();
+					Arrays.stream(proxyMethods).forEach(proxyMethod -&gt; {
+						if (Arrays.equals(method.getParameterTypes(), proxyMethod.getParameterTypes()) &amp;&amp;
+							method.getName().equals(proxyMethod.getName())) {
+							cache(annotation, proxyMethod);
+						}
+					});
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+		});
+	}
+
+	/**
+	 * 注册自定义函数到 SpEL解析上下文
+	 *
+	 * @param context SpEL解析上下文
+	 */
+	public static void register(StandardEvaluationContext context) {
+		FUNCTION_CACHE.forEach(context::registerFunction);
+	}
+
+	private static void cache(CustomFunction annotation, Method method) {
+		String registerName = StringUtils.hasText(annotation.value()) ? annotation.value() : method.getName();
+		FUNCTION_CACHE.put(registerName, method);
+		log.info("Register custom function '{}' as name '{}'", method, registerName);
+	}
+
+	private CtClass constructCtClass(Method method, ClassPool pool, Class&lt;?&gt; targetClass, String staticallyClassName)
+		throws NotFoundException, CannotCompileException {
+		CtClass ctClass = pool.makeClass(staticallyClassName);
+		ctClass.addInterface(pool.get(Serializable.class.getName()));
+
+		CtField field = new CtField(pool.get(targetClass.getName()), "delegating", ctClass);
+		field.setModifiers(javassist.Modifier.STATIC | javassist.Modifier.PROTECTED);
+		ctClass.addField(field);
+
+		CtConstructor constructor = new CtConstructor(new CtClass[]{pool.get(targetClass.getName())}, ctClass);
+		constructor.setBody("{delegating = $1;}");
+		ctClass.addConstructor(constructor);
+
+		CtMethod getterMethod = new CtMethod(pool.get(targetClass.getName()), "getDelegating", new CtClass[]{}, ctClass);
+		getterMethod.setModifiers(javassist.Modifier.PUBLIC);
+		getterMethod.setBody("{return delegating;}");
+		ctClass.addMethod(getterMethod);
+
+		int modifier = method.getModifiers();
+		modifier |= javassist.Modifier.STATIC;
+		String methodName = method.getName();
+		Class&lt;?&gt; returnType = method.getReturnType();
+		StringBuilder builder = new StringBuilder();
+		builder.append(chooseModifier(modifier)).append(" ")
+			.append(returnType.getName()).append(" ")
+			.append(methodName).append("(");
+
+		Class&lt;?&gt;[] parameterType = method.getParameterTypes();
+		StringBuilder params = null;
+		for (int i = 0; i &lt; parameterType.length; i++) {
+			builder.append(parameterType[i].getName()).append(" ");
+			builder.append("$_").append(i).append(",");
+			if (params == null) {
+				params = new StringBuilder();
+			}
+			params.append("$_").append(i).append(",");
+		}
+		if (params != null) {
+			builder.delete(builder.length() - 1, builder.length());
+			params.delete(params.length() - 1, params.length());
+		}
+		builder.append(")");
+		builder.append("{");
+		if (!returnType.equals(void.class)) {
+			builder.append("return").append(" ");
+		}
+		builder.append("delegating.").append(methodName).append("(");
+		if (params != null) {
+			builder.append(params);
+		}
+		builder.append(")").append(";");
+		builder.append("}");
+
+		CtMethod ctMethod = CtMethod.make(builder.toString(), ctClass);
+		ctClass.addMethod(ctMethod);
+		return ctClass;
+	}
+
+	private String chooseModifier(int modifier) {
+		StringBuilder builder = new StringBuilder();
+		if ((modifier &amp; javassist.Modifier.PUBLIC) == javassist.Modifier.PUBLIC) {
+			builder.append("public").append(" ");
+		}
+		if ((modifier &amp; javassist.Modifier.PRIVATE) == javassist.Modifier.PRIVATE) {
+			builder.append("private").append(" ");
+		}
+		if ((modifier &amp; javassist.Modifier.PROTECTED) == javassist.Modifier.PROTECTED) {
+			builder.append("protected").append(" ");
+		}
+		if ((modifier &amp; javassist.Modifier.ABSTRACT) == javassist.Modifier.ABSTRACT) {
+			builder.append("abstract").append(" ");
+		}
+		if ((modifier &amp; javassist.Modifier.STATIC) == javassist.Modifier.STATIC) {
+			builder.append("static").append(" ");
+		}
+		if ((modifier &amp; javassist.Modifier.FINAL) == javassist.Modifier.FINAL) {
+			builder.append("final").append(" ");
+		}
+		return builder.toString();
+	}
+}
+</code></pre><h2 id="审计事件内容存储实现">审计事件内容存储实现</h2>
+<p>拦截到审计信息后，接下来要做的事情就是存储。我们定义了 <code>EventSender</code> 接口和 <code>AuditingEvent</code> 审计事件模型。</p>
+<pre class="hljs"><code>public interface EventSender {
+
+	/**
+	 * 发送审计事件列表
+	 *
+	 * @param events 审计事件列表
+	 */
+	void send(List&lt;AuditingEvent&gt; events);
+}
+
+@Accessors(chain = true)
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
+@Data
+public class AuditingEvent {
+
+	/** 操作对象 */
+	private String operator;
+
+	/** 操作角色 */
+	private String role;
+
+	/** 操作时间 */
+	private LocalDateTime operateDate;
+
+	/** 业务场景 */
+	private String bizScenario;
+
+	/** 记录内容 */
+	private String content;
+
+	/** 额外信息 */
+	private String extra;
+
+	/** 返回值 */
+	private String returnValue;
+
+	/** 执行耗时 */
+	private Long executionCost;
+
+	/** 执行是否成功 */
+	private Boolean success;
+
+	/** 异常信息 */
+	private String throwable;
+}
+</code></pre><p>在前面的 <code>EventAuditorInterceptor#send()</code> 方法，就是调用了这个接口。</p>
+<p>关于接口的实现，我们预留了扩展点，可以本地日志打印、可以发送到 MQ 或者数据库，例如，本地日志打印实现代码。</p>
+<pre class="hljs"><code>@RequiredArgsConstructor
+@Slf4j
+public class LoggingEventSender implements EventSender {
+
+	public static final String AUDITING_EVENT = "Auditing event: {}";
+
+	private final Level level;
+
+	/**
+	 * 发送审计事件列表
+	 *
+	 * @param events 审计事件列表
+	 */
+	@Override
+	public void send(List&lt;AuditingEvent&gt; events) {
+		if (CollectionUtils.isEmpty(events)) {
+			return;
+		}
+
+		List&lt;String&gt; contents = events.stream()
+			.map(AuditingEvent::getContent).collect(Collectors.toList());
+		switch (level) {
+			case DEBUG:
+				log.debug(AUDITING_EVENT, contents);
+				break;
+			case INFO:
+				log.info(AUDITING_EVENT, contents);
+				break;
+			case WARN:
+				log.warn(AUDITING_EVENT, contents);
+				break;
+		}
+	}
+}
+</code></pre><p>为了简化配置，我们基于 <code>Spring Boot</code> 的自动装配机制进一步封装。</p>
+<pre class="hljs"><code>@ConditionalOnProperty(
+	prefix = EventAuditorProperties.PREFIX,
+	name = Conditions.ENABLED,
+	havingValue = Conditions.TRUE,
+	matchIfMissing = true
+)
+@AutoConfigureAfter(AsyncTaskExecutionAutoConfiguration.class)
+@EnableEventAuditor
+@EnableConfigurationProperties(EventAuditorProperties.class)
+@Slf4j
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@Configuration(proxyBeanMethods = false)
+public class EventAuditorAutoConfiguration {
+
+}
+
+@Setter
+@Getter
+@ConfigurationProperties(prefix = EventAuditorProperties.PREFIX)
+public class EventAuditorProperties extends EventAuditorConfig {
+
+	public static final String PREFIX = "event-auditor";
+
+	private boolean enabled;
+}
+
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@Slf4j
+@Configuration(proxyBeanMethods = false)
+public class EventAuditorConfiguration implements ImportAware {
+
+	private AnnotationAttributes enableEventAuditor;
+
+	@Override
+	public void setImportMetadata(AnnotationMetadata importMetadata) {
+		this.enableEventAuditor = AnnotationAttributes.fromMap(
+			importMetadata.getAnnotationAttributes(EnableEventAuditor.class.getName(), false));
+		if (this.enableEventAuditor == null) {
+			log.warn("@EnableEventAuditor is not present on importing class");
+		}
+	}
+
+	@Bean
+	public EventAuditorInterceptor eventAuditorInterceptor(ObjectProvider&lt;EventAuditorConfig&gt; eventAuditorConfig,
+														   ObjectProvider&lt;AsyncTaskExecutor&gt; asyncTaskExecutor) {
+		EventAuditorInterceptor interceptor = new EventAuditorInterceptor(eventAuditorConfig.getIfUnique(EventAuditorConfig::new));
+		asyncTaskExecutor.ifAvailable(interceptor::setAsyncTaskExecutor);
+		return interceptor;
+	}
+
+	@Bean
+	public EventAuditorPointcutAdvisor eventAuditorPointcutAdvisor(EventAuditorInterceptor eventAuditorInterceptor) {
+		EventAuditorPointcutAdvisor pointcutAdvisor = new EventAuditorPointcutAdvisor();
+		pointcutAdvisor.setAdviceBeanName("eventAuditorPointcutAdvisor");
+		pointcutAdvisor.setAdvice(eventAuditorInterceptor);
+		if (enableEventAuditor != null) {
+			pointcutAdvisor.setOrder(enableEventAuditor.getNumber("order"));
+		}
+		return pointcutAdvisor;
+	}
+
+	@Bean
+	public CustomFunctionRegistrar customFunctionRegistrar() {
+		return new CustomFunctionRegistrar();
+	}
+}
+
+@EqualsAndHashCode
+@ToString
+@Setter
+@Getter
+public class EventAuditorConfig {
+
+	private final Sender sender = new Sender();
+
+	@EqualsAndHashCode
+	@ToString
+	@Setter
+	@Getter
+	public static class Sender {
+
+		private String senderType = "logging";
+
+		private boolean async = true;
+
+		private final Logging logging = new Logging();
+
+		private final Kafka kafka = new Kafka();
+
+		private final RocketMQ rocketMQ = new RocketMQ();
+
+		@EqualsAndHashCode
+		@ToString
+		@Setter
+		@Getter
+		public static class Logging {
+
+			private Level level = Level.INFO;
+		}
+
+		@EqualsAndHashCode
+		@ToString
+		@Setter
+		@Getter
+		public static class Kafka {
+
+			private String topic;
+		}
+
+		@EqualsAndHashCode
+		@ToString
+		@Setter
+		@Getter
+		public static class RocketMQ {
+
+			private String topic;
+
+			private String namespace;
+
+			private String tags;
+
+			private String keys;
+		}
+	}
+}
+</code></pre><p>从配置类可以看到，我们为消息存储提供了 3 个选项: <code>Logging</code> 本地日志、<code>RocketMQ</code> 或 <code>Kafka</code>。</p>
+<h2 id="代码使用示例">代码使用示例</h2>
+<p>假设我们在 <code>UserService#modifyUser()</code> 修改用户信息，需要记录修改了哪些内容。</p>
+<pre class="hljs"><code>@Service("userService")
+public class UserServiceImpl implements UserService {
+
+	//...
+
+
+	/**
+	 * 修改用户
+	 *
+	 * @param cmd
+	 */
+	@EventAuditor(bizScenario = "'demo.users.getUserById'", operator = "#operator",
+		content = "'用户' + #cmd.login + '修改了邮箱，从' + #queryOldEmail(#cmd.id) + '修改为' + #cmd.email")
+	@Transactional(rollbackFor = Exception.class)
+	@Override
+	public Response modifyUser(UserModifyCmd cmd) {
+		return userModifyCmdExe.execute(cmd);
+	}
+
+	/**
+	 * 自定义函数
+	 *
+	 * @param id 用户ID
+	 * @return 数据库值
+	 */
+	@CustomFunction("queryOldEmail")
+	public String queryOldEmail(Long id) {
+		return this.getUserById(UserByIdQry.builder().id(id).build()).getData().getEmail();
+	}
+}
+</code></pre><p>对应的 <code>application.yaml</code> 配置文件设置如下。</p>
+<pre class="hljs"><code>event-auditor:
+  enabled: true
+  sender:
+    type: logging
+	# type: kafka
+	# kafka:
+	#   topic: demo
+	# type: rocketmq
+	# rocketmq:
+	#   topic: demo
+	#   namespace: test  
+</code></pre><p>因为笔者配置了 <code>event-auditor.sender.type=logging</code>，所以，审计内容输出到控制台日志，如下图，当调用用户信息更新接口，在控制台打印了 <code>用户admin修改了邮箱</code> 字眼。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/spring/spring-event-auditor.png" alt=""></p>
+<h1 id="产出">产出</h1>
+<p>对业务代码的侵入性极小，扩展性很高，可以轻松实现事件审计的记录，并存储到你想要的位置。</p>
+<p>本文涉及的代码完全开源，感兴趣的伙伴可以查阅 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-solutions/eden-event-auditor">eden-event-auditor</a> 和 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-spring-boot-starters/eden-event-auditor-spring-boot-starter">eden-event-auditor-spring-boot-starter</a>。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实现</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 审计</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. SpEL 表达式解析实现</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 自定义函数解决上下文历史</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4. 审计事件内容存储实现</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5. 代码使用示例</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 产出</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

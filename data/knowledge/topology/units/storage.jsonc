@@ -20,11 +20,6 @@
           "id": "cephfs",
           "name": "CephFS",
           "path": null
-        },
-        {
-          "id": "minio",
-          "name": "MinIO",
-          "path": null
         }
       ],
       "titleKey": "topology.nodes.file-storage.title",
@@ -49,6 +44,25 @@
         {
           "id": "amazon-s3",
           "name": "Amazon S3",
+          "path": null
+        },
+        {
+          "id": "google-cloud-storage",
+          "name": "Google Cloud Storage",
+          "path": null
+        },
+        {
+          "id": "azure-blob-storage",
+          "name": "Azure Blob Storage",
+          "path": null
+        },
+        {
+          "id": "huawei-obs",
+          "name": {
+            "zh": "华为云 OBS",
+            "en": "Huawei Cloud OBS",
+            "ja": "Huawei Cloud OBS"
+          },
           "path": null
         },
         {
@@ -79,6 +93,25 @@
         {
           "id": "amazon-s3-glacier",
           "name": "Amazon S3 Glacier",
+          "path": null
+        },
+        {
+          "id": "google-cloud-storage-archive",
+          "name": "Google Cloud Storage Archive",
+          "path": null
+        },
+        {
+          "id": "azure-archive-storage",
+          "name": "Azure Blob Archive",
+          "path": null
+        },
+        {
+          "id": "huawei-obs-archive",
+          "name": {
+            "zh": "华为云 OBS 归档",
+            "en": "Huawei Cloud OBS Archive",
+            "ja": "Huawei Cloud OBS Archive"
+          },
           "path": null
         }
       ],

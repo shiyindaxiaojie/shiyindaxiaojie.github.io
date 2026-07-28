@@ -1,0 +1,492 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log4j2 异常堆栈存储优化 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="设计一个轻量级插件，实现异常堆栈倒排，压缩日志内容，零侵入配置。"><meta property="og:type" content="article"><meta property="og:title" content="Log4j2 异常堆栈存储优化 - 梦想歌の后花园"><meta property="og:description" content="设计一个轻量级插件，实现异常堆栈倒排，压缩日志内容，零侵入配置。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/java/log4j2-stacktrace-optimization/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/java/log4j2-stacktrace-optimization/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Log4j2 异常堆栈存储优化","description":"设计一个轻量级插件，实现异常堆栈倒排，压缩日志内容，零侵入配置。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png","datePublished":"2025-03-15","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"扩展点, Log4j2, 成本优化","mainEntityOfPage":"https://mengxiangge.netlify.app/article/java/log4j2-stacktrace-optimization/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Log4j2 异常堆栈存储优化","item":"https://mengxiangge.netlify.app/article/java/log4j2-stacktrace-optimization/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Log4j2 异常堆栈存储优化</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png" alt="Log4j2 异常堆栈存储优化"></div><header class="doc-header"><h1 class="doc-title">Log4j2 异常堆栈存储优化</h1><p class="doc-desc">设计一个轻量级插件，实现异常堆栈倒排，压缩日志内容，零侵入配置。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">扩展点</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">Log4j2</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">成本优化</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>在微服务架构中，日志的完整性和可读性是排查问题的关键。传统日志框架（如Log4j2）默认会输出异常的全部堆栈信息，但在高并发或复杂调用链路场景下，这会导致以下问题：</p>
+<ol>
+<li>日志冗余：一次请求产生的完整堆栈可能包含数百行，增加存储和分析成本；</li>
+<li>信息过载：开发人员需手动筛选关键堆栈节点，一般只关注最底部的 <code>Cause By</code>，影响排查效率；</li>
+<li>线程安全：异步线程池中，堆栈信息可能因线程复用而断裂。</li>
+</ol>
+<p>因此，需要一个 log4j2 插件来解决这些问题。</p>
+<h1 id="目标">目标</h1>
+<p>设计一个轻量级插件，实现异常堆栈倒排，压缩日志内容，零侵入配置。</p>
+<h1 id="实现">实现</h1>
+<p>使用 Log4j2 插件提供的扩展点 <code>LogEventPatternConverter</code> 进行实现。</p>
+<h2 id="倒排堆栈">倒排堆栈</h2>
+<p>在 <code>LogEventPatternConverter</code> 提供的 <code>format</code> 方法扩展格式化日志输出。</p>
+<pre class="hljs"><code>@Override
+public void format(LogEvent event, StringBuilder output) {
+  Throwable throwable = event.getThrown();
+  if (throwable != null) {
+    ForwardCounter counter = new ForwardCounter();
+    output.append("\n");
+    recursiveReversePrint(throwable, output, counter); // 倒排
+  }
+}
+
+private void recursiveReversePrint(Throwable throwable, StringBuilder output,
+                    ForwardCounter counter) {
+  if (throwable == null || counter.value &gt;= causeDepth) {
+    return;
+  }
+
+  if (throwable.getCause() != null) {
+    recursiveReversePrint(throwable.getCause(), output, counter);
+  }
+
+  if (counter.value++ &lt; causeDepth) {
+    printSingleStack(throwable, output);
+  }
+}
+
+private void printSingleStack(Throwable throwable, StringBuilder output) {
+  output.append(reduceClassName(throwable.getClass().getName()))
+    .append(": ")
+    .append(throwable.getMessage())
+    .append("\n");
+
+  StackTraceElement[] stack = throwable.getStackTrace();
+  for (int i = 0; i &lt; Math.min(stackDepth, stack.length); i++) {
+    output.append("\tat ")
+      .append(formatStackElement(stack[i])) // 压缩堆栈信息，下文会提及到
+      .append("\n");
+  }
+
+  if (stack.length &gt; stackDepth) {
+    output.append("\t... ").append(stack.length - stackDepth)
+      .append(" more\n");
+  }
+}
+</code></pre><h2 id="压缩内容">压缩内容</h2>
+<p>将 package 进行压缩，截取首字母，例如 <code>org.ylzl.framework.extension</code> 压缩为 <code>o.y.f.e</code>。</p>
+<pre class="hljs"><code>private static String formatStackElement(StackTraceElement element) {
+  return reduceClassName(element.getClassName()) +
+    "#" + element.getMethodName() +
+    ":" + element.getLineNumber();
+}
+
+private static String reduceClassName(String className) {
+  String[] parts = className.split("\\.");
+  StringBuilder sb = new StringBuilder();
+  for (int i = 0; i &lt; parts.length - 1; i++) {
+    sb.append(parts[i].charAt(0)).append('.');
+  }
+  sb.append(parts[parts.length - 1]);
+  return sb.toString();
+}
+</code></pre><p>完整的代码如下。</p>
+<pre class="hljs"><code>@Plugin(name = "StackTraceConverter", category = PatternConverter.CATEGORY)
+@ConverterKeys({"st", "stacktrace"})
+public class StackTraceConverter extends LogEventPatternConverter {
+
+	private static final int DEFAULT_CAUSE_DEPTH = 3;
+
+	private static final int DEFAULT_STACK_DEPTH = 5;
+
+	/** Cause by 深度 */
+	private final int causeDepth;
+
+	/** 堆栈深度 */
+	private final int stackDepth;
+
+	public StackTraceConverter(int causeDepth, int stackDepth) {
+		super("StackTrace", "stacktrace");
+		this.causeDepth = causeDepth &gt; 0 ? causeDepth : DEFAULT_CAUSE_DEPTH;
+		this.stackDepth = stackDepth &gt; 0 ? stackDepth : DEFAULT_STACK_DEPTH;
+	}
+
+	public static StackTraceConverter newInstance(String[] options) {
+		int causeDepth = parseOption(options, 0, DEFAULT_CAUSE_DEPTH);
+		int stackDepth = parseOption(options, 1, DEFAULT_STACK_DEPTH);
+		return new StackTraceConverter(causeDepth, stackDepth);
+	}
+
+	private static int parseOption(String[] options, int index, int defaultValue) {
+		try {
+			if (options != null &amp;&amp; options.length &gt; index) {
+				return Integer.parseInt(options[index]);
+			}
+		} catch (NumberFormatException ignored) {
+		}
+		return defaultValue;
+	}
+
+	@Override
+	public void format(LogEvent event, StringBuilder output) {
+		Throwable throwable = event.getThrown();
+		if (throwable != null) {
+			ForwardCounter counter = new ForwardCounter();
+			output.append("\n");
+			recursiveReversePrint(throwable, output, counter);
+		}
+	}
+
+	private void recursiveReversePrint(Throwable throwable, StringBuilder output,
+									   ForwardCounter counter) {
+		if (throwable == null || counter.value &gt;= causeDepth) {
+			return;
+		}
+
+		if (throwable.getCause() != null) {
+			recursiveReversePrint(throwable.getCause(), output, counter);
+		}
+
+		if (counter.value++ &lt; causeDepth) {
+			printSingleStack(throwable, output);
+		}
+	}
+
+	private void printSingleStack(Throwable throwable, StringBuilder output) {
+		output.append(reduceClassName(throwable.getClass().getName()))
+			.append(": ")
+			.append(throwable.getMessage())
+			.append("\n");
+
+		StackTraceElement[] stack = throwable.getStackTrace();
+		for (int i = 0; i &lt; Math.min(stackDepth, stack.length); i++) {
+			output.append("\tat ")
+				.append(formatStackElement(stack[i]))
+				.append("\n");
+		}
+
+		if (stack.length &gt; stackDepth) {
+			output.append("\t... ").append(stack.length - stackDepth)
+				.append(" more\n");
+		}
+	}
+
+	private static String formatStackElement(StackTraceElement element) {
+		return reduceClassName(element.getClassName()) +
+			"#" + element.getMethodName() +
+			":" + element.getLineNumber();
+	}
+
+	private static String reduceClassName(String className) {
+		String[] parts = className.split("\\.");
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i &lt; parts.length - 1; i++) {
+			sb.append(parts[i].charAt(0)).append('.');
+		}
+		sb.append(parts[parts.length - 1]);
+		return sb.toString();
+	}
+
+	private static class ForwardCounter {
+		private int value = 0;
+	}
+}
+</code></pre><p>其中，<code>@ConverterKeys({"st", "stacktrace"})</code> 这一行用于配置 log4j2 配置文件的占位符。例如，我们的 log4j2.yml 文件如下。</p>
+<pre class="hljs"><code>Configuration:
+  status: WARN
+  monitorInterval: 30
+
+  Properties:
+    Property:
+      - name: APP_NAME
+        value: $${spring:spring.application.name:-eden-demo-cola}
+      - name: PROFILES
+        value: $${spring:spring.profiles.active}
+      - name: LOG_PATH
+        value: $${spring:logging.file.path:-/app/logs}
+      - name: LOG_PATTERN
+        value: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [${PROFILES}] [%t] [%X{traceId}] %msg%n%throwable"
+
+  Appenders:
+    Console:
+      name: STDOUT
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${LOG_PATTERN}
+      Filters:
+        ThresholdFilter:
+          level: INFO
+          onMatch: ACCEPT
+          onMismatch: DENY
+        BurstFilter:
+          level: INFO
+          rate: 1000
+          maxBurst: 10000
+
+  Loggers:
+    Root:
+      level: INFO
+      includeLocation: false
+      AppenderRef:
+        - ref: STDOUT
+</code></pre><p>我们只需要把 <code>%throwable</code> 替换为 <code>%stacktrace{3,5}</code>，表示对象的堆栈进行倒排，Cause 深度为 3，栈的深度为 5。</p>
+<h2 id="效果验证">效果验证</h2>
+<p>笔者在 log4j2.yaml 的 pattern 设置了 <code>before%n%throwable%nafter%n%stacktrace{3,5}</code>，将默认的 <code>%throwable</code> 和优化后的 <code>%stacktrace{3,5}</code> 进行对比，如下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/log4j2/log4j2-stacktrace.png" alt=""></p>
+<p>好了，发起一次不正常的请求测试日志输出情况。</p>
+<p>优化前的 <code>%throwable</code> 日志输出如下，累计 193 行。</p>
+<pre class="hljs"><code>org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error updating database.  Cause: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+### The error may involve org.ylzl.eden.demo.infrastructure.user.database.UserMapper.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO demo_user  ( id, login,  email )  VALUES (  ?, ?,  ?  )
+### Cause: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.mybatis.spring.MyBatisExceptionTranslator.translateExceptionIfPossible(MyBatisExceptionTranslator.java:97)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:439)
+	at com.sun.proxy.$Proxy148.insert(Unknown Source)
+	at org.mybatis.spring.SqlSessionTemplate.insert(SqlSessionTemplate.java:272)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperMethod.execute(MybatisMapperMethod.java:59)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy$PlainMethodInvoker.invoke(MybatisMapperProxy.java:152)
+	at com.baomidou.mybatisplus.core.override.MybatisMapperProxy.invoke(MybatisMapperProxy.java:89)
+	at com.sun.proxy.$Proxy149.insert(Unknown Source)
+	at org.ylzl.eden.demo.infrastructure.user.gateway.UserGatewayImpl.save(UserGatewayImpl.java:49)
+	at org.ylzl.eden.demo.infrastructure.user.gateway.UserGatewayImpl$$FastClassBySpringCGLIB$$d8b0b6f3.invoke(&lt;generated&gt;)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.ylzl.eden.demo.infrastructure.user.gateway.UserGatewayImpl$$EnhancerBySpringCGLIB$$f587547c.save(&lt;generated&gt;)
+	at org.ylzl.eden.demo.app.user.executor.command.UserAddCmdExe.execute(UserAddCmdExe.java:45)
+	at org.ylzl.eden.demo.app.user.service.UserServiceImpl.createUser(UserServiceImpl.java:69)
+	at org.ylzl.eden.demo.app.user.service.UserServiceImpl$$FastClassBySpringCGLIB$$f054739f.invoke(&lt;generated&gt;)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:388)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.ylzl.eden.demo.app.user.service.UserServiceImpl$$EnhancerBySpringCGLIB$$ab23bab3.createUser(&lt;generated&gt;)
+	at org.ylzl.eden.demo.adapter.user.web.UserController.createUser(UserController.java:58)
+	at org.ylzl.eden.demo.adapter.user.web.UserController$$FastClassBySpringCGLIB$$3ab5b0e1.invoke(&lt;generated&gt;)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:218)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:783)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.ylzl.eden.spring.framework.logging.access.aop.AccessLogInterceptor.invoke(AccessLogInterceptor.java:66)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:753)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:698)
+	at org.ylzl.eden.demo.adapter.user.web.UserController$$EnhancerBySpringCGLIB$$64eb74d9.createUser(&lt;generated&gt;)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:205)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:150)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:117)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:895)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:808)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:1067)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:963)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:1006)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:909)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:517)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:883)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:584)
+	at io.undertow.servlet.handlers.ServletHandler.handleRequest(ServletHandler.java:74)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:129)
+	at org.ylzl.eden.spring.framework.logging.bootstrap.filter.BootstrapLogHttpFilter.doFilter(BootstrapLogHttpFilter.java:70)
+	at javax.servlet.http.HttpFilter.doFilter(HttpFilter.java:97)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at org.ylzl.eden.spring.integration.cat.integration.web.HttpCatFilter.logTransaction(HttpCatFilter.java:167)
+	at org.ylzl.eden.spring.integration.cat.integration.web.HttpCatFilter.doFilter(HttpCatFilter.java:143)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:100)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at org.springframework.web.filter.FormContentFilter.doFilterInternal(FormContentFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at org.springframework.boot.actuate.metrics.web.servlet.WebMvcMetricsFilter.doFilterInternal(WebMvcMetricsFilter.java:97)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:201)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:119)
+	at io.undertow.servlet.core.ManagedFilter.doFilter(ManagedFilter.java:61)
+	at io.undertow.servlet.handlers.FilterHandler$FilterChainImpl.doFilter(FilterHandler.java:131)
+	at io.undertow.servlet.handlers.FilterHandler.handleRequest(FilterHandler.java:84)
+	at io.undertow.servlet.handlers.security.ServletSecurityRoleHandler.handleRequest(ServletSecurityRoleHandler.java:62)
+	at io.undertow.servlet.handlers.ServletChain$1.handleRequest(ServletChain.java:68)
+	at io.undertow.servlet.handlers.ServletDispatchingHandler.handleRequest(ServletDispatchingHandler.java:36)
+	at io.undertow.servlet.handlers.RedirectDirHandler.handleRequest(RedirectDirHandler.java:68)
+	at io.undertow.servlet.handlers.security.SSLInformationAssociationHandler.handleRequest(SSLInformationAssociationHandler.java:117)
+	at io.undertow.servlet.handlers.security.ServletAuthenticationCallHandler.handleRequest(ServletAuthenticationCallHandler.java:57)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.security.handlers.AbstractConfidentialityHandler.handleRequest(AbstractConfidentialityHandler.java:46)
+	at io.undertow.servlet.handlers.security.ServletConfidentialityConstraintHandler.handleRequest(ServletConfidentialityConstraintHandler.java:64)
+	at io.undertow.security.handlers.AuthenticationMechanismsHandler.handleRequest(AuthenticationMechanismsHandler.java:60)
+	at io.undertow.servlet.handlers.security.CachedAuthenticatedSessionHandler.handleRequest(CachedAuthenticatedSessionHandler.java:77)
+	at io.undertow.security.handlers.AbstractSecurityContextAssociationHandler.handleRequest(AbstractSecurityContextAssociationHandler.java:43)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.SendErrorPageHandler.handleRequest(SendErrorPageHandler.java:52)
+	at io.undertow.server.handlers.PredicateHandler.handleRequest(PredicateHandler.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.handleFirstRequest(ServletInitialHandler.java:280)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$100(ServletInitialHandler.java:79)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:134)
+	at io.undertow.servlet.handlers.ServletInitialHandler$2.call(ServletInitialHandler.java:131)
+	at io.undertow.servlet.core.ServletRequestContextThreadSetupAction$1.call(ServletRequestContextThreadSetupAction.java:48)
+	at io.undertow.servlet.core.ContextClassLoaderSetupAction$1.call(ContextClassLoaderSetupAction.java:43)
+	at io.undertow.servlet.handlers.ServletInitialHandler.dispatchRequest(ServletInitialHandler.java:260)
+	at io.undertow.servlet.handlers.ServletInitialHandler.access$000(ServletInitialHandler.java:79)
+	at io.undertow.servlet.handlers.ServletInitialHandler$1.handleRequest(ServletInitialHandler.java:100)
+	at io.undertow.server.Connectors.executeRootHandler(Connectors.java:387)
+	at io.undertow.server.HttpServerExchange$1.run(HttpServerExchange.java:852)
+	at org.jboss.threads.ContextClassLoaderSavingRunnable.run(ContextClassLoaderSavingRunnable.java:35)
+	at org.jboss.threads.EnhancedQueueExecutor.safeRun(EnhancedQueueExecutor.java:2019)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.doRunTask(EnhancedQueueExecutor.java:1558)
+	at org.jboss.threads.EnhancedQueueExecutor$ThreadBody.run(EnhancedQueueExecutor.java:1449)
+	at org.xnio.XnioWorker$WorkerThreadFactory$1$1.run(XnioWorker.java:1280)
+	at java.lang.Thread.run(Thread.java:748)
+Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+### Error updating database.  Cause: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+### The error may involve org.ylzl.eden.demo.infrastructure.user.database.UserMapper.insert-Inline
+### The error occurred while setting parameters
+### SQL: INSERT INTO demo_user  ( id, login,  email )  VALUES (  ?, ?,  ?  )
+### Cause: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.apache.ibatis.exceptions.ExceptionFactory.wrapException(ExceptionFactory.java:30)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:199)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.insert(DefaultSqlSession.java:184)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:425)
+	... 121 more
+Caused by: java.lang.RuntimeException: java.lang.reflect.InvocationTargetException
+	at org.ylzl.eden.spring.integration.cat.integration.mybatis.MybatisCatInterceptor.intercept(MybatisCatInterceptor.java:70)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:59)
+	at com.sun.proxy.$Proxy185.update(Unknown Source)
+	at org.apache.ibatis.session.defaults.DefaultSqlSession.update(DefaultSqlSession.java:197)
+	... 127 more
+Caused by: java.lang.reflect.InvocationTargetException
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.plugin.Invocation.proceed(Invocation.java:61)
+	at org.ylzl.eden.spring.integration.cat.integration.mybatis.MybatisCatInterceptor.intercept(MybatisCatInterceptor.java:64)
+	... 130 more
+Caused by: org.h2.jdbc.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.DEMO_USER(ID) [1, 'admin', '{bcrypt}$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', '1813******@qq.com|FCBD1399F72052DCB729247191079CFC', TRUE, FALSE, 'zh-cn', NULL, NULL, NULL, 'system', TIMESTAMP '2025-03-19 17:07:31.328', 'system', NULL]"; SQL statement:
+INSERT INTO demo_user  ( id, login,  email )  VALUES (  ?, ?,  ?  ) [23505-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:459)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.mvstore.db.MVPrimaryIndex.add(MVPrimaryIndex.java:127)
+	at org.h2.mvstore.db.MVTable.addRow(MVTable.java:531)
+	at org.h2.command.dml.Insert.insertRows(Insert.java:195)
+	at org.h2.command.dml.Insert.update(Insert.java:151)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcPreparedStatement.execute(JdbcPreparedStatement.java:240)
+	at com.zaxxer.hikari.pool.ProxyPreparedStatement.execute(ProxyPreparedStatement.java:44)
+	at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.execute(HikariProxyPreparedStatement.java)
+	at org.apache.ibatis.executor.statement.PreparedStatementHandler.update(PreparedStatementHandler.java:48)
+	at org.apache.ibatis.executor.statement.RoutingStatementHandler.update(RoutingStatementHandler.java:75)
+	at org.apache.ibatis.executor.SimpleExecutor.doUpdate(SimpleExecutor.java:50)
+	at org.apache.ibatis.executor.BaseExecutor.update(BaseExecutor.java:117)
+	at org.apache.ibatis.executor.CachingExecutor.update(CachingExecutor.java:76)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:61)
+	at com.sun.proxy.$Proxy185.update(Unknown Source)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.apache.ibatis.plugin.Invocation.proceed(Invocation.java:61)
+	at org.ylzl.eden.spring.data.mybatis.plugin.MybatisSqlLogInterceptor.intercept(MybatisSqlLogInterceptor.java:64)
+	at org.apache.ibatis.plugin.Plugin.invoke(Plugin.java:59)
+	at com.sun.proxy.$Proxy185.update(Unknown Source)
+	... 136 more
+</code></pre><p>优化后的 <code>%%stacktrace{3,5}</code> 日志输出如下，累计 22 行。基于倒排的优势，在前面几行，我们马上就能定位到 Cause by 原因了。</p>
+<pre class="hljs"><code>o.h.j.JdbcSQLIntegrityConstraintViolationException: Unique index or primary key violation: "PRIMARY KEY ON PUBLIC.DEMO_USER(ID) [1, 'admin', '{bcrypt}$2a$10$gSAhZrxMllrbgj/kkK9UceBPpChGWJA7SYIb1Mqo.n5aNLq1/oRrC', '1813******@qq.com|FCBD1399F72052DCB729247191079CFC', TRUE, FALSE, 'zh-cn', NULL, NULL, NULL, 'system', TIMESTAMP '2025-03-19 17:07:31.328', 'system', NULL]"; SQL statement:
+INSERT INTO demo_user  ( id, login,  email )  VALUES (  ?, ?,  ?  ) [23505-200]
+	at o.h.m.DbException#getJdbcSQLException:459
+	at o.h.m.DbException#getJdbcSQLException:429
+	at o.h.m.DbException#get:205
+	at o.h.m.DbException#get:181
+	at o.h.m.d.MVPrimaryIndex#add:127
+	... 163 more
+j.l.r.InvocationTargetException: null
+	at s.r.NativeMethodAccessorImpl#invoke0:-2
+	at s.r.NativeMethodAccessorImpl#invoke:62
+	at s.r.DelegatingMethodAccessorImpl#invoke:43
+	at j.l.r.Method#invoke:498
+	at o.a.i.p.Invocation#proceed:61
+	... 131 more
+j.l.RuntimeException: java.lang.reflect.InvocationTargetException
+	at o.y.e.s.i.c.i.m.MybatisCatInterceptor#intercept:70
+	at o.a.i.p.Plugin#invoke:59
+	at c.s.p.$Proxy185#update:-1
+	at o.a.i.s.d.DefaultSqlSession#update:197
+	at o.a.i.s.d.DefaultSqlSession#insert:184
+	... 126 more
+</code></pre><p>现在发起 1000 次请求，可以看到优化前产生了 22W 行（下图右侧），优化后减少到 3W 行（下图左侧）。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/log4j2/log4j2-throwable_vs_stacktrace_line.png" alt=""></p>
+<p>对应的体积变化，优化前占用 20MB，优化后只占用 2MB，缩减了 10 倍。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/log4j2/log4j2-throwable_vs_stacktrace_size.png" alt=""></p>
+<h1 id="产出">产出</h1>
+<p>本次改动没有任何代码侵入，研发团队只需要在 log4j2.yml 微调 pattern，就可以将日志的占用空间缩减 10 倍，并且，在排查问题只需要关注第一段堆栈的信息，就能定位到业务代码问题。</p>
+<p>本文涉及的代码完全开源，感兴趣的伙伴可以查阅 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-spring-framework">eden-spring-framework</a> 的 <code>StackTraceConverter</code> 类。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实现</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 倒排堆栈</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 压缩内容</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 效果验证</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 产出</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

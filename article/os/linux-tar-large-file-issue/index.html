@@ -1,0 +1,201 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux 执行 tar 命令处理大文件引发线上问题 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="最近我们生产环境的几个系统出现了很诡异的现象，每天晚上 21 点之后出现短暂的报错，或者响应超时。"><meta property="og:type" content="article"><meta property="og:title" content="Linux 执行 tar 命令处理大文件引发线上问题 - 梦想歌の后花园"><meta property="og:description" content="最近我们生产环境的几个系统出现了很诡异的现象，每天晚上 21 点之后出现短暂的报错，或者响应超时。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/os/linux-tar-large-file-issue/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Linux.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/os/linux-tar-large-file-issue/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Linux 执行 tar 命令处理大文件引发线上问题","description":"最近我们生产环境的几个系统出现了很诡异的现象，每天晚上 21 点之后出现短暂的报错，或者响应超时。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Linux.png","datePublished":"2023-06-15","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"Linux, 稀疏文件","mainEntityOfPage":"https://mengxiangge.netlify.app/article/os/linux-tar-large-file-issue/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Linux 执行 tar 命令处理大文件引发线上问题","item":"https://mengxiangge.netlify.app/article/os/linux-tar-large-file-issue/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Linux 执行 tar 命令处理大文件引发线上问题</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Linux.png" alt="Linux 执行 tar 命令处理大文件引发线上问题"></div><header class="doc-header"><h1 class="doc-title">Linux 执行 tar 命令处理大文件引发线上问题</h1><p class="doc-desc">最近我们生产环境的几个系统出现了很诡异的现象，每天晚上 21 点之后出现短暂的报错，或者响应超时。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">Linux</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">稀疏文件</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="问题描述">问题描述</h1>
+<p>最近我们生产环境的几个系统出现了很诡异的现象，每天晚上 21 点之后出现短暂的报错，或者响应超时。</p>
+<p>例如，系统 A 在 21 点弹出微信预警，提示接口访问异常。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfs-wechat-alarm.png" alt=""></p>
+<p>系统 B 在 21 点弹出钉钉预警，提示网关探测异常。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfs-dingtalk-alarm.png" alt=""></p>
+<p>一开始我们怀疑是数据库、代码、xxl-job 等问题，但是这些想法很快就否决了。</p>
+<ol>
+<li>各系统分别独立部署在腾讯云的 EKS 弹性集群，互不干扰。</li>
+<li>各系统使用的数据库和 xxljob 都是分开的。</li>
+<li>我们通过回退代码版本检查，也排除了这些系统近期的代码更新问题。</li>
+</ol>
+<h1 id="原因分析">原因分析</h1>
+<p>经过时间线整理，各系统发生故障的时间点基本是同时触发的，如下。</p>
+<table>
+<thead>
+<tr>
+<th>时间范围</th>
+<th>系统A 微信预警</th>
+<th>系统B 钉钉预警</th>
+<th>其他系统</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2023-03-15 20:58-21:00</td>
+<td>20:59:13 推送 499 访问异常</td>
+<td>21:03 提示 APISIX 探测异常</td>
+<td>…</td>
+</tr>
+<tr>
+<td>2023-03-16 21:03-21:06</td>
+<td>21:03:04 推送 499 访问异常</td>
+<td>21:03 提示 APISIX 探测异常</td>
+<td>…</td>
+</tr>
+<tr>
+<td>2023-03-20 21:19-21:23</td>
+<td>21:19:34 推送 499 访问异常</td>
+<td>21:20 提示 APISIX 探测异常</td>
+<td>…</td>
+</tr>
+<tr>
+<td>2023-03-21 21:43-21:45</td>
+<td>21:41:50 推送 499 访问异常</td>
+<td>21:43 提示 APISIX 探测异常</td>
+<td>…</td>
+</tr>
+</tbody>
+</table>
+<h2 id="网络故障-">网络故障？</h2>
+<p>我们某个系统的网络链路，可以简化如下。</p>
+<p>用户访问 -&gt; 腾讯云CLB -&gt; 腾讯云EKS容器（K8s Service）-&gt; Nginx（Pod） -&gt; 业务网关（Pod）-&gt; 业务服务集（Pod）</p>
+<p>首先从入口检查，腾讯云负载均衡 CLB 当时的流量监控如下，以 <code>2023-03-21</code> 的监控数据为例，当时 <code>21:42</code> 的入包量为 39 个/秒。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/clb-monitoring-network-before.png" alt=""></p>
+<p>到了 <code>21:44</code>，入包量为 9 个/秒，请求变少了。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/clb-monitoring-network-after.png" alt=""></p>
+<p>往后一层检查 Nginx 的访问日志，得到 4434 条状态码为 499 的报错条数。</p>
+<pre class="hljs"><code>[root]# egrep "2023-03-21T21:4[0-9]" access.log | grep -w 499 | wc -1
+4434
+</code></pre><p>499 错误码表示 Nginx 的上游 upstream 服务端响应太慢了，微信（客户端）主动断开了连接，然后推送了相关预警。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfs-nginx-499.png" alt=""></p>
+<p>我们检查了 Nginx 的上游服务，并没有发现任何报错。</p>
+<p>不得不怀疑是不是腾讯云网络近期做了网络调整导致，我们联系了腾讯云团队协助检查。腾讯方的技术团队和我们制定了如下策略：</p>
+<ol>
+<li>腾讯方负责监控容器、网络问题。</li>
+<li>我方运维团队负责收集网络不通的 Pod ，通过脚本进行 PING 操作。</li>
+<li>我方研发团队通过 Apifox 发起大量请求，查看持续请求是否出现异常。</li>
+</ol>
+<p>由于运维脚本额操作的步骤太多，为了提高监控效率，笔者将运维脚本导入到 blackbox-exporter 监控，并展示到 Grafana 查看。代码片段如下。</p>
+<pre class="hljs"><code>global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+          - alertmanager:9093
+  
+rule_files:
+  - /etc/prometheus/rules/*.rules
+  
+scrape_configs:
+  - job_name: "blackbox-ping"
+    scrape_interval: 5s
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+    # 网络不通的机器
+    - targets: ['172.28.12.1','172.28.12.2','...']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: 'blackbox-tcp'
+    scrape_interval: 5s
+    metrics_path: /probe
+    params:
+      module: [tcp_connect]
+    static_configs:
+    - targets: ['172.28.12.101:2181','172.28.12.102:2181','...'] 
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+
+  - job_name: 'blackbox-http'
+    scrape_interval: 5s
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+    - targets: ['http://172.28.20.1:9091/apisix/prometheus/metrics', '...']
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: blackbox-exporter:9115
+</code></pre><p>我们主动发起的请求，并没有出现任何异常。等到了 21:30 之后，我们不再模拟请求，故障又出现了，但是，腾讯方反馈，他们的网络是正常的。我们在 Grafana 监控也证实网络是正常的。</p>
+<h2 id="可疑后台进程-">可疑后台进程？</h2>
+<p>排除网络问题，因为这些故障看起来是周期性的，感觉就像有一个后台进程定时执行某些工作，同时对这几个 K8s 集群造成了影响。</p>
+<p>因为系统使用的是腾讯云 <code>EKS</code> 弹性集群，机器节点由腾讯方团队负责维护，我们让腾讯云协助检查我们使用的 K8s 集群节点，他们还是没找到原因。</p>
+<p>我们内部做了复盘，回头看看事故的时间点，每隔一天同一时段发生一次，像是定时任务做了什么操作导致。有可能是 腾讯做了什么定时任务？我们的 xxljob？服务器上的定时任务？</p>
+<p>好像算漏了 Linux 定时任务。经过盘点各服务器的定时脚本，发现有个 Linux 过期日志清理脚本执行卡死。这个脚本每天凌晨 4 点执行日志清理，发生问题的代码片段如下。</p>
+<pre class="hljs"><code># 对 kafka-consumer 控制台输入的 out 文件压缩处理
+tar czf kafka-consumer_${today}.tar.gz kafka-consumer.out
+# 在压缩完成后通过 echo 重置内容
+echo "-------${today} New Log-------" &gt; kafka-consumer.out
+</code></pre><p>日志文件通过腾讯云 <code>CFS</code> 文件系统挂载到我们的运维服务器，运维服务器运行这个清洗脚本对日志文件执行读写操作，如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-hang-io-from-tar-spare.png" alt=""></p>
+<p>腾讯云对 <code>CFS</code> 做了存储效率优化，为了提高存储资源申请的分配效率，采用稀疏文件的方式，我们写入 <code>kafka-consumer.out</code> 每天大概就 <code>5GB</code>，<code>CFS</code> 通过稀疏文件机制预占了 <code>100 GB</code>，甚至更多。</p>
+<p>结果，脚本内的 <code>tar</code> 命令无法识别 spare 稀疏文件，按照稀疏文件给出的大小进行压缩，导致整个 CFS 的宿主机 IO 僵死。我们的系统 A、系统 B、系统 C 部分组件挂载了该 CFS 路径，产生了连锁故障。</p>
+<p>做个实验，执行 ls 和 du 命令，如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-du-ls.png" alt=""></p>
+<p>可以看到，我们只写入了 <code>1.5M</code> 的大小，结果在稀疏文件表现为 <code>716G</code> 。这是因为 <code>ls</code> 命令查到的是文件逻辑上占用的空间，而 <code>du</code> 命令查到的是文件物理上占用的块大小。</p>
+<p>对于腾讯来说，如果使用稀疏文件来作为虚拟硬盘文件，那么只有当虚拟机实际写入数据时，才会消耗宿主机的存储空间，有利于他们的成本控制。</p>
+<h1 id="解决方案">解决方案</h1>
+<p>责任已经明确，相应的解决方案如下。</p>
+<p>腾讯方：同一个 CFS 路径没有做到真正的物理隔离，没有告知用户，用户在使用 CFS 的个数是有限制的，当时的做法只能共用。既然 CFS 解决不了这个问题，那就和腾讯申请更多的 CFS 盘，每套系统单独挂载，做到物理隔离。</p>
+<p>我方：日志脚本有问题，去除 tar 命令，以防误读稀疏文件，并增加日志，邮件监控，应用层尽可能避免大量的控制台日志打印。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 问题描述</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 原因分析</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. 网络故障？</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. 可疑后台进程？</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 解决方案</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-23T06:18:17.214Z",
+  "generatedAt": "2026-07-28T01:18:55.309Z",
   "entries": [
     {
       "id": "data/snippets/docker/Dockerfile.gitlab-ci-maven-jdk8",
@@ -289,7 +289,7 @@
           "preview": "// Maven 服务 Jenkins 流水线模板：自动判断触发来源，构建 Maven 包，发布镜像并按分支部署到 Rainbond。\npipeline {\n    agent {\n        kubernetes {\n            inheritFrom 'jenkins-agent-maven-jdk8'\n        }",
           "signature": "",
           "description": "Maven 服务 Jenkins 流水线模板：自动判断触发来源，构建 Maven 包，发布镜像并按分支部署到 Rainbond。",
-          "lineCount": 243
+          "lineCount": 240
         }
       ]
     },

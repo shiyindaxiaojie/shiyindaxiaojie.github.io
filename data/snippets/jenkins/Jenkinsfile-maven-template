@@ -57,13 +57,9 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    def targetVersion = "${env.ARTIFACT_VERSION}"
-
                     withEnv(["JAVA_HOME=${env.JDK8_HOME}", "PATH+JDK8=${env.JDK8_HOME}/bin"]) {
                         sh """
-                            mvn -T 2C -DskipTests \
-                            versions:set -DnewVersion=${targetVersion} \
-                            clean package deploy
+                            mvn -T 2C -DskipTests clean package deploy
                         """
                     }
                 }
@@ -117,6 +113,7 @@ pipeline {
         stage('Deploy for production') {
             when {
                 branch 'release'
+                buildingTag()
             }
             steps {
                 withCredentials([usernamePassword(

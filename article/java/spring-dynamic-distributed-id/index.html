@@ -1,0 +1,763 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Spring Boot 实现可扩展的分布式ID生成器 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="封装通用接口，屏蔽 API 细节，基于 Spring Boot 自动装配管理。"><meta property="og:type" content="article"><meta property="og:title" content="Spring Boot 实现可扩展的分布式ID生成器 - 梦想歌の后花园"><meta property="og:description" content="封装通用接口，屏蔽 API 细节，基于 Spring Boot 自动装配管理。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/java/spring-dynamic-distributed-id/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/java/spring-dynamic-distributed-id/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Spring Boot 实现可扩展的分布式ID生成器","description":"封装通用接口，屏蔽 API 细节，基于 Spring Boot 自动装配管理。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png","datePublished":"2024-02-02","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"扩展点, Spring, Spring Boot, 分布式ID","mainEntityOfPage":"https://mengxiangge.netlify.app/article/java/spring-dynamic-distributed-id/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Spring Boot 实现可扩展的分布式ID生成器","item":"https://mengxiangge.netlify.app/article/java/spring-dynamic-distributed-id/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Spring Boot 实现可扩展的分布式ID生成器</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Spring.png" alt="Spring Boot 实现可扩展的分布式ID生成器"></div><header class="doc-header"><h1 class="doc-title">Spring Boot 实现可扩展的分布式ID生成器</h1><p class="doc-desc">封装通用接口，屏蔽 API 细节，基于 Spring Boot 自动装配管理。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">扩展点</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">Spring</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">Spring Boot</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">分布式ID</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>在复杂的分布式系统中，往往需要对大量的数据和消息进行唯一标识。美团技术团队的文章中介绍了 Leaf 分布式ID生成系统的两种方案：<code>Leaf-snowflake</code> 方案和 <code>Leaf-segment</code> 方案。</p>
+<p>Leaf-snowflake 方案沿用 Twitter 开源的雪花算法，在原有的基础上使用 Zookeeper 持久顺序节点进行优化，如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/spring/spring-distributed-uid-leaf-snowflake.png" alt=""></p>
+<p>Leaf-segment 方案基于数据库实现，每次获取一批递增号段的值，用完之后再去数据库获取新的号段，可以生成趋势递增的 ID，同时 ID 号是可计算的，因此不适用于订单 ID 生成场景（容易被竞争对手算出一天的订单量），相关原理如下图。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/spring/spring-distributed-uid-leaf-segment.png" alt=""></p>
+<p>由于 Leaf 分布式ID生成系统设计为独立部署，由各系统接入使用，但稍微维护不当，容易搞垮整个系统。笔者认为，可以将 Leaf 改造为插件化组件，托管到 Spring Boot Starter 自动装配。除此之外，业界开源的组件也有滴滴 TinyId、百度 UidGenerator 等，最好是设计为通用的 ID 生成器，底层实现任意切换，对业务无感知。</p>
+<h1 id="目标">目标</h1>
+<p>封装通用接口，屏蔽 API 细节，基于 Spring Boot 自动装配管理。</p>
+<h1 id="实现">实现</h1>
+<p>由于分布式 ID 生成方案有<code>号段生成器</code>和<code>雪花算法生成器</code>这两种，需要分别定义接口。</p>
+<p>首先，定义分布式 ID 号段生成器接口。</p>
+<pre class="hljs"><code>public interface SegmentGenerator {
+
+	/**
+	 * 从号段获取ID
+	 *
+	 * @return 号段
+	 */
+	long nextId();
+}
+</code></pre><p>将 Leaf 号段生成器的代码迁移过来。由于官方源码依赖于手动创建数据表，笔者在这个基础上进行改良，使用 <code>Liquibase</code> 组件实现自动化创建库表和版本管理。代码片段如下：</p>
+<pre class="hljs"><code>@Slf4j
+public class LeafSegmentGenerator implements SegmentGenerator {
+
+	private static final long LIQUIBASE_SLOWNESS_THRESHOLD = 5;
+
+	private final SegmentGeneratorConfig config;
+
+	private final LeafAllocDAO leafAllocDAO;
+
+	private final ExecutorService executorService = new ThreadPoolExecutor(5, Integer.MAX_VALUE, 60L,
+		TimeUnit.SECONDS, new SynchronousQueue&lt;&gt;(), new UpdateThreadFactory());
+
+	private final Map&lt;String, SegmentBuffer&gt; cache = new ConcurrentHashMap&lt;&gt;();
+
+	private final boolean initialized;
+
+	public LeafSegmentGenerator(SegmentGeneratorConfig config, DataSource dataSource) {
+		this.config = config;
+		if (config.getLiquibase().isEnabled()) {
+			this.initDb(dataSource);
+		}
+		this.leafAllocDAO = new LeafAllocDAO(dataSource);
+		this.updateCacheFromDb();
+		this.initialized = true;
+		this.updateCacheFromDbAtEveryMinute();
+	}
+
+	@Override
+	public long nextId() {
+		if (!initialized) {
+			throw new SegmentGeneratorException("Database segment generator not initialized");
+		}
+		String key = config.getTenant();
+		if (!cache.containsKey(key)) {
+			throw new SegmentGeneratorException("Database segment cache contains key '" + key + "', please check database");
+		}
+		SegmentBuffer buffer = cache.get(key);
+		if (!buffer.isInitialized()) {
+			synchronized (buffer) {
+				if (!buffer.isInitialized()) {
+					try {
+						updateSegmentFromDb(key, buffer.getCurrent());
+						log.debug("Initialize buffer and update leaf key {} {} from db", key, buffer.getCurrent());
+						buffer.setInitialized(true);
+					} catch (Exception e) {
+						log.warn("Initialize buffer {} catch exception", buffer.getCurrent(), e);
+					}
+				}
+			}
+		}
+		return getIdFromSegmentBuffer(cache.get(key));
+	}
+
+	private void initDb(DataSource dataSource) {
+		SpringLiquibase liquibase = buildLiquibase(dataSource);
+		StopWatch watch = new StopWatch();
+		watch.start();
+		try {
+			liquibase.afterPropertiesSet();
+		} catch (LiquibaseException e) {
+			throw new SegmentGeneratorException("Leaf liquibase has initialized your database error", e);
+		}
+		watch.stop();
+		log.debug("Leaf liquibase has initialized your database in {} ms", watch.getTotalTimeMillis());
+		if (watch.getTotalTimeMillis() &gt; LIQUIBASE_SLOWNESS_THRESHOLD * 1000L) {
+			log.warn("Leaf liquibase took more than {} seconds to initialized your database!", LIQUIBASE_SLOWNESS_THRESHOLD);
+		}
+	}
+
+	private SpringLiquibase buildLiquibase(DataSource dataSource) {
+		SpringLiquibase liquibase = new SpringLiquibase();
+		liquibase.setDataSource(dataSource);
+		liquibase.setChangeLog(this.config.getLiquibase().getChangeLog());
+		liquibase.setClearCheckSums(this.config.getLiquibase().isClearChecksums());
+		liquibase.setContexts(this.config.getLiquibase().getContexts());
+		liquibase.setDefaultSchema(this.config.getLiquibase().getDefaultSchema());
+		liquibase.setLiquibaseSchema(this.config.getLiquibase().getLiquibaseSchema());
+		liquibase.setLiquibaseTablespace(this.config.getLiquibase().getLiquibaseTablespace());
+		liquibase.setDatabaseChangeLogTable(this.config.getLiquibase().getDatabaseChangeLogTable());
+		liquibase.setDatabaseChangeLogLockTable(this.config.getLiquibase().getDatabaseChangeLogLockTable());
+		liquibase.setDropFirst(this.config.getLiquibase().isDropFirst());
+		liquibase.setShouldRun(this.config.getLiquibase().isEnabled());
+		liquibase.setLabels(this.config.getLiquibase().getLabels());
+		liquibase.setChangeLogParameters(this.config.getLiquibase().getParameters());
+		liquibase.setRollbackFile(this.config.getLiquibase().getRollbackFile());
+		liquibase.setTestRollbackOnUpdate(this.config.getLiquibase().isTestRollbackOnUpdate());
+		liquibase.setTag(this.config.getLiquibase().getTag());
+		return liquibase;
+	}
+
+	private void updateCacheFromDb() {
+		log.debug("Leaf update cache from db");
+		try {
+			List&lt;String&gt; dbTags = leafAllocDAO.getAllTags();
+			if (dbTags == null || dbTags.isEmpty()) {
+				return;
+			}
+			List&lt;String&gt; cacheTags = new ArrayList&lt;String&gt;(cache.keySet());
+			Set&lt;String&gt; insertTagsSet = new HashSet&lt;&gt;(dbTags);
+			Set&lt;String&gt; removeTagsSet = new HashSet&lt;&gt;(cacheTags);
+			for (String tag : cacheTags) {
+				insertTagsSet.remove(tag);
+			}
+			for (String tag : insertTagsSet) {
+				SegmentBuffer buffer = new SegmentBuffer();
+				buffer.setKey(tag);
+				Segment segment = buffer.getCurrent();
+				segment.setValue(new AtomicLong(0));
+				segment.setMax(0);
+				segment.setStep(0);
+				cache.put(tag, buffer);
+				log.debug("Leaf add tag {} from db to IdCache", tag);
+			}
+			for (String tag : dbTags) {
+				removeTagsSet.remove(tag);
+			}
+			for (String tag : removeTagsSet) {
+				cache.remove(tag);
+				log.debug("Leaf remove tag {} from IdCache", tag);
+			}
+		} catch (Exception e) {
+			log.warn("Leaf update cache from db exception", e);
+		}
+	}
+
+	private void updateCacheFromDbAtEveryMinute() {
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -&gt; {
+			Thread t = new Thread(r);
+			t.setName("leaf-check-id-cache-thread");
+			t.setDaemon(true);
+			return t;
+		});
+		service.scheduleWithFixedDelay(this::updateCacheFromDb, 60, 60, TimeUnit.SECONDS);
+	}
+
+	private void updateSegmentFromDb(String key, Segment segment) {
+		SegmentBuffer buffer = segment.getBuffer();
+		LeafAlloc leafAlloc;
+		if (!buffer.isInitialized()) {
+			leafAlloc = leafAllocDAO.updateMaxIdAndGetLeafAlloc(key);
+			buffer.setStep(leafAlloc.getStep());
+			buffer.setMinStep(leafAlloc.getStep());
+		} else if (buffer.getUpdateTimestamp() == 0) {
+			leafAlloc = leafAllocDAO.updateMaxIdAndGetLeafAlloc(key);
+			buffer.setUpdateTimestamp(System.currentTimeMillis());
+			buffer.setStep(leafAlloc.getStep());
+			buffer.setMinStep(leafAlloc.getStep());
+		} else {
+			long duration = System.currentTimeMillis() - buffer.getUpdateTimestamp();
+			int nextStep = buffer.getStep();
+			if (duration &lt; config.getSegmentTtl()) {
+				if (config.getMaxStep() &gt;= nextStep * 2) {
+					nextStep = nextStep * 2;
+				}
+			} else if (duration &gt;= config.getSegmentTtl() * 2) {
+				nextStep = nextStep / 2 &gt;= buffer.getMinStep() ? nextStep / 2 : nextStep;
+			}
+			log.debug("leafKey[{}], step[{}], duration[{}mins], nextStep[{}]", key, buffer.getStep(), String.format("%.2f", ((double) duration / (1000 * 60))), nextStep);
+			LeafAlloc temp = new LeafAlloc();
+			temp.setKey(key);
+			temp.setStep(nextStep);
+			leafAlloc = leafAllocDAO.updateMaxIdByCustomStepAndGetLeafAlloc(temp);
+			buffer.setUpdateTimestamp(System.currentTimeMillis());
+			buffer.setStep(nextStep);
+			buffer.setMinStep(leafAlloc.getStep());
+		}
+		long value = leafAlloc.getMaxId() - buffer.getStep();
+		segment.getValue().set(value);
+		segment.setMax(leafAlloc.getMaxId());
+		segment.setStep(buffer.getStep());
+	}
+
+	private long getIdFromSegmentBuffer(final SegmentBuffer buffer) {
+		while (true) {
+			buffer.rLock().lock();
+			try {
+				final Segment segment = buffer.getCurrent();
+				if (!buffer.isNextReady() &amp;&amp; (segment.getIdle() &lt; 0.9 * segment.getStep())
+					&amp;&amp; buffer.getThreadRunning().compareAndSet(false, true)) {
+					executorService.execute(() -&gt; {
+						Segment next = buffer.getSegments()[buffer.nextPos()];
+						boolean updateOk = false;
+						try {
+							updateSegmentFromDb(buffer.getKey(), next);
+							updateOk = true;
+							log.info("Leaf update segment {} from db {}", buffer.getKey(), next);
+						} catch (Exception e) {
+							log.error("Leaf update segment {} from db {} error", buffer.getKey(), e);
+						} finally {
+							if (updateOk) {
+								buffer.wLock().lock();
+								buffer.setNextReady(true);
+								buffer.getThreadRunning().set(false);
+								buffer.wLock().unlock();
+							} else {
+								buffer.getThreadRunning().set(false);
+							}
+						}
+					});
+				}
+				long value = segment.getValue().getAndIncrement();
+				if (value &lt; segment.getMax()) {
+					return value;
+				}
+			} finally {
+				buffer.rLock().unlock();
+			}
+			waitAndSleep(buffer);
+			buffer.wLock().lock();
+			try {
+				final Segment segment = buffer.getCurrent();
+				long value = segment.getValue().getAndIncrement();
+				if (value &lt; segment.getMax()) {
+					return value;
+				}
+				if (buffer.isNextReady()) {
+					buffer.switchPos();
+					buffer.setNextReady(false);
+				} else {
+					throw new SegmentGeneratorException("Both two segments in '" + buffer + "' are not ready!");
+				}
+			} finally {
+				buffer.wLock().unlock();
+			}
+		}
+	}
+
+	private void waitAndSleep(SegmentBuffer buffer) {
+		int roll = 0;
+		while (buffer.getThreadRunning().get()) {
+			roll += 1;
+			if (roll &gt; 10000) {
+				try {
+					TimeUnit.MILLISECONDS.sleep(10);
+					break;
+				} catch (InterruptedException e) {
+					log.warn("Thread {} Interrupted", Thread.currentThread().getName());
+					break;
+				}
+			}
+		}
+	}
+
+	public static class UpdateThreadFactory implements ThreadFactory {
+
+		private static int threadInitNumber = 0;
+
+		private static synchronized int nextThreadNum() {
+			return threadInitNumber++;
+		}
+
+		@Override
+		public Thread newThread(Runnable r) {
+			return new Thread(r, "leaf-segment-update-" + nextThreadNum());
+		}
+	}
+}
+</code></pre><p>关于其他代码不是本文讨论的重点，稍后在文章尾部放出整个源码链接。</p>
+<p>好了，接下来设计雪花算法生成器接口。</p>
+<pre class="hljs"><code>public interface SnowflakeGenerator {
+
+	/**
+	 * 获取ID
+	 *
+	 * @return ID
+	 */
+	long nextId();
+}
+</code></pre><p>对应的雪花算法代码实现。</p>
+<pre class="hljs"><code>public class LeafSnowflakeGenerator implements SnowflakeGenerator {
+
+	private static final long workerIdBits = 10L;
+
+	private static final long maxWorkerId = ~(-1L &lt;&lt; workerIdBits);
+
+	private static final long sequenceBits = 12L;
+
+	private static final long workerIdShift = sequenceBits;
+
+	private static final long timestampLeftShift = sequenceBits + workerIdBits;
+
+	private static final long sequenceMask = ~(-1L &lt;&lt; sequenceBits);
+
+	private static final Random RANDOM = new Random();
+
+	private final long workerId;
+
+	private long sequence = 0L;
+
+	private long lastTimestamp = -1L;
+
+	private final long twepoch;
+
+	public LeafSnowflakeGenerator(SnowflakeGeneratorConfig config, App app) {
+		this.twepoch = config.getTwepoch();
+		AssertUtils.isTrue(timeGen() &gt; twepoch, "Snowflake not support twepoch gt currentTime");
+
+		this.workerId = SnowflakeCoordinatorBuilder.build(config, app).getWorkerId();
+		AssertUtils.isTrue(workerId &gt;= 0 &amp;&amp; workerId &lt;= maxWorkerId, "Snowflake worker id must between 0 and 1023");
+	}
+
+	@Synchronized
+	@Override
+	public long nextId() {
+		long timestamp = timeGen();
+		if (timestamp &lt; lastTimestamp) {
+			long offset = lastTimestamp - timestamp;
+			if (offset &lt;= 5) {
+				try {
+					wait(offset &lt;&lt; 1);
+					timestamp = timeGen();
+					if (timestamp &lt; lastTimestamp) {
+						throw new SnowflakeGeneratorException("Snowflake last timestamp gt currentTime");
+					}
+				} catch (InterruptedException e) {
+					throw new SnowflakeGeneratorException("Snowflake next id wait interrupted");
+				}
+			} else {
+				throw new SnowflakeGeneratorException("Snowflake last timestamp offset gt 5");
+			}
+		}
+		if (lastTimestamp == timestamp) {
+			sequence = (sequence + 1) &amp; sequenceMask;
+			if (sequence == 0) {
+				sequence = RANDOM.nextInt(100);
+				timestamp = tillNextMillis(lastTimestamp);
+			}
+		} else {
+			sequence = RANDOM.nextInt(100);
+		}
+		lastTimestamp = timestamp;
+		return ((timestamp - twepoch) &lt;&lt; timestampLeftShift) | (workerId &lt;&lt; workerIdShift) | sequence;
+	}
+
+	private long tillNextMillis(long lastTimestamp) {
+		long timestamp = timeGen();
+		while (timestamp &lt;= lastTimestamp) {
+			timestamp = timeGen();
+		}
+		return timestamp;
+	}
+
+	private long timeGen() {
+		return System.currentTimeMillis();
+	}
+}
+</code></pre><p>和 Twitter 不同的地方是，引入了 <code>SnowflakeCoordinator</code> 雪花算法协调器。</p>
+<pre class="hljs"><code>@SPI("zookeeper")
+public interface SnowflakeCoordinator {
+
+	/**
+	 * 获取 workerId
+	 *
+	 * @return workerId
+	 */
+	long getWorkerId();
+
+	/**
+	 * 雪花算法协调器配置
+	 *
+	 * @param config 雪花算法协调器配置
+	 * @return this
+	 */
+	SnowflakeCoordinator config(SnowflakeGeneratorConfig config);
+
+	/**
+	 * 设置应用信息
+	 *
+	 * @param app 应用信息
+	 */
+	SnowflakeCoordinator app(App app);
+}
+
+@Slf4j
+public class ZookeeperSnowflakeCoordinator implements SnowflakeCoordinator {
+
+	private static final String LEAF_SCHEDULE_NAME = "leaf-zookeeper-schedule";
+
+	private static final String ZK_PATH_PATTERN = "/leaf/snowflake/{}/node";
+
+	private static final String NODE_PREFIX_PATTERN = ZK_PATH_PATTERN + "/{}:{}-";
+
+	private static final String CONF_PATH_PATTERN = System.getProperty("java.io.tmpdir") + "/leaf/{}/{}/worker-id.properties";
+
+	private volatile CuratorFramework curatorFramework;
+
+	private SnowflakeGeneratorConfig config;
+
+	private App app;
+
+	private long lastUpdateTime;
+
+	@Override
+	public long getWorkerId() {
+		this.startCurator();
+		int workerId = 0;
+		String zkPath = MessageFormatUtils.format(ZK_PATH_PATTERN, config.getName());
+		String zkNode;
+		try {
+			Stat stat = curatorFramework.checkExists().forPath(zkPath);
+			if (stat == null) {
+				zkNode = createNode();
+			} else {
+				Map&lt;String, Integer&gt; nodeIds = Maps.newHashMap();
+				Map&lt;String, String&gt; nodes = Maps.newHashMap();
+				List&lt;String&gt; keys = curatorFramework.getChildren().forPath(zkPath);
+				for (String key : keys) {
+					String[] nodeKey = key.split("-");
+					nodeIds.put(nodeKey[0], Integer.parseInt(nodeKey[1]));
+					nodes.put(nodeKey[0], key);
+				}
+				String listenAddress = app.getIp() + ":" + app.getPort();
+				Integer nodeWorkerId = nodeIds.get(listenAddress);
+				if (nodeWorkerId != null) {
+					zkNode = zkPath + "/" + nodes.get(listenAddress);
+					workerId = nodeWorkerId;
+					checkEndpointTimeStamp(zkNode);
+				} else {
+					zkNode = createNode();
+					String[] nodeKey = zkNode.split("-");
+					workerId = Integer.parseInt(nodeKey[1]);
+				}
+			}
+			this.updateLocalWorkerId(workerId);
+			this.scheduledEndpoint(zkNode);
+		} catch (Exception e) {
+			throw new SnowflakeGeneratorException(e.getMessage(), e);
+		}
+		return workerId;
+	}
+
+	/**
+	 * 雪花算法协调器配置
+	 *
+	 * @param config 雪花算法协调器配置
+	 * @return this
+	 */
+	@Override
+	public SnowflakeCoordinator config(SnowflakeGeneratorConfig config) {
+		this.config = config;
+		return this;
+	}
+
+	/**
+	 * 设置应用信息
+	 *
+	 * @param app 应用信息
+	 */
+	@Override
+	public SnowflakeCoordinator app(App app) {
+		this.app = app;
+		return this;
+	}
+
+	/**
+	 * 启动 CuratorFramework
+	 */
+	private void startCurator() {
+		if (curatorFramework == null) {
+			synchronized (this) {
+				if (curatorFramework == null) {
+					curatorFramework = CuratorFrameworkFactory.builder()
+						.connectString(config.getCoordinator().getZookeeper().getConnectString())
+						.retryPolicy(new RetryUntilElapsed(1000, 4))
+						.connectionTimeoutMs(10000)
+						.sessionTimeoutMs(6000)
+						.build();
+				}
+			}
+		}
+		if (curatorFramework.getState() != CuratorFrameworkState.STARTED) {
+			curatorFramework.start();
+		}
+	}
+
+	/**
+	 * 创建 Zookeeper 顺序节点
+	 *
+	 * @return 创建成功后返回的 Zookeeper 的顺序节点
+	 */
+	private String createNode() {
+		String prefix = MessageFormatUtils.format(NODE_PREFIX_PATTERN, config.getName(),
+			app.getIp(), app.getPort());
+		String endpoint = Endpoint.build(app.getIp(), app.getPort());
+		try {
+			return curatorFramework.create()
+				.creatingParentsIfNeeded()
+				.withMode(CreateMode.PERSISTENT_SEQUENTIAL)
+				.forPath(prefix, endpoint.getBytes());
+		} catch (Exception e) {
+			throw new SnowflakeGeneratorException("Create zookeeper node '" + prefix + "' failed", e);
+		}
+	}
+
+	/**
+	 * 更新本地 workerId，确保机器重启时能够正常启动
+	 *
+	 * @param workerId
+	 * @throws IOException
+	 */
+	private void updateLocalWorkerId(int workerId) throws IOException {
+		String pathname = MessageFormatUtils.format(CONF_PATH_PATTERN, config.getName(), workerId);
+		File leafConfFile = new File(pathname);
+		if (leafConfFile.exists()) {
+			log.info("Update local config file '{}' with worker id is {}", pathname, workerId);
+			FileUtils.writeStringToFile(leafConfFile, "workerId=" + workerId, Charset.defaultCharset(), false);
+		} else {
+			if (!leafConfFile.getParentFile().exists()) {
+				leafConfFile.getParentFile().mkdirs();
+			}
+			log.info("Initialize local config file '{}' with worker id is {}", pathname, workerId);
+			if (leafConfFile.createNewFile()) {
+				FileUtils.writeStringToFile(leafConfFile, "workerId=" + workerId, Charset.defaultCharset(), false);
+				log.info("Write local file cache worker id is  {}", workerId);
+			}
+		}
+	}
+
+	/**
+	 * 检查节点上报时间
+	 * &lt;br/&gt; 该节点的时间不能小于最后一次上报的时间
+	 *
+	 * @param zkNode Zookeeper 节点
+	 */
+	private void checkEndpointTimeStamp(String zkNode) {
+		byte[] bytes;
+		try {
+			bytes = curatorFramework.getData().forPath(zkNode);
+		} catch (Exception e) {
+			throw new SnowflakeGeneratorException("Get zookeeper node '" + zkNode + "' data error");
+		}
+		Endpoint endPoint = Endpoint.parse(new String(bytes));
+		if (endPoint.getTimestamp() &gt; System.currentTimeMillis()) {
+			throw new SnowflakeGeneratorException("Check endpoint timestamp invalid");
+		}
+	}
+
+	/**
+	 * 定时上报节点时间
+	 *
+	 * @param zkNode Zookeeper 节点
+	 */
+	private void scheduledEndpoint(String zkNode) {
+		Executors.newSingleThreadScheduledExecutor(r -&gt; {
+			Thread thread = new Thread(r, LEAF_SCHEDULE_NAME);
+			thread.setDaemon(true);
+			return thread;
+		}).scheduleWithFixedDelay(() -&gt; {
+			if (System.currentTimeMillis() &lt; lastUpdateTime) {
+				return;
+			}
+			try {
+				curatorFramework.setData().forPath(zkNode, Endpoint.build(app.getIp(), app.getPort()).getBytes());
+			} catch (Exception e) {
+				throw new SnowflakeGeneratorException("Scheduled endpoint timestamp error", e);
+			}
+			lastUpdateTime = System.currentTimeMillis();
+		}, 1L, 3L, TimeUnit.SECONDS); // 每 3 秒上报一次数据
+
+	}
+}
+</code></pre><p>两种方案封装完成，接下来放到 Spring Boot 自动装配管理。</p>
+<pre class="hljs"><code>@EnableConfigurationProperties(DistributedUIDProperties.class)
+@RequiredArgsConstructor
+@Slf4j
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@Configuration(proxyBeanMethods = false)
+public class DistributedUIDAutoConfiguration {
+
+	private final DistributedUIDProperties properties;
+
+	@ConditionalOnProperty(prefix = "distributed-uid.snowflake-generator", name = "enabled", havingValue = true)
+	@ConditionalOnMissingBean
+	@Bean
+	public SnowflakeGenerator snowflakeGenerator(@Value(SpringProperties.NAME_PATTERN) String applicationName,
+												 ServerProperties serverProperties) {
+		log.debug("Autowired SnowflakeGenerator");
+		SnowflakeGeneratorConfig config = properties.getSnowflakeGenerator();
+		config.setName(applicationName);
+		return SnowflakeGeneratorHelper.snowflakeGenerator(config,
+			App.builder().ip(IpConfigUtils.getIpAddress()).port(serverProperties.getPort()).build());
+	}
+
+	@ConditionalOnProperty(prefix = "distributed-uid.segment-generator", name = "enabled", havingValue = true)
+	@ConditionalOnMissingBean
+	@Bean
+	public SegmentGenerator segmentGenerator(DataSource dataSource) {
+		log.debug("Autowired SegmentGenerator");
+		return SegmentGeneratorHelper.segmentGenerator(properties.getSegmentGenerator(), dataSource);
+	}
+}
+
+@Setter
+@Getter
+@ConfigurationProperties(prefix = "distributed-uid")
+public class DistributedUIDProperties {
+
+	private final SnowflakeGeneratorConfig snowflakeGenerator = new SnowflakeGeneratorConfig();
+
+	private final SegmentGeneratorConfig segmentGenerator = new SegmentGeneratorConfig();
+}
+</code></pre><p>业务项目引入我们自定义的 Spring Boot Starter 组件后，在配置文件设置以下内容。</p>
+<pre class="hljs"><code>distributed-uid:
+  snowflake-generator: 
+    enabled: false # 开启雪花算法生成器
+    coordinator:
+      type: zookeeper
+      zookeeper:
+        connect-string: localhost:2181
+  segment-generator:
+    enabled: true # 开启数据库号段生成器
+    liquibase:
+      username: sa
+      password: demo
+      url: jdbc:h2:mem:db;DB_CLOSE_ON_EXIT=TRUE
+      driver-class-name: org.h2.Driver
+</code></pre><p>启动项目，可以在日志控制台看出 Leaf 表数据自动初始化。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/spring/spring-distributed-uid-leaf-segment-liquibase.png" alt=""></p>
+<p>考虑团队使用 MyBatis-Plus 涉及到 ID 的生成，笔者也扩展了相关实现，通过 <code>com.baomidou.mybatisplus.core.incrementer.IdentifierGenerator</code> 扩展。</p>
+<pre class="hljs"><code>@AutoConfigureAfter(MybatisPlusAutoConfiguration.class)
+@EnableConfigurationProperties({MybatisPlusIdGeneratorProperties.class})
+@Slf4j
+@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
+@Configuration(proxyBeanMethods = false)
+public class MybatisPlusIdGeneratorAutoConfiguration {
+
+	@ConditionalOnProperty(
+		prefix = MybatisPlusIdGeneratorProperties.PREFIX,
+		name = MybatisPlusIdGeneratorProperties.TYPE,
+		havingValue = MybatisPlusIdGeneratorProperties.SNOWFLAKE
+	)
+	@Bean
+	public SnowflakeIdentifierGenerator snowflakeIdentifierGenerator(SnowflakeGenerator snowflakeGenerator) {
+		return new SnowflakeIdentifierGenerator(snowflakeGenerator);
+	}
+
+	@ConditionalOnProperty(
+		prefix = MybatisPlusIdGeneratorProperties.PREFIX,
+		name = MybatisPlusIdGeneratorProperties.TYPE,
+		havingValue = MybatisPlusIdGeneratorProperties.SEGMENT
+	)
+	@Bean
+	public SegmentIdentifierGenerator segmentIdentifierGenerator(SegmentGenerator segmentGenerator) {
+		return new SegmentIdentifierGenerator(segmentGenerator);
+	}
+}
+
+@Data
+@ConfigurationProperties(prefix = MybatisPlusIdGeneratorProperties.PREFIX)
+public class MybatisPlusIdGeneratorProperties {
+
+	public static final String PREFIX = "mybatis-plus.id-generator";
+
+	public static final String TYPE = "type";
+
+	public static final String SNOWFLAKE = "snowflake";
+
+	public static final String SEGMENT = "segment";
+
+	private String type;
+}
+
+@RequiredArgsConstructor
+public class SegmentIdentifierGenerator implements IdentifierGenerator {
+
+	private final SegmentGenerator segmentGenerator;
+
+	@Override
+	public Long nextId(Object entity) {
+		return segmentGenerator.nextId();
+	}
+}
+
+@RequiredArgsConstructor
+public class SnowflakeIdentifierGenerator implements IdentifierGenerator {
+
+	private final SnowflakeGenerator snowflakeGenerator;
+
+	@Override
+	public Long nextId(Object entity) {
+		return snowflakeGenerator.nextId();
+	}
+}
+</code></pre><p>业务项目配置如下内容即可使用。</p>
+<pre class="hljs"><code>mybatis-plus:
+  id-generator:
+    type: segment # 设置为 snowflake 表示开启雪花算法，设置为 segment 表示基于数据库发号
+</code></pre><p>除了 Leaf，也可以扩展其他组件的集成，具体就不展开了。</p>
+<h1 id="产出">产出</h1>
+<p>通过 API 封装，简化了业务项目对分布式 ID 生成的繁琐编码工作，提高开发效率。</p>
+<p>本文涉及的代码完全开源，感兴趣的伙伴可以查阅 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-solutions/eden-distributed-uid">eden-distributed-uid</a> 和 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-spring-boot-starters/eden-distributed-uid-spring-boot-starter">eden-distributed-lock-spring-boot-starter</a>。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实现</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 产出</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

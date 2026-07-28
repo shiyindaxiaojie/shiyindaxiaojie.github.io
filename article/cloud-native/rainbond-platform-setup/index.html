@@ -1,0 +1,144 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Rainbond 云原生应用平台搭建 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="由于 KubeSphere 宣布开源版停止下载和支持，笔者刚好在搭建机房环境，准备调研 Rainbond 搭建 Kubernetes 集群。"><meta property="og:type" content="article"><meta property="og:title" content="Rainbond 云原生应用平台搭建 - 梦想歌の后花园"><meta property="og:description" content="由于 KubeSphere 宣布开源版停止下载和支持，笔者刚好在搭建机房环境，准备调研 Rainbond 搭建 Kubernetes 集群。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/cloud-native/rainbond-platform-setup/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Rainbond.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/cloud-native/rainbond-platform-setup/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Rainbond 云原生应用平台搭建","description":"由于 KubeSphere 宣布开源版停止下载和支持，笔者刚好在搭建机房环境，准备调研 Rainbond 搭建 Kubernetes 集群。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Rainbond.png","datePublished":"2024-01-01","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"Kubernetes, Rainbond, 自建机房","mainEntityOfPage":"https://mengxiangge.netlify.app/article/cloud-native/rainbond-platform-setup/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Rainbond 云原生应用平台搭建","item":"https://mengxiangge.netlify.app/article/cloud-native/rainbond-platform-setup/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Rainbond 云原生应用平台搭建</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Rainbond.png" alt="Rainbond 云原生应用平台搭建"></div><header class="doc-header"><h1 class="doc-title">Rainbond 云原生应用平台搭建</h1><p class="doc-desc">由于 KubeSphere 宣布开源版停止下载和支持，笔者刚好在搭建机房环境，准备调研 Rainbond 搭建 Kubernetes 集群。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">Kubernetes</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">Rainbond</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">自建机房</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景介绍">背景介绍</h1>
+<p>由于 KubeSphere 宣布开源版停止下载和支持，笔者刚好在搭建机房环境，准备调研 Rainbond 搭建 Kubernetes 集群。</p>
+<h1 id="准备工作">准备工作</h1>
+<p>由于笔者的服务器还没有 Kubernetes 环境，临时使用一台机器 10.105.128.173 部署 Rainbond 平台，然后在其他服务器搭建 Kubernete 集群。</p>
+<p>以下 4 台机器节点用于部署 Kubernetes 集群：</p>
+<ul>
+<li>10.105.128.238：控制节点和 etcd</li>
+<li>10.105.129.79 ：数据节点1</li>
+<li>10.105.129.142：数据节点2</li>
+<li>10.105.129.174：数据节点3</li>
+</ul>
+<p>在每台服务器执行以下操作。</p>
+<pre class="hljs"><code># 设置域名解析
+cat /etc/hosts
+10.105.128.238  k8s-master     
+10.105.129.79   k8s-worker1
+10.105.129.142  k8s-worker2
+10.105.129.174  k8s-worker3
+
+# 关闭防火墙
+systemctl stop firewalld
+systemctl disable firewalld
+iptables -F &amp;&amp; iptables -t nat -F &amp;&amp; iptables -t mangle -F &amp;&amp; iptables -X
+
+# 关闭SELinux
+setenforce 0
+sed -i 's/enforcing/disabled/' /etc/selinux/config
+
+# 关闭Swap
+swapoff -a
+sed -ri 's/.*swap.*/#&amp;/' /etc/fstab
+
+# 调整内核参数
+cat &gt; /etc/sysctl.d/k8s.conf &lt;&lt; EOF
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+EOF
+sysctl --system
+
+# 在初始化 K8s 集群节点时，rainbond 添加节点会读取这个目录，需要提前创建
+mkdir -p /run/k3s/containerd
+chmod 777 -R /run/k3s/containerd
+
+# 安装 Docker
+yum install -y yum-utils
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+systemctl enable docker.service
+vim /etc/docker/daemon.json
+{
+    "registry-mirrors": ["https://m.daocloud.io"]
+}
+systemctl daemon-reload
+systemctl start docker.service
+systemctl status -l docker.service
+</code></pre><h2 id="安装-rainbond-平台">安装 Rainbond 平台</h2>
+<p>使用 Rainbond 快速安装脚本</p>
+<pre class="hljs"><code>curl -o install.sh https://get.rainbond.com &amp;&amp; bash ./install.sh
+</code></pre><p>等待 3-5 分钟，使用浏览器访问 <a href="http://10.105.128.238:7070">http://10.105.128.238:7070</a> 进入 Rainbond。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/rainbond/add-node-to-kubernetes.png" alt=""></p>
+<ol>
+<li>基于 Rainbond 在其他服务器搭建 Kubernete 集群</li>
+</ol>
+<h2 id="创建-kubernetes-集群">创建 Kubernetes 集群</h2>
+<p>、</p>
+<h2 id="添加-kubernetes-节点">添加 Kubernetes 节点</h2>
+<p><a href="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/rainbond/add-node-to-kubernetes.png">https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/rainbond/add-node-to-kubernetes.png</a></p>
+<p>在目标节点服务器执行以下命令（示例）</p>
+<pre class="hljs"><code>curl -sfL http://10.105.128.238:7070/install-cluster.sh | sh -s - --rbd-url http://10.105.128.238:7070  --worker  --token  2d4707be2f6b4858b9bd0c9dc0b27c0a --mirror cn
+</code></pre><p>如果控制台显示节点状态为 <code>NotReady</code>，可能是 iptables 规则冲突。执行以下命令，清除所有现有的规则链和自定义链，将网络表恢复到初始状态。</p>
+<pre class="hljs"><code>sudo iptables -F
+sudo iptables -t nat -F
+sudo iptables -t mangle -F
+sudo iptables -X
+sudo iptables -t nat -X
+sudo iptables -t mangle -X
+
+sudo ip6tables -F
+sudo ip6tables -t nat -F
+sudo ip6tables -t mangle -F
+sudo ip6tables -X
+sudo ip6tables -t nat -X
+sudo ip6tables -t mangle -X
+</code></pre><p>然后重启 <code>RKE2 Agent</code> 服务。</p>
+<pre class="hljs"><code>systemctl restart rke2-agent
+</code></pre><p>检查节点的状态，节点的状态会从 <code>NotReady</code> 变为 <code>Ready</code>。</p>
+<h2 id="修改-containerd-配置">修改 containerd 配置</h2>
+<pre class="hljs"><code>vim /etc/containerd/config.toml
+[plugins."io.containerd.grpc.v1.cri".registry]
+  [plugins."io.containerd.grpc.v1.cri".registry.configs]
+    [plugins."io.containerd.grpc.v1.cri".registry.configs."10.105.128.128:30003"]
+      [plugins."io.containerd.grpc.v1.cri".registry.configs."10.105.128.128:30003".tls]
+        insecure_skip_verify = true
+</code></pre></article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景介绍</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 准备工作</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. 安装 Rainbond 平台</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. 创建 Kubernetes 集群</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.3. 添加 Kubernetes 节点</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.4. 修改 containerd 配置</span><!----></div><!----></li><!--]--></ul></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

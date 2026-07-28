@@ -27,6 +27,25 @@
           "nameKey": "topology.options.load-balance.aws-elb.name"
         },
         {
+          "id": "google-cloud-load-balancing",
+          "name": "Google Cloud Load Balancing",
+          "path": null
+        },
+        {
+          "id": "azure-load-balancer",
+          "name": "Azure Load Balancer",
+          "path": null
+        },
+        {
+          "id": "huawei-elb",
+          "name": {
+            "zh": "华为云 ELB",
+            "en": "Huawei Cloud ELB",
+            "ja": "Huawei Cloud ELB"
+          },
+          "path": null
+        },
+        {
           "id": "haproxy",
           "name": "HAProxy",
           "path": "data/knowledge/operations/haproxy_zh-CN.md"
@@ -42,8 +61,7 @@
       "children": [
         "nat-gateway",
         "ingress",
-        "api-gateway",
-        "gray-release"
+        "api-gateway"
       ],
       "titleKey": "topology.nodes.gateway-traffic.title",
       "summaryKey": "topology.nodes.gateway-traffic.summary"
@@ -93,6 +111,25 @@
           "id": "aws-nat-gateway",
           "name": "AWS NAT Gateway",
           "path": null
+        },
+        {
+          "id": "google-cloud-nat",
+          "name": "Google Cloud NAT",
+          "path": null
+        },
+        {
+          "id": "azure-nat-gateway",
+          "name": "Azure NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "huawei-nat-gateway",
+          "name": {
+            "zh": "华为云 NAT 网关",
+            "en": "Huawei Cloud NAT Gateway",
+            "ja": "Huawei Cloud NAT Gateway"
+          },
+          "path": null
         }
       ],
       "titleKey": "topology.nodes.nat-gateway.title",
@@ -122,31 +159,6 @@
       ],
       "titleKey": "topology.nodes.api-gateway.title",
       "summaryKey": "topology.nodes.api-gateway.summary"
-    },
-    {
-      "id": "gray-release",
-      "kind": "concept",
-      "zone": "gateway",
-      "defaultOption": "istio",
-      "options": [
-        {
-          "id": "istio",
-          "name": "Istio",
-          "path": "data/knowledge/cloud-native/istio.md"
-        },
-        {
-          "id": "gateway-canary",
-          "path": "data/knowledge/architecture/high-availability.md",
-          "nameKey": "topology.options.gray-release.gateway-canary.name"
-        },
-        {
-          "id": "flagger",
-          "name": "Flagger",
-          "path": null
-        }
-      ],
-      "titleKey": "topology.nodes.gray-release.title",
-      "summaryKey": "topology.nodes.gray-release.summary"
     }
   ],
   "edges": [
@@ -158,11 +170,6 @@
     {
       "source": "gateway-traffic",
       "target": "api-gateway",
-      "type": "contains"
-    },
-    {
-      "source": "gateway-traffic",
-      "target": "gray-release",
       "type": "contains"
     }
   ]

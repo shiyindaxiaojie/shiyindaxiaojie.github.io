@@ -1,0 +1,21 @@
+// Provider: azure.
+// Azure catalog placeholder for provider-specific product aliases.
+{
+  "id": "azure",
+  "labelKey": "topology.providers.azure",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ]
+}

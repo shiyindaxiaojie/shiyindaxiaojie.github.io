@@ -1,0 +1,155 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Harbor 私有镜像仓库搭建 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="由于自建机房无法访问 DockerHub，需要搭建 Harbor 私有镜像仓库，并解决研发团队在本地镜像仓库中拉取镜像的问题。"><meta property="og:type" content="article"><meta property="og:title" content="Harbor 私有镜像仓库搭建 - 梦想歌の后花园"><meta property="og:description" content="由于自建机房无法访问 DockerHub，需要搭建 Harbor 私有镜像仓库，并解决研发团队在本地镜像仓库中拉取镜像的问题。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/cloud-native/harbor-registry-setup/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Harbor.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/cloud-native/harbor-registry-setup/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Harbor 私有镜像仓库搭建","description":"由于自建机房无法访问 DockerHub，需要搭建 Harbor 私有镜像仓库，并解决研发团队在本地镜像仓库中拉取镜像的问题。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Harbor.png","datePublished":"2024-10-16","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"Harbor, 镜像仓库, 自建机房","mainEntityOfPage":"https://mengxiangge.netlify.app/article/cloud-native/harbor-registry-setup/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Harbor 私有镜像仓库搭建","item":"https://mengxiangge.netlify.app/article/cloud-native/harbor-registry-setup/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Harbor 私有镜像仓库搭建</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Harbor.png" alt="Harbor 私有镜像仓库搭建"></div><header class="doc-header"><h1 class="doc-title">Harbor 私有镜像仓库搭建</h1><p class="doc-desc">由于自建机房无法访问 DockerHub，需要搭建 Harbor 私有镜像仓库，并解决研发团队在本地镜像仓库中拉取镜像的问题。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">Harbor</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">镜像仓库</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">自建机房</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>由于自建机房无法访问 DockerHub，需要搭建 Harbor 私有镜像仓库，并解决研发团队在本地镜像仓库中拉取镜像的问题。</p>
+<h1 id="部署">部署</h1>
+<h2 id="helm-部署-harbor">Helm 部署 Harbor</h2>
+<p>本次基于 KubeSphere 平台搭建，使用 Helm 安装，从 <a href="https://artifacthub.io/">ArtifaceHub</a> 搜索 Harbor，添加 <a href="https://artifacthub.io/packages/helm/harbor/harbor">Helm Chart</a>。</p>
+<pre class="hljs"><code>export KUBECONFIG=/etc/kubernetes/admin.conf
+helm repo add harbor https://helm.goharbor.io
+</code></pre><p>Harbor 默认使用 DockerHub 镜像，可以在 Helm 模板添加 <a href="https://github.com/DaoCloud/public-image-mirror">m.daocloud.io</a> 镜像仓库前缀，以解决拉取镜像失败的问题。代码片段如下：</p>
+<pre class="hljs"><code># 存储类指定为 data-nfs-client，您可以自行选择其他存储类。
+# Harbor 使用 Nginx 提供访问入口，此处设置为 http://10.2.2.109:30003
+helm upgrade --install harbor harbor/harbor --set expose.type=nodePort --set persistence.persistentVolumeClaim.registry.storageClass=data-nfs-client --set persistence.persistentVolumeClaim.registry.accessMode=ReadWriteMany --set persistence.persistentVolumeClaim.registry.size=50Gi --set nginx.image.repository=m.daocloud.io/goharbor/nginx-photon --set portal.image.repository=m.daocloud.io/goharbor/harbor-portal --set core.image.repository=m.daocloud.io/goharbor/harbor-core --set jobservice.image.repository=m.daocloud.io/goharbor/harbor-jobservice --set registry.registry.image.repository=m.daocloud.io/goharbor/registry-photon --set registry.controller.image.repository=m.daocloud.io/goharbor/harbor-registryctl --set trivy.image.repository=m.daocloud.io/goharbor/trivy-adapter-photon --set database.internal.image.repository=m.daocloud.io/goharbor/harbor-db --set redis.internal.image.repository=m.daocloud.io/goharbor/redis-photon --set exporter.image.repository=m.daocloud.io/goharbor/harbor-exporter --set expose.tls.enabled=true --set externalURL=https://10.2.2.109:30003 --set expose.tls.auto.commonName="10.2.2.109"
+</code></pre><p>验证 Harbor 登录。</p>
+<pre class="hljs"><code>echo "Harbor12345" | docker login 10.2.2.109:30003 -u "admin" --password-stdin
+</code></pre><p>为方便内部访问，笔者没有配置自签名证书，如果您有这个需求，可以参考下述代码：</p>
+<pre class="hljs"><code>&gt; cd certs
+# 自签名 CA 证书
+&gt; openssl genrsa -out ca.key 4096
+&gt; openssl req -x509 -new -nodes -sha512 -days 3650 \
+-subj "/C=CN/ST=Guangdong/L=Guangzhou/O=PUYI/OU=Personal/CN=harbor.mengxiangge.org" \
+-key ca.key \
+-out ca.crt
+# 私钥证书
+&gt; openssl genrsa -out harbor.mengxiangge.org.key 4096
+&gt; openssl req -sha512 -new \
+-subj "/C=CN/ST=Guangdong/L=Guangzhou/O=PUYI/OU=Personal/CN=harbor.mengxiangge.org" \
+-key harbor.mengxiangge.org.key \
+-out harbor.mengxiangge.org.csr
+
+&gt; cat &gt; v3.ext &lt;&lt;-EOF
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+extendedKeyUsage = serverAuth
+subjectAltName = @alt_names
+ 
+[alt_names]
+DNS.1=harbor.mengxiangge.org
+EOF
+
+# 生成证书
+&gt; openssl x509 -req -sha512 -days 3650 \
+-extfile v3.ext \
+-CA ca.crt -CAkey ca.key -CAcreateserial \
+-in harbor.mengxiangge.org.csr \
+-out harbor.mengxiangge.org.crt
+
+# 提取证书
+&gt; openssl x509 -inform PEM -in harbor.mengxiangge.org.crt -out harbor.mengxiangge.org.cert
+
+# 假设您使用的是 Docker 运行时，使用以下命令将 CA 证书复制到 Docker 配置目录中。
+# Docker守护程序将.crt 文件解释为 CA证书，将 .cert 文件解释为客户端证书
+&gt; mkdir -p /etc/docker/certs.d/harbor.mengxiangge.org/
+&gt; cp harbor.mengxiangge.org.cert /etc/docker/certs.d/harbor.mengxiangge.org/
+&gt; cp harbor.mengxiangge.org.key /etc/docker/certs.d/harbor.mengxiangge.org/
+&gt; cp ca.crt /etc/docker/certs.d/harbor.mengxiangge.org/
+</code></pre><h2 id="容器运行时跳过验证">容器运行时跳过验证</h2>
+<p>使用 HTTP 访问，需要调整对应的 Docker 和 Containerd 相关配置，如果您不清楚 Kubernetes 使用的是 containerd 还是 docker，可以使用 <code>kubectl get nodes -o wide</code> 查看关键信息是否携带 <code>containerd</code> 或者 <code>docker</code>。</p>
+<pre class="hljs"><code>&gt; kubectl get nodes -o wide
+NAME            STATUS   ROLES                  AGE     VERSION    INTERNAL-IP   EXTERNAL-IP   OS-IMAGE                KERNEL-VERSION                 CONTAINER-RUNTIME
+k3s-master      Ready    control-plane,worker   3d23h   v1.24.17   10.2.2.109    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+k3s-worker-01   Ready    worker                 3d22h   v1.24.17   10.2.2.140    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+k3s-worker-02   Ready    worker                 3d22h   v1.24.17   10.2.2.211    &lt;none&gt;        CentOS Linux 7 (Core)   3.10.0-1160.119.1.el7.x86_64   containerd://1.6.33
+
+# Docker
+&gt; vim /etc/docker/daemon.json
+{
+    "registry-mirrors": ["https://docker.m.daocloud.io"],
+    "insecure-registries": ["10.2.2.109:30003"]
+}
+:wq
+&gt; sudo systemctl daemon-reload
+&gt; sudo systemctl restart docker
+
+# Containerd
+&gt; vim /etc/containerd/config.toml
+
+[plugins]
+  [plugins."io.containerd.grpc.v1.cri"]
+    ...
+    [plugins."io.containerd.grpc.v1.cri".registry]
+      [plugins."io.containerd.grpc.v1.cri".registry.mirrors]
+        [plugins."io.containerd.grpc.v1.cri".registry.mirrors."docker.io"]
+          endpoint = ["https://docker.m.daocloud.io"]
+        [plugins."io.containerd.grpc.v1.cri".registry.configs."10.2.2.109:30003".tls]
+          insecure_skip_verify=true
+
+&gt; sudo systemctl daemon-reload
+&gt; sudo systemctl restart containerd
+</code></pre><h1 id="验证">验证</h1>
+<p>访问 Harbor 控制台：<a href="http://10.2.2.109:30003">http://10.2.2.109:30003</a>。</p>
+<p>输入初始用户 <code>admin</code> 和密码 <code>Harbor123451</code>，控制台登录成功界面如下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/harbor/harbor-console.png" alt=""></p>
+<p>验证镜像上传，本次使用 RocketMQ Dashboard 作为示例。</p>
+<pre class="hljs"><code># 在有 VPN 的机器拉取 DockerHub 镜像
+&gt; docker pull apacherocketmq/rocketmq-dashboard:latest
+# 推送到 Harbor 私有仓库
+&gt; echo "Harbor12345" | docker login 10.2.2.109:30003 -u "admin" --password-stdin
+&gt; docker tag apacherocketmq/rocketmq-dashboard:latest 10.2.2.109:30003/middleware/rocketmq-dashboard:1.0.0
+&gt; docker push 10.2.2.109:30003/middleware/rocketmq-dashboard:1.0.0
+</code></pre><p>在 KubeSphere 中，在保密字典 Secret 添加 Harbor 私有仓库的认证信息，并设置默认镜像仓库。
+<img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-default-registry-secret.png" alt=""></p>
+<p>使用 Helm 一键部署，为 RocketMQ Dashboard 指定镜像地址。</p>
+<pre class="hljs"><code>helm upgrade --install rocketmq rocketmq/rocketmq -n mq --set clusterName=rocketmq --set image.tag=4.8.0 --set broker.size.master=2 --set broker.master.jvm.maxHeapSize=1024M --set broker.persistence.storageClass=data-nfs-client --set broker.size.replica=2 --set nameserver.jvm.maxHeapSize=1024M --set nameserver.persistence.enabled=false --set nameserver.persistence.storageClass=data-nfs-client --set dashboard.auth.users[0].name=admin --set dashboard.auth.users[0].password=admin123 --set dashboard.auth.users[1].name=mengxiangge --set dashboard.auth.users[1].password=admin123 --set dashboard.service.type=NodePort --set dashboard.service.nodePort=9877 --set proxy.enabled=false --set dashboard.image.repository="10.2.2.109:30003/middleware/rocketmq-dashboard"
+</code></pre><p>查看容器事件，可以看到 rocketmq-dashboard 使用了我们定义的私有镜像地址。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-use-harbor-registry.png" alt=""></p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 部署</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. Helm 部署 Harbor</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. 容器运行时跳过验证</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 验证</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

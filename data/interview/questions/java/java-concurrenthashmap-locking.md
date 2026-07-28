@@ -5,6 +5,7 @@ slug: java-concurrenthashmap-locking
 tracks:
   - java-backend
 category: concurrency
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: high

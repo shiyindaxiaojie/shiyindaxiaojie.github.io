@@ -5,6 +5,7 @@ slug: java-aqs-reentrantlock
 tracks:
   - java-backend
 category: concurrency
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: high
@@ -45,6 +46,12 @@ ReentrantLock 已经能用，为什么还要理解 AQS？
 ::candidate::
 公平锁会更尊重等待队列，避免线程长期饥饿；非公平锁允许新来的线程插队抢一下，吞吐通常更高。大多数业务我会默认非公平，因为锁持有时间短时插队能减少上下文切换。只有在确实出现饥饿、排队顺序有业务意义，或者延迟尾部很难接受时，才考虑公平锁。
 
+::candidate variant="misconception"::
+公平锁一定更好，因为它不会插队，吞吐和延迟都会更稳定。
+
+::interviewer correction="true"::
+公平锁减少饥饿，但排队和唤醒会增加竞争路径成本。默认选非公平锁；只有业务需要顺序、公平性，或已确认饥饿问题时，再用公平锁并观察吞吐和尾延迟。
+
 ::interviewer::
 Condition 和 Object.wait 有什么不同？
 
@@ -56,3 +63,7 @@ Condition 可以给一把锁拆出多个等待队列，比如“队列不空”�
 
 ::candidate::
 我会先连续抓线程 dump：`jcmd <pid> Thread.print -l` 或 `jstack -l <pid>`，看哪些线程 WAITING 在 `AbstractQueuedSynchronizer`，再找持锁线程的业务栈。Arthas 可以用 `thread -b` 快速找阻塞源，再用 `thread <id>` 看它是不是在锁里做了慢 IO、远程调用或复杂计算。优化时先缩短临界区，再考虑分段锁、读写锁或不可变快照，而不是直接把锁改成公平锁。
+
+::terms::
+AQS = 用同步状态、CAS、等待队列和 park/unpark 构建同步器的基础框架。 | knowledge=/knowledge/?mode=search&q=AQS
+ReentrantLock = 基于 AQS 的可重入显式锁，支持公平策略、可中断获取和多个 Condition。 | docs=https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReentrantLock.html | knowledge=/knowledge/?mode=search&q=ReentrantLock

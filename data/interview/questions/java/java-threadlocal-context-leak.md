@@ -5,6 +5,7 @@ slug: java-threadlocal-context-leak
 tracks:
   - java-backend
 category: concurrency
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high
@@ -37,7 +38,13 @@ related:
 ThreadLocalMap 的 key 是弱引用，为什么还会泄漏？
 
 ::candidate level="deep"::
-弱引用只说明 ThreadLocal 对象本身没人引用时，key 可以被回收。但 value 还挂在线程的 ThreadLocalMap 里，而线程池线程长期活着，value 就可能一直留着。实操排查时我会 dump 堆：`jcmd <pid> GC.heap_dump /tmp/tl.hprof`，在 MAT 里从 `java.lang.Thread` 看 `threadLocals -> table -> value`，找大对象或用户上下文是否被工作线程长期持有。
+弱引用只说明 [[ThreadLocal]] 对象本身没人引用时，key 可以被回收。但 value 还挂在线程的 ThreadLocalMap 里，而线程池线程长期活着，value 就可能一直留着。实操排查时我会 dump 堆：`jcmd <pid> GC.heap_dump /tmp/tl.hprof`，在 MAT 里从 `java.lang.Thread` 看 `threadLocals -> table -> value`，找大对象或用户上下文是否被工作线程长期持有。
+
+::candidate variant="misconception"::
+key 是弱引用，发生 GC 后 value 也会自动释放，所以在线程池里不需要 remove。
+
+::interviewer correction="true"::
+GC 只会让 key 变成 null。线程池工作线程仍存活时，value 可能继续被 ThreadLocalMap 持有；业务代码必须在 `finally` 里 `remove()`，异步包装也要保证设置和清理成对。
 
 ::interviewer::
 如果异步任务里也要用 traceId，你会怎么做？
@@ -56,3 +63,7 @@ ThreadLocalMap 的 key 是弱引用，为什么还会泄漏？
 
 ::candidate::
 如果这个值是核心业务参数，我更愿意显式传参，因为它能让依赖关系清楚。ThreadLocal 更适合横切上下文，比如日志链路、审计信息。只要它参与业务分支判断，就要特别小心，后续维护的人很容易看漏隐式状态。
+
+::terms::
+ThreadLocal = 为每个线程保存独立变量副本的机制，不会自动跨线程传播。 | docs=https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ThreadLocal.html | knowledge=/knowledge/?mode=search&q=ThreadLocal
+ThreadLocalMap = 挂在 Thread 对象上的 ThreadLocal 存储结构，在线程池复用时需要显式清理 value。 | knowledge=/knowledge/?mode=search&q=ThreadLocalMap

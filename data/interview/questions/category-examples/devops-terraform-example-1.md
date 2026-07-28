@@ -1,46 +1,37 @@
 ---
 id: devops-terraform-example-1
-title: Terraform State 为什么要远端存储和加锁？
+title: "Terraform State 为什么要远端存储并加锁？"
 slug: devops-terraform-example-1
 tracks:
   - devops
 category: terraform
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: medium
 tags:
-  - Terraform
-  - Terraform State
-  - 状态锁
-  - IaC
-summary: 围绕 Terraform 的机制、边界、故障模式和工程取舍做追问。
+  - "Terraform"
+  - "Terraform State"
+  - "配置漂移"
+  - "IaC"
+summary: "围绕Terraform的真实问题，沿着机制、证据和失败边界继续追问。"
 estimatedRead: 3
 ---
 
 ::interviewer::
-Terraform State 为什么要远端存储和加锁？
+Terraform State 为什么要远端存储并加锁？
 
 ::candidate level="core"::
-我会把这题先落到生产现场看：Terraform（Terraform State、状态锁、IaC） 不是孤立概念，它通常会影响延迟、错误率、资源水位、发布风险或一致性边界。回答时我先判断它解决什么问题，再说明它依赖哪些前提，最后讲前提失效时会出现什么信号。
-
-以线上排查为例，我不会只背定义。第一步看入口指标，确认 QPS、P95/P99、错误率和饱和度是不是一起变化；第二步看依赖指标，确认数据库、缓存、队列、下游服务或运行时有没有慢调用；第三步看单机证据，比如日志、Trace、线程或协程栈、连接池、CPU/I/O、GC 或队列长度。
+State 保存的是配置与真实资源之间的映射，也可能含敏感属性。放在本地会让多人并发修改产生分叉，远端存储解决共享和版本化，锁解决同一时刻只有一次写入；它们仍替代不了最小权限和备份。
 
 ::interviewer::
-你别泛泛讲流程，给我一个能落地的排查路径。
+别停在原理上，Terraform落到线上先看什么证据？
 
 ::candidate level="deep"::
-我会按“入口指标 -> 依赖指标 -> 单机证据 -> 变更记录”收敛。入口看用户侧延迟和错误码，依赖看慢查询、缓存命中率、队列堆积或下游超时，单机看资源瓶颈和运行时栈，最后把现象和发布、配置、扩容、流量切换做时间线对齐。
-
-如果证据冲突，比如服务日志没有错误但用户侧超时，我会补网关日志和链路追踪，确认请求是在客户端超时、网关排队、服务处理，还是下游等待里消失。只有证据链闭合后才会改参数或改架构。
+核对 State 版本、锁记录、云审计日志和 plan 输出，尤其关注 force replacement 与 destroy；高风险 apply 前保留可恢复的 State 快照。
 
 ::interviewer::
-那你怎么证明你的方案不是拍脑袋？
+Terraform这套判断在哪个边界下会失效？
 
 ::candidate::
-我会给出改动前基线、预期改善指标、灰度范围、回滚条件和复盘结果。比如只改线程池、连接池或重试策略，就要说明当前瓶颈确实是排队、连接耗尽或抖动放大；如果要做架构调整，就要说明局部调参已经到边界。
-
-::interviewer::
-这个回答里我还会继续追问什么边界？
-
-::candidate::
-我会准备三个边界：什么时候这个方案不适用，指标到什么阈值必须降级，故障复现不了时如何保留日志、Trace 和采样指标。这样这道 Terraform 题就不是名词解释，而是能落到真实生产链路。
+State 锁只能防 Terraform 客户端并发，防不了控制台人工修改和其他 IaC 工具。漂移检测、权限收口与变更审计缺一不可。

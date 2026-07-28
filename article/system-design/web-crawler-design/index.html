@@ -1,0 +1,204 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>网络爬虫系统设计 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="设计一个网络爬虫系统，用于抓取互联网上的网页内容。重点包括给定种子 URL，爬取网页及其链接、支持可配置的爬取深度和频率、遵守 robots.txt 协议、避免重复爬取。"><meta property="og:type" content="article"><meta property="og:title" content="网络爬虫系统设计 - 梦想歌の后花园"><meta property="og:description" content="设计一个网络爬虫系统，用于抓取互联网上的网页内容。重点包括给定种子 URL，爬取网页及其链接、支持可配置的爬取深度和频率、遵守 robots.txt 协议、避免重复爬取。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/system-design/web-crawler-design/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/web-crawler.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/system-design/web-crawler-design/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"网络爬虫系统设计","description":"设计一个网络爬虫系统，用于抓取互联网上的网页内容。重点包括给定种子 URL，爬取网页及其链接、支持可配置的爬取深度和频率、遵守 robots.txt 协议、避免重复爬取。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/web-crawler.png","datePublished":"2023-08-25","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"系统设计, 爬虫, DFS, BFS","mainEntityOfPage":"https://mengxiangge.netlify.app/article/system-design/web-crawler-design/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"网络爬虫系统设计","item":"https://mengxiangge.netlify.app/article/system-design/web-crawler-design/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>网络爬虫系统设计</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/system-design/web-crawler.png" alt="网络爬虫系统设计"></div><header class="doc-header"><h1 class="doc-title">网络爬虫系统设计</h1><p class="doc-desc">设计一个网络爬虫系统，用于抓取互联网上的网页内容。重点包括给定种子 URL，爬取网页及其链接、支持可配置的爬取深度和频率、遵守 robots.txt 协议、避免重复爬取。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">系统设计</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">爬虫</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">DFS</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">BFS</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="场景">场景</h1>
+<p>设计一个网络爬虫系统，用于抓取互联网上的网页内容。</p>
+<p>需求点：</p>
+<ol>
+<li>给定种子 URL，爬取网页及其链接</li>
+<li>支持可配置的爬取深度和频率</li>
+<li>遵守 robots.txt 协议</li>
+<li>避免重复爬取</li>
+<li>每月爬取 10 亿个网页</li>
+</ol>
+<h1 id="估算">估算</h1>
+<ul>
+<li>月爬取量：10 亿页</li>
+<li>日爬取量：10 亿 / 30 ≈ 3300 万页/天</li>
+<li>QPS：33,000,000 / 86400 ≈ 382 页/秒</li>
+<li>峰值 QPS：约 800 页/秒</li>
+</ul>
+<p>存储估算：</p>
+<ul>
+<li>平均每页 500KB（HTML + 元数据）</li>
+<li>月存储量：10 亿 × 500KB = 500TB</li>
+<li>需要压缩存储和增量更新</li>
+</ul>
+<h1 id="设计">设计</h1>
+<h2 id="整体架构">整体架构</h2>
+<pre class="hljs"><code>┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Seed URLs  │────▶│   URL       │────▶│   URL       │
+│             │     │  Frontier   │     │  Fetcher    │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          ▲                    │
+                          │                    ▼
+                    ┌─────────────┐     ┌─────────────┐
+                    │   URL       │◀────│   Content   │
+                    │  Extractor  │     │   Parser    │
+                    └─────────────┘     └─────────────┘
+                                               │
+                                               ▼
+                                        ┌─────────────┐
+                                        │   Storage   │
+                                        │   (S3/HDFS) │
+                                        └─────────────┘
+</code></pre><h2 id="核心组件">核心组件</h2>
+<h3 id="url-frontier-待爬取队列-">URL Frontier（待爬取队列）</h3>
+<p>管理待爬取的 URL 队列，负责：</p>
+<ul>
+<li><strong>优先级调度</strong>：重要页面优先爬取</li>
+<li><strong>礼貌性控制</strong>：同一域名间隔爬取</li>
+<li><strong>去重</strong>：避免重复添加</li>
+</ul>
+<p>数据结构：</p>
+<pre class="hljs"><code>┌─────────────────────────────────────────┐
+│              URL Frontier               │
+├─────────────────────────────────────────┤
+│  优先级队列 (Priority Queue)             │
+│    ├── P1: news.com, tech.com           │
+│    ├── P2: blog.com, forum.com          │
+│    └── P3: other sites                  │
+├─────────────────────────────────────────┤
+│  域名队列 (Per-host Queue)               │
+│    ├── news.com: [url1, url2, ...]      │
+│    └── tech.com: [url3, url4, ...]      │
+└─────────────────────────────────────────┘
+</code></pre><h3 id="url-fetcher-下载器-">URL Fetcher（下载器）</h3>
+<ul>
+<li>多线程并发下载</li>
+<li>支持 HTTP/HTTPS</li>
+<li>设置合理的超时和重试</li>
+<li>遵守 robots.txt</li>
+</ul>
+<h3 id="content-parser-内容解析器-">Content Parser（内容解析器）</h3>
+<ul>
+<li>解析 HTML，提取文本内容</li>
+<li>提取页面中的链接</li>
+<li>处理不同字符编码</li>
+</ul>
+<h3 id="url-extractor-链接提取器-">URL Extractor（链接提取器）</h3>
+<ul>
+<li>从页面中提取新链接</li>
+<li>URL 规范化（去除锚点、统一格式）</li>
+<li>过滤无效链接</li>
+</ul>
+<h2 id="遍历策略">遍历策略</h2>
+<h3 id="bfs-广度优先-">BFS（广度优先）</h3>
+<p>从种子页面开始，逐层向外扩展。</p>
+<p><strong>优点</strong>：适合发现热门页面
+<strong>适用</strong>：搜索引擎爬虫</p>
+<h3 id="dfs-深度优先-">DFS（深度优先）</h3>
+<p>沿着链接深入爬取，再回溯。</p>
+<p><strong>优点</strong>：内存占用小
+<strong>适用</strong>：特定网站深度爬取</p>
+<h2 id="url-去重">URL 去重</h2>
+<h3 id="方案一-hashset">方案一：HashSet</h3>
+<pre class="hljs"><code>Set&lt;String&gt; visited = new HashSet&lt;&gt;();
+</code></pre><p><strong>缺点</strong>：内存占用大，10 亿 URL 约需 100GB</p>
+<h3 id="方案二-bloom-filter">方案二：Bloom Filter</h3>
+<pre class="hljs"><code>BloomFilter&lt;String&gt; filter = BloomFilter.create(
+    Funnels.stringFunnel(Charset.defaultCharset()),
+    1_000_000_000,  // 预期元素数
+    0.01            // 误判率
+);
+</code></pre><p><strong>优点</strong>：内存占用小（约 1.2GB），查询 O(1)
+<strong>缺点</strong>：有小概率误判（会漏爬）</p>
+<h3 id="方案三-分布式去重">方案三：分布式去重</h3>
+<p>使用 Redis 存储已访问 URL 的哈希值。</p>
+<h2 id="礼貌性爬取">礼貌性爬取</h2>
+<ol>
+<li><strong>遵守 robots.txt</strong>：检查是否允许爬取</li>
+<li><strong>限制频率</strong>：同一域名间隔 1-2 秒</li>
+<li><strong>设置 User-Agent</strong>：标识爬虫身份</li>
+<li><strong>限制并发</strong>：单域名最多 1-2 个并发</li>
+</ol>
+<pre class="hljs"><code># robots.txt 示例
+User-agent: *
+Disallow: /admin/
+Crawl-delay: 2
+</code></pre><h2 id="容错处理">容错处理</h2>
+<ol>
+<li><strong>超时重试</strong>：指数退避重试</li>
+<li><strong>死链处理</strong>：记录失败次数，超过阈值放弃</li>
+<li><strong>断点续爬</strong>：持久化爬取状态</li>
+</ol>
+<h1 id="总结">总结</h1>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>技术选型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>任务队列</td>
+<td>Kafka / Redis</td>
+</tr>
+<tr>
+<td>URL 去重</td>
+<td>Bloom Filter / Redis</td>
+</tr>
+<tr>
+<td>内容存储</td>
+<td>S3 / HDFS</td>
+</tr>
+<tr>
+<td>解析器</td>
+<td>Jsoup / BeautifulSoup</td>
+</tr>
+</tbody>
+</table>
+<p>核心挑战：</p>
+<ol>
+<li><strong>规模性</strong>：海量 URL 的存储和去重</li>
+<li><strong>礼貌性</strong>：避免对目标网站造成压力</li>
+<li><strong>鲁棒性</strong>：处理各种异常和恶意页面</li>
+</ol>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 场景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 估算</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 设计</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 整体架构</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 核心组件</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.1. URL Frontier（待爬取队列）</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.2. URL Fetcher（下载器）</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.3. Content Parser（内容解析器）</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.4. URL Extractor（链接提取器）</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 遍历策略</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3.1. BFS（广度优先）</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3.2. DFS（深度优先）</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4. URL 去重</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4.1. 方案一：HashSet</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4.2. 方案二：Bloom Filter</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4.3. 方案三：分布式去重</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5. 礼貌性爬取</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.6. 容错处理</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 总结</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

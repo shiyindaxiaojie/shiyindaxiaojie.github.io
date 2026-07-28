@@ -58,7 +58,10 @@
     "generic",
     "tencent-cloud",
     "aliyun",
-    "aws"
+    "aws",
+    "google-cloud",
+    "azure",
+    "huawei-cloud"
   ],
   // Locale catalogs. The build script checks every key referenced by manifest,
   // units, perspectives, providers, and options.

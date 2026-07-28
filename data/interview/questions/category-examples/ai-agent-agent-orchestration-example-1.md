@@ -1,46 +1,37 @@
 ---
 id: ai-agent-agent-orchestration-example-1
-title: Agent 编排里 Planner、Executor 和 Memory 应该怎么分工？
+title: "Agent 编排里 Planner、Executor 和 Memory 怎么分工？"
 slug: ai-agent-agent-orchestration-example-1
 tracks:
   - ai-agent
 category: agent-orchestration
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: medium
 tags:
-  - Agent 编排
-  - 状态管理
-  - Planner
-  - 执行器
-summary: 围绕 Agent 编排 的机制、边界、故障模式和工程取舍做追问。
+  - "Agent 编排"
+  - "Planner/Executor 分工"
+  - "状态恢复"
+  - "幂等工具"
+summary: "围绕Agent 编排的真实问题，沿着机制、证据和失败边界继续追问。"
 estimatedRead: 3
 ---
 
 ::interviewer::
-Agent 编排里 Planner、Executor 和 Memory 应该怎么分工？
+Agent 编排里 Planner、Executor 和 Memory 怎么分工？
 
 ::candidate level="core"::
-我会把这题先落到生产现场看：Agent 编排（状态管理、Planner、执行器） 不是孤立概念，它通常会影响延迟、错误率、资源水位、发布风险或一致性边界。回答时我先判断它解决什么问题，再说明它依赖哪些前提，最后讲前提失效时会出现什么信号。
-
-以线上排查为例，我不会只背定义。第一步看入口指标，确认 QPS、P95/P99、错误率和饱和度是不是一起变化；第二步看依赖指标，确认数据库、缓存、队列、下游服务或运行时有没有慢调用；第三步看单机证据，比如日志、Trace、线程或协程栈、连接池、CPU/I/O、GC 或队列长度。
+Planner 产出受约束的步骤，Executor 校验参数并调用工具，Memory 保存任务所需状态与证据。三者通过明确 schema 交互，权限判断不能交给 Planner 的自然语言；每一步都应有预算、超时和可观测结果。
 
 ::interviewer::
-你别泛泛讲流程，给我一个能落地的排查路径。
+别停在原理上，Agent 编排落到线上先看什么证据？
 
 ::candidate level="deep"::
-我会按“入口指标 -> 依赖指标 -> 单机证据 -> 变更记录”收敛。入口看用户侧延迟和错误码，依赖看慢查询、缓存命中率、队列堆积或下游超时，单机看资源瓶颈和运行时栈，最后把现象和发布、配置、扩容、流量切换做时间线对齐。
-
-如果证据冲突，比如服务日志没有错误但用户侧超时，我会补网关日志和链路追踪，确认请求是在客户端超时、网关排队、服务处理，还是下游等待里消失。只有证据链闭合后才会改参数或改架构。
+Trace 按 run_id/step_id 记录计划版本、工具参数、token、耗时和状态，故障注入验证重启后的恢复与重复副作用。
 
 ::interviewer::
-那你怎么证明你的方案不是拍脑袋？
+Agent 编排这套判断在哪个边界下会失效？
 
 ::candidate::
-我会给出改动前基线、预期改善指标、灰度范围、回滚条件和复盘结果。比如只改线程池、连接池或重试策略，就要说明当前瓶颈确实是排队、连接耗尽或抖动放大；如果要做架构调整，就要说明局部调参已经到边界。
-
-::interviewer::
-这个回答里我还会继续追问什么边界？
-
-::candidate::
-我会准备三个边界：什么时候这个方案不适用，指标到什么阈值必须降级，故障复现不了时如何保留日志、Trace 和采样指标。这样这道 Agent 编排 题就不是名词解释，而是能落到真实生产链路。
+Memory 不是越多越好。长期记忆可能带入过期或敏感信息，必须有来源、作用域、过期和用户可控删除。

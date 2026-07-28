@@ -1,46 +1,37 @@
 ---
 id: devops-kubernetes-example-2
-title: readiness、liveness 和 startup probe 应该怎么组合？
+title: "Pod 一直重启，怎么判断是应用崩溃、探针误杀还是资源限制？"
 slug: devops-kubernetes-example-2
 tracks:
   - devops
 category: kubernetes
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high
 tags:
-  - Kubernetes
-  - Pod 生命周期
-  - 探针
-  - 故障排查
-summary: 围绕 Kubernetes 的机制、边界、故障模式和工程取舍做追问。
+  - "Kubernetes"
+  - "健康探针"
+  - "Pod 重启"
+  - "OOMKilled 排查"
+summary: "围绕Kubernetes的真实问题，沿着机制、证据和失败边界继续追问。"
 estimatedRead: 3
 ---
 
 ::interviewer::
-readiness、liveness 和 startup probe 应该怎么组合？
+Pod 一直重启，怎么判断是应用崩溃、探针误杀还是资源限制？
 
 ::candidate level="deep"::
-我会把这题先落到生产现场看：Kubernetes（Pod 生命周期、探针、故障排查） 不是孤立概念，它通常会影响延迟、错误率、资源水位、发布风险或一致性边界。回答时我先判断它解决什么问题，再说明它依赖哪些前提，最后讲前提失效时会出现什么信号。
-
-以线上排查为例，我不会只背定义。第一步看入口指标，确认 QPS、P95/P99、错误率和饱和度是不是一起变化；第二步看依赖指标，确认数据库、缓存、队列、下游服务或运行时有没有慢调用；第三步看单机证据，比如日志、Trace、线程或协程栈、连接池、CPU/I/O、GC 或队列长度。
+先看容器上次退出原因和 exit code，再看 Events、探针失败记录和资源指标。OOMKilled 指向内存限制，exit 137 还要结合 kubelet 与内核日志；探针失败但进程日志正常，则检查超时、initial delay、CPU throttling 和探针端点本身。
 
 ::interviewer::
-你别泛泛讲流程，给我一个能落地的排查路径。
+如果现场现象和预期不一致，Kubernetes怎么继续缩小范围？
 
 ::candidate level="deep"::
-我会按“入口指标 -> 依赖指标 -> 单机证据 -> 变更记录”收敛。入口看用户侧延迟和错误码，依赖看慢查询、缓存命中率、队列堆积或下游超时，单机看资源瓶颈和运行时栈，最后把现象和发布、配置、扩容、流量切换做时间线对齐。
-
-如果证据冲突，比如服务日志没有错误但用户侧超时，我会补网关日志和链路追踪，确认请求是在客户端超时、网关排队、服务处理，还是下游等待里消失。只有证据链闭合后才会改参数或改架构。
+证据链是 kubectl describe → previous logs → Events → cgroup/容器资源指标 → 探针端点耗时，必要时再看节点 kubelet 日志。
 
 ::interviewer::
-那你怎么证明你的方案不是拍脑袋？
+这个方案会把成本或风险转移到哪里？
 
 ::candidate::
-我会给出改动前基线、预期改善指标、灰度范围、回滚条件和复盘结果。比如只改线程池、连接池或重试策略，就要说明当前瓶颈确实是排队、连接耗尽或抖动放大；如果要做架构调整，就要说明局部调参已经到边界。
-
-::interviewer::
-这个回答里我还会继续追问什么边界？
-
-::candidate::
-我会准备三个边界：什么时候这个方案不适用，指标到什么阈值必须降级，故障复现不了时如何保留日志、Trace 和采样指标。这样这道 Kubernetes 题就不是名词解释，而是能落到真实生产链路。
+调大探针超时只能遮住症状。若启动或健康检查依赖远端数据库，故障域被错误耦合，配置再宽也会在大面积抖动时失效。

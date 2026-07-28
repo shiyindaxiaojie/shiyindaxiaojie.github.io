@@ -1,8 +1,8 @@
 ---
 name: Sion
 role: System Architect
-headline: System Architect with a focus on Cloud Native solutions, specializing in AI Agent, GitOps, OAM, and Observability.
-summary: System Architect with a focus on Cloud Native solutions, specializing in AI Agent, GitOps, OAM, and Observability.
+headline: Cloud Native System Architect · AI Agent · GitOps · Platform Eng. · Observability
+summary: Cloud Native System Architect · AI Agent · GitOps · Platform Eng. · Observability
 github: https://github.com/shiyindaxiaojie
 githubLabel: github.com/shiyindaxiaojie
 email: 18820132137@163.com
@@ -14,7 +14,8 @@ cover: /data/resume/assets/cover.png
 # About Me
 <!-- layout: cover -->
 <!-- image: /data/resume/assets/cover.png -->
-> System Architect with a focus on Cloud Native solutions, specializing in AI Agent, GitOps, OAM, and Observability.
+> Cloud Native System Architect
+> AI Agent · GitOps · Platform Eng. · Observability
 
 # Core Value
 <!-- layout: brief -->

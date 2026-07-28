@@ -5,6 +5,7 @@ tracks:
   - go-backend
   - python-engineer
 category: mysql
+stage: technical
 frequency: high
 tags:
   - update-chain

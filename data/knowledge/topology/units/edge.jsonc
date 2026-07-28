@@ -66,6 +66,25 @@
           "path": null
         },
         {
+          "id": "google-cloud-cdn",
+          "name": "Google Cloud CDN",
+          "path": null
+        },
+        {
+          "id": "azure-cdn",
+          "name": "Azure CDN",
+          "path": null
+        },
+        {
+          "id": "huawei-cdn",
+          "name": {
+            "zh": "华为云 CDN",
+            "en": "Huawei Cloud CDN",
+            "ja": "Huawei Cloud CDN"
+          },
+          "path": null
+        },
+        {
           "id": "cloudflare",
           "name": "Cloudflare",
           "path": null
@@ -99,6 +118,25 @@
           "id": "cloudfront-dynamic",
           "name": "Amazon CloudFront",
           "path": null
+        },
+        {
+          "id": "google-cloud-cdn",
+          "name": "Google Cloud CDN",
+          "path": null
+        },
+        {
+          "id": "azure-front-door",
+          "name": "Azure Front Door",
+          "path": null
+        },
+        {
+          "id": "huawei-cdn",
+          "name": {
+            "zh": "华为云 CDN",
+            "en": "Huawei Cloud CDN",
+            "ja": "Huawei Cloud CDN"
+          },
+          "path": null
         }
       ],
       "titleKey": "topology.nodes.dynamic-acceleration.title",
@@ -123,6 +161,25 @@
         {
           "id": "aws-mediaconvert",
           "name": "AWS Elemental MediaConvert",
+          "path": null
+        },
+        {
+          "id": "google-transcoder-api",
+          "name": "Google Transcoder API",
+          "path": null
+        },
+        {
+          "id": "azure-video-indexer",
+          "name": "Azure Video Indexer",
+          "path": null
+        },
+        {
+          "id": "huawei-vod",
+          "name": {
+            "zh": "华为云 VOD",
+            "en": "Huawei Cloud VOD",
+            "ja": "Huawei Cloud VOD"
+          },
           "path": null
         }
       ],

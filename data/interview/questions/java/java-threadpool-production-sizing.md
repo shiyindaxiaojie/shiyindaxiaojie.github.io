@@ -5,6 +5,7 @@ slug: java-threadpool-production-sizing
 tracks:
   - java-backend
 category: concurrency
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high

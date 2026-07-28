@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Elasticsearch 深度分页查询问题处理方案 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="对于小数据量的分页查询，可以使用 from+size 查询。"><meta property="og:type" content="article"><meta property="og:title" content="Elasticsearch 深度分页查询问题处理方案 - 梦想歌の后花园"><meta property="og:description" content="对于小数据量的分页查询，可以使用 from+size 查询。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/elasticsearch/es-deep-pagination/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Elasticsearch.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/elasticsearch/es-deep-pagination/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Elasticsearch 深度分页查询问题处理方案","description":"对于小数据量的分页查询，可以使用 from+size 查询。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Elasticsearch.png","datePublished":"2023-05-25","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"搜索引擎, 解决方案, Elasticsearch","mainEntityOfPage":"https://mengxiangge.netlify.app/article/elasticsearch/es-deep-pagination/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Elasticsearch 深度分页查询问题处理方案","item":"https://mengxiangge.netlify.app/article/elasticsearch/es-deep-pagination/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Elasticsearch 深度分页查询问题处理方案</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Elasticsearch.png" alt="Elasticsearch 深度分页查询问题处理方案"></div><header class="doc-header"><h1 class="doc-title">Elasticsearch 深度分页查询问题处理方案</h1><p class="doc-desc">对于小数据量的分页查询，可以使用 from+size 查询。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">搜索引擎</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">解决方案</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">Elasticsearch</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>在 Elasticsearch 中，分页查询是常见的需求，尤其是在处理大量数据时。为了提高查询效率，Elasticsearch 提供了多种分页方案，适用于不同的场景。笔者根据实际的使用情况整理了相关方案。</p>
+<h1 id="方案">方案</h1>
+<p>Elasticsearch 分页查询方式主要有如下 3 种，现给出结论。</p>
+<table>
+<thead>
+<tr>
+<th>查询方案</th>
+<th>用法限制</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from+size</code> 查询</td>
+<td>支持随机跳转不同分页，不超过 <code>max_result_window</code> 值</td>
+<td>小数据范围查询</td>
+</tr>
+<tr>
+<td><code>search_after</code> 查询</td>
+<td>仅支持向后翻页，可以超过 <code>max_result_window</code> 值</td>
+<td>APP向下滑动查看新闻</td>
+</tr>
+<tr>
+<td><code>scroll</code> 查询</td>
+<td>大数据量分页查询，但数据实时性不高</td>
+<td>批量大数据、日志导出</td>
+</tr>
+</tbody>
+</table>
+<h2 id="from-size-小数据范围查询">from+size 小数据范围查询</h2>
+<p><code>from</code> 参数指定从结果集中的第几条数据开始返回数据，<code>size</code> 参数指定返回数据的总量。假设我们有一个索引 <code>my_index</code>，并希望查询名字为 “梦想歌” 的文档，且返回 10 条数据。可以使用如下查询：</p>
+<pre class="hljs"><code>GET my_index/_search
+{
+  "from": 1,
+  "size": 10,
+  "query": {
+    "match": {
+      "name": "梦想歌"
+    }
+  }
+}
+</code></pre><p>当 <code>from+size</code> 超过 <code>max_result_window</code> 值（默认为 10000 条），返回报错。</p>
+<pre class="hljs"><code>GET /my_index/_search
+{
+  "from": 10001,
+  "size": 10,
+  "query": {
+    "match": {
+      "name": "梦想歌"
+    }
+  }
+}
+</code></pre><p>报错内容如下。</p>
+<pre class="hljs"><code>{
+  "error"
+    "root_cause": [
+      {
+        "type": "illegal argument exception",
+        "reason": "Result window is too large, from + size must be less than or equal to: [10000] but was [10001]. See the scroll api for a more efficient way to request large data sets. This limit can be set by changing the [index.max_result_window] index level setting."
+      }
+    ],
+    ...
+}
+</code></pre><p>结论：<code>from+size</code> 查询只适合小数据范围的查询，超过 <code>max_result_window</code> 时，无法继续分页查询。</p>
+<h2 id="search_after-向后滚动翻页">search_after 向后滚动翻页</h2>
+<p><code>search_after</code> 是一个基于排序字段的分页方式，适用于需要按特定顺序（例如时间戳、ID）查询大量数据。与传统的分页不同，它不使用 <code>from</code> 参数，而是基于上一页的最后一条记录的排序值进行查询。为了保证分页过程中的数据一致性，<code>search_after</code> 通常需要配合 <code>Point In Time</code>（PIT）一起使用。</p>
+<p>在执行分页查询之前，首先需要创建一个 PIT 来固定查询时刻的数据快照，避免查询过程中数据的变化。</p>
+<pre class="hljs"><code>POST /my_index/_pit?keep_alive=1m # 滚动视图保留 1 分钟
+</code></pre><p>这个请求会返回一个 <code>PIT ID</code>，如下所示：</p>
+<pre class="hljs"><code>{
+  "id": "ABCDEFG..."
+}
+</code></pre><p>假设你要按 <code>timestamp</code> 字段升序排序，并且已经获取了第一页的最后一条文档的 <code>timestamp</code> 值为 <code>1633036800000</code>，可以使用如下的 <code>search_after</code> 查询获取下一页数据：</p>
+<pre class="hljs"><code>GET /_search
+{
+  "size": 10,
+  "query": {
+    "match_all": {}
+  },
+  "pit": {
+    "id": "ABCDEFG...",  // 替换为实际的 PIT ID
+    "keep_alive": "1m" // 设置 PIT 存活时间
+  },
+  "sort": [
+    {
+      "timestamp": {
+        "order": "asc"
+      }
+    }
+  ],
+  "search_after": [
+    1633036800000  // 替换为上一页最后一个文档的 timestamp 值
+  ]
+}
+</code></pre><p>在完成所有分页查询后，调用 DELETE 请求来删除 PIT，从而释放相应的资源。</p>
+<pre class="hljs"><code>DELETE /_pit
+{
+  "id": "ABCDEFG..."  // 替换为实际的 PIT ID
+}
+
+</code></pre><p>结论：<code>search_after</code> 查询无论数据量有多大，都可以不受 <code>max_result_window</code> 限制进行分页（严谨的说法是单次查询不能超过限制）。缺点是仅支持向后分页（不能向前翻页），需要在每次分页时提供上一页的排序值，并确保排序字段的唯一性。</p>
+<h2 id="scroll-查询">scroll 查询</h2>
+<p><code>scroll</code> 查询用于批量获取大量数据，尤其是在需要一次性遍历整个索引或较大数据集时，它比传统的分页查询更高效。</p>
+<p><code>scroll</code> 通过维护一个滚动上下文来支持分页的，而不是重新计算分页的位置。每次返回的结果包含一个新的 <code>scroll_id</code>，我们可以用它来继续获取下一批数据。</p>
+<pre class="hljs"><code>POST /my_index/_search?scroll=1m
+{
+  "query": {
+    "match_all": {}
+  },
+  "size": 1000  // 每次批量返回 1000 个文档
+}
+</code></pre><p>返回值示例如下，其中，<code>_scroll_id</code> 用于标识当前查询的滚动上下文。</p>
+<pre class="hljs"><code>{
+  "_scroll_id": "DnF1ZXJ5VGhlbkZldGNoBQAAAAAAAA...",
+  "hits": {
+    "total": {
+      "value": 100000, // 共有 100000 个文档需要分页获取
+      "relation": "eq"
+    },
+    "max_score": null,
+    "hits": [
+      // 文档...
+    ]
+  }
+}
+</code></pre><p>使用返回的 <code>_scroll_id</code> 来请求后续数据。</p>
+<pre class="hljs"><code>POST /_search/scroll
+{
+  "scroll": "1m",
+  "scroll_id": "DnF1ZXJ5VGhlbkZldGNoBQAAAAAAAA..."
+}
+</code></pre><p>所有数据获取完毕后，应该通过 Scroll API 来释放资源。</p>
+<pre class="hljs"><code>DELETE /_search/scroll
+{
+  "scroll_id": ["DnF1ZXJ5VGhlbkZldGNoBQAAAAAAAA..."]
+}
+</code></pre><p>结论：<code>scroll</code> 查询适合用于批量数据导出、日志分析等场景，但是查询的过程中，返回的数据是非实时的，并且数据量较大时，需要有足够的堆内存空间来保留上下文。</p>
+<h1 id="总结">总结</h1>
+<p>对于小数据量的分页查询，可以使用 from+size 查询。</p>
+<p>当分页结果超过 10000 条结果时，则推荐使用 search_after 查询。</p>
+<p>不推荐使用 scroll 查询进行深度分页，因为实时性不高，对资源要求高。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 方案</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. from+size 小数据范围查询</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. search_after 向后滚动翻页</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.3. scroll 查询</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 总结</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

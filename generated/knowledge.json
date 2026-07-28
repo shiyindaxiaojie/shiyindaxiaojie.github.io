@@ -231,6 +231,25 @@
           "path": null
         },
         {
+          "id": "google-cloud-cdn",
+          "name": "Google Cloud CDN",
+          "path": null
+        },
+        {
+          "id": "azure-cdn",
+          "name": "Azure CDN",
+          "path": null
+        },
+        {
+          "id": "huawei-cdn",
+          "name": {
+            "zh": "华为云 CDN",
+            "en": "Huawei Cloud CDN",
+            "ja": "Huawei Cloud CDN"
+          },
+          "path": null
+        },
+        {
           "id": "cloudflare",
           "name": "Cloudflare",
           "path": null
@@ -280,6 +299,25 @@
           "id": "cloudfront-dynamic",
           "name": "Amazon CloudFront",
           "path": null
+        },
+        {
+          "id": "google-cloud-cdn",
+          "name": "Google Cloud CDN",
+          "path": null
+        },
+        {
+          "id": "azure-front-door",
+          "name": "Azure Front Door",
+          "path": null
+        },
+        {
+          "id": "huawei-cdn",
+          "name": {
+            "zh": "华为云 CDN",
+            "en": "Huawei Cloud CDN",
+            "ja": "Huawei Cloud CDN"
+          },
+          "path": null
         }
       ],
       "title": {
@@ -320,6 +358,25 @@
         {
           "id": "aws-mediaconvert",
           "name": "AWS Elemental MediaConvert",
+          "path": null
+        },
+        {
+          "id": "google-transcoder-api",
+          "name": "Google Transcoder API",
+          "path": null
+        },
+        {
+          "id": "azure-video-indexer",
+          "name": "Azure Video Indexer",
+          "path": null
+        },
+        {
+          "id": "huawei-vod",
+          "name": {
+            "zh": "华为云 VOD",
+            "en": "Huawei Cloud VOD",
+            "ja": "Huawei Cloud VOD"
+          },
           "path": null
         }
       ],
@@ -376,17 +433,36 @@
           "id": "cloudflare-ddos",
           "name": "Cloudflare DDoS",
           "path": null
+        },
+        {
+          "id": "google-cloud-armor",
+          "name": "Google Cloud Armor",
+          "path": null
+        },
+        {
+          "id": "azure-ddos-protection",
+          "name": "Azure DDoS Protection",
+          "path": null
+        },
+        {
+          "id": "huawei-anti-ddos",
+          "name": {
+            "zh": "华为云 Anti-DDoS",
+            "en": "Huawei Cloud Anti-DDoS",
+            "ja": "Huawei Cloud Anti-DDoS"
+          },
+          "path": null
         }
       ],
       "title": {
-        "zh": "边界防护",
-        "en": "Boundary Protection",
-        "ja": "Boundary Protection"
+        "zh": "DDoS 防护",
+        "en": "DDoS Protection",
+        "ja": "DDoS Protection"
       },
       "summary": {
-        "zh": "大流量攻击清洗与入口保护。",
-        "en": "Traffic scrubbing and entry protection.",
-        "ja": "Traffic scrubbing and entry protection."
+        "zh": "识别并清洗大流量攻击，保障公网入口可用性。",
+        "en": "Detects and scrubs volumetric attacks to keep public entry points available.",
+        "ja": "Detects and scrubs volumetric attacks to keep public entry points available."
       }
     },
     {
@@ -416,6 +492,25 @@
         {
           "id": "aws-nat-gateway",
           "name": "AWS NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "google-cloud-nat",
+          "name": "Google Cloud NAT",
+          "path": null
+        },
+        {
+          "id": "azure-nat-gateway",
+          "name": "Azure NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "huawei-nat-gateway",
+          "name": {
+            "zh": "华为云 NAT 网关",
+            "en": "Huawei Cloud NAT Gateway",
+            "ja": "Huawei Cloud NAT Gateway"
+          },
           "path": null
         }
       ],
@@ -458,17 +553,36 @@
           "id": "aws-network-firewall",
           "name": "AWS Network Firewall",
           "path": null
+        },
+        {
+          "id": "google-cloud-firewall",
+          "name": "Google Cloud Firewall",
+          "path": null
+        },
+        {
+          "id": "azure-firewall",
+          "name": "Azure Firewall",
+          "path": null
+        },
+        {
+          "id": "huawei-cloud-firewall",
+          "name": {
+            "zh": "华为云云防火墙",
+            "en": "Huawei Cloud Firewall",
+            "ja": "Huawei Cloud Firewall"
+          },
+          "path": null
         }
       ],
       "title": {
-        "zh": "云防火墙",
-        "en": "Cloud Firewall",
-        "ja": "Cloud Firewall"
+        "zh": "网络防火墙",
+        "en": "Network Firewall",
+        "ja": "Network Firewall"
       },
       "summary": {
-        "zh": "在公网、私网和跨域访问路径上统一管理访问控制。",
-        "en": "Centralizes access control across public, private, and cross-domain paths.",
-        "ja": "Centralizes access control across public, private, and cross-domain paths."
+        "zh": "在公网、私网和跨网络路径上统一执行网络访问控制策略。",
+        "en": "Enforces network access policies across public, private, and interconnected network paths.",
+        "ja": "Enforces network access policies across public, private, and interconnected network paths."
       }
     },
     {
@@ -501,20 +615,39 @@
           "path": null
         },
         {
+          "id": "google-cloud-armor",
+          "name": "Google Cloud Armor",
+          "path": null
+        },
+        {
+          "id": "azure-waf",
+          "name": "Azure WAF",
+          "path": null
+        },
+        {
+          "id": "huawei-waf",
+          "name": {
+            "zh": "华为云 WAF",
+            "en": "Huawei Cloud WAF",
+            "ja": "Huawei Cloud WAF"
+          },
+          "path": null
+        },
+        {
           "id": "modsecurity",
           "name": "ModSecurity",
           "path": null
         }
       ],
       "title": {
-        "zh": "应用防护",
-        "en": "Application Protection",
-        "ja": "Application Protection"
+        "zh": "Web 应用防火墙",
+        "en": "Web Application Firewall",
+        "ja": "Web Application Firewall"
       },
       "summary": {
-        "zh": "Web 和 API 层面的访问保护。",
-        "en": "Protection at the web and API layers.",
-        "ja": "Protection at the web and API layers."
+        "zh": "在 Web 和 API 入口识别并拦截应用层攻击。",
+        "en": "Detects and blocks application-layer attacks at web and API entry points.",
+        "ja": "Detects and blocks application-layer attacks at web and API entry points."
       }
     },
     {
@@ -551,13 +684,32 @@
           }
         },
         {
+          "id": "google-cloud-load-balancing",
+          "name": "Google Cloud Load Balancing",
+          "path": null
+        },
+        {
+          "id": "azure-load-balancer",
+          "name": "Azure Load Balancer",
+          "path": null
+        },
+        {
+          "id": "huawei-elb",
+          "name": {
+            "zh": "华为云 ELB",
+            "en": "Huawei Cloud ELB",
+            "ja": "Huawei Cloud ELB"
+          },
+          "path": null
+        },
+        {
           "id": "haproxy",
           "name": "HAProxy",
           "path": "data/knowledge/operations/haproxy_zh-CN.md"
         }
       ],
       "title": {
-        "zh": "入口负载均衡",
+        "zh": "负载均衡",
         "en": "Load Balancer",
         "ja": "Load Balancer"
       },
@@ -574,8 +726,7 @@
       "children": [
         "nat-gateway",
         "ingress",
-        "api-gateway",
-        "gray-release"
+        "api-gateway"
       ],
       "title": {
         "zh": "网关",
@@ -611,9 +762,9 @@
         }
       ],
       "title": {
-        "zh": "集群访问入口",
-        "en": "Cluster Access Entry",
-        "ja": "Cluster Access Entry"
+        "zh": "集群入口",
+        "en": "Cluster Ingress",
+        "ja": "Cluster Ingress"
       },
       "summary": {
         "zh": "以 Gateway API 为默认推荐入口模型，Ingress API 作为兼容回退。",
@@ -648,6 +799,25 @@
         {
           "id": "aws-nat-gateway",
           "name": "AWS NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "google-cloud-nat",
+          "name": "Google Cloud NAT",
+          "path": null
+        },
+        {
+          "id": "azure-nat-gateway",
+          "name": "Azure NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "huawei-nat-gateway",
+          "name": {
+            "zh": "华为云 NAT 网关",
+            "en": "Huawei Cloud NAT Gateway",
+            "ja": "Huawei Cloud NAT Gateway"
+          },
           "path": null
         }
       ],
@@ -696,43 +866,6 @@
       }
     },
     {
-      "id": "gray-release",
-      "kind": "concept",
-      "zone": "gateway",
-      "defaultOption": "istio",
-      "options": [
-        {
-          "id": "istio",
-          "name": "Istio",
-          "path": "data/knowledge/cloud-native/istio.md"
-        },
-        {
-          "id": "gateway-canary",
-          "path": "data/knowledge/architecture/high-availability.md",
-          "name": {
-            "zh": "网关流量切分",
-            "en": "Gateway Traffic Split",
-            "ja": "Gateway Traffic Split"
-          }
-        },
-        {
-          "id": "flagger",
-          "name": "Flagger",
-          "path": null
-        }
-      ],
-      "title": {
-        "zh": "渐进式发布",
-        "en": "Progressive Delivery",
-        "ja": "Progressive Delivery"
-      },
-      "summary": {
-        "zh": "通过流量切分验证新版本。",
-        "en": "Validates new versions via traffic splitting.",
-        "ja": "Validates new versions via traffic splitting."
-      }
-    },
-    {
       "id": "vpc-isolation",
       "kind": "concept",
       "zone": "security",
@@ -759,9 +892,9 @@
         }
       ],
       "title": {
-        "zh": "私网隔离",
-        "en": "Private Isolation",
-        "ja": "Private Isolation"
+        "zh": "网络隔离",
+        "en": "Network Isolation",
+        "ja": "Network Isolation"
       },
       "summary": {
         "zh": "把系统放进可控 VPC、子网和安全组。",
@@ -796,9 +929,9 @@
         }
       ],
       "title": {
-        "zh": "跨域互联",
-        "en": "Cross-Site Link",
-        "ja": "Cross-Site Link"
+        "zh": "网络互联",
+        "en": "Network Interconnection",
+        "ja": "Network Interconnection"
       },
       "summary": {
         "zh": "多个 VPC、机房或云之间怎么打通。",
@@ -849,9 +982,9 @@
         "rpc-job"
       ],
       "title": {
-        "zh": "容器服务",
-        "en": "Container Service",
-        "ja": "Container Service"
+        "zh": "运行平台",
+        "en": "Runtime Platform",
+        "ja": "Runtime Platform"
       },
       "summary": {
         "zh": "业务服务真正运行、扩缩容和调度的地方。",
@@ -1100,9 +1233,9 @@
         }
       ],
       "title": {
-        "zh": "协调组件",
-        "en": "Coordination Component",
-        "ja": "Coordination Component"
+        "zh": "分布式协调",
+        "en": "Distributed Coordination",
+        "ja": "Distributed Coordination"
       },
       "summary": {
         "zh": "保存选主、锁、租约和故障切换过程中的协调状态。",
@@ -1125,7 +1258,7 @@
         "mq"
       ],
       "title": {
-        "zh": "数据库",
+        "zh": "数据层",
         "en": "Data Layer",
         "ja": "Data Layer"
       },
@@ -1315,22 +1448,17 @@
           "id": "cephfs",
           "name": "CephFS",
           "path": null
-        },
-        {
-          "id": "minio",
-          "name": "MinIO",
-          "path": null
         }
       ],
       "title": {
-        "zh": "文件与对象存储",
-        "en": "File and Object Storage",
-        "ja": "File and Object Storage"
+        "zh": "文件存储",
+        "en": "File Storage",
+        "ja": "File Storage"
       },
       "summary": {
-        "zh": "承载审计文件、回放文件、离线导出和大对象持久化。",
-        "en": "Serves audit logs, replay files, offline exports, and large object persistence.",
-        "ja": "Serves audit logs, replay files, offline exports, and large object persistence."
+        "zh": "通过共享文件系统承载审计文件、回放文件和离线导出。",
+        "en": "Uses shared file systems for audit files, replay files, and offline exports.",
+        "ja": "Uses shared file systems for audit files, replay files, and offline exports."
       }
     },
     {
@@ -1360,6 +1488,25 @@
         {
           "id": "amazon-s3",
           "name": "Amazon S3",
+          "path": null
+        },
+        {
+          "id": "google-cloud-storage",
+          "name": "Google Cloud Storage",
+          "path": null
+        },
+        {
+          "id": "azure-blob-storage",
+          "name": "Azure Blob Storage",
+          "path": null
+        },
+        {
+          "id": "huawei-obs",
+          "name": {
+            "zh": "华为云 OBS",
+            "en": "Huawei Cloud OBS",
+            "ja": "Huawei Cloud OBS"
+          },
           "path": null
         },
         {
@@ -1406,6 +1553,25 @@
         {
           "id": "amazon-s3-glacier",
           "name": "Amazon S3 Glacier",
+          "path": null
+        },
+        {
+          "id": "google-cloud-storage-archive",
+          "name": "Google Cloud Storage Archive",
+          "path": null
+        },
+        {
+          "id": "azure-archive-storage",
+          "name": "Azure Blob Archive",
+          "path": null
+        },
+        {
+          "id": "huawei-obs-archive",
+          "name": {
+            "zh": "华为云 OBS 归档",
+            "en": "Huawei Cloud OBS Archive",
+            "ja": "Huawei Cloud OBS Archive"
+          },
           "path": null
         }
       ],
@@ -1455,14 +1621,14 @@
         }
       ],
       "title": {
-        "zh": "备份容灾",
-        "en": "Backup / DR",
-        "ja": "Backup / DR"
+        "zh": "备份恢复",
+        "en": "Backup and Restore",
+        "ja": "Backup and Restore"
       },
       "summary": {
-        "zh": "主从、同城双活、异地灾备和对象存储归档。",
-        "en": "Primary-standby, active-active, remote DR, and object storage archiving.",
-        "ja": "Primary-standby, active-active, remote DR, and object storage archiving."
+        "zh": "管理数据备份、恢复演练、跨区域副本和归档。",
+        "en": "Manages data backups, restore drills, cross-region replicas, and archives.",
+        "ja": "Manages data backups, restore drills, cross-region replicas, and archives."
       }
     },
     {
@@ -1559,9 +1725,9 @@
         }
       ],
       "title": {
-        "zh": "通知渠道",
-        "en": "Notification Channel",
-        "ja": "Notification Channel"
+        "zh": "告警通知",
+        "en": "Alert Notification",
+        "ja": "Alert Notification"
       },
       "summary": {
         "zh": "把告警和诊断事件投递到团队协作渠道。",
@@ -1674,14 +1840,16 @@
       "zone": "delivery",
       "children": [
         "repo",
+        "build-tool",
         "pipeline",
+        "package",
         "deploy",
-        "package"
+        "gray-release"
       ],
       "title": {
-        "zh": "CI/CD",
-        "en": "CI/CD",
-        "ja": "CI/CD"
+        "zh": "持续交付",
+        "en": "Continuous Delivery",
+        "ja": "Continuous Delivery"
       },
       "summary": {
         "zh": "代码怎么提交、构建、发布和回滚。",
@@ -1723,6 +1891,59 @@
       }
     },
     {
+      "id": "build-tool",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "maven",
+      "options": [
+        {
+          "id": "make",
+          "name": "Make",
+          "path": null
+        },
+        {
+          "id": "ant",
+          "name": "Ant",
+          "path": null
+        },
+        {
+          "id": "maven",
+          "name": "Maven",
+          "path": null
+        },
+        {
+          "id": "gradle",
+          "name": "Gradle",
+          "path": null
+        },
+        {
+          "id": "bazel",
+          "name": "Bazel",
+          "path": null
+        },
+        {
+          "id": "buck2",
+          "name": "Buck2",
+          "path": null
+        },
+        {
+          "id": "cmake",
+          "name": "CMake",
+          "path": null
+        }
+      ],
+      "title": {
+        "zh": "构建工具",
+        "en": "Build Tool",
+        "ja": "Build Tool"
+      },
+      "summary": {
+        "zh": "把源码转成可测试、可打包、可复用的构建产物。",
+        "en": "Turns source code into testable, packageable build outputs.",
+        "ja": "Turns source code into testable, packageable build outputs."
+      }
+    },
+    {
       "id": "pipeline",
       "kind": "concept",
       "zone": "delivery",
@@ -1745,14 +1966,14 @@
         }
       ],
       "title": {
-        "zh": "构建流水线",
-        "en": "Pipeline",
-        "ja": "Pipeline"
+        "zh": "持续集成",
+        "en": "Continuous Integration",
+        "ja": "Continuous Integration"
       },
       "summary": {
-        "zh": "自动测试、构建制品和质量门禁。",
-        "en": "Automated testing, artifact building, and quality gates.",
-        "ja": "Automated testing, artifact building, and quality gates."
+        "zh": "在交付前自动执行测试、构建制品和质量门禁。",
+        "en": "Automates tests, artifact builds, and quality gates before delivery.",
+        "ja": "Automates tests, artifact builds, and quality gates before delivery."
       }
     },
     {
@@ -1783,14 +2004,14 @@
         }
       ],
       "title": {
-        "zh": "发布部署",
-        "en": "Deployment",
-        "ja": "Deployment"
+        "zh": "发布平台",
+        "en": "Delivery Platform",
+        "ja": "Delivery Platform"
       },
       "summary": {
-        "zh": "把构建产物真正发到环境里。",
-        "en": "Pushes built artifacts into actual environments.",
-        "ja": "Pushes built artifacts into actual environments."
+        "zh": "编排构建产物在不同环境中的部署、同步和回滚。",
+        "en": "Orchestrates artifact deployment, synchronization, and rollback across environments.",
+        "ja": "Orchestrates artifact deployment, synchronization, and rollback across environments."
       }
     },
     {
@@ -1803,27 +2024,54 @@
           "id": "helm",
           "name": "Helm",
           "path": "data/knowledge/cloud-native/helm.md"
+        }
+      ],
+      "title": {
+        "zh": "包管理",
+        "en": "Package Management",
+        "ja": "Package Management"
+      },
+      "summary": {
+        "zh": "管理 Helm Chart 的版本、依赖和发布配置。",
+        "en": "Manages Helm chart versions, dependencies, and release configuration.",
+        "ja": "Manages Helm chart versions, dependencies, and release configuration."
+      }
+    },
+    {
+      "id": "gray-release",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "istio",
+      "options": [
+        {
+          "id": "istio",
+          "name": "Istio",
+          "path": "data/knowledge/cloud-native/istio.md"
         },
         {
-          "id": "kustomize",
-          "name": "Kustomize",
-          "path": null
+          "id": "gateway-canary",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "name": {
+            "zh": "网关流量切分",
+            "en": "Gateway Traffic Split",
+            "ja": "Gateway Traffic Split"
+          }
         },
         {
-          "id": "terraform",
-          "name": "Terraform",
+          "id": "flagger",
+          "name": "Flagger",
           "path": null
         }
       ],
       "title": {
-        "zh": "包管理 / 模板",
-        "en": "Package / Template",
-        "ja": "Package / Template"
+        "zh": "发布策略",
+        "en": "Release Strategy",
+        "ja": "Release Strategy"
       },
       "summary": {
-        "zh": "统一环境变量、Chart 和发布模板。",
-        "en": "Standardizes env vars, charts, and deployment templates.",
-        "ja": "Standardizes env vars, charts, and deployment templates."
+        "zh": "通过金丝雀、蓝绿等策略逐步验证并放量新版本。",
+        "en": "Validates and expands new releases gradually with canary, blue-green, and related strategies.",
+        "ja": "Validates and expands new releases gradually with canary, blue-green, and related strategies."
       }
     },
     {
@@ -1974,11 +2222,6 @@
       "type": "contains"
     },
     {
-      "source": "gateway-traffic",
-      "target": "gray-release",
-      "type": "contains"
-    },
-    {
       "source": "service-runtime",
       "target": "container-orchestrator",
       "type": "contains"
@@ -2040,6 +2283,11 @@
     },
     {
       "source": "delivery",
+      "target": "build-tool",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
       "target": "pipeline",
       "type": "contains"
     },
@@ -2051,6 +2299,11 @@
     {
       "source": "delivery",
       "target": "package",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "gray-release",
       "type": "contains"
     }
   ]

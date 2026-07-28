@@ -5,6 +5,7 @@ slug: springboot-autoconfiguration-starter
 tracks:
   - java-backend
 category: spring-boot
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: medium
@@ -33,6 +34,12 @@ Spring Boot starter 的价值是什么？它和普通依赖有什么区别？
 ::candidate::
 因为 Boot 要尊重应用自己的选择。自动配置通常会用 ConditionalOnClass、ConditionalOnMissingBean、ConditionalOnProperty 这类条件，只有类存在、用户没有自定义 Bean、配置开关满足时才生效。这样 starter 才不会一引入就抢走控制权。
 
+::candidate variant="misconception"::
+starter 依赖已经加进来了，Bean 没出现只能说明 Spring Boot 扫包路径没有配对。
+
+::interviewer correction="true"::
+自动配置通常不靠组件扫描生效。先看自动配置入口和条件评估，再确认 classpath、配置项、已有 Bean 是否让条件失配；Spring Boot 3 还要检查 `AutoConfiguration.imports` 是否正确注册。
+
 ::interviewer::
 一个 starter 引入了，但 Bean 没有装配出来，你怎么查？
 
@@ -56,3 +63,7 @@ Spring Boot starter 的价值是什么？它和普通依赖有什么区别？
 
 ::candidate::
 我会先保存升级前后的 `/actuator/conditions`、`/actuator/beans`、`/actuator/configprops`，直接 diff 装配结果。再用 `mvn dependency:tree` 对比依赖版本，确认是不是某个 class 出现或消失导致条件命中变化。定位这类问题不能只看业务代码，因为触发点很可能在依赖版本、配置属性改名或默认条件变化里。
+
+::terms::
+自动配置 = Spring Boot 根据 classpath、配置属性和已有 Bean 条件提供默认 Bean 的机制。 | docs=https://docs.spring.io/spring-boot/reference/features/developing-auto-configuration.html | knowledge=/knowledge/?mode=search&q=Spring%20Boot%20自动配置
+Condition Evaluation Report = Spring Boot 输出的自动配置条件命中报告，可用于定位 Bean 为什么没有装配。 | knowledge=/knowledge/?mode=search&q=Condition%20Evaluation%20Report

@@ -6,6 +6,7 @@ tracks:
   - cloud-native
   - devops
 category: cicd
+stage: scenario
 difficulty: intermediate
 questionType: scenario
 frequency: medium

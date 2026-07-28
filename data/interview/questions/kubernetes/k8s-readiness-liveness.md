@@ -6,6 +6,7 @@ tracks:
   - cloud-native
   - devops
 category: kubernetes
+stage: technical
 difficulty: intermediate
 questionType: troubleshooting
 frequency: high

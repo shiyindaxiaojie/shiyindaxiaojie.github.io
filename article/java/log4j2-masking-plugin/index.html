@@ -1,0 +1,162 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Log4j2 扩展日志脱敏插件 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="实现一个零侵入性的日志插件，并能支持原始数据检索。"><meta property="og:type" content="article"><meta property="og:title" content="Log4j2 扩展日志脱敏插件 - 梦想歌の后花园"><meta property="og:description" content="实现一个零侵入性的日志插件，并能支持原始数据检索。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/java/log4j2-masking-plugin/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/java/log4j2-masking-plugin/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Log4j2 扩展日志脱敏插件","description":"实现一个零侵入性的日志插件，并能支持原始数据检索。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png","datePublished":"2024-03-15","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"扩展点, Log4j2, 数据脱敏","mainEntityOfPage":"https://mengxiangge.netlify.app/article/java/log4j2-masking-plugin/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Log4j2 扩展日志脱敏插件","item":"https://mengxiangge.netlify.app/article/java/log4j2-masking-plugin/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Log4j2 扩展日志脱敏插件</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Log4j2.png" alt="Log4j2 扩展日志脱敏插件"></div><header class="doc-header"><h1 class="doc-title">Log4j2 扩展日志脱敏插件</h1><p class="doc-desc">实现一个零侵入性的日志插件，并能支持原始数据检索。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">扩展点</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">Log4j2</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">数据脱敏</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>日志脱敏是常见的安全需求。为了金融交易的安全性，国家强制规定对于<strong>姓名</strong>、<strong>手机号</strong>、<strong>身份证号码</strong>、<strong>住址</strong>等信息需要数据脱敏。一般我们会采取注解的形式指定字段进行脱敏处理，但这样对代码的侵入性较高。假设公司有几十个系统要改造，或者采购了一些系统没有源代码，怎么办？还有，日志脱敏后，系统用户需要通过手机号找出对应的日志，怎么匹配？</p>
+<h1 id="目标">目标</h1>
+<p>实现一个零侵入性的日志插件，并能支持原始数据检索。</p>
+<h1 id="实现">实现</h1>
+<p>我们调研了 Github 一些开源项目，发现 <a href="https://github.com/houbb/sensitive">https://github.com/houbb/sensitive</a> 能够满足这个需求，它通过 <code>Trie</code> 类对字符进行解析处理，具体的处理逻辑大部分封装在 <code>com.github.houbb.chars.scan.bs.CharsScanBs</code> 这个类，我们只需要引入 <code>CharsScanBs.scanAndReplace(text)</code> 就可以实现对原始日志的脱敏处理，被脱敏的内容后面自动追加原始数据库的 MD5 信息，假设用户反馈系统问题，会提供他的手机号，我们将手机号生成 MD5，去脱敏日志文件匹配，就能定位到原始数据。</p>
+<p>Log4j2 插件提供了两个扩展方式 <code>AbstractStringLayout</code> 和 <code>RewritePolicy</code>。在这里，我们定义了 <code>MaskingStringLayout</code> 对 <code>AbstractStringLayout</code> 进行扩展。</p>
+<pre class="hljs"><code>@Plugin(name = "MaskingStringLayout", category = Node.CATEGORY, elementType = Layout.ELEMENT_TYPE, printObject = true)
+public class MaskingStringLayout extends AbstractStringLayout {
+
+    private final CharsScanBs charsScanBs;
+
+    // 对日志内容进行脱敏处理
+    @Override
+    public String toSerializable(LogEvent event) {
+        if (patternFormatterList == null || patternFormatterList.isEmpty()) {
+            return event.getMessage().getFormattedMessage();
+        }
+        StringBuilder stringBuilder = new StringBuilder();
+        for (PatternFormatter formatter : patternFormatterList) {
+            formatter.format(event, stringBuilder);
+        }
+        return charsScanBs.scanAndReplace(stringBuilder.toString());
+    }
+	
+    // 从 log4j.yml 读取配置
+    @PluginFactory
+    public static MaskingStringLayout createLayout(
+        @PluginConfiguration final Configuration config,
+        @PluginAttribute(value = "charset", defaultString = "UTF-8") String charset,
+        @PluginAttribute(value = "pattern") String pattern,
+        @PluginAttribute(value = "type") String type,
+        @PluginAttribute(value = "prefix") String prefix,
+        @PluginAttribute(value = "scanList") String scanList,
+        @PluginAttribute(value = "replaceList") String replaceList,
+        @PluginAttribute(value = "defaultReplace") String defaultReplace,
+        @PluginAttribute(value = "replaceHash") String replaceHash,
+        @PluginAttribute(value = "whiteList") String whiteList) {
+            
+        MaskingConfig maskingConfig = new MaskingConfig();
+        if (type != null) {
+            maskingConfig.setType(type);
+        }
+        // ... 
+        MaskingStringLayout layout = new MaskingStringLayout(Charset.forName(charset), maskingConfig);
+        layout.patternFormatterList = patternParser.parse(pattern);
+        return layout;
+    }
+}
+</code></pre><p>对应的 <code>MaskingConfig</code> 配置类如下。</p>
+<pre class="hljs"><code>@EqualsAndHashCode
+@ToString
+@Setter
+@Getter
+public class MaskingConfig {
+
+    private String type = "chars-scan";
+
+    private final CharsScan charsScan = new CharsScan();
+
+    @EqualsAndHashCode(callSuper = false)
+    @ToString
+    @Setter
+    @Getter
+    public static class CharsScan {
+
+        private String prefix = "：‘“，| ,:\\\"'=";
+
+        private String scanList = "TELEPHONE,ID_CARD,BANK_CARD,PASSPORT,ADDRESS,EMAIL";
+
+        private String replaceList = "TELEPHONE,ID_CARD,BANK_CARD,PASSPORT,ADDRESS,EMAIL";
+
+        private String defaultReplace = "ANY_PARTIALLY_MASKED";
+
+        private String replaceHash = "md5";
+
+        private String whiteList = "";
+    }
+}
+</code></pre><p>在 log4j2.yml 配置相关日志插件。</p>
+<pre class="hljs"><code>Configuration:
+  status: WARN
+  monitorInterval: 30
+
+  Properties:
+    Property:
+      - name: MASKING_STRATEGIES # 脱敏策略
+        value: TELEPHONE,ID_CARD,BANK_CARD,PASSPORT,ADDRESS,EMAIL
+      - name: MASKING_REPLACEMENT # 脱敏格式：ANY_PARTIALLY_MASKED（匹配任意半掩盖），ANY_FULLY_MASKED（匹配任意全掩盖）
+        value: ANY_PARTIALLY_MASKED
+      - name: MASKING_HASH # 脱敏哈希
+        value: "md5"
+      - name: MASKING_WHITELIST # 脱敏白名单
+        value: ""
+
+  Appenders:
+    Console:
+      name: STDOUT # 控制台
+      target: SYSTEM_OUT
+      MaskingStringLayout: # 脱敏插件
+        pattern: ${LOG_PATTERN}
+        strategies: ${MASKING_STRATEGIES}
+        replacement: ${MASKING_REPLACEMENT}
+        hash: ${MASKING_HASH}
+        whitelist: ${MASKING_WHITELIST}
+</code></pre><p>假设我要查询 18820132137 这个手机号的日志，可以通过 MD5 在线加密工具得到 MD5 值。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/log4j2/log4j2-md5-online.png" alt=""></p>
+<p>搜索日志时，直接输入 MD5 值，就能定位到原始日志。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/log4j2/log4j2-console-relate.png" alt=""></p>
+<h1 id="产出">产出</h1>
+<p>可以满足金融级别的监管合规检查，对业务零侵入，研发团队只需要在 log4j2.yml 引入相关日志插件就可以完成日志脱敏。</p>
+<p>本文涉及的代码完全开源，感兴趣的伙伴可以查阅 <a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-solutions/eden-data-masker">eden-data-masker</a>。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实现</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 产出</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

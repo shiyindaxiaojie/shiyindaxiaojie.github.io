@@ -7,6 +7,7 @@ tracks:
   - go-backend
   - python-engineer
 category: redis
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: high

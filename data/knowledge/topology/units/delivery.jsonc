@@ -1,4 +1,4 @@
-// Unit: delivery. Delivery domain: repository, pipeline, artifact, image, rollout, and OAM.
+// Unit: delivery. Delivery domain: source, build, integration, package management, deployment, and release strategy.
 // rootNode is a legacy stage node consumed by src/views/knowledge/index.vue.
 // Keep it until the Vue layout moves into topology/perspectives/*.jsonc.
 {
@@ -11,9 +11,11 @@
       "zone": "delivery",
       "children": [
         "repo",
+        "build-tool",
         "pipeline",
+        "package",
         "deploy",
-        "package"
+        "gray-release"
       ],
       "titleKey": "topology.nodes.delivery.title",
       "summaryKey": "topology.nodes.delivery.summary"
@@ -42,6 +44,51 @@
       ],
       "titleKey": "topology.nodes.repo.title",
       "summaryKey": "topology.nodes.repo.summary"
+    },
+    {
+      "id": "build-tool",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "maven",
+      "options": [
+        {
+          "id": "make",
+          "name": "Make",
+          "path": null
+        },
+        {
+          "id": "ant",
+          "name": "Ant",
+          "path": null
+        },
+        {
+          "id": "maven",
+          "name": "Maven",
+          "path": null
+        },
+        {
+          "id": "gradle",
+          "name": "Gradle",
+          "path": null
+        },
+        {
+          "id": "bazel",
+          "name": "Bazel",
+          "path": null
+        },
+        {
+          "id": "buck2",
+          "name": "Buck2",
+          "path": null
+        },
+        {
+          "id": "cmake",
+          "name": "CMake",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.build-tool.title",
+      "summaryKey": "topology.nodes.build-tool.summary"
     },
     {
       "id": "pipeline",
@@ -108,26 +155,46 @@
           "id": "helm",
           "name": "Helm",
           "path": "data/knowledge/cloud-native/helm.md"
-        },
-        {
-          "id": "kustomize",
-          "name": "Kustomize",
-          "path": null
-        },
-        {
-          "id": "terraform",
-          "name": "Terraform",
-          "path": null
         }
       ],
       "titleKey": "topology.nodes.package.title",
       "summaryKey": "topology.nodes.package.summary"
+    },
+    {
+      "id": "gray-release",
+      "kind": "concept",
+      "zone": "delivery",
+      "defaultOption": "istio",
+      "options": [
+        {
+          "id": "istio",
+          "name": "Istio",
+          "path": "data/knowledge/cloud-native/istio.md"
+        },
+        {
+          "id": "gateway-canary",
+          "path": "data/knowledge/architecture/high-availability.md",
+          "nameKey": "topology.options.gray-release.gateway-canary.name"
+        },
+        {
+          "id": "flagger",
+          "name": "Flagger",
+          "path": null
+        }
+      ],
+      "titleKey": "topology.nodes.gray-release.title",
+      "summaryKey": "topology.nodes.gray-release.summary"
     }
   ],
   "edges": [
     {
       "source": "delivery",
       "target": "repo",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "build-tool",
       "type": "contains"
     },
     {
@@ -143,6 +210,11 @@
     {
       "source": "delivery",
       "target": "package",
+      "type": "contains"
+    },
+    {
+      "source": "delivery",
+      "target": "gray-release",
       "type": "contains"
     }
   ]

@@ -5,6 +5,7 @@ slug: java-hashmap-resize-collision
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: high

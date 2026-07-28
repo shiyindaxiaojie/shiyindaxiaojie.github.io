@@ -39,6 +39,25 @@
           "id": "cloudflare-ddos",
           "name": "Cloudflare DDoS",
           "path": null
+        },
+        {
+          "id": "google-cloud-armor",
+          "name": "Google Cloud Armor",
+          "path": null
+        },
+        {
+          "id": "azure-ddos-protection",
+          "name": "Azure DDoS Protection",
+          "path": null
+        },
+        {
+          "id": "huawei-anti-ddos",
+          "name": {
+            "zh": "华为云 Anti-DDoS",
+            "en": "Huawei Cloud Anti-DDoS",
+            "ja": "Huawei Cloud Anti-DDoS"
+          },
+          "path": null
         }
       ],
       "titleKey": "topology.nodes.ddos.title",
@@ -63,6 +82,25 @@
         {
           "id": "aws-nat-gateway",
           "name": "AWS NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "google-cloud-nat",
+          "name": "Google Cloud NAT",
+          "path": null
+        },
+        {
+          "id": "azure-nat-gateway",
+          "name": "Azure NAT Gateway",
+          "path": null
+        },
+        {
+          "id": "huawei-nat-gateway",
+          "name": {
+            "zh": "华为云 NAT 网关",
+            "en": "Huawei Cloud NAT Gateway",
+            "ja": "Huawei Cloud NAT Gateway"
+          },
           "path": null
         }
       ],
@@ -89,6 +127,25 @@
           "id": "aws-network-firewall",
           "name": "AWS Network Firewall",
           "path": null
+        },
+        {
+          "id": "google-cloud-firewall",
+          "name": "Google Cloud Firewall",
+          "path": null
+        },
+        {
+          "id": "azure-firewall",
+          "name": "Azure Firewall",
+          "path": null
+        },
+        {
+          "id": "huawei-cloud-firewall",
+          "name": {
+            "zh": "华为云云防火墙",
+            "en": "Huawei Cloud Firewall",
+            "ja": "Huawei Cloud Firewall"
+          },
+          "path": null
         }
       ],
       "titleKey": "topology.nodes.cloud-firewall.title",
@@ -113,6 +170,25 @@
         {
           "id": "aws-waf",
           "name": "AWS WAF",
+          "path": null
+        },
+        {
+          "id": "google-cloud-armor",
+          "name": "Google Cloud Armor",
+          "path": null
+        },
+        {
+          "id": "azure-waf",
+          "name": "Azure WAF",
+          "path": null
+        },
+        {
+          "id": "huawei-waf",
+          "name": {
+            "zh": "华为云 WAF",
+            "en": "Huawei Cloud WAF",
+            "ja": "Huawei Cloud WAF"
+          },
           "path": null
         },
         {

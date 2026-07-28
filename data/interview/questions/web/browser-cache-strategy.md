@@ -5,6 +5,7 @@ slug: browser-cache-strategy
 tracks:
   - frontend
 category: browser
+stage: technical
 difficulty: junior
 questionType: principle
 frequency: medium

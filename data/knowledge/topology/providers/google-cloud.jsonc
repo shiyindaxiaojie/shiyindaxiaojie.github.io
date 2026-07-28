@@ -1,0 +1,21 @@
+// Provider: google-cloud.
+// Google Cloud catalog placeholder for provider-specific product aliases.
+{
+  "id": "google-cloud",
+  "labelKey": "topology.providers.googleCloud",
+  "units": [
+    "edge",
+    "security",
+    "gateway",
+    "network",
+    "compute",
+    "workloads",
+    "database",
+    "cache",
+    "messaging",
+    "storage",
+    "observability",
+    "delivery",
+    "placement"
+  ]
+}

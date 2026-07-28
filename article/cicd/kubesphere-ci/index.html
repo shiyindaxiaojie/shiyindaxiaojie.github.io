@@ -1,0 +1,194 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>KubeSphere 持续集成实践 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="KubeSphere DevOps 基本可以实现 CI/CD 的功能，但是功能不是很完善，单分支模式不支持 Git 事件触发流水线，只能使用 Cron 触发，多分支又不能在..."><meta property="og:type" content="article"><meta property="og:title" content="KubeSphere 持续集成实践 - 梦想歌の后花园"><meta property="og:description" content="KubeSphere DevOps 基本可以实现 CI/CD 的功能，但是功能不是很完善，单分支模式不支持 Git 事件触发流水线，只能使用 Cron 触发，多分支又不能在..."><meta property="og:url" content="https://mengxiangge.netlify.app/article/cicd/kubesphere-ci/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/KubeSphere.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/cicd/kubesphere-ci/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"KubeSphere 持续集成实践","description":"KubeSphere DevOps 基本可以实现 CI/CD 的功能，但是功能不是很完善，单分支模式不支持 Git 事件触发流水线，只能使用 Cron 触发，多分支又不能在...","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/KubeSphere.png","datePublished":"2024-08-10","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"KubeSphere, CI/CD, DevOps","mainEntityOfPage":"https://mengxiangge.netlify.app/article/cicd/kubesphere-ci/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"KubeSphere 持续集成实践","item":"https://mengxiangge.netlify.app/article/cicd/kubesphere-ci/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>KubeSphere 持续集成实践</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/KubeSphere.png" alt="KubeSphere 持续集成实践"></div><header class="doc-header"><h1 class="doc-title">KubeSphere 持续集成实践</h1><p class="doc-desc">KubeSphere DevOps 基本可以实现 CI/CD 的功能，但是功能不是很完善，单分支模式不支持 Git 事件触发流水线，只能使用 Cron 触发，多分支又不能在...</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">KubeSphere</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">CI/CD</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(16, 185, 129, 0.1);--reader-tag-hover-bg:rgba(16, 185, 129, 0.16);--reader-tag-text:#047857;--reader-tag-border:rgba(16, 185, 129, 0.22);">运维</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>笔者在搭建 KubeSphere 集群时，发现 KubeSphere 控制台提供了内置的 DevOps 可视化工具，可以快速搭建 CI/CD 流水线。因官方文档没有详细说明，笔者决定通过实践的方式来研究 KubeSphere DevOps。</p>
+<h1 id="目标">目标</h1>
+<p>探索 KubeSphere DevOps 能否满足研发团队的 CI/CD 需求。</p>
+<h1 id="步骤">步骤</h1>
+<h2 id="创建-devops-项目">创建 DevOps 项目</h2>
+<p>在 <code>工作台</code> &gt; <code>项目</code> &gt; <code>流水线</code> 创建您的应用。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-project.png" alt=""></p>
+<p>选择流水线，KubeSphere 提供了单分支和多分支构建方式。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-project-form1.png" alt=""></p>
+<p>设置构建参数和触发器规则。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-project-form2.png" alt=""></p>
+<h2 id="编辑流水线">编辑流水线</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-pipeline.png" alt=""></p>
+<p>KubeSphere 的可视化界面不是特别完善，笔者经过调试后，编写下面的脚本。如果您熟悉 Jenkinsfile 的语法，可以直接在流水线编辑界面中编写 Jenkinsfile。</p>
+<pre class="hljs"><code>pipeline {
+  agent {
+    node {
+      label 'maven'
+    }
+
+  }
+  stages {
+    stage('Git Checkout') {
+      agent none
+      steps {
+        git(url: 'https://git.code.tencent.com/demo/$APP_NAME', credentialsId: 'git-code', branch: '$BRANCH_NAME', changelog: true, poll: false)
+      }
+    }
+
+    stage('Maven Package') {
+      agent none
+      steps {
+        container('maven') {
+          withCredentials([
+                        usernamePassword(
+                            credentialsId: 'maven-releases',
+                            usernameVariable: 'MAVEN_RELEASES_USERNAME' ,
+                            passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+                        ),
+                        usernamePassword(
+                            credentialsId: 'maven-snapshots',
+                            usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME' ,
+                            passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+                        )
+                    ]) {
+                        withEnv([
+                            "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+                            "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+                            "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+                            "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+                            "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+                            "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+                            "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+                            "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+                        ]) {
+                            sh 'mvn -Pcoding versions:set -DnewVersion=$BUILD_VERSION package -DskipTests -s ./.coding/settings.xml'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Parallel') {
+            parallel {
+                stage('Maven Deploy') {
+                    agent none
+                    steps {
+                        container('maven') {
+                            withCredentials([
+                                usernamePassword(
+                                    credentialsId: 'maven-releases',
+                                    usernameVariable: 'MAVEN_RELEASES_USERNAME' ,
+                                    passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+                                ),
+                                usernamePassword(
+                                    credentialsId: 'maven-snapshots',
+                                    usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME' ,
+                                    passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+                                )
+                            ]) {
+                                withEnv([
+                                    "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+                                    "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+                                    "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+                                    "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+                                    "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+                                    "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+                                    "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+                                    "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+                                ]) {
+                                    sh 'mvn -Pcoding deploy -DskipTests -s ./.coding/settings.xml'
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Docker Build') {
+                    agent none
+                    steps {
+                        container('maven') {
+                            sh 'docker build -f docker/Dockerfile -t $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_VERSION-$BUILD_NUMBER .'
+                            withCredentials([
+                                usernamePassword(
+                                    credentialsId: 'harbor-registry',
+                                    passwordVariable: 'DOCKER_PASSWORD',
+                                    usernameVariable: 'DOCKER_USERNAME'
+                                )
+                            ]) {
+                                sh 'echo "$DOCKER_PASSWORD" | docker login $REGISTRY -u "$DOCKER_USERNAME" --password-stdin'
+                                sh 'docker push $REGISTRY/$DOCKERHUB_NAMESPACE/$APP_NAME:$BUILD_VERSION-$BUILD_NUMBER'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+  
+  environment {
+    APP_NAME = 'demo'
+    BRANCH_NAME = 'dev'
+    BUILD_VERSION = 'dev-SNAPSHOT'
+    REGISTRY = '10.2.2.109:30003'
+    DOCKERHUB_NAMESPACE = 'demo'
+    MAVEN_RELEASES_ID = 'releases'
+    MAVEN_RELEASES_URL = 'https://demo-maven.pkg.coding.net/repository/demo/releases/'
+    MAVEN_SNAPSHOTS_ID = 'snapshots'
+    MAVEN_SNAPSHOTS_URL = 'https://demo-maven.pkg.coding.net/repository/demo/snapshots/'
+  }
+}
+</code></pre><p>点击 <code>运行</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-devops-start-pipeline.png" alt=""></p>
+<p>查看部署日志。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-devops-start-pipeline-log.png" alt=""></p>
+<h2 id="多分支模式">多分支模式</h2>
+<p>KubeSphere 多分支不支持可视化编排，也不支持在控制台编写 Jenkinsfile，只能在项目代码中管理您的 Jenkinsfile 文件，并且，不支持变量，非常鸡肋。</p>
+<p>笔者创建了一个名为 <code>demo-multi-branches</code> 的项目，指定脚本的路径为 <code>.kubesphere/Jenkinsfile</code>。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-mutli-branches.png" alt=""></p>
+<p>关于 <code>.kubesphere/Jenkinsfile</code> 的内容，请参考上述编写的 Jenkinsfile，将分支写死。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/kubesphere/kubesphere-create-devops-mutli-branches-status.png" alt=""></p>
+<h1 id="总结">总结</h1>
+<p>KubeSphere DevOps 基本可以实现 CI/CD 的功能，但是功能不是很完善，单分支模式不支持 Git 事件触发流水线，只能使用 Cron 触发，多分支又不能在控制台管理，可能要等作者慢慢优化了。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 步骤</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 创建 DevOps 项目</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 编辑流水线</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 多分支模式</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 总结</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

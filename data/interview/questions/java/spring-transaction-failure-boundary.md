@@ -5,6 +5,7 @@ slug: spring-transaction-failure-boundary
 tracks:
   - java-backend
 category: spring-boot
+stage: technical
 difficulty: senior
 questionType: troubleshooting
 frequency: high

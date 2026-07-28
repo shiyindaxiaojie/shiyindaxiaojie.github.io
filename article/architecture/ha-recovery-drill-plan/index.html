@@ -1,0 +1,242 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>服务器高可用恢复演练方案 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。"><meta property="og:type" content="article"><meta property="og:title" content="服务器高可用恢复演练方案 - 梦想歌の后花园"><meta property="og:description" content="由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/architecture/ha-recovery-drill-plan/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/ChaosBlade.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/architecture/ha-recovery-drill-plan/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"服务器高可用恢复演练方案","description":"由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/ChaosBlade.png","datePublished":"2023-06-25","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"chaos-engineering, chaosblade, high-availability","mainEntityOfPage":"https://mengxiangge.netlify.app/article/architecture/ha-recovery-drill-plan/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"服务器高可用恢复演练方案","item":"https://mengxiangge.netlify.app/article/architecture/ha-recovery-drill-plan/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>服务器高可用恢复演练方案</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/ChaosBlade.png" alt="服务器高可用恢复演练方案"></div><header class="doc-header"><h1 class="doc-title">服务器高可用恢复演练方案</h1><p class="doc-desc">由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">chaos-engineering</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">chaosblade</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">高可用</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="概述">概述</h1>
+<h2 id="演练目的">演练目的</h2>
+<p>由于历史原因，A 系统存在部分项目使用 CVM 作为运行环境。尽管腾讯云方承诺单实例服务的可用性达到 99.975%，但遇到 Linux 内核故障、CPU 或内存的使用率过高等问题，仍然会导致系统不可用。为避免业务中断，使用腾讯云 CLB 作为负载均衡，管理和分流至少 3 台以上的 CVM 实例，实现高可用。</p>
+<h2 id="目标要求">目标要求</h2>
+<p>通过混沌演练故障注入，验证 A 系统当前的部署架构具备自愈能力，对业务的影响在可接受范围，满足金融行业IT系统容灾标准，灾难恢复能力达到国家标准等级 4 级以上，即 RPO 不超过 4 小时，RTO 不超过 12 小时。</p>
+<h2 id="名词解释">名词解释</h2>
+<table>
+<thead>
+<tr>
+<th>名词</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPO</td>
+<td>恢复点目标（Recovery Point Object，简称 RPO）。指灾难发生后，容灾系统进行数据恢复，恢复得来的数据所对应的时间点。</td>
+</tr>
+<tr>
+<td>RTO</td>
+<td>恢复时间目标（Recovery Time Object，简称 RTO）。指灾难发生后，从 IT系统宕机导致业务停顿之刻开始，到 IT 系统恢复至可以支持各部门运作，业务恢复运营之间的时间段。</td>
+</tr>
+<tr>
+<td>CVM</td>
+<td>云服务器（Cloud Virtual Machine，CVM）是腾讯云提供的可扩展的计算服务。可以避免使用传统服务器时需要预估资源用量及前期投入的问题，并在短时间内快速启动任意数量的云服务器并及时部署应用程序。具体可查阅<a href="https://cloud.tencent.com/document/product/213/495">文档</a>。</td>
+</tr>
+<tr>
+<td>CLB</td>
+<td>负载均衡（Cloud Load Balancer，CLB）提供安全快捷的流量分发服务，访问流量经由 CLB 可以自动分配到云中的多台后端服务器上，扩展系统的服务能力并消除单点故障。负载均衡支持亿级连接和千万级并发，可轻松应对大流量访问，满足业务需求。具体可查阅<a href="https://cloud.tencent.com/document/product/214">文档</a>。</td>
+</tr>
+<tr>
+<td>CFG</td>
+<td>混沌演练（Chaotic Fault Generator）提供高效便捷、安全可靠的故障演习服务，除可视化故障注入服务外，还提供行业经验模板，监控护栏等核心功能，帮助用户及时发现业务容灾隐患、验证高可用预案的有效性，从而提高系统的可用性和韧性。具体可查阅<a href="https://cloud.tencent.com/document/product/1500/97565">文档</a>。</td>
+</tr>
+</tbody>
+</table>
+<h1 id="方案">方案</h1>
+<h2 id="系统分析">系统分析</h2>
+<p>本次演练的对象为 A 系统的生产环境，访问地址为 <a href="https://www.XXX.com">https://www.XXX.com</a>。</p>
+<p>该系统使用负载均衡 CLB 提供公网访问入口，CLB 对上游的存活检测规则，响应超时为 2 秒，检查间隔为 5 秒，不健康阈值为 3 次，健康阈值为 3 次。当某个 CVM 实例发生故障时，超过 21 秒后判断该实例不健康，不再分发流量。</p>
+<p>CLB 的上游绑定 5 个机器节点，各节点的规格统一为 8 核 16 GB，如下。</p>
+<ol>
+<li>gray 灰度环境：内网 IP 为 172.28.0.1</li>
+<li>prd1 生产环境：内网 IP 为 172.28.0.2</li>
+<li>prd2 生产环境：内网 IP 为 172.28.0.3</li>
+<li>prd3 生产环境：内网 IP 为 172.28.0.4</li>
+<li>prd4 生产环境：内网 IP 为 172.28.0.5</li>
+</ol>
+<p>因各节点规格一致，计划使用 <strong>prd1</strong> 生产环境作为测试对象。</p>
+<h2 id="实施时间">实施时间</h2>
+<p>选定 2023 年 6 月 25 日（非交易日，用户访问量少）</p>
+<h2 id="人员分工">人员分工</h2>
+<p>由演练领导组、演练实施组、演练指挥组和业务验证组共同参与，具体人员如下。</p>
+<table>
+<thead>
+<tr>
+<th>灾备演练组</th>
+<th>人员</th>
+<th>岗位</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>演练领导组</td>
+<td>小A</td>
+<td>技术总监</td>
+<td>负责容灾方案的审核和决策</td>
+</tr>
+<tr>
+<td>演练指挥组</td>
+<td>小B</td>
+<td>云原生专家</td>
+<td>负责制定容灾方案和发起</td>
+</tr>
+<tr>
+<td>演练实施组</td>
+<td>小C</td>
+<td>平台工程师</td>
+<td>负责实施应用平台的容灾恢复</td>
+</tr>
+<tr>
+<td>演练实施组</td>
+<td>小D</td>
+<td>运维工程师</td>
+<td>负责实施基础设施的容灾恢复</td>
+</tr>
+<tr>
+<td>业务验证组</td>
+<td>小E</td>
+<td>研发负责人</td>
+<td>负责业务监控和系统可靠性验证</td>
+</tr>
+<tr>
+<td>业务验证组</td>
+<td>小F</td>
+<td>研发工程师</td>
+<td>负责业务测试和容灾恢复前后的数据比对验证</td>
+</tr>
+</tbody>
+</table>
+<h2 id="整体流程">整体流程</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-workflow.png" alt=""></p>
+<h2 id="准备工作">准备工作</h2>
+<p>本次演练基于腾讯云<strong>混沌演练平台</strong>完成故障注入和灾难恢复工作，在正式执行容灾演练前，需要预先创建好相关任务、动作库、监控护栏、演练计划等配置。</p>
+<h3 id="创建演练任务">创建演练任务</h3>
+<p>演练名称设置为 "CVM 故障注入恢复演练”。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-create-task.png" alt=""></p>
+<h3 id="配置动作库">配置动作库</h3>
+<p>分别创建任务，依次为：Linux 内核故障、CPU 利用率100%、内存利用率100% 、主机异常重启。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-create-action.png" alt=""></p>
+<h3 id="设置监控护栏">设置监控护栏</h3>
+<p>防止演练过程中出现一些不可预估的影响，使用护栏策略触发告警，中断演练执行。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-create-barrier.png" alt=""></p>
+<h3 id="保存到经验库">保存到经验库</h3>
+<p>将已配置的流程保存起来，以便后续演练复用，经验名称为 “CVM 故障注入案例”。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-save-experience.png" alt=""></p>
+<h3 id="新建演练计划">新建演练计划</h3>
+<p>设置演练起止时间，并选择创建好的经验库。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-create-plan.png" alt=""></p>
+<h3 id="演练事后总结">演练事后总结</h3>
+<p>演练结束后，点击按钮生成演练报告。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-finished-report.png" alt=""></p>
+<h2 id="演练内容">演练内容</h2>
+<h3 id="linux内核故障恢复演练">Linux内核故障恢复演练</h3>
+<p>故障模拟：prd1 服务器节点发生内核故障</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>Linux内核故障</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnkernel</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-inject-linux-kernel-error.png" alt=""></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-execute-linux-kernel-error.png" alt=""></p>
+<h3 id="cpu使用100-恢复演练">CPU使用100%恢复演练</h3>
+<p>故障模拟：prd1 服务器节点的 CPU 利用率达到 100%</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>CPU使用率100%</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnkernel</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-inject-linux-cpu-100.png" alt=""></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-execute-linux-cpu-100.png" alt=""></p>
+<h3 id="内存使用100-恢复演练">内存使用100%恢复演练</h3>
+<p>故障模拟：prd1 服务器节点的内存利用率达到 100%</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>内存使用率100%</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnmem</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-inject-linux-memory-100.png" alt=""></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-execute-linux-memory-100.png" alt=""></p>
+<h3 id="机器故障重启恢复演练">机器故障重启恢复演练</h3>
+<p>故障模拟：prd1 服务器节点宕机重启</p>
+<p>执行步骤：</p>
+<ol>
+<li>针对 prd1 环境执行 <code>机器故障重启</code> 注入，从控制台面板查看故障是否注入完成。</li>
+<li>登录 CVM 执行 <code>Top</code> 命令，查看是否产生一个 <code>chaos_burnreboot</code> 进程。</li>
+<li>故障注入 1 分钟，不做 CLB 流量切换，观察系统和日志的表现。</li>
+<li>再次执行故障注入 1 分钟，当收到系统告警，人工介入 CLB 流量切换，观察系统和日志的表现。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-inject-linux-reboot-100.png" alt=""></p>
+<p>期望结果：</p>
+<ol>
+<li>首次故障注入，不做 CLB 切换，CLB 在 21 秒后检测到目标 CVM 不可用，业务请求随后恢复正常。</li>
+<li>再次故障注入，系统自动告警，手动切换 CLB 到正常节点，业务请求快速恢复正常，故障恢复时长 RTO 在可接受范围内。</li>
+</ol>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/tencent/cfg-execute-linux-reboot-100.png" alt=""></p>
+<h2 id="现场还原">现场还原</h2>
+<p>在故障注入期间，会额外产生 <code>chaos_burncpu</code>、<code>chaos_burnmem</code> 等进程，在混沌演练平台执行销毁探针可能会不成功，需要人工检查这些进程是否存在，按需销毁这些驻留进程。</p>
+<h2 id="数据核对">数据核对</h2>
+<p>由于演练过程中并不产生数据写入，因此，无须进行数据核对。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 概述</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">1.1. 演练目的</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">1.2. 目标要求</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">1.3. 名词解释</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 方案</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. 系统分析</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. 实施时间</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.3. 人员分工</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.4. 整体流程</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5. 准备工作</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.1. 创建演练任务</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.2. 配置动作库</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.3. 设置监控护栏</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.4. 保存到经验库</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.5. 新建演练计划</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5.6. 演练事后总结</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.6. 演练内容</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.6.1. Linux内核故障恢复演练</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.6.2. CPU使用100%恢复演练</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.6.3. 内存使用100%恢复演练</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.6.4. 机器故障重启恢复演练</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.7. 现场还原</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.8. 数据核对</span><!----></div><!----></li><!--]--></ul></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

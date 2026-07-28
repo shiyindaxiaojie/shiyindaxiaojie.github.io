@@ -5,6 +5,7 @@ slug: spring-ioc-aop-circular-dependency
 tracks:
   - java-backend
 category: spring-boot
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: high

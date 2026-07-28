@@ -5,6 +5,7 @@ slug: jvm-class-loading-parent-delegation
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: senior
 questionType: principle
 frequency: medium

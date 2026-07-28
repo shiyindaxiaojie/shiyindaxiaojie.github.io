@@ -7,6 +7,7 @@ tracks:
   - go-backend
   - python-engineer
 category: mysql
+stage: technical
 difficulty: intermediate
 questionType: principle
 frequency: high

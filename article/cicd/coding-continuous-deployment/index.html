@@ -1,0 +1,893 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CODING 持续部署实践 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="在公司引入 CODING 后，研发团队和运维团队的工作都发生了很大的变化。研发团队负责 DevOps 的全生命周期管理，不再依赖运维团队，效率提升明显。"><meta property="og:type" content="article"><meta property="og:title" content="CODING 持续部署实践 - 梦想歌の后花园"><meta property="og:description" content="在公司引入 CODING 后，研发团队和运维团队的工作都发生了很大的变化。研发团队负责 DevOps 的全生命周期管理，不再依赖运维团队，效率提升明显。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/cicd/coding-continuous-deployment/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CODING.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/cicd/coding-continuous-deployment/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"CODING 持续部署实践","description":"在公司引入 CODING 后，研发团队和运维团队的工作都发生了很大的变化。研发团队负责 DevOps 的全生命周期管理，不再依赖运维团队，效率提升明显。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CODING.png","datePublished":"2022-08-10","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"CODING, CI/CD","mainEntityOfPage":"https://mengxiangge.netlify.app/article/cicd/coding-continuous-deployment/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"CODING 持续部署实践","item":"https://mengxiangge.netlify.app/article/cicd/coding-continuous-deployment/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>CODING 持续部署实践</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CODING.png" alt="CODING 持续部署实践"></div><header class="doc-header"><h1 class="doc-title">CODING 持续部署实践</h1><p class="doc-desc">在公司引入 CODING 后，研发团队和运维团队的工作都发生了很大的变化。研发团队负责 DevOps 的全生命周期管理，不再依赖运维团队，效率提升明显。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">CODING</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">CI/CD</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>CODING 是腾讯云提供的云原生应用平台，提供了可视化的编排工具，支持 GitOps、CI/CD、Helm、Kubernetes 等云原生技术。笔者所在的公司使用 Jenkins 构建，由运维团队负责管理 CI/CD，效率低下，腾讯云给我们推广了这个产品，趁这个机会，笔者决定研究下 CODING。</p>
+<h1 id="目标">目标</h1>
+<p>探索 CODING 流水线使用，验证 CI/CD 能力。</p>
+<h1 id="实战">实战</h1>
+<p>以 <a href="https://github.com/shiyindaxiaojie/eden-demo-cola">演示工程</a> 为例，使用 <code>Maven</code> 构建工具，目录结构如下。</p>
+<pre class="hljs"><code>eden-demo-cola
+  |_ .coding/
+    |_ Jenkinsfile # CODING 流水线脚本
+    |_ settings.xml # 自定义Maven 配置文件
+  |_ docker/
+    |_ Dockerfile # Docker 构建文件
+    |_ entrypoint.sh # Docker 容器启动脚本
+  |_ ...
+  |_ pom.xml # Maven 构建文件
+</code></pre><h2 id="设置-git-代码仓库">设置 Git 代码仓库</h2>
+<p>由于笔者的项目主要托管在 Github，使用<code>关联代码仓库</code>完成构建。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-relate-code-repo.png" alt=""></p>
+<h2 id="选择-image-构建工具">选择 Image 构建工具</h2>
+<blockquote>
+<p>目前 Java 构建镜像的主流方式有两种：</p>
+<ol>
+<li>使用 Google 的 <code>jib-maven-plugin</code> 插件，这种方式简单轻便，不需要在 Docker 环境下运行。</li>
+<li>编写 Dockerfile 文件：自由度较高，结合 <code>spring-boot-maven-plugin</code> 插件配置分层。</li>
+</ol>
+</blockquote>
+<h3 id="google-jib-插件构建">Google Jib 插件构建</h3>
+<p>在子模块 <code>eden-demo-cola-start</code> 中引入 <code>jib-maven-plugin</code> 插件。</p>
+<pre class="hljs"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd"&gt;
+
+	&lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+	&lt;parent&gt;
+		&lt;groupId&gt;io.github.shiyindaxiaojie.eden.demo&lt;/groupId&gt;
+		&lt;artifactId&gt;eden-demo-cola&lt;/artifactId&gt;
+		&lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;
+		&lt;relativePath&gt;../pom.xml&lt;/relativePath&gt;
+	&lt;/parent&gt;
+	&lt;artifactId&gt;eden-demo-cola-start&lt;/artifactId&gt;
+	&lt;packaging&gt;jar&lt;/packaging&gt;
+	&lt;name&gt;eden-demo-cola-start&lt;/name&gt;
+	&lt;description&gt;启动入口&lt;/description&gt;
+
+	&lt;properties&gt;
+		&lt;start-class&gt;org.ylzl.eden.demo.ColaApplication&lt;/start-class&gt;
+		&lt;maven.deploy.skip&gt;true&lt;/maven.deploy.skip&gt;
+		&lt;build.layers.enabled&gt;true&lt;/build.layers.enabled&gt;
+	&lt;/properties&gt;
+
+	&lt;build&gt;
+		&lt;finalName&gt;${project.name}&lt;/finalName&gt;
+		&lt;plugins&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+				&lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;
+			&lt;/plugin&gt;
+			&lt;plugin&gt;
+				&lt;groupId&gt;com.google.cloud.tools&lt;/groupId&gt;
+				&lt;artifactId&gt;jib-maven-plugin&lt;/artifactId&gt;
+				&lt;configuration&gt;
+					&lt;from&gt;
+						&lt;image&gt;openjdk:11-jdk-slim&lt;/image&gt;
+					&lt;/from&gt;
+					&lt;to&gt;
+						&lt;image&gt;${docker.image}&lt;/image&gt;
+						&lt;auth&gt;
+							&lt;username&gt;${docker.username}&lt;/username&gt;
+							&lt;password&gt;${docker.password}&lt;/password&gt;
+						&lt;/auth&gt;
+						&lt;tags&gt;
+							&lt;tag&gt;${project.version}&lt;/tag&gt;
+							&lt;tag&gt;latest&lt;/tag&gt;
+						&lt;/tags&gt;
+					&lt;/to&gt;
+					&lt;container&gt;
+						&lt;entrypoint&gt;
+							&lt;shell&gt;bash&lt;/shell&gt;
+							&lt;option&gt;-c&lt;/option&gt;
+							&lt;arg&gt;/entrypoint.sh&lt;/arg&gt;
+						&lt;/entrypoint&gt;
+						&lt;ports&gt;
+							&lt;port&gt;8080&lt;/port&gt;
+							&lt;port&gt;9080&lt;/port&gt;
+						&lt;/ports&gt;
+						&lt;environment&gt;
+							&lt;TZ&gt;Asia/Shanghai&lt;/TZ&gt;
+							&lt;LANG&gt;C.UTF-8&lt;/LANG&gt;
+							&lt;JVM_XMS&gt;1g&lt;/JVM_XMS&gt;
+							&lt;JVM_XMX&gt;1g&lt;/JVM_XMX&gt;
+							&lt;JVM_XSS&gt;256k&lt;/JVM_XSS&gt;
+							&lt;GC_MODE&gt;G1&lt;/GC_MODE&gt;
+							&lt;USE_GC_LOG&gt;Y&lt;/USE_GC_LOG&gt;
+							&lt;USE_HEAP_DUMP&gt;Y&lt;/USE_HEAP_DUMP&gt;
+							&lt;USE_LARGE_PAGES&gt;N&lt;/USE_LARGE_PAGES&gt;
+							&lt;SPRING_PROFILES_ACTIVE&gt;dev&lt;/SPRING_PROFILES_ACTIVE&gt;
+						&lt;/environment&gt;
+						&lt;creationTime&gt;USE_CURRENT_TIMESTAMP&lt;/creationTime&gt;
+						&lt;mainClass&gt;${start-class}&lt;/mainClass&gt;
+					&lt;/container&gt;
+					&lt;extraDirectories&gt;
+						&lt;paths&gt;src/main/docker/jib&lt;/paths&gt;
+						&lt;permissions&gt;
+							&lt;permission&gt;
+								&lt;file&gt;/entrypoint.sh&lt;/file&gt;
+								&lt;mode&gt;755&lt;/mode&gt;
+							&lt;/permission&gt;
+						&lt;/permissions&gt;
+					&lt;/extraDirectories&gt;
+					&lt;allowInsecureRegistries&gt;true&lt;/allowInsecureRegistries&gt;
+				&lt;/configuration&gt;
+			&lt;/plugin&gt;
+		&lt;/plugins&gt;
+	&lt;/build&gt;
+&lt;/project&gt;
+</code></pre><p>使用 Maven 构建并发布镜像，代码片段如下：</p>
+<pre class="hljs"><code>mvn -pl eden-demo-cola-start jib:build -Dimage=shiyindaxiaojie/eden-demo-cola -Djib.disableUpdateChecks=true -DskipTests -U -T 4C
+</code></pre><h3 id="dockerfile-分层构建">Dockerfile 分层构建</h3>
+<p>如果您不希望引入 Google 第三方插件，也可以参考 <code>docker</code> 目录的 Dockerfile 文件，代码实现了镜像的分层，可以放心使用。</p>
+<pre class="hljs"><code># 使用基础镜像
+FROM m.daocloud.io/openjdk:11-jdk-slim AS builder
+
+# 指定构建模块
+ARG MODULE=eden-demo-cola-start
+
+# 设置工作目录
+WORKDIR /app
+
+# 复制必要文件
+COPY $MODULE/target/$MODULE.jar application.jar
+COPY docker/entrypoint.sh entrypoint.sh
+
+# 使用 Spring Boot 的分层模式提取 JAR 文件的依赖项
+RUN java -Djarmode=layertools -jar application.jar extract
+
+# 创建容器镜像
+FROM m.daocloud.io/openjdk:11-jdk-slim
+
+# 定义元数据
+LABEL maintainer="梦想歌 &lt;shiyindaxiaojie@gmail.com&gt;"
+LABEL version="1.0.0"
+
+# 指定构建参数
+ARG USER=tmpuser
+ARG GROUP=tmpgroup
+
+# 设置环境变量
+ENV HOME="/app"
+ENV TZ="Asia/Shanghai"
+ENV LANG="C.UTF-8"
+ENV XMS="1g"
+ENV XMX="1g"
+ENV XSS="256k"
+ENV GC_MODE="G1"
+ENV USE_GC_LOG="Y"
+ENV USE_HEAP_DUMP="Y"
+ENV USE_LARGE_PAGES="N"
+ENV SPRING_PROFILES_ACTIVE="dev"
+ENV SERVER_PORT="8080"
+ENV MANAGEMENT_SERVER_PORT="9080"
+
+# 创建日志目录
+RUN mkdir -p $HOME/logs \
+  &amp;&amp; touch $HOME/logs/entrypoint.out \
+  &amp;&amp; ln -sf /dev/stdout $HOME/logs/entrypoint.out \
+  &amp;&amp; ln -sf /dev/stderr $HOME/logs/entrypoint.out
+
+# 切换工作目录
+WORKDIR $HOME
+
+# 从基础镜像复制应用程序依赖项和模块
+COPY --from=builder /app/dependencies/ ./
+COPY --from=builder /app/spring-boot-loader ./
+COPY --from=builder /app/organization-dependencies ./
+COPY --from=builder /app/modules-dependencies ./
+COPY --from=builder /app/snapshot-dependencies/ ./
+COPY --from=builder /app/application/ ./
+COPY --from=builder /app/entrypoint.sh ./
+
+# 创建普通用户
+RUN groupadd -g 1000 $GROUP \
+  &amp;&amp; useradd -u 1000 -g $GROUP -d $HOME -s /bin/bash $USER \
+  &amp;&amp; chown -R $USER:$GROUP $HOME \
+  &amp;&amp; chmod -R a+rwX $HOME
+
+# 切换到容器用户
+USER $USER
+
+# 暴露访问端口
+EXPOSE $SERVER_PORT $MANAGEMENT_SERVER_PORT
+
+# 设置启动入口
+CMD ["./entrypoint.sh"]
+</code></pre><p>在根目录执行 Docker 指令完成构建。</p>
+<pre class="hljs"><code>docker build -f docker/Dockerfile -t shiyindaxiaojie/eden-demo-cola .
+docker push shiyindaxiaojie/eden-demo-cola
+</code></pre><h2 id="自定义-maven-配置文件">自定义 Maven 配置文件</h2>
+<p>由于笔者直接使用 CODING 节点托管部署，无法了解服务器内部的 Maven 细节，并且，Maven 的环境变动可能会影响整个构建计划不可用，因此，建议自定义 <code>settings.xml</code> 来控制您的应用。</p>
+<p>首先，使用 <code>-s</code> 选项指定项目 <code>.coding</code> 目录的 <code>settings.xml</code> 文件。</p>
+<pre class="hljs"><code>mvn package -DskipTests -T 4C -s ./.coding/settings.xml
+</code></pre><p>Maven 配置文件的内容统一使用 <code>${env.xxx}</code> 变量，表示通过 CODING 的脚本传递环境变量，代码片段如下。</p>
+<pre class="hljs"><code>&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;settings&gt;
+	&lt;servers&gt;
+		&lt;server&gt;
+			&lt;id&gt;coding&lt;/id&gt;
+			&lt;username&gt;${env.MAVEN_USERNAME}&lt;/username&gt;
+			&lt;password&gt;${env.MAVEN_PASSWORD}&lt;/password&gt;
+		&lt;/server&gt;
+	&lt;/servers&gt;
+	&lt;profiles&gt;
+		&lt;profile&gt;
+			&lt;id&gt;coding&lt;/id&gt;
+			&lt;properties&gt;
+				&lt;docker.username&gt;${env.DOCKER_USERNAME}&lt;/docker.username&gt;
+				&lt;docker.password&gt;${env.DOCKER_PASSWORD}&lt;/docker.password&gt;
+				&lt;docker.image&gt;${env.DOCKER_IMAGE}&lt;/docker.image&gt;
+				&lt;altReleaseDeploymentRepository&gt;
+					coding::default::${env.MAVEN_REPO_URL}
+				&lt;/altReleaseDeploymentRepository&gt;
+				&lt;altSnapshotDeploymentRepository&gt;
+					coding::default::${env.MAVEN_REPO_URL}
+				&lt;/altSnapshotDeploymentRepository&gt;
+			&lt;/properties&gt;
+			&lt;repositories&gt;
+				&lt;repository&gt;
+					&lt;id&gt;coding&lt;/id&gt;
+					&lt;url&gt;${env.MAVEN_REPO_URL}&lt;/url&gt;
+					&lt;releases&gt;
+						&lt;enabled&gt;true&lt;/enabled&gt;
+					&lt;/releases&gt;
+					&lt;snapshots&gt;
+						&lt;enabled&gt;true&lt;/enabled&gt;
+					&lt;/snapshots&gt;
+				&lt;/repository&gt;
+			&lt;/repositories&gt;
+			&lt;pluginRepositories&gt;
+				&lt;pluginRepository&gt;
+					&lt;id&gt;coding&lt;/id&gt;
+					&lt;url&gt;${env.MAVEN_REPO_URL}&lt;/url&gt;
+					&lt;releases&gt;
+						&lt;enabled&gt;true&lt;/enabled&gt;
+					&lt;/releases&gt;
+					&lt;snapshots&gt;
+						&lt;enabled&gt;false&lt;/enabled&gt;
+					&lt;/snapshots&gt;
+				&lt;/pluginRepository&gt;
+			&lt;/pluginRepositories&gt;
+		&lt;/profile&gt;
+	&lt;/profiles&gt;
+	&lt;activeProfiles&gt;
+		&lt;activeProfile&gt;coding&lt;/activeProfile&gt;
+	&lt;/activeProfiles&gt;
+&lt;/settings&gt;
+</code></pre><p>对应的 CODING 流水线传递相关变量到 <code>settings.xml</code>。</p>
+<pre class="hljs"><code>stage('推送到 Maven 制品库') {
+  steps {
+    withCredentials([
+      usernamePassword(
+        credentialsId: env.MAVEN_RELEASES,
+        usernameVariable: 'MAVEN_RELEASES_USERNAME',
+        passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+      ),
+      usernamePassword(
+        credentialsId: env.MAVEN_SNAPSHOTS,
+        usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+        passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+      )
+    ]) {
+      withEnv([
+        "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+        "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+        "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+        "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+        "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+        "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+        "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+        "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+      ]) {
+        sh 'mvn -T 4C -Pcoding deploy -DskipTests -s ./.coding/settings.xml'
+      }
+    }
+  }
+}
+</code></pre><h2 id="设置-docker-和-maven-凭据">设置 Docker 和 Maven 凭据</h2>
+<p>使用项目凭据来替换 CODING 脚本所需的 Docker/Maven 账户信息，减少维护凭据的工作，允许多个构建计划复用同一个凭据。同时防止构建计划泄露账户信息，特别是多人协作部署。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-set-credential.png" alt=""></p>
+<p>录入凭据后，在构建计划的 <code>变量与缓存</code> 选择相关凭据。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-select-credential.png" alt=""></p>
+<h2 id="编排-jenkinsfile-脚本">编排 Jenkinsfile 脚本</h2>
+<blockquote>
+<p>由于 CODING 目前没有实现 Jenkinsfile 脚本的版本控制，为防止误删配置导致整个构建计划不可用，笔者的做法是把 Jenkinsfile 脚本保存到工程 <code>.coding</code> 目录下，使用 <code>Git</code> 完成版本控制。</p>
+</blockquote>
+<p>在 <code>.coding</code> 目录提供了开箱即用的 Jenkinsfile，包含编译打包、单元测试、发布私服、推送镜像等步骤，完整代码如下。</p>
+<pre class="hljs"><code>pipeline {
+  agent any
+	environment {
+	  MAVEN_SNAPSHOTS_NAME = "maven-snapshots"
+		MAVEN_SNAPSHOTS_ID = "${CCI_CURRENT_TEAM}-${PROJECT_NAME}-${MAVEN_SNAPSHOTS_NAME}"
+    MAVEN_SNAPSHOTS_URL = "${CCI_CURRENT_WEB_PROTOCOL}://${CCI_CURRENT_TEAM}-maven.pkg.${CCI_CURRENT_DOMAIN}/repository/${PROJECT_NAME}/${MAVEN_SNAPSHOTS_NAME}/"
+
+	  MAVEN_RELEASES_NAME = "maven-releases"
+		MAVEN_RELEASES_ID = "${CCI_CURRENT_TEAM}-${PROJECT_NAME}-${MAVEN_RELEASES_NAME}"
+    MAVEN_RELEASES_URL = "${CCI_CURRENT_WEB_PROTOCOL}://${CCI_CURRENT_TEAM}-maven.pkg.${CCI_CURRENT_DOMAIN}/repository/${PROJECT_NAME}/${MAVEN_RELEASES_NAME}/"
+
+	  MAVEN_SNAPSHOTS_NAME = "maven-snapshots"
+	  MAVEN_RELEASES_NAME = "maven-releases"
+	  DOCKER_REPOSITORY_NAME = "docker"
+
+		MAVEN_SNAPSHOTS_ID = "${CCI_CURRENT_TEAM}-${PROJECT_NAME}-${MAVEN_SNAPSHOTS_NAME}"
+		MAVEN_SNAPSHOTS_URL = "${CCI_CURRENT_WEB_PROTOCOL}://${CCI_CURRENT_TEAM}-maven.pkg.${CCI_CURRENT_DOMAIN}/repository/${PROJECT_NAME}/${MAVEN_SNAPSHOTS_NAME}/"
+		MAVEN_RELEASES_ID = "${CCI_CURRENT_TEAM}-${PROJECT_NAME}-${MAVEN_RELEASES_NAME}"
+		MAVEN_RELEASES_URL = "${CCI_CURRENT_WEB_PROTOCOL}://${CCI_CURRENT_TEAM}-maven.pkg.${CCI_CURRENT_DOMAIN}/repository/${PROJECT_NAME}/${MAVEN_RELEASES_NAME}/"
+	  DOCKER_REPOSITORY = "${CCI_CURRENT_TEAM}-docker.pkg.${CCI_CURRENT_DOMAIN}/${PROJECT_NAME}/${DOCKER_REPOSITORY_NAME}"
+	}
+
+  stages {
+    stage('检出') {
+      steps {
+        checkout([$class: 'GitSCM',
+        branches: [[name: GIT_BUILD_REF]],
+        userRemoteConfigs: [[
+          url: GIT_REPO_URL,
+          credentialsId: CREDENTIALS_ID
+        ]]])
+      }
+    }
+
+    stage('编译') {
+      steps {
+        script {
+          if (env.TAG_NAME ==~ /.*/ ) {
+	          ARTIFACT_VERSION = "${env.TAG_NAME}"
+          } else if (env.MR_SOURCE_BRANCH ==~ /.*/ ) {
+	          ARTIFACT_VERSION = "${env.MR_RESOURCE_ID}-${env.GIT_COMMIT_SHORT}"
+          } else {
+	          ARTIFACT_VERSION = "${env.BRANCH_NAME.replace('/', '-')}-${env.GIT_COMMIT_SHORT}"
+          }
+        }
+        withCredentials([
+            usernamePassword(
+                credentialsId: env.MAVEN_RELEASES,
+                usernameVariable: 'MAVEN_RELEASES_USERNAME',
+                passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+            ),
+            usernamePassword(
+                credentialsId: env.MAVEN_SNAPSHOTS,
+                usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+                passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+            )
+        ]) {
+            withEnv([
+                "ARTIFACT_VERSION=${ARTIFACT_VERSION}",
+                "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+                "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+                "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+                "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+                "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+                "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+                "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+                "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+            ]) {
+                sh 'mvn -T 4C -U -Pcoding versions:set -DnewVersion=${ARTIFACT_VERSION} package -DskipTests -s ./.coding/settings.xml'
+            }
+        }
+      }
+    }
+
+    stage('单元测试') {
+        steps {
+            withCredentials([
+                usernamePassword(
+                    credentialsId: env.MAVEN_RELEASES,
+                    usernameVariable: 'MAVEN_RELEASES_USERNAME',
+                    passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+                ),
+                usernamePassword(
+                    credentialsId: env.MAVEN_SNAPSHOTS,
+                    usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+                    passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+                )
+            ]) {
+                withEnv([
+                    "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+                    "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+                    "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+                    "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+                    "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+                    "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+                    "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+                    "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+                ]) {
+                    sh 'mvn -T 4C -Pcoding,unit-test test -s ./.coding/settings.xml'
+                }
+            }
+        }
+        post {
+            always {
+                junit '**/surefire-reports/*.xml'
+                codingHtmlReport(name: 'eden-demo-cola-adapter-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-adapter/target/site/jacoco', entryFile: 'index.html')
+                codingHtmlReport(name: 'eden-demo-cola-app-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-app/target/site/jacoco', entryFile: 'index.html')
+                codingHtmlReport(name: 'eden-demo-cola-infrastructure-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-infrastructure/target/site/jacoco', entryFile: 'index.html')
+            }
+		}
+    }
+
+    stage('推送到 Maven 制品库') {
+      steps {
+        withCredentials([
+            usernamePassword(
+                credentialsId: env.MAVEN_RELEASES,
+                usernameVariable: 'MAVEN_RELEASES_USERNAME',
+                passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+            ),
+            usernamePassword(
+                credentialsId: env.MAVEN_SNAPSHOTS,
+                usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+                passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+            )
+        ]) {
+            withEnv([
+                "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+                "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+                "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+                "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+                "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+                "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+                "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+                "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+            ]) {
+                sh 'mvn -T 4C -Pcoding deploy -DskipTests -s ./.coding/settings.xml'
+            }
+        }
+      }
+    }
+
+    stage('推送到 Docker 制品库') {
+        steps {
+            withCredentials([
+                usernamePassword(
+                    credentialsId: env.DOCKER_REGISTRY_CREDENTIALS_ID,
+                    usernameVariable: 'DOCKER_USERNAME',
+                    passwordVariable: 'DOCKER_PASSWORD'
+                )
+            ]) {
+                withEnv([
+                    "DOCKER_USERNAME=${DOCKER_USERNAME}",
+        "DOCKER_PASSWORD=${DOCKER_PASSWORD}"
+            ]) {
+                sh "docker login ${DOCKER_REPOSITORY} -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}"
+                sh "docker build -t ${DOCKER_REPOSITORY}/${DEPOT_NAME}:${ARTIFACT_VERSION} -f docker/Dockerfile ."
+                sh "docker push ${DOCKER_REPOSITORY}/${DEPOT_NAME}:${ARTIFACT_VERSION}"
+                sh "docker push ${DOCKER_REPOSITORY}/${DEPOT_NAME}:latest"
+            }
+        }
+        }
+    }
+  }
+}
+</code></pre><p>如果您不熟悉 Jenkinsfile 的语法，可以复制上述代码，切换到 CODING 图形化视角，进入可视化模式调整。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-edit-visualization.png" alt=""></p>
+<p>编辑好 Jenkinsfile 文件后保存，点击 <code>立即构建</code>，触发流水线即可。接下来，笔者根据 Jenkinsfile 内容中的关键代码块进行讲解。</p>
+<h3 id="自定义检出-git-代码">自定义检出 Git 代码</h3>
+<p>正常情况下，我们是一对一检出 Git 仓库。</p>
+<pre class="hljs"><code>stage('检出') {
+  steps {
+    checkout([$class: 'GitSCM',
+    branches: [[name: GIT_BUILD_REF]],
+    userRemoteConfigs: [[
+      url: GIT_REPO_URL,
+      credentialsId: CREDENTIALS_ID
+    ]]])
+  }
+}
+</code></pre><p>有些特殊场景，需要同时检出多个 Git 仓库，详见下述代码片段。不过，这样做会导致您无法有效控制 Git 自动触发。</p>
+<pre class="hljs"><code>stage('检出') {
+  parallel { // 开启并行构建
+    stage('检出 eden-gateway') {
+      steps {
+        dir('eden-gateway') {
+          checkout([$class: 'GitSCM',
+          branches: [[name: env.EDEN_GATEWAY_VERSION]],
+          userRemoteConfigs: [[
+            url: env.EDEN_GATEWAY_GIT_URL,
+            credentialsId: CREDENTIALS_ID
+          ]]])
+          script {
+            // ...
+          }
+        }
+      }
+    }
+
+    stage('检出 eden-uaa') {
+      steps {
+        dir('eden-uaa') {
+          checkout([$class: 'GitSCM',
+          branches: [[name: env.EDEN_UAA_VERSION]],
+          userRemoteConfigs: [[
+            url: env.EDEN_UAA_GIT_URL,
+            credentialsId: CREDENTIALS_ID
+          ]]])
+          script {
+            // ...
+          }
+        }
+      }
+    } 
+  }  
+}                                                                 
+</code></pre><h3 id="设置-maven-魔法版本号">设置 Maven 魔法版本号</h3>
+<p>CODING 内置了一系列丰富的环境变量，您可以通过 <code>${env.TAG_NAME}</code> 或者 <code>${env.BRANCH_NAME}</code> 获取 Git 的版本号，使用 <code>versions-maven-plugin</code> 执行 <code>mvn versions:set -DnewVersion=${VERSION}</code> 动态设置 Maven 模块的版本号。</p>
+<pre class="hljs"><code>stage('编译') {
+  steps {
+    script {
+      if (env.TAG_NAME ==~ /.*/ ) {
+        ARTIFACT_VERSION = "${env.TAG_NAME}"
+      } else if (env.MR_SOURCE_BRANCH ==~ /.*/ ) {
+        ARTIFACT_VERSION = "${env.MR_RESOURCE_ID}-${env.GIT_COMMIT_SHORT}"
+      } else {
+        ARTIFACT_VERSION = "${env.BRANCH_NAME.replace('/', '-')}-${env.GIT_COMMIT_SHORT}"
+      }
+    }
+    withCredentials([
+      usernamePassword(
+        credentialsId: env.MAVEN_RELEASES,
+        usernameVariable: 'MAVEN_RELEASES_USERNAME',
+        passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+      ),
+      usernamePassword(
+        credentialsId: env.MAVEN_SNAPSHOTS,
+        usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+        passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+      )
+    ]) {
+      withEnv([
+        "ARTIFACT_VERSION=${ARTIFACT_VERSION}",
+        "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+        "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+        "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+        "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+        "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+        "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+        "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+        "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+      ]) {
+        sh 'mvn -T 4C -U -Pcoding versions:set -DnewVersion=${ARTIFACT_VERSION} package -DskipTests -s ./.coding/settings.xml'
+      }
+    }
+  }
+}
+</code></pre><h3 id="java-测试报告可视化">Java 测试报告可视化</h3>
+<p>CODING 提供了测试报告的可视化支持，下述代码片段提供了<strong>单元测试</strong>和<strong>代码覆盖率分析</strong>的配置示例。</p>
+<pre class="hljs"><code>stage('单元测试') {
+  steps {
+    withCredentials([
+      usernamePassword(
+        credentialsId: env.MAVEN_RELEASES,
+        usernameVariable: 'MAVEN_RELEASES_USERNAME',
+        passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+      ),
+      usernamePassword(
+        credentialsId: env.MAVEN_SNAPSHOTS,
+        usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+        passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+      )
+    ]) {
+      withEnv([
+        "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+        "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+        "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+        "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+        "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+        "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+        "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+        "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+      ]) {
+        sh 'mvn -T 4C -Pcoding,unit-test test -s ./.coding/settings.xml'
+      }
+    }
+  }
+  post {
+    always {
+      junit '**/surefire-reports/*.xml' // 单元测试报告
+      codingHtmlReport(name: 'eden-demo-cola-adapter-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-adapter/target/site/jacoco', entryFile: 'index.html')
+      codingHtmlReport(name: 'eden-demo-cola-app-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-app/target/site/jacoco', entryFile: 'index.html')
+      codingHtmlReport(name: 'eden-demo-cola-infrastructure-jacoco-reports', tag: '代码覆盖率报告', path: 'eden-demo-cola-infrastructure/target/site/jacoco', entryFile: 'index.html')
+    }
+  }
+}
+</code></pre><p>在构建记录中，点击 <code>测试报告</code> 页签，查看单元测试报告。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-unit-test-report.png" alt=""></p>
+<p>从 <code>通用报告</code> 查看代码覆盖率报告。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-code-coverage-report.png" alt=""></p>
+<h3 id="发布制品到-maven-仓库">发布制品到 Maven 仓库</h3>
+<p>多人协同下，需要把构建生成的 API 依赖发布到私服（制品库）。在此之前我们已经配置好了 Maven 私服地址和相关凭据，具体可以参考下面的代码片段。</p>
+<pre class="hljs"><code>stage('推送到 Maven 制品库') {
+  steps {
+    withCredentials([
+      usernamePassword(
+        credentialsId: env.MAVEN_RELEASES,
+        usernameVariable: 'MAVEN_RELEASES_USERNAME',
+        passwordVariable: 'MAVEN_RELEASES_PASSWORD'
+      ),
+      usernamePassword(
+        credentialsId: env.MAVEN_SNAPSHOTS,
+        usernameVariable: 'MAVEN_SNAPSHOTS_USERNAME',
+        passwordVariable: 'MAVEN_SNAPSHOTS_PASSWORD'
+      )
+    ]) {
+      withEnv([
+        "MAVEN_RELEASES_ID=${MAVEN_RELEASES_ID}",
+        "MAVEN_RELEASES_URL=${MAVEN_RELEASES_URL}",
+        "MAVEN_RELEASES_USERNAME=${MAVEN_RELEASES_USERNAME}",
+        "MAVEN_RELEASES_PASSWORD=${MAVEN_RELEASES_PASSWORD}",
+        "MAVEN_SNAPSHOTS_ID=${MAVEN_SNAPSHOTS_ID}",
+        "MAVEN_SNAPSHOTS_URL=${MAVEN_SNAPSHOTS_URL}",
+        "MAVEN_SNAPSHOTS_USERNAME=${MAVEN_SNAPSHOTS_USERNAME}",
+        "MAVEN_SNAPSHOTS_PASSWORD=${MAVEN_SNAPSHOTS_PASSWORD}"
+      ]) {
+        sh 'mvn -T 4C -Pcoding deploy -DskipTests -s ./.coding/settings.xml'
+      }
+    }
+  }
+}
+</code></pre><p>Maven 私服应当严格区分 <code>Releases</code> 和 <code>Snapshots</code> 仓库。</p>
+<p>在开发测试阶段，需要利用 Maven 的快照更新维持 API 的变动，使用 <code>Snapshots</code> 仓库比较合适。</p>
+<p>在预发布阶段，表示测试已通过，可以发布生产了，API 不允许有变动，应当严格使用 <code>Releases</code> 仓库来限制版本的发布，避免相同版本的 API 被覆盖。</p>
+<p>在 CODING 制品库，您可以在 <code>Releases</code> 仓库设置版本策略为禁止覆盖版本。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-repo-deny-same-verison.png" alt=""></p>
+<h3 id="推送镜像到-docker-仓库">推送镜像到 Docker 仓库</h3>
+<p>本文中，笔者使用 Docker Hub 托管镜像，代码中的变量，在设置凭据的小节已详细说明，您可以根据实际情况进行调整。</p>
+<pre class="hljs"><code>stage('推送到 Docker 制品库') {
+  steps {
+    withCredentials([
+      usernamePassword(
+        credentialsId: env.DOCKER_CREDENTIALS,
+        usernameVariable: 'DOCKER_USERNAME',
+        passwordVariable: 'DOCKER_PASSWORD'
+      )
+    ]) {
+      withEnv([
+        "DOCKER_USERNAME=${DOCKER_USERNAME}",
+        "DOCKER_PASSWORD=${DOCKER_PASSWORD}",
+        "DOCKER_IMAGE=${DOCKER_REPOSITORY}:${ARTIFACT_VERSION}"
+      ]) {
+        sh 'mvn -Pcoding -pl eden-demo-cola-start jib:build -Djib.disableUpdateChecks=true -DskipTests -s ./.coding/settings.xml'
+      }
+    }
+  }
+}
+</code></pre><p>执行上述代码后，在 DockerHub 查看镜像已更新，验证通过。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-upload-image-successed.png" alt=""></p>
+<h3 id="更新镜像到-k8s-集群">更新镜像到 K8s 集群</h3>
+<p>CODING 支持配置镜像更新到 K8s 已部署的工作负载。</p>
+<pre class="hljs"><code>stage('部署到 K8s 集群') {
+  steps {
+    withEnv(["DOCKER_IMAGE=${DOCKER_REPOSITORY}:${ARTIFACT_VERSION}"]) {
+      cdDeploy(deployType: 'PATCH_IMAGE', application: '${CCI_CURRENT_TEAM}', pipelineName: '${PROJECT_NAME}-${CCI_JOB_NAME}-5001969', image: '${DOCKER_IMAGE}', cloudAccountName: 'test', namespace: 'test', manifestType: 'Deployment', manifestName: 'demo-cola', containerName: 'demo-cola', credentialId: 'a2954a785e1d40caa1803274a23edac9', personalAccessToken: '${CD_PERSONAL_ACCESS_TOKEN}')
+    }
+  }
+}
+</code></pre><p>在 CODING 的 <code>持续部署</code> &gt; <code>弹性伸缩</code> &gt; <code>配置云账号</code> 添加 K8s 凭据，绑定需要部署的 K8s 集群。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-bind-kubernetes-cluster.png" alt=""></p>
+<p>在 CODING 构建计划编排界面配置 <code>镜像更新</code>，选择上述已绑定的 K8s 集群，根据级联选择到具体的 Pod 容器。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-select-kubernetes-cluster.png" alt=""></p>
+<p>点击构建，查看镜像更新执行记录。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-deploy-kubernetes-log.png" alt=""></p>
+<p>除了控制台输出，也可以点击查看 K8s 发布详情。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-deploy-kubernetes-detail.png" alt=""></p>
+<p>查看 K8s 集群（笔者使用腾讯云 Serveless 集群部署），启动成功！</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-deploy-kubernetes-app-log.png" alt=""></p>
+<p>访问控制台输出的 External Access URL 地址，系统访问正常。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-deploy-kubernetes-app-ui.png" alt=""></p>
+<h3 id="前端项目怎么构建-">前端项目怎么构建？</h3>
+<p>以开源的若依项目（Vue）为例，在代码目录下分别创建以下目录：</p>
+<pre class="hljs"><code>eden-ui
+  |_ .coding/
+    |_ Jenkinsfile # CODING 流水线脚本
+    |_ nginx.conf # Nginx 配置文件
+  |_ docker/
+    |_ Dockerfile # Docker 构建文件
+  |_ ...
+  |_ .npmrc
+</code></pre><p>初始化 <code>.npmrc</code>，代理 npm 源，指向 CODING 制品库。</p>
+<pre class="hljs"><code>registry=https://xxx-npm.pkg.coding.net/xxx/npm/
+always-auth=true
+//xxx-npm.pkg.coding.net/xxx/npm/:username=${CODING_ARTIFACTS_USERNAME}
+//xxx-npm.pkg.coding.net/xxx/npm/:_password=${CODING_ARTIFACTS_PASSWORD}
+//xxx-npm.pkg.coding.net/xxx/npm/:email=xxx@gmail.com
+</code></pre><p>为了让前端单独运行，需要依赖 Nginx 的镜像进行部署，所以，我们要把 nginx 的配置也加上，<code>nginx.conf</code> 配置如下。</p>
+<pre class="hljs"><code>user  nginx;
+worker_processes  1;
+
+error_log  logs/error.log warn;
+pid        logs/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  logs/access.log  main;
+    sendfile        on;
+    keepalive_timeout  65;
+    client_max_body_size   500m;
+
+    server {
+        listen       80;
+        server_name  localhost;
+        charset utf-8;
+
+        gzip_static on;
+        gzip_vary on;
+        gzip_min_length 1k;
+        gzip_comp_level 9;
+        gzip_types text/css text/javascript application/javascript application/x-javascript application/xml;
+        gzip_disable "MSIE [1-6]\.";
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+
+        location / { # 前端
+            root   /usr/share/nginx/html;
+            index  index.html index.htm;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+
+        location ^~ /api/  { # 后端
+            proxy_pass http://xxx:8080/; 
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        }
+    }
+}
+</code></pre><p>调整 Dockerfile 打包脚本，指定 Vue 项目打包后的静态资源到 Nginx 的静态资源目录中。</p>
+<pre class="hljs"><code>FROM nginx:1.15.2-alpine
+
+LABEL maintainer="梦想歌"
+
+COPY dist/ /usr/share/nginx/html
+
+COPY .coding/nginx.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+</code></pre><p>编写 Jenkinsfile 构建脚本，参考如下内容。</p>
+<pre class="hljs"><code>pipeline {
+    agent any
+    environment {
+        CODING_DOCKER_REPO_NAME = "docker"
+        CODING_DOCKER_REPO_HOST = "${CCI_CURRENT_TEAM}-docker.pkg.${CCI_CURRENT_DOMAIN}"
+        CODING_DOCKER_REPO_URL = "${CODING_DOCKER_REPO_HOST}/${PROJECT_NAME}/${CODING_DOCKER_REPO_NAME}/${DEPOT_NAME}"
+
+        TCR_NAMESPACE_NAME = "xxx"
+        TCR_DOCKER_REPO_URL = "shjrccr.ccs.tencentyun.com/${TCR_NAMESPACE_NAME}/${DEPOT_NAME}"
+    }
+    stages {
+        stage('检出') {
+            steps {
+                checkout([$class: 'GitSCM',
+                branches: [[name: GIT_BUILD_REF]],
+                userRemoteConfigs: [[
+                url: GIT_REPO_URL,
+                credentialsId: CREDENTIALS_ID
+                ]]])
+            }
+        }
+        stage('编译') {
+            steps {
+                script {
+                    if (env.TAG_NAME ==~ /.*/ ) {
+                        CODING_ARTIFACT_VERSION = "${env.TAG_NAME}"
+                    } else if (env.MR_SOURCE_BRANCH ==~ /.*/ ) {
+                        CODING_ARTIFACT_VERSION = "mr-${env.MR_RESOURCE_ID}-${env.GIT_COMMIT_SHORT}"
+                    } else {
+                        CODING_ARTIFACT_VERSION = "${env.BRANCH_NAME.replace('/', '-')}-${env.GIT_COMMIT_SHORT}"
+                    }
+                }
+                sh 'rm -rf /usr/lib/node_modules/npm/'
+                dir ('/root/.cache/downloads') {
+                    sh 'wget -nc "https://coding-public-generic.pkg.coding.net/public/downloads/node-linux-x64.tar.xz?version=v16.13.0" -O node-v16.13.0-linux-x64.tar.xz | true'
+                    sh 'tar -xf node-v16.13.0-linux-x64.tar.xz -C /usr --strip-components 1'
+                }
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: env.CODING_ARTIFACTS_CREDENTIALS_ID,
+                        usernameVariable: 'CODING_ARTIFACTS_USERNAME',
+                        passwordVariable: 'CODING_ARTIFACTS_PASSWORD'
+                    )]) {
+                    script {
+                        sh '''
+                        echo "CODING_ARTIFACTS_USERNAME=${CODING_ARTIFACTS_USERNAME}" &gt;&gt; $CI_ENV_FILE
+                        echo "CODING_ARTIFACTS_PASSWORD=${CODING_ARTIFACTS_PASSWORD}" &gt;&gt; $CI_ENV_FILE
+                        '''
+                        readProperties(file: env.CI_ENV_FILE).each {
+                            key, value -&gt; env[key] = value 
+                        }
+                    }
+                    sh 'npm install'
+                    sh 'npm run build:prod'
+                }
+            }
+        }
+        stage('推送到 Docker 制品库') {
+            steps {
+                withEnv([
+                    "DOCKER_USERNAME=${DOCKER_USERNAME}",
+                    "DOCKER_PASSWORD=${DOCKER_PASSWORD}",
+                    "DOCKER_IMAGE=${TCR_DOCKER_REPO_URL}:${CODING_ARTIFACT_VERSION}"
+                ]) {
+                    sh 'docker login --username=${DOCKER_USERNAME} --password=${DOCKER_PASSWORD} shjrccr.ccs.tencentyun.com'
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
+                    sh 'docker tag ${DOCKER_IMAGE} ${DOCKER_IMAGE}'
+                    sh 'docker push ${DOCKER_IMAGE}'
+                }
+            }
+        }
+        stage('部署到 K8s 集群') {
+            steps {
+                withEnv(["DOCKER_IMAGE=${TCR_DOCKER_REPO_URL}:${CODING_ARTIFACT_VERSION}"]) {
+                    cdDeploy(deployType: 'PATCH_IMAGE', application: '${CCI_CURRENT_TEAM}', pipelineName: '${PROJECT_NAME}-${CCI_JOB_NAME}-202222222', image: '${DOCKER_IMAGE}', cloudAccountName: 'xxx-k8s-test', namespace: 'test', manifestType: 'Deployment', manifestName: 'xxx-client', containerName: 'xxx-client', credentialId: 'aaaaaaaaaaaaaaaaaaaaaaa', personalAccessToken: '${CD_PERSONAL_ACCESS_TOKEN}')
+                }
+            }
+        }
+    }
+}
+</code></pre><p>构建成功的效果图如下。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/coding/coding-pipeline-deploy-vue-successed.png" alt=""></p>
+<h1 id="总结">总结</h1>
+<p>在公司引入 CODING 后，研发团队和运维团队的工作都发生了很大的变化。研发团队负责 DevOps 的全生命周期管理，不再依赖运维团队，效率提升明显。而运维团队专注于基础设施，如云原生、网络、操作系统的优化，能更有效地处理线上故障。从整体的收益来看，至少节省了两个员工的成本。</p>
+<p>CODING 流水线存在一些不足，只提供了单一镜像的更新功能，只能用于已部署的目标，并且不适合多服务批量部署，除非手动写脚本，基于 <code>kubectl apply</code> 实现。和腾讯方沟通后，他们告诉笔者，目前有个 <strong>Orbit 云原生应用交付</strong>正在内测，即将上线，可以开放白名单给我们尝试下。</p>
+<p>下一期，笔者将介绍 CODING Orbit 云原生应用交付。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实战</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 设置 Git 代码仓库</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 选择 Image 构建工具</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.1. Google Jib 插件构建</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2.2. Dockerfile 分层构建</span><!----></div><!----></li><!--]--></ul></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.3. 自定义 Maven 配置文件</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.4. 设置 Docker 和 Maven 凭据</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5. 编排 Jenkinsfile 脚本</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.1. 自定义检出 Git 代码</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.2. 设置 Maven 魔法版本号</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.3. Java 测试报告可视化</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.4. 发布制品到 Maven 仓库</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.5. 推送镜像到 Docker 仓库</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.6. 更新镜像到 K8s 集群</span><!----></div><!----></li><li class="level-3 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.5.7. 前端项目怎么构建？</span><!----></div><!----></li><!--]--></ul></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 总结</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>

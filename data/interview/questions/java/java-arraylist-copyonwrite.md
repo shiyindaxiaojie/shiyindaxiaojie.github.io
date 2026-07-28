@@ -5,6 +5,7 @@ slug: java-arraylist-copyonwrite
 tracks:
   - java-backend
 category: java
+stage: technical
 difficulty: intermediate
 questionType: scenario
 frequency: medium

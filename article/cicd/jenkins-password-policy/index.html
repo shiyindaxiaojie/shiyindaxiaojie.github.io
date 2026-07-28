@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="en"><head>
+    <meta charset="utf-8">
+    <script>
+      (() => {
+        const allowedThemes = ["light", "dark", "eye"];
+        let initialTheme = "dark";
+
+        try {
+          const storedTheme = localStorage.getItem("theme");
+          if (allowedThemes.includes(storedTheme)) {
+            initialTheme = storedTheme;
+          }
+        } catch {}
+
+        document.documentElement.setAttribute("data-theme", initialTheme);
+        document.documentElement.style.colorScheme = initialTheme === "dark" ? "dark" : "light";
+      })();
+    </script>
+    <style>
+      html[data-theme="light"],
+      html[data-theme="light"] body,
+      html[data-theme="light"] #app {
+        background-color: #ffffff;
+      }
+
+      html[data-theme="dark"],
+      html[data-theme="dark"] body,
+      html[data-theme="dark"] #app {
+        background-color: #101727;
+      }
+
+      html[data-theme="eye"],
+      html[data-theme="eye"] body,
+      html[data-theme="eye"] #app {
+        background-color: #ece3d0;
+      }
+    </style>
+    <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jenkins 密码策略优化 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-BSsa26kG.js"></script>
+    <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
+    <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
+    <link rel="stylesheet" crossorigin="" href="/assets/app-D6gTk5tl.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-h_nvzeYG.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CwYOoV0w.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="Due to SOX project audit, our use of Jenkins open-source version as release tool was f..."><meta property="og:type" content="article"><meta property="og:title" content="Jenkins 密码策略优化 - 梦想歌の后花园"><meta property="og:description" content="Due to SOX project audit, our use of Jenkins open-source version as release tool was f..."><meta property="og:url" content="https://mengxiangge.netlify.app/article/cicd/jenkins-password-policy/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Jenkins.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/cicd/jenkins-password-policy/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"Jenkins 密码策略优化","description":"Due to SOX project audit, our use of Jenkins open-source version as release tool was f...","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Jenkins.png","datePublished":"2025-03-09","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"Jenkins, 二次开发, 持续集成","mainEntityOfPage":"https://mengxiangge.netlify.app/article/cicd/jenkins-password-policy/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"Jenkins 密码策略优化","item":"https://mengxiangge.netlify.app/article/cicd/jenkins-password-policy/"}]}]</script></head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-d2ede993=""><main class="content" data-v-d2ede993=""><header class="top-bar" data-v-d2ede993=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-d2ede993=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-d2ede993=""><span class="top-logo-bubble" data-v-d2ede993="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-d2ede993=""><!--[--><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-d2ede993=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-d2ede993="">知识星球</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-d2ede993=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-d2ede993="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-d2ede993=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-d2ede993="">实战分享</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-d2ede993=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-d2ede993="">解决方案</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-d2ede993=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-d2ede993="">代码片段</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-d2ede993=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-d2ede993="">作品展示</span></button><button type="button" class="top-module-btn" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-d2ede993=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-d2ede993="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-d2ede993=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-d2ede993=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-d2ede993=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-d2ede993=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-d2ede993=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-d2ede993=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-d2ede993=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-d2ede993=""><section class="article-detail-page-shell" data-v-d2ede993=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>Jenkins 密码策略优化</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/Jenkins.png" alt="Jenkins 密码策略优化"></div><header class="doc-header"><h1 class="doc-title">Jenkins 密码策略优化</h1><p class="doc-desc">Due to SOX project audit, our use of Jenkins open-source version as release tool was f...</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">Jenkins</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">二次开发</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">持续集成</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><h1 id="背景">背景</h1>
+<p>因 SOX 项目审计，检查到我们使用 Jenkins 开源版本作为发版工具，但 Jenkins 的密码策略不符合基本的安全要求，例如密码长度不能小于 8 个字符，需要包含大小写字母、数字和特殊字符，需要进行整改。</p>
+<h1 id="目标">目标</h1>
+<p>选择正确的方案，满足 Jenkins 的密码策略要求。</p>
+<h1 id="实现">实现</h1>
+<h2 id="使用-2fa-双因素认证插件">使用 2FA 双因素认证插件</h2>
+<p>在 Jenkins 插件管理搜索 <a href="https://github.com/jenkinsci/miniorange-two-factor-plugin">MFA</a> 安装。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/844c25f39a96f6030e9515c79b50f7fe.png" alt=""></p>
+<p>插件安全完成后，在系统管理出现新的选项 <code>2FA Global  Configurations</code>。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/30f5e6c0f624d5496e87d6797e215390.png" alt=""></p>
+<p>在配置里面勾选 <code>Enable 2FA for all users</code> 和 <code>Mobile Authenticator</code> 表示对所有用户开启 2FA 认证。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/1a070044461647ac7cdd034676ecc3dd.png" alt=""></p>
+<p>接下来我们进行测试，进入登录页面。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/23af5dde321bd073d4b4b4aec980ab44.png" alt=""></p>
+<p>输入用户和密码后，弹出二维码，手机下载 Authenticator 软件，扫码。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/3cacd6e1dbe655f6f38f82d934f557e3.png" alt=""></p>
+<p>输入 6 位动态验证码</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/f1f84843930596353f2a5180ca93dd6a.png" alt=""></p>
+<p>登陆成功。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/70083176439e850e261cc53ef563ad47.png" alt=""></p>
+<p>一个验证码只能被一个手机APP绑定，更换APP设备需要管理员从系统管理 reset 重置二维码绑定。</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/3e4ffa56ce78098abf395a37ddd5db03.png" alt=""></p>
+<p>整个流程下来，使用 2FA 双因素认证插件是没有问题的，但是，这个插件是收费的，并且对 Jenkins 版本有要求，笔者公司的 Jenkins 版本为 2.356，没办法安装。</p>
+<h2 id="基于-jenkins-官方源码改造">基于 Jenkins 官方源码改造</h2>
+<p>直接 git clone 官方源码，找到设置密码的代码位置。</p>
+<p>修改后台代码，路径：
+<code>hudson.security.HudsonPrivateSecurityRealm</code>。</p>
+<pre class="hljs"><code>public class HudsonPrivateSecurityRealm extends AbstractPasswordBasedSecurityRealm implements ModelObject, AccessControlled {
+
+    //...
+    @Extension @Symbol("password")
+        public static final class DescriptorImpl extends UserPropertyDescriptor {
+            @NonNull
+            @Override
+            public String getDisplayName() {
+                return Messages.HudsonPrivateSecurityRealm_Details_DisplayName();
+            }
+
+            @Override
+            public Details newInstance(StaplerRequest req, JSONObject formData) throws FormException {
+                if (req == null) {
+                    // Should never happen, see newInstance() Javadoc
+                    throw new FormException("Stapler request is missing in the call", "staplerRequest");
+                }
+                String pwd = Util.fixEmpty(req.getParameter("user.password"));
+                String pwd2 = Util.fixEmpty(req.getParameter("user.password2"));
+
+                if (pwd == null || pwd2 == null) {
+                    // one of the fields is empty
+                    throw new FormException("Please confirm the password by typing it twice", "user.password2");
+                }
+
+                // will be null if it wasn't encrypted
+                String data = Protector.unprotect(pwd);
+                String data2 = Protector.unprotect(pwd2);
+
+                if (data == null != (data2 == null)) {
+                    // Require that both values are protected or unprotected; do not allow user to change just one text field
+                    throw new FormException("Please confirm the password by typing it twice", "user.password2");
+                }
+
+                if (data != null /* &amp;&amp; data2 != null */ &amp;&amp; !MessageDigest.isEqual(data.getBytes(StandardCharsets.UTF_8), data2.getBytes(StandardCharsets.UTF_8))) {
+                    // passwords are different encrypted values
+                    throw new FormException("Please confirm the password by typing it twice", "user.password2");
+                }
+
+                if (data == null /* &amp;&amp; data2 == null */ &amp;&amp; !pwd.equals(pwd2)) {
+                    // passwords are different plain values
+                    throw new FormException("Please confirm the password by typing it twice", "user.password2");
+                }
+
+                /********** 新增密码复杂度 start **********/
+                // Validate password complexity
+                if (pwd.length() &lt; 8) {
+                    throw new FormException("Password must be at least 8 characters long", "user.password");
+                }
+
+                // Check if it contains at least one lowercase letter
+                if (!pwd.matches(".*[a-z].*")) {
+                    throw new FormException("Password must contain at least one lowercase letter", "user.password");
+                }
+
+                // Check if it contains at least one uppercase letter
+                if (!pwd.matches(".*[A-Z].*")) {
+                    throw new FormException("Password must contain at least one uppercase letter", "user.password");
+                }
+
+                // Check if it contains at least one digit
+                if (!pwd.matches(".*[0-9].*")) {
+                    throw new FormException("Password must contain at least one digit", "user.password");
+                }
+
+                // Check if it contains at least one special character (common set)
+                if (!pwd.matches(".*[!@#$%^&amp;*(),.?\":{}|&lt;&gt;].*")) {
+                    throw new FormException("Password must contain at least one special character (e.g., !@#$%^&amp;*()-_=+[]{}|;:'\",.&lt;&gt;?/)", "user.password");
+                }
+
+                /********** 新增密码复杂度 end **********/
+
+                if (data != null) {
+                    String prefix = Stapler.getCurrentRequest().getSession().getId() + ':';
+                    if (data.startsWith(prefix)) {
+                        return Details.fromHashedPassword(data.substring(prefix.length()));
+                    }
+                }
+
+                User user = Util.getNearestAncestorOfTypeOrThrow(req, User.class);
+                // the UserSeedProperty is not touched by the configure page
+                UserSeedProperty userSeedProperty = user.getProperty(UserSeedProperty.class);
+                if (userSeedProperty != null) {
+                    userSeedProperty.renewSeed();
+                }
+
+                return Details.fromPlainPassword(Util.fixNull(pwd));
+            }
+
+            @Override
+            public boolean isEnabled() {
+                // this feature is only when HudsonPrivateSecurityRealm is enabled
+                return Jenkins.get().getSecurityRealm() instanceof HudsonPrivateSecurityRealm;
+            }
+
+            @Override
+            public UserProperty newInstance(User user) {
+                return null;
+            }
+        }
+    }
+}
+</code></pre><p>修改页面代码，路径：
+<code>core/src/main/resources/hudson/security/HudsonPrivateSecurityRealm/Details/config.jelly</code>。</p>
+<pre class="hljs"><code>&lt;?jelly escape-by-default='true'?&gt;
+&lt;j:jelly xmlns:j="jelly:core" xmlns:x="jelly:xml" xmlns:f="/lib/form"&gt;
+    &lt;f:entry title="${%Password}:"&gt;
+        &lt;input id="password" class="jenkins-input" name="user.password" type="password" value="${instance.protectedPassword}" /&gt;
+        &lt;span id="passwordHint" style="color:red;"&gt;&lt;/span&gt;
+    &lt;/f:entry&gt;
+    &lt;f:entry title="${%Confirm Password}:"&gt;
+        &lt;input id="password2" class="jenkins-input" name="user.password2" type="password" value="${instance.protectedPassword}" /&gt;
+        &lt;span id="confirmPasswordHint" style="color:red;"&gt;&lt;/span&gt;
+    &lt;/f:entry&gt;
+
+    &lt;!-- 新增密码复杂度校验 --&gt;
+    &lt;script type="text/javascript"&gt;
+        // &lt;![CDATA[
+        document.getElementById('password').addEventListener('input', function() {
+            var password = this.value;
+            var hintElement = document.getElementById('passwordHint');
+            var result = checkPasswordStrength(password);
+            if (result) {
+                hintElement.textContent = result;
+                hintElement.style.display = 'inline';
+            } else {
+                hintElement.textContent = '';
+                hintElement.style.display = 'none';
+            }
+        });
+
+        function checkPasswordStrength(password) {
+            // Check password length
+            if (password.length &lt; 8) {
+                return "Password must be at least 8 characters long";
+            }
+
+            // Check for at least one uppercase letter
+            if (!/[A-Z]/.test(password)) {
+                return "Password must contain at least one uppercase letter";
+            }
+
+            // Check for at least one lowercase letter
+            if (!/[a-z]/.test(password)) {
+                return "Password must contain at least one lowercase letter";
+            }
+
+            // Check for at least one digit
+            if (!/\d/.test(password)) {
+                return "Password must contain at least one digit";
+            }
+
+            // Check for at least one special character (common set)
+            if (!/[!@#$%^&amp;*()\-_=+$${}|;:',.&lt;&gt;?/\\]/.test(password)) {
+                return "Password must contain at least one special character (e.g., !@#$%^&amp;*()-_=+[]{}|;:'\",.&lt;&gt;?/)";
+            }
+
+            // Password meets all criteria
+            return null; // Password is valid
+        }
+
+        document.getElementById('password2').addEventListener('input', function() {
+            var password = document.getElementById('password').value;
+            var confirmPassword = this.value;
+            var hintElement = document.getElementById('confirmPasswordHint');
+            if (password !== confirmPassword) {
+                hintElement.textContent = "Please confirm the password by typing it twice";
+                hintElement.style.display = 'inline';
+            } else {
+                hintElement.textContent = '';
+                hintElement.style.display = 'none';
+            }
+        });
+        // ]]&gt;
+    &lt;/script&gt;
+&lt;/j:jelly&gt;
+</code></pre><p>官方源码并没有 Dockerfile 文件，笔者从 Jenkins 镜像反向查到对应的 Docker 源码：
+<a href="https://github.com/jenkinsci/docker/blob/2.410/11/centos/centos7/hotspot/Dockerfile%E3%80%82">https://github.com/jenkinsci/docker/blob/2.410/11/centos/centos7/hotspot/Dockerfile。</a></p>
+<pre class="hljs"><code>FROM eclipse-temurin:11.0.19_7-jdk-centos7 as jre-build
+
+# Generate smaller java runtime without unneeded files
+# for now we include the full module path to maintain compatibility
+# while still saving space (approx 200mb from the full distribution)
+RUN jlink \
+         --add-modules ALL-MODULE-PATH \
+         --no-man-pages \
+         --compress=2 \
+         --output /javaruntime
+
+FROM centos:centos7.9.2009
+
+RUN sed -e 's|^mirrorlist=|#mirrorlist=|g' \
+        -e 's|^#baseurl=http://mirror.centos.org|baseurl=https://mirrors.aliyun.com|g' \
+        -i.bak /etc/yum.repos.d/CentOS-Base.repo
+
+RUN yum install -y \
+    curl \
+    fontconfig \
+    freetype \
+    git \
+    unzip \
+    which \
+  &amp;&amp; yum clean all
+
+RUN curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.rpm.sh -o /tmp/script.rpm.sh \
+  &amp;&amp; bash /tmp/script.rpm.sh \
+  &amp;&amp; rm -f /tmp/script.rpm.sh \
+  &amp;&amp; yum install -y \
+    git-lfs \
+  &amp;&amp; yum clean all \
+  &amp;&amp; git lfs install
+
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+ARG TARGETARCH
+ARG COMMIT_SHA
+
+ARG user=jenkins
+ARG group=jenkins
+ARG uid=1000
+ARG gid=1000
+ARG http_port=8080
+ARG agent_port=50000
+ARG JENKINS_HOME=/var/jenkins_home
+ARG REF=/usr/share/jenkins/ref
+
+ENV JENKINS_HOME $JENKINS_HOME
+ENV JENKINS_SLAVE_AGENT_PORT ${agent_port}
+ENV REF $REF
+
+# Jenkins is run with user `jenkins`, uid = 1000
+# If you bind mount a volume from the host or a data container,
+# ensure you use the same uid
+RUN mkdir -p $JENKINS_HOME \
+  &amp;&amp; chown ${uid}:${gid} $JENKINS_HOME \
+  &amp;&amp; groupadd -g ${gid} ${group} \
+  &amp;&amp; useradd -N -d "$JENKINS_HOME" -u ${uid} -g ${gid} -l -m -s /bin/bash ${user}
+
+# Jenkins home directory is a volume, so configuration and build history
+# can be persisted and survive image upgrades
+VOLUME $JENKINS_HOME
+
+# $REF (defaults to `/usr/share/jenkins/ref/`) contains all reference configuration we want
+# to set on a fresh new installation. Use it to bundle additional plugins
+# or config file with your custom jenkins Docker image.
+RUN mkdir -p ${REF}/init.groovy.d
+
+# Use tini as subreaper in Docker container to adopt zombie processes
+ARG TINI_VERSION=v0.19.0
+COPY ../tini_pub.gpg "${JENKINS_HOME}/tini_pub.gpg"
+RUN curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static-${TARGETARCH}" -o /sbin/tini \
+  &amp;&amp; curl -fsSL "https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static-${TARGETARCH}.asc" -o /sbin/tini.asc \
+  &amp;&amp; gpg --no-tty --import "${JENKINS_HOME}/tini_pub.gpg" \
+  &amp;&amp; gpg --verify /sbin/tini.asc \
+  &amp;&amp; rm -rf /sbin/tini.asc /root/.gnupg \
+  &amp;&amp; chmod +x /sbin/tini
+
+# jenkins version being bundled in this docker image
+ARG JENKINS_VERSION
+ENV JENKINS_VERSION ${JENKINS_VERSION:-2.356}
+
+# jenkins.war checksum, download will be validated using it
+#ARG JENKINS_SHA=1163c4554dc93439c5eef02b06a8d74f98ca920bbc012c2b8a089d414cfa8075
+
+# Can be used to customize where jenkins.war get downloaded from
+#ARG JENKINS_URL=https://repo.jenkins-ci.org/public/org/jenkins-ci/main/jenkins-war/${JENKINS_VERSION}/jenkins-war-${JENKINS_VERSION}.war
+
+# could use ADD but this one does not check Last-Modified header neither does it allow to control checksum
+# see https://github.com/docker/docker/issues/8331
+#RUN curl -fsSL ${JENKINS_URL} -o /usr/share/jenkins/jenkins.war \
+#  &amp;&amp; echo "${JENKINS_SHA}  /usr/share/jenkins/jenkins.war" &gt;/tmp/jenkins_sha \
+#  &amp;&amp; sha256sum -c --strict /tmp/jenkins_sha \
+#  &amp;&amp; rm -f /tmp/jenkins_sha
+COPY war/target/jenkins.war /usr/share/jenkins/jenkins.war
+
+ENV JENKINS_UC https://updates.jenkins.io
+ENV JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
+ENV JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
+RUN chown -R ${user} "$JENKINS_HOME" "$REF"
+
+ARG PLUGIN_CLI_VERSION=2.12.11
+ARG PLUGIN_CLI_URL=https://github.com/jenkinsci/plugin-installation-manager-tool/releases/download/${PLUGIN_CLI_VERSION}/jenkins-plugin-manager-${PLUGIN_CLI_VERSION}.jar
+RUN curl -fsSL ${PLUGIN_CLI_URL} -o /opt/jenkins-plugin-manager.jar
+
+# for main web interface:
+EXPOSE ${http_port}
+
+# will be used by attached agents:
+EXPOSE ${agent_port}
+
+ENV COPY_REFERENCE_FILE_LOG $JENKINS_HOME/copy_reference_file.log
+
+ENV JAVA_HOME=/opt/java/openjdk
+ENV PATH "${JAVA_HOME}/bin:${PATH}"
+COPY --from=jre-build /javaruntime $JAVA_HOME
+
+COPY ../jenkins-support /usr/local/bin/jenkins-support
+COPY ../jenkins.sh /usr/local/bin/jenkins.sh
+COPY ../jenkins-plugin-cli.sh /bin/jenkins-plugin-cli
+
+RUN chmod +x /usr/local/bin/jenkins-support \
+    &amp;&amp; chmod +x /usr/local/bin/jenkins.sh \
+    &amp;&amp; chmod +x /bin/jenkins-plugin-cli
+
+USER ${user}
+
+ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
+
+# metadata labels
+LABEL \
+    org.opencontainers.image.vendor="Jenkins project" \
+    org.opencontainers.image.title="Official Jenkins Docker image" \
+    org.opencontainers.image.description="The Jenkins Continuous Integration and Delivery server" \
+    org.opencontainers.image.version="${JENKINS_VERSION}" \
+    org.opencontainers.image.url="https://www.jenkins.io/" \
+    org.opencontainers.image.source="https://github.com/jenkinsci/docker" \
+    org.opencontainers.image.revision="${COMMIT_SHA}" \
+    org.opencontainers.image.licenses="MIT"
+</code></pre><p>构建镜像的问题解决了，直接部署升级测试，效果如下。</p>
+<p>密码长度校验：</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/6fafb673755e79a2bd4cf15eec22c235.png" alt=""></p>
+<p>小写字母校验：</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/a0a1bd4d87a0b0defd219d70c384be51.png" alt=""></p>
+<p>大写字母校验：</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/fc7ea219b5843f9d0960f494c5e53023.png" alt=""></p>
+<p>特殊字符校验：</p>
+<p><img src="https://i-blog.csdnimg.cn/img_convert/c6115876c0b7735d521a5def4c10612c.png" alt=""></p>
+<p>验证通过，笔者也把修改完的 Jenkins 镜像上传到了 Docker Hub，地址为：
+<a href="https://hub.docker.com/r/shiyindaxiaojie/jenkins">https://hub.docker.com/r/shiyindaxiaojie/jenkins</a>。</p>
+<p>如果您对版本有要求，可以按上述的步骤自行编译镜像。</p>
+<h1 id="产出">产出</h1>
+<p>Jenkins 是最常用的版本发布工具，有些企业在安全审计层面，规定 Jenkins 需要满足基本的密码策略要求，我们可以选择 2FA 双因素插件或者二次开发解决。前者需要一定费用，并且不支持低版本，后者只需要小小的改动就能解决。</p>
+<p>本文涉及的代码完全开源，感兴趣的伙伴可以查阅 <a href="https://github.com/shiyindaxiaojie/jenkins/tree/feature">jenkins</a>。</p>
+</article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 背景</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 目标</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 实现</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.1. 使用 2FA 双因素认证插件</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">3.2. 基于 Jenkins 官方源码改造</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 产出</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
+  
+
+</body></html>
