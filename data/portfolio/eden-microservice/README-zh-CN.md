@@ -268,7 +268,7 @@ http://127.0.0.1:8500
 显式指定配置：
 
 ```bash
-go run ./apps/server/cmd/server -config configs/eden-microservice.yaml.example
+go run ./apps/server/cmd/server -config apps/server/config/eden-microservice.yaml.example
 ```
 
 运行测试：
@@ -331,14 +331,16 @@ server:
 
 ## 客户端集成
 
+所有可运行场景统一收录在[示例索引](./examples/README-zh-CN.md)，其中也包括集群和配置中心示例。
+
 - Focalors SDK：面向 Go 服务，作为主要接入路径。
-  对应示例：[Focalors 集成示例](./apps/registry/examples/service-discovery/native/README.md)
+  对应示例：[Focalors 集成示例](./examples/service-discovery/native/README.md)
 - Nacos 兼容：面向 Nacos Naming 存量系统，尽量少改业务代码。
-  对应示例：[Nacos 迁移示例](./apps/registry/examples/service-discovery/nacos/README.md)
+  对应示例：[Nacos 迁移示例](./examples/service-discovery/nacos/README.md)
 - Consul 兼容：面向 Consul HTTP / SDK 存量系统，保留原有调用模型。
-  对应示例：[Consul 迁移示例](./apps/registry/examples/service-discovery/consul/README.md)
+  对应示例：[Consul 迁移示例](./examples/service-discovery/consul/README.md)
 - 自定义 gRPC / HTTP：面向外部项目，直接对接公开协议。
-  对应示例：[自定义协议示例](./apps/registry/examples/service-discovery/custom/README.md)
+  对应示例：[自定义协议示例](./examples/service-discovery/custom/README.md)
 
 ## 开发说明
 
@@ -378,7 +380,7 @@ eden-microservice
 ```bash
 go work sync
 go run ./apps/server/cmd/server
-go run ./apps/server/cmd/server -config configs/eden-microservice.yaml.example
+go run ./apps/server/cmd/server -config apps/server/config/eden-microservice.yaml.example
 go test ./apps/registry/... ./apps/config/... ./apps/gateway/... ./apps/auth/... ./apps/cluster/... ./apps/server/... ./packages/...
 ```
 

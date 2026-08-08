@@ -26,7 +26,7 @@
       html[data-theme="dark"],
       html[data-theme="dark"] body,
       html[data-theme="dark"] #app {
-        background-color: #101727;
+        background-color: #17191e;
       }
 
       html[data-theme="eye"],
@@ -37,42 +37,42 @@
     </style>
     <link rel="icon" type="image/png" href="/assets/logo-DC0-K7os.png">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>基于 CAT 新增链路追踪和告警通知 - 梦想歌の后花园</title>
-    <script type="module" crossorigin="" src="/assets/app-pQcYeITU.js"></script>
+    <title>为 CAT 增加链路追踪与告警通知 - 梦想歌の后花园</title>
+    <script type="module" crossorigin="" src="/assets/app-DjFBx1F4.js"></script>
     <link rel="modulepreload" crossorigin="" href="/assets/rolldown-runtime-QTnfLwEv.js">
     <link rel="modulepreload" crossorigin="" href="/assets/vue-vendor-CnFvH_6n.js">
-    <link rel="stylesheet" crossorigin="" href="/assets/app-Bx5kM-Vg.css">
-  <link rel="modulepreload" crossorigin="" href="/assets/detail-BbLVac_9.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-CDU1K12R.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="CAT 是美团点评开源的实时应用监控平台，提供了 Tracsaction、Event、Problem、Business 等丰富的指标项。"><meta property="og:type" content="article"><meta property="og:title" content="基于 CAT 新增链路追踪和告警通知 - 梦想歌の后花园"><meta property="og:description" content="CAT 是美团点评开源的实时应用监控平台，提供了 Tracsaction、Event、Problem、Business 等丰富的指标项。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"基于 CAT 新增链路追踪和告警通知","description":"CAT 是美团点评开源的实时应用监控平台，提供了 Tracsaction、Event、Problem、Business 等丰富的指标项。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png","datePublished":"2023-03-03","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"链路追踪, 可观测性, 美团, 二次开发, 中间件","mainEntityOfPage":"https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"基于 CAT 新增链路追踪和告警通知","item":"https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"}]}]</script></head>
+    <link rel="stylesheet" crossorigin="" href="/assets/app-DawVuYmd.css">
+  <link rel="modulepreload" crossorigin="" href="/assets/detail-QPsaT8n5.js"><link rel="modulepreload" crossorigin="" href="/assets/markdown-viewer-DdnxwR9B.js"><link rel="stylesheet" href="/assets/markdown-viewer-Cx1sFM7R.css"><meta name="description" content="CAT 是美团点评开源的实时应用监控平台，提供 Transaction、Event、Problem、Business 等多种监控指标。"><meta property="og:type" content="article"><meta property="og:title" content="为 CAT 增加链路追踪与告警通知 - 梦想歌の后花园"><meta property="og:description" content="CAT 是美团点评开源的实时应用监控平台，提供 Transaction、Event、Problem、Business 等多种监控指标。"><meta property="og:url" content="https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"><meta property="og:image" content="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png"><link rel="canonical" href="https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"><script type="application/ld+json">[{"@context":"https://schema.org","@type":"TechArticle","headline":"为 CAT 增加链路追踪与告警通知","description":"CAT 是美团点评开源的实时应用监控平台，提供 Transaction、Event、Problem、Business 等多种监控指标。","image":"https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png","datePublished":"2023-03-03","author":{"@type":"Person","name":"梦想歌"},"publisher":{"@type":"Organization","name":"梦想歌の后花园","logo":{"@type":"ImageObject","url":"https://mengxiangge.netlify.app/assets/logo-DC0-K7os.png"}},"keywords":"链路追踪, 可观测性, 美团, 二次开发, 中间件","mainEntityOfPage":"https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"},{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"首页","item":"https://mengxiangge.netlify.app/"},{"@type":"ListItem","position":2,"name":"实战分享","item":"https://mengxiangge.netlify.app/article/"},{"@type":"ListItem","position":3,"name":"为 CAT 增加链路追踪与告警通知","item":"https://mengxiangge.netlify.app/article/github/cat-add-tracing-alerting/"}]}]</script></head>
   <body>
-    <div id="app" data-server-rendered="true"><div class="layout" data-v-392b54c9=""><main class="content" data-v-392b54c9=""><header class="top-bar" data-v-392b54c9=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-392b54c9=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-392b54c9=""><span class="top-logo-bubble" data-v-392b54c9="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-392b54c9=""><!--[--><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-392b54c9=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-392b54c9="">知识星球</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-392b54c9=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-392b54c9="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-392b54c9=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-392b54c9="">实战分享</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-392b54c9=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-392b54c9="">解决方案</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-392b54c9=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-392b54c9="">代码片段</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-392b54c9=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-392b54c9="">作品展示</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-392b54c9=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-392b54c9="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-392b54c9=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-392b54c9=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-392b54c9=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-392b54c9=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-392b54c9=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-392b54c9=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-392b54c9=""><section class="article-detail-page-shell" data-v-392b54c9=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>基于 CAT 新增链路追踪和告警通知</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png" alt="基于 CAT 新增链路追踪和告警通知"></div><header class="doc-header"><h1 class="doc-title">基于 CAT 新增链路追踪和告警通知</h1><p class="doc-desc">CAT 是美团点评开源的实时应用监控平台，提供了 Tracsaction、Event、Problem、Business 等丰富的指标项。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">链路追踪</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">可观测性</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">美团</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">二次开发</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">中间件</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><p>CAT 是美团点评开源的实时应用监控平台，提供了 <code>Tracsaction</code>、<code>Event</code>、<code>Problem</code>、<code>Business</code> 等丰富的指标项。</p>
-<p>在官方的 Issue 遇到以下几个问题：</p>
+    <div id="app" data-server-rendered="true"><div class="layout" data-v-392b54c9=""><main class="content" data-v-392b54c9=""><header class="top-bar" data-v-392b54c9=""><button type="button" class="top-logo-link" data-guide="home" aria-label="首页" data-v-392b54c9=""><img src="/assets/logo-DC0-K7os.png" alt="Logo" class="top-logo-img" data-v-392b54c9=""><span class="top-logo-bubble" data-v-392b54c9="">嗯？关于我？</span></button><div class="top-module-nav" data-guide="modules" data-v-392b54c9=""><!--[--><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-book-open-icon top-module-glyph" data-v-392b54c9=""><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span class="top-module-label" data-v-392b54c9="">知识星球</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-message-square-quote-icon top-module-glyph" data-v-392b54c9=""><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M8 12a2 2 0 0 0 2-2V8H8"></path><path d="M14 12a2 2 0 0 0 2-2V8h-2"></path></svg><span class="top-module-label" data-v-392b54c9="">面试宝箱</span></button><button type="button" class="active top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-file-text-icon top-module-glyph" data-v-392b54c9=""><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><line x1="10" x2="8" y1="9" y2="9"></line></svg><span class="top-module-label" data-v-392b54c9="">实战分享</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-folder-kanban-icon top-module-glyph" data-v-392b54c9=""><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2Z"></path><path d="M8 10v4"></path><path d="M12 10v2"></path><path d="M16 10v6"></path></svg><span class="top-module-label" data-v-392b54c9="">解决方案</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-code2-icon top-module-glyph" data-v-392b54c9=""><path d="m18 16 4-4-4-4"></path><path d="m6 8-4 4 4 4"></path><path d="m14.5 4-5 16"></path></svg><span class="top-module-label" data-v-392b54c9="">代码片段</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-github-icon top-module-glyph" data-v-392b54c9=""><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg><span class="top-module-label" data-v-392b54c9="">作品展示</span></button><button type="button" class="top-module-btn" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-sparkles-icon top-module-glyph" data-v-392b54c9=""><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg><span class="top-module-label" data-v-392b54c9="">科技资讯</span></button><!--]--></div><div class="top-bar-right" data-v-392b54c9=""><button type="button" class="top-icon-btn help-btn" data-guide="help" title="新手引导" aria-label="新手引导" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-help-circle-icon" data-v-392b54c9=""><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></button><button type="button" class="top-icon-btn lang-btn" data-guide="language" title="切换到English" aria-label="切换到English" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-languages-icon" data-v-392b54c9=""><path d="m5 8 6 6"></path><path d="m4 14 6-6 2-3"></path><path d="M2 5h12"></path><path d="M7 2h1"></path><path d="m22 22-5-10-5 10"></path><path d="M14 18h6"></path></svg></button><button type="button" class="top-icon-btn theme-toggle-btn" data-guide="theme" title="切换主题（当前深色）" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-moon-icon" data-v-392b54c9=""><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg></button><button type="button" data-guide="system" class="top-icon-btn system-btn" title="系统" aria-label="系统" data-v-392b54c9=""><svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="17" class="lucide lucide-sliders-horizontal-icon" data-v-392b54c9=""><line x1="21" x2="14" y1="4" y2="4"></line><line x1="10" x2="3" y1="4" y2="4"></line><line x1="21" x2="12" y1="12" y2="12"></line><line x1="8" x2="3" y1="12" y2="12"></line><line x1="21" x2="16" y1="20" y2="20"></line><line x1="12" x2="3" y1="20" y2="20"></line><line x1="14" x2="14" y1="2" y2="6"></line><line x1="8" x2="8" y1="10" y2="14"></line><line x1="16" x2="16" y1="18" y2="22"></line></svg></button></div></header><div data-guide="workspace" class="article-detail-shell content-body" data-v-392b54c9=""><!----><div class="article-detail-page article-reader-page subpage-typography-page content-body-page" data-v-392b54c9=""><section class="article-detail-page-shell" data-v-392b54c9=""><div class="markdown-wrapper with-toc reader-tools-visible" style="background-color:transparent;"><div class="markdown-lang-zh reader-width-comfort markdown-container" style="background-color:transparent;--reader-font-size:16px;"><div class="reader-sticky-title" aria-hidden="true"><span>为 CAT 增加链路追踪与告警通知</span></div><div class="doc-cover"><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png" alt="为 CAT 增加链路追踪与告警通知"></div><header class="doc-header"><h1 class="doc-title">为 CAT 增加链路追踪与告警通知</h1><p class="doc-desc">CAT 是美团点评开源的实时应用监控平台，提供 Transaction、Event、Problem、Business 等多种监控指标。</p><div class="doc-meta"><span class="meta-item"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="14" class="lucide lucide-tag-icon"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"></path><path d="M7 7h.01"></path></svg><!--[--><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">链路追踪</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">可观测性</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(59, 130, 246, 0.1);--reader-tag-hover-bg:rgba(59, 130, 246, 0.16);--reader-tag-text:#2563eb;--reader-tag-border:rgba(59, 130, 246, 0.22);">美团</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(245, 158, 11, 0.12);--reader-tag-hover-bg:rgba(245, 158, 11, 0.18);--reader-tag-text:#b45309;--reader-tag-border:rgba(245, 158, 11, 0.24);">二次开发</button><button type="button" class="tag clickable" style="--reader-tag-bg:rgba(236, 72, 153, 0.1);--reader-tag-hover-bg:rgba(236, 72, 153, 0.16);--reader-tag-text:#be185d;--reader-tag-border:rgba(236, 72, 153, 0.22);">中间件</button><!--]--></span><!----></div></header><article class="markdown-body" style="background-color:transparent;"><p>CAT 是美团点评开源的实时应用监控平台，提供 <code>Transaction</code>、<code>Event</code>、<code>Problem</code>、<code>Business</code> 等多种监控指标。</p>
+<p>官方 Issue 中经常出现以下问题：</p>
 <ol>
 <li>能不能支持链路追踪？</li>
 <li>如何配置告警？</li>
 <li>能不能接入钉钉、飞书机器人推送？</li>
 <li>为什么 CAT 部署这么麻烦？</li>
 </ol>
-<p>基于上面的需求，笔者 fork 了官方最新的源码进行二次开发，并打包镜像到 Docker Hub，方便大家使用。</p>
+<p>针对这些需求，我 fork 了官方源码进行二次开发，并将镜像发布到 Docker Hub，方便直接部署。</p>
 <ul>
-<li>Github 地址：<a href="https://github.com/shiyindaxiaojie/cat">传送门</a></li>
+<li>GitHub 地址：<a href="https://github.com/shiyindaxiaojie/cat">传送门</a></li>
 <li>Docker Hub 地址：<a href="https://hub.docker.com/repository/docker/shiyindaxiaojie/cat-home/tags">传送门</a></li>
 </ul>
 <h1 id="改造内容">改造内容</h1>
 <ul>
 <li>
-<p>新增<strong>链路追踪</strong>支持，您可以通过日志打印的 TraceId 查找整个请求路径的 HTTP 请求、RPC 调用、Log4j2 日志、SQL 语句和 Cache 执行耗时。
+<p>新增<strong>链路追踪</strong>支持。通过日志中的 TraceId，可以查看一次请求涉及的 HTTP 请求、RPC 调用、Log4j2 日志、SQL 语句和缓存执行耗时。
 <img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/tracing.png" alt=""></p>
 </li>
 <li>
-<p>支持<strong>邮件、钉钉、微信、飞书</strong>机器人推送。不需要额外实现告警接口，直接开箱即用，您只需要在后台配置相关的 Token 即可。如下图，触发告警后，钉钉将推送相关信息，您可以点击 <code>查看告警</code> 触达异常堆栈，也可以点击 <code>告警规则</code> 设置告警阈值，避免多次干扰。</p>
+<p>支持<strong>邮件、钉钉、微信、飞书</strong>机器人推送，无需额外实现告警接口，只需在后台配置相应的 Token。告警触发后，钉钉会推送相关信息。点击 <code>查看告警</code> 可以查看异常堆栈，点击 <code>告警规则</code> 可以设置告警阈值，减少重复通知。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/dingtalk.png" alt=""></p>
 </li>
 <li>
-<p>支持 <strong>Jira Software</strong> 自动录单。当生产故障触发告警时，自动录入 Jira Software，便于研发内部跟进问题。</p>
+<p>支持 <strong>Jira Software</strong> 自动创建工单。生产故障触发告警后，系统会自动创建 Jira Software 工单，便于研发团队持续跟进。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/auto-create-jira-issue.png" alt=""></p>
 </li>
 <li>
-<p>优化 <strong>Docker</strong> 部署，只需要提供 JVM 参数和 MySQL 配置即可完成部署，不需要额外挂载 <code>datasource.xml</code> 和 <code>client.xml</code> 等配置文件。</p>
+<p>简化 <strong>Docker</strong> 部署。只需提供 JVM 参数和 MySQL 配置，无需额外挂载 <code>datasource.xml</code>、<code>client.xml</code> 等配置文件。</p>
 <pre class="hljs"><code>docker run -e MYSQL_URL="127.0.0.1" -e MYSQL_PORT="3306" -e MYSQL_SCHEMA="cat" -e MYSQL_USERNAME="数据库账号" -e MYSQL_PASSWD="数据库密码" -p 8080:8080 --name=cat-home -d shiyindaxiaojie/cat-home
 </code></pre></li>
 </ul>
@@ -80,12 +80,12 @@
 <h2 id="运行环境要求">运行环境要求</h2>
 <ul>
 <li>JDK 版本 &gt;= 7</li>
-<li>MySQL 5.7（亲测 8.0 会报错）</li>
+<li>MySQL 5.7</li>
 <li>Tomcat 8.0+</li>
 <li>Linux 内核版本 &gt;= 2.6</li>
 </ul>
 <h2 id="tomcat-部署">Tomcat 部署</h2>
-<p>从 <a href="https://github.com/shiyindaxiaojie/cat/releases/tag/v3.4.0">Github Release</a> 下载相关文件，拷贝 <code>client.xml</code> 和 <code>datasources.xml</code> 到用户目录 <code>~/.cat/appdatas/cat</code> 中，并调整数据库配置。</p>
+<p>从 <a href="https://github.com/shiyindaxiaojie/cat/releases/tag/v3.4.0">GitHub Release</a> 下载相关文件，拷贝 <code>client.xml</code> 和 <code>datasources.xml</code> 到用户目录 <code>~/.cat/appdatas/cat</code> 中，并调整数据库配置。</p>
 <p>将 <code>cat.war</code> 部署在目标 <code>Tomcat</code> 的 <code>webapps</code> 目录下，启动 <code>Tomcat</code>，访问 <code>http://localhost:8080/cat</code> 即可。原则上请保持 <code>Tomcat</code> 的端口为 <code>8080</code>，遇到项目启动失败的情况，建议查看 <code>~/.cat/applog/</code> 目录下的日志。</p>
 <h2 id="docker-部署">Docker 部署</h2>
 <p>本项目已发布稳定的镜像到 <a href="https://hub.docker.com/repository/docker/shiyindaxiaojie/cat-home/tags">Docker Hub</a>，您可以直接使用如下命令，提供 JVM 参数和 MySQL 配置，完成部署。</p>
@@ -122,16 +122,20 @@ spec:
           value: CAT 数据库名称
         - name: SERVER_URL
           value: CAT 运行地址
-        - name: JVM_XMS
-          value: 2G
-        - name: JVM_XMX
-          value: 2G
-        - name: JVM_XMN
-          value: 1G
-        image: shiyindaxiaojie/cat-home:v3.4.0
+        - name: XMS
+          value: 1536m
+        - name: XMX
+          value: 1536m
+        - name: GC_MODE
+          value: G1
+        - name: USE_GC_LOG
+          value: Y
+        - name: USE_HEAP_DUMP
+          value: Y
+        image: shiyindaxiaojie/cat-home:latest
         imagePullPolicy: IfNotPresent
         lifecycle:
-          preStop:
+          preStop: # 从 3.4.3 版本开始不需要配置
             exec:
               command:
               - /bin/sh
@@ -140,11 +144,11 @@ spec:
         name: cat-home
         resources:
           limits:
-            cpu: 250m
-            memory: 2Gi
+            cpu: 1000m
+            memory: 3Gi
           requests:
-            cpu: 250m
-            memory: 2Gi
+            cpu: 1000m
+            memory: 3Gi
         volumeMounts:
         - mountPath: /data/appdatas/cat/bucket
           name: data
@@ -158,7 +162,7 @@ spec:
       - name: log
         nfs: # 此处省略，请根据实际情况配置
 </code></pre><h2 id="生产集群部署">生产集群部署</h2>
-<p>推荐使用 Kubernetes 部署生产集群，假设部署三个节点，一个节点为监控节点，另外两个节点为消费节点，如下配置：</p>
+<p>生产环境推荐使用 Kubernetes 集群部署。以下示例包含三个节点，其中一个是监控节点，另外两个是消费节点：</p>
 <ul>
 <li>监控节点：10.1.1.1</li>
 <li>消费节点：10.1.1.2</li>
@@ -195,6 +199,19 @@ spec:
         &lt;property name="alarm-machine" value="false"/&gt;
         &lt;property name="hdfs-enabled" value="false"/&gt;
         &lt;property name="remote-servers" value="10.1.1.1:8080,10.1.1.2:8080,10.1.1.3:8080"/&gt;
+        &lt;!-- 从 3.4.3 版本开始新增，支持 Netty 线程，队列，分析器配置 --&gt;
+        &lt;property name="netty-boss-threads" value="1"/&gt;
+        &lt;property name="netty-worker-threads" value="auto"/&gt;
+        &lt;property name="report-query-threads" value="8"/&gt;
+        &lt;property name="max-message-size" value="8388608"/&gt;
+        &lt;property name="message-processor-thread" value="8"/&gt;
+        &lt;property name="message-processor-queue-size" value="5000"/&gt;
+        &lt;property name="realtime-analyzer-queue-capacity-per-thread" value="10000"/&gt;
+        &lt;property name="top-analyzer-enable" value="true"/&gt;
+        &lt;property name="business-analyzer-enable" value="true"/&gt;
+        &lt;property name="matrix-analyzer-enable" value="true"/&gt;
+        &lt;property name="storage-analyzer-enable" value="true"/&gt;
+        &lt;property name="dependency-analyzer-enable" value="true"/&gt;
       &lt;/properties&gt;
       &lt;storage local-base-dir="/data/appdatas/cat/bucket/" max-hdfs-storage-time="15" local-report-storage-time="30" local-logivew-storage-time="30" har-mode="true" upload-thread="5"&gt;
         &lt;hdfs id="dump" max-size="128M" server-uri="hdfs://127.0.0.1/" base-dir="/user/cat/dump"/&gt;
@@ -251,7 +268,7 @@ spec:
 <p>数据消费节点会消费客户端发送的数据，根据客户端路由设置的权重策略均摊数据。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/cluster-data-node.png" alt=""></p>
 <h1 id="应用集成">应用集成</h1>
-<p>为了减少客户端集成的工作，推荐您使用 <a href="https://github.com/shiyindaxiaojie/eden-architect">eden-architect</a> 框架，集成后在 log4j2 自动记录 TraceId。您只需要根据以下两步就可以完成 CAT 的集成。</p>
+<p>为了减少客户端接入工作，推荐使用 <a href="https://github.com/shiyindaxiaojie/eden-architect">eden-architect</a> 框架。接入后，Log4j2 会自动记录 TraceId。完成下面两步即可集成 CAT。</p>
 <p>引入 CAT 依赖</p>
 <pre class="hljs"><code>&lt;dependency&gt;
     &lt;groupId&gt;io.github.shiyindaxiaojie&lt;/groupId&gt;
@@ -261,7 +278,7 @@ spec:
 <pre class="hljs"><code>cat:
   enabled: false # 默认关闭，请按需开启
   trace-mode: true # 开启访问观测
-  support-out-trace-id: false # 允许异构子系统间透传链路ID
+  support-out-trace-id: false # 允许异构子系统间透传 Trace ID
   home: /tmp
   servers: localhost # CAT 地址
   tcp-port: 2280
@@ -273,15 +290,15 @@ dubbo:
     filter: cat-tracing
   consumer:
     filter: cat-tracing,cat-consumer
-</code></pre><p>启动您的项目，调用接口，查看控制台输出的日志内容，红圈中就是 CAT 的链路ID。</p>
+</code></pre><p>启动项目并调用接口，在控制台日志中找到图中红圈标出的 CAT Trace ID。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/traceid-of-logging.png" alt=""></p>
-<p>根据链路ID，在 CAT 中查看详细链路信息。</p>
+<p>使用该 Trace ID，可以在 CAT 中查看完整的链路信息。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/tracing.png" alt=""></p>
 <blockquote>
 <p>当然，如果你不希望依赖 eden-architect，则可以参考<a href="https://github.com/shiyindaxiaojie/eden-architect/tree/main/eden-components/eden-spring-integration/src/main/java/org/ylzl/eden/spring/integration/cat/integration">相关代码</a>实现自己的需求。关于相关代码的实现原理，笔者将在后面的文章中给出。</p>
 </blockquote>
 <h1 id="告警配置">告警配置</h1>
-<p>目前 CAT 经过二次开发，实现了告警通知的开箱即用，您只需要微调相关配置，即可开启告警通知功能。告警通知支持以下方式：邮件、钉钉、飞书、微信、Jira Software，配置步骤如下：</p>
+<p>二次开发后的 CAT 已内置告警通知能力，调整配置后即可启用。通知渠道包括邮件、钉钉、飞书、微信和 Jira Software，配置步骤如下。</p>
 <p>点击控制台的 <code>配置</code>，展开左侧 <code>系统配置</code> 的 <code>告警渠道</code>，如下图：</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/alert-config.png" alt=""></p>
 <p>以 <code>邮件</code>、<code>钉钉</code>、<code>Jira Software</code> 为例，内容如下：</p>
@@ -366,7 +383,7 @@ dubbo:
 <img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/server-exception-alert-config-editable.png" alt=""></p>
 <p>如果有些异常是不需要监控的，请在<code>异常过滤</code>列表添加。
 <img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/server-exception-alert-config-ignore.png" alt=""></p>
-<p>笔者设置了所有异常出现 5 次时发送告警，10 次时发送告警。达到这个阈值时，邮件会发送到 <code>告警对象</code> 设置的接收对象，Jira Software 会创建一个故障，钉钉会发送告警通知：</p>
+<p>示例中为异常次数设置了 5 次和 10 次两个告警阈值。达到阈值后，系统会向 <code>告警对象</code> 中配置的邮箱发送邮件、在 Jira Software 中创建故障工单，并通过钉钉推送通知。</p>
 <p><img src="https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/mail.png" alt=""></p>
 </article></div><aside class="toc-sidebar" style="background-color:transparent;"><div class="toc-header" style="background-color:transparent;"><span class="toc-title">目录</span><nav class="reader-toc-actions" aria-label="阅读工具"><button type="button" class="reader-toc-action reader-toc-action--back" title="返回" aria-label="返回"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-undo2-icon"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5v0a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></button><button type="button" class="reader-toc-action" title="进入沉浸阅读" aria-label="进入沉浸阅读"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-maximize2-icon"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" x2="14" y1="3" y2="10"></line><line x1="3" x2="10" y1="21" y2="14"></line></svg></button></nav><button type="button" class="toc-toggle" title="收起目录" aria-label="收起目录"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="16" class="lucide lucide-chevrons-right-icon rotate-left"><path d="m6 17 5-5-5-5"></path><path d="m13 17 5-5-5-5"></path></svg></button></div><ul class="toc-list" style="background-color:transparent;"><!--[--><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">一. 改造内容</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">二. 部署教程</span><span class="toc-expand-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" size="12" class="lucide lucide-chevron-right-icon expanded"><path d="m9 18 6-6-6-6"></path></svg></span></div><ul class="toc-sublist"><!--[--><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.1. 运行环境要求</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.2. Tomcat 部署</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.3. Docker 部署</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.4. Kubernetes 部署</span><!----></div><!----></li><li class="level-2 toc-item"><div class="toc-item-header"><span class="toc-item-text">2.5. 生产集群部署</span><!----></div><!----></li><!--]--></ul></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">三. 应用集成</span><!----></div><!----></li><li class="level-1 toc-item"><div class="toc-item-header"><span class="toc-item-text">四. 告警配置</span><!----></div><!----></li><!--]--></ul></aside><!----><!----><!----></div></section></div></div></main></div></div>
   

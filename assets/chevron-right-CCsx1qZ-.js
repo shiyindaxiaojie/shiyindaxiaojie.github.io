@@ -1,0 +1,1 @@
+import{v as e}from"./app-DjFBx1F4.js";var t=e(`ChevronRightIcon`,[[`path`,{d:`m9 18 6-6-6-6`,key:`mthhwq`}]]);export{t};

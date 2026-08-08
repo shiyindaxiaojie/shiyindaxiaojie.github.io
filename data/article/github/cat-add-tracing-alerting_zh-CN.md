@@ -1,7 +1,7 @@
 ---
-title: 基于 CAT 新增链路追踪和告警通知
+title: 为 CAT 增加链路追踪与告警通知
 date: 2023-03-03
-description: CAT 是美团点评开源的实时应用监控平台，提供了 Tracsaction、Event、Problem、Business 等丰富的指标项。
+description: CAT 是美团点评开源的实时应用监控平台，提供 Transaction、Event、Problem、Business 等多种监控指标。
 tags:
   - 链路追踪
   - 可观测性
@@ -11,33 +11,33 @@ tags:
 cover: https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cover/CAT.png
 ---
 
-CAT 是美团点评开源的实时应用监控平台，提供了 `Tracsaction`、`Event`、`Problem`、`Business` 等丰富的指标项。
+CAT 是美团点评开源的实时应用监控平台，提供 `Transaction`、`Event`、`Problem`、`Business` 等多种监控指标。
 
-在官方的 Issue 遇到以下几个问题：
+官方 Issue 中经常出现以下问题：
 1. 能不能支持链路追踪？
 2. 如何配置告警？
 3. 能不能接入钉钉、飞书机器人推送？
 4. 为什么 CAT 部署这么麻烦？
 
-基于上面的需求，笔者 fork 了官方最新的源码进行二次开发，并打包镜像到 Docker Hub，方便大家使用。
+针对这些需求，我 fork 了官方源码进行二次开发，并将镜像发布到 Docker Hub，方便直接部署。
 
-* Github 地址：[传送门](https://github.com/shiyindaxiaojie/cat)
+* GitHub 地址：[传送门](https://github.com/shiyindaxiaojie/cat)
 * Docker Hub 地址：[传送门](https://hub.docker.com/repository/docker/shiyindaxiaojie/cat-home/tags)
 
 # 改造内容
 
-* 新增**链路追踪**支持，您可以通过日志打印的 TraceId 查找整个请求路径的 HTTP 请求、RPC 调用、Log4j2 日志、SQL 语句和 Cache 执行耗时。
+* 新增**链路追踪**支持。通过日志中的 TraceId，可以查看一次请求涉及的 HTTP 请求、RPC 调用、Log4j2 日志、SQL 语句和缓存执行耗时。
   ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/tracing.png)
 
-* 支持**邮件、钉钉、微信、飞书**机器人推送。不需要额外实现告警接口，直接开箱即用，您只需要在后台配置相关的 Token 即可。如下图，触发告警后，钉钉将推送相关信息，您可以点击 `查看告警` 触达异常堆栈，也可以点击 `告警规则` 设置告警阈值，避免多次干扰。
+* 支持**邮件、钉钉、微信、飞书**机器人推送，无需额外实现告警接口，只需在后台配置相应的 Token。告警触发后，钉钉会推送相关信息。点击 `查看告警` 可以查看异常堆栈，点击 `告警规则` 可以设置告警阈值，减少重复通知。
 
   ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/dingtalk.png)
 
-* 支持 **Jira Software** 自动录单。当生产故障触发告警时，自动录入 Jira Software，便于研发内部跟进问题。
+* 支持 **Jira Software** 自动创建工单。生产故障触发告警后，系统会自动创建 Jira Software 工单，便于研发团队持续跟进。
 
   ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/auto-create-jira-issue.png)
 
-* 优化 **Docker** 部署，只需要提供 JVM 参数和 MySQL 配置即可完成部署，不需要额外挂载 `datasource.xml` 和 `client.xml` 等配置文件。
+* 简化 **Docker** 部署。只需提供 JVM 参数和 MySQL 配置，无需额外挂载 `datasource.xml`、`client.xml` 等配置文件。
   ```bash
   docker run -e MYSQL_URL="127.0.0.1" -e MYSQL_PORT="3306" -e MYSQL_SCHEMA="cat" -e MYSQL_USERNAME="数据库账号" -e MYSQL_PASSWD="数据库密码" -p 8080:8080 --name=cat-home -d shiyindaxiaojie/cat-home
   ```
@@ -47,13 +47,13 @@ CAT 是美团点评开源的实时应用监控平台，提供了 `Tracsaction`�
 ## 运行环境要求
 
 * JDK 版本 >= 7
-* MySQL 5.7（亲测 8.0 会报错）
+* MySQL 5.7
 * Tomcat 8.0+
 * Linux 内核版本 >= 2.6
 
 ## Tomcat 部署
 
-从 [Github Release](https://github.com/shiyindaxiaojie/cat/releases/tag/v3.4.0) 下载相关文件，拷贝 `client.xml` 和 `datasources.xml` 到用户目录 `~/.cat/appdatas/cat` 中，并调整数据库配置。
+从 [GitHub Release](https://github.com/shiyindaxiaojie/cat/releases/tag/v3.4.0) 下载相关文件，拷贝 `client.xml` 和 `datasources.xml` 到用户目录 `~/.cat/appdatas/cat` 中，并调整数据库配置。
 
 将 `cat.war` 部署在目标 `Tomcat` 的 `webapps` 目录下，启动 `Tomcat`，访问 `http://localhost:8080/cat` 即可。原则上请保持 `Tomcat` 的端口为 `8080`，遇到项目启动失败的情况，建议查看 `~/.cat/applog/` 目录下的日志。
 
@@ -100,16 +100,20 @@ spec:
           value: CAT 数据库名称
         - name: SERVER_URL
           value: CAT 运行地址
-        - name: JVM_XMS
-          value: 2G
-        - name: JVM_XMX
-          value: 2G
-        - name: JVM_XMN
-          value: 1G
-        image: shiyindaxiaojie/cat-home:v3.4.0
+        - name: XMS
+          value: 1536m
+        - name: XMX
+          value: 1536m
+        - name: GC_MODE
+          value: G1
+        - name: USE_GC_LOG
+          value: Y
+        - name: USE_HEAP_DUMP
+          value: Y
+        image: shiyindaxiaojie/cat-home:latest
         imagePullPolicy: IfNotPresent
         lifecycle:
-          preStop:
+          preStop: # 从 3.4.3 版本开始不需要配置
             exec:
               command:
               - /bin/sh
@@ -118,11 +122,11 @@ spec:
         name: cat-home
         resources:
           limits:
-            cpu: 250m
-            memory: 2Gi
+            cpu: 1000m
+            memory: 3Gi
           requests:
-            cpu: 250m
-            memory: 2Gi
+            cpu: 1000m
+            memory: 3Gi
         volumeMounts:
         - mountPath: /data/appdatas/cat/bucket
           name: data
@@ -139,7 +143,7 @@ spec:
 
 ## 生产集群部署
 
-推荐使用 Kubernetes 部署生产集群，假设部署三个节点，一个节点为监控节点，另外两个节点为消费节点，如下配置：
+生产环境推荐使用 Kubernetes 集群部署。以下示例包含三个节点，其中一个是监控节点，另外两个是消费节点：
 * 监控节点：10.1.1.1
 * 消费节点：10.1.1.2
 * 消费节点：10.1.1.3
@@ -183,6 +187,19 @@ spec:
         <property name="alarm-machine" value="false"/>
         <property name="hdfs-enabled" value="false"/>
         <property name="remote-servers" value="10.1.1.1:8080,10.1.1.2:8080,10.1.1.3:8080"/>
+        <!-- 从 3.4.3 版本开始新增，支持 Netty 线程，队列，分析器配置 -->
+        <property name="netty-boss-threads" value="1"/>
+        <property name="netty-worker-threads" value="auto"/>
+        <property name="report-query-threads" value="8"/>
+        <property name="max-message-size" value="8388608"/>
+        <property name="message-processor-thread" value="8"/>
+        <property name="message-processor-queue-size" value="5000"/>
+        <property name="realtime-analyzer-queue-capacity-per-thread" value="10000"/>
+        <property name="top-analyzer-enable" value="true"/>
+        <property name="business-analyzer-enable" value="true"/>
+        <property name="matrix-analyzer-enable" value="true"/>
+        <property name="storage-analyzer-enable" value="true"/>
+        <property name="dependency-analyzer-enable" value="true"/>
       </properties>
       <storage local-base-dir="/data/appdatas/cat/bucket/" max-hdfs-storage-time="15" local-report-storage-time="30" local-logivew-storage-time="30" har-mode="true" upload-thread="5">
         <hdfs id="dump" max-size="128M" server-uri="hdfs://127.0.0.1/" base-dir="/user/cat/dump"/>
@@ -252,7 +269,7 @@ spec:
 
 # 应用集成
 
-为了减少客户端集成的工作，推荐您使用 [eden-architect](https://github.com/shiyindaxiaojie/eden-architect) 框架，集成后在 log4j2 自动记录 TraceId。您只需要根据以下两步就可以完成 CAT 的集成。
+为了减少客户端接入工作，推荐使用 [eden-architect](https://github.com/shiyindaxiaojie/eden-architect) 框架。接入后，Log4j2 会自动记录 TraceId。完成下面两步即可集成 CAT。
 
 引入 CAT 依赖
 ````xml
@@ -266,7 +283,7 @@ spec:
 cat:
   enabled: false # 默认关闭，请按需开启
   trace-mode: true # 开启访问观测
-  support-out-trace-id: false # 允许异构子系统间透传链路ID
+  support-out-trace-id: false # 允许异构子系统间透传 Trace ID
   home: /tmp
   servers: localhost # CAT 地址
   tcp-port: 2280
@@ -280,11 +297,11 @@ dubbo:
     filter: cat-tracing,cat-consumer
 ````
 
-启动您的项目，调用接口，查看控制台输出的日志内容，红圈中就是 CAT 的链路ID。
+启动项目并调用接口，在控制台日志中找到图中红圈标出的 CAT Trace ID。
 
 ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/traceid-of-logging.png)
 
-根据链路ID，在 CAT 中查看详细链路信息。
+使用该 Trace ID，可以在 CAT 中查看完整的链路信息。
 
 ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/tracing.png)
 
@@ -292,7 +309,7 @@ dubbo:
 
 # 告警配置
 
-目前 CAT 经过二次开发，实现了告警通知的开箱即用，您只需要微调相关配置，即可开启告警通知功能。告警通知支持以下方式：邮件、钉钉、飞书、微信、Jira Software，配置步骤如下：
+二次开发后的 CAT 已内置告警通知能力，调整配置后即可启用。通知渠道包括邮件、钉钉、飞书、微信和 Jira Software，配置步骤如下。
 
 点击控制台的 `配置`，展开左侧 `系统配置` 的 `告警渠道`，如下图：
 
@@ -399,7 +416,6 @@ dubbo:
 如果有些异常是不需要监控的，请在`异常过滤`列表添加。
 ![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/server-exception-alert-config-ignore.png)
 
-笔者设置了所有异常出现 5 次时发送告警，10 次时发送告警。达到这个阈值时，邮件会发送到 `告警对象` 设置的接收对象，Jira Software 会创建一个故障，钉钉会发送告警通知：
-   
-![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/mail.png)
+示例中为异常次数设置了 5 次和 10 次两个告警阈值。达到阈值后，系统会向 `告警对象` 中配置的邮箱发送邮件、在 Jira Software 中创建故障工单，并通过钉钉推送通知。
 
+![](https://cdn.jsdelivr.net/gh/shiyindaxiaojie/cdn/cat/mail.png)

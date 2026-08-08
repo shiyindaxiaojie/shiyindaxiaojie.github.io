@@ -1,1 +1,0 @@
-import{v as e}from"./app-pQcYeITU.js";var t=e(`ChevronRightIcon`,[[`path`,{d:`m9 18 6-6-6-6`,key:`mthhwq`}]]);export{t};
